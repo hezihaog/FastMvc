@@ -9,13 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+
+        <activity
+            android:name="oms.mmc.android.fast.framwork.sample.SplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="oms.mmc.android.fast.framwork.sample.MainActivity"
+            android:configChanges="locale"
+            android:label="主界面"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
-
 </manifest>

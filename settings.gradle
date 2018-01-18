@@ -1,1 +1,1 @@
-include ':sample'
+include ':sample', ':liba-fast-mvc'
