@@ -23,4 +23,11 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':liba-basic-res')
     compile rootProject.ext.dependencies["appcompat-v7"]
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    compile project(':liba-function-logger')
+    compile project(':liba-function-lifecycle-dispatch')
+    compile project(':liba-function-manager-factory')
+    compile project(':liba-function-lazy')
 }

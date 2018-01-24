@@ -1,7 +1,10 @@
 package oms.mmc.android.fast.framwork;
 
-import android.app.Application;
 import android.content.res.Configuration;
+import android.os.Handler;
+
+import oms.mmc.android.fast.framwork.basiclib.base.ManagerContext;
+
 
 /**
  * Package: oms.mmc.android.fast.framwork
@@ -12,10 +15,31 @@ import android.content.res.Configuration;
  * Email: hezihao@linghit.com
  */
 
-public class BaseMMCFastApplication extends Application {
+public class BaseMMCFastApplication extends ManagerContext {
+    private static BaseMMCFastApplication instance;
+    private Handler mMainHandler;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
+        mMainHandler = new Handler(getMainLooper());
+    }
+
+    public void postDelayed(Runnable runnable, long duration) {
+        mMainHandler.postDelayed(runnable, duration);
+    }
+
+    public void post(Runnable runnable) {
+        mMainHandler.post(runnable);
+    }
+
+    public static BaseMMCFastApplication getInstance() {
+        return instance;
+    }
+
+    public Handler getMainHandler() {
+        return mMainHandler;
     }
 
     @Override

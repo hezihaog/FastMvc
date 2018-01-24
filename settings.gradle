@@ -1,1 +1,1 @@
-include ':sample', ':liba-fast-mvc', ':liba-lifecycle-dispatch', ':liba-basic-res', ':liba-basic-lib', ':liba-compoent-service'
+include ':sample', ':liba-fast-mvc', ':liba-function-lifecycle-dispatch', ':liba-basic-res', ':liba-basic-lib', ':liba-compoent-service', ':liba-function-logger', ':liba-function-manager-factory', ':liba-function-lazy'

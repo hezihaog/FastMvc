@@ -1,13 +1,18 @@
 package oms.mmc.android.fast.framwork.sample;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import oms.mmc.android.fast.framwork.base.BaseActivity;
+import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+    public int onLayoutId() {
+        return R.layout.activity_splash;
+    }
+
+    @Override
+    public void onLayoutAfter() {
+        super.onLayoutAfter();
+        MMCUIHelper.showMain(this);
     }
 }

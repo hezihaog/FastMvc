@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.util;
+package oms.mmc.android.fast.framwork.basiclib.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,20 +14,20 @@ import java.util.Stack;
  * Email: hezihao@linghit.com
  */
 
-public class MMCFastActivityManager {
+public class ActivityManager {
     private static Stack<Activity> activityStack;
 
-    private MMCFastActivityManager() {
+    private ActivityManager() {
     }
 
     private static class Singleton {
-        private static final MMCFastActivityManager instance = new MMCFastActivityManager();
+        private static final ActivityManager instance = new ActivityManager();
     }
 
     /**
      * 单一实例
      */
-    public static MMCFastActivityManager getActivityManager() {
+    public static ActivityManager getActivityManager() {
         return Singleton.instance;
     }
 
