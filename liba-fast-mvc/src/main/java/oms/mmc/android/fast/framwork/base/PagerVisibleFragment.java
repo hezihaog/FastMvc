@@ -76,8 +76,7 @@ public abstract class PagerVisibleFragment extends LifecycleFragment {
      * 如果当前fragment是第一次加载，等待onCreateView后才会回调该方法，其它情况回调时机跟 {@link #setUserVisibleHint(boolean)}一致
      * 在该回调方法中你可以做一些加载数据操作，甚至是控件的操作，因为配合fragment的view复用机制，你不用担心在对控件操作中会报 null 异常
      *
-     * @param isVisible true  不可见 -> 可见
-     *                  false 可见  -> 不可见
+     * @param isVisible true  不可见 -> 可见 false 可见  -> 不可见
      */
     protected void onFragmentVisibleChange(boolean isVisible) {
 
