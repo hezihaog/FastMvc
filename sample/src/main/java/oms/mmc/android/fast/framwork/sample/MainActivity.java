@@ -54,6 +54,7 @@ public class MainActivity extends BaseListActivity {
             @Override
             protected ArrayList load(int page) throws Exception {
                 //模拟后台数据
+                Thread.sleep(1000);
                 ArrayList<String> datas = new ArrayList<String>();
                 for (int i = 0; i < 15; i++) {
                     datas.add(FakeUtil.getRandomComment());
