@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -19,9 +20,14 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1
+    daoPackage 'oms.mmc.android.fast.framwork.db'
+    targetGenDir 'src/main/java'
+}
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile rootProject.ext.dependencies["appcompat-v7"]
-    compile project(':liba-compoent-service')
-    compile project(':liba-fast_mvc-db')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //greenDao3数据库
+    compile 'org.greenrobot:greendao:3.2.2'
 }

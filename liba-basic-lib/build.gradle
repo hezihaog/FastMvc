@@ -24,8 +24,14 @@ dependencies {
     compile project(':liba-basic-res')
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile 'com.android.support:multidex:1.0.1'
+    //butterknife
     compile 'com.jakewharton:butterknife:7.0.1'
+    //md加载圈
     compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    //eventBus3
+    compile 'org.greenrobot:eventbus:3.0.0'
+    //Glide图片加载框架
+    compile 'com.github.bumptech.glide:glide:3.8.0'
     compile project(':liba-function-logger')
     compile project(':liba-function-lifecycle-dispatch')
     compile project(':liba-function-manager-factory')
