@@ -255,6 +255,10 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         setResult(resultCode, intent);
     }
 
+    public BaseActivity getActivity() {
+        return this;
+    }
+
     @Override
     public void onApiStart(String tag) {
     }

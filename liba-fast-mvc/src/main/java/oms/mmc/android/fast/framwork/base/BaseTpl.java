@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.bean.IResult;
-import oms.mmc.android.fast.framwork.bean.TplBase;
+import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
 
 /**
- * 列表条目基础模板
+ * 列表条目基础模板，条目类
  */
 public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Serializable, View.OnAttachStateChangeListener {
     protected BaseMMCFastApplication ac;
@@ -26,16 +26,16 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected Bundle _Bundle;
 
     protected ListViewHelper listViewHelper;
-    protected BaseListAdapter<? extends TplBase> listViewAdapter;
-    protected IDataSource<? extends TplBase> listViewDataSource;
-    protected ArrayList<? extends TplBase> listViewData;
+    protected BaseListAdapter<? extends BaseItemData> listViewAdapter;
+    protected IDataSource<? extends BaseItemData> listViewDataSource;
+    protected ArrayList<? extends BaseItemData> listViewData;
     protected AbsListView listView;
     protected int itemViewType = -1;
     protected View root;
     protected int position;
     protected T bean;
 
-    public void config(BaseListAdapter<? extends TplBase> adapter, ArrayList<? extends TplBase> data, IDataSource<? extends TplBase> dataSource, AbsListView absListView, ListViewHelper listViewHelper) {
+    public void config(BaseListAdapter<? extends BaseItemData> adapter, ArrayList<? extends BaseItemData> data, IDataSource<? extends BaseItemData> dataSource, AbsListView absListView, ListViewHelper listViewHelper) {
         this.listViewAdapter = adapter;
         this.listViewDataSource = dataSource;
         this.listViewData = data;
@@ -86,7 +86,11 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected void onItemLongClick() {
     }
 
-    public void setBeanPosition(ArrayList<? extends TplBase> listViewData, T item, int position) {
+    public T getBean() {
+        return bean;
+    }
+
+    public void setBeanPosition(ArrayList<? extends BaseItemData> listViewData, T item, int position) {
         this.listViewData = listViewData;
         this.bean = item;
         this.position = position;

@@ -14,5 +14,6 @@ public class SplashActivity extends BaseActivity {
     public void onLayoutAfter() {
         super.onLayoutAfter();
         MMCUIHelper.showMain(this);
+        finish();
     }
 }

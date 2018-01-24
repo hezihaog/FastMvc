@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Map;
 
-import oms.mmc.android.fast.framwork.bean.TplBase;
+import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.PinnedSectionListView;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
@@ -120,7 +120,7 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
 
     @Override
     public int getItemViewType(int position) {
-        TplBase base = (TplBase) getItem(position);
+        BaseItemData base = (BaseItemData) getItem(position);
         return base.getViewType();
     }
 

@@ -1,10 +1,14 @@
 package oms.mmc.android.fast.framwork.sample.tpl;
 
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.Bind;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
-import oms.mmc.android.fast.framwork.base.ObjectWrapper;
+import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -16,9 +20,13 @@ import oms.mmc.android.fast.framwork.sample.R;
  * Email: hezihao@linghit.com
  */
 
-public class TextTpl extends BaseTpl<ObjectWrapper> {
+public class CommentTpl extends BaseTpl<ItemDataWrapper> {
     @Bind(R.id.text)
     TextView text;
+    @Bind(R.id.avatar)
+    ImageView avatar;
+
+    private String data;
 
     @Override
     public int onLayoutId() {
@@ -27,6 +35,9 @@ public class TextTpl extends BaseTpl<ObjectWrapper> {
 
     @Override
     public void render() {
-        text.setText("text" + position);
+        String avatarUrl = (String) getBean().getDatas().get(0);
+        data = (String) getBean().getDatas().get(1);
+        Glide.with(_activity).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
+        text.setText(data);
     }
 }

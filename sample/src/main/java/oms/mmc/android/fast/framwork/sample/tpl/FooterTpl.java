@@ -4,7 +4,7 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
-import oms.mmc.android.fast.framwork.base.ObjectWrapper;
+import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -16,9 +16,11 @@ import oms.mmc.android.fast.framwork.sample.R;
  * Email: hezihao@linghit.com
  */
 
-public class FooterTpl extends BaseTpl<ObjectWrapper> {
+public class FooterTpl extends BaseTpl<ItemDataWrapper> {
     @Bind(R.id.footer)
     TextView footer;
+
+    private String data;
 
     @Override
     public int onLayoutId() {
@@ -27,6 +29,7 @@ public class FooterTpl extends BaseTpl<ObjectWrapper> {
 
     @Override
     public void render() {
-        footer.setText("footer" + position);
+        data = (String) getBean().getDatas().get(0);
+        footer.setText(data);
     }
 }
