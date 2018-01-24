@@ -5,15 +5,14 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import oms.mmc.android.fast.framwork.base.BaseListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
+import oms.mmc.android.fast.framwork.base.BaseStickyListActivity;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.sample.constant.Const;
 import oms.mmc.android.fast.framwork.sample.loadview.TextLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.CommentTpl;
-import oms.mmc.android.fast.framwork.sample.tpl.FooterTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.HeaderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
@@ -28,11 +27,10 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
  * Email: hezihao@linghit.com
  */
 
-public class MainActivity extends BaseListActivity {
+public class MainActivity extends BaseStickyListActivity {
     //条目类型
-    public static final int TPL_HEADER = 0;
+    public static final int TPL_STICKY_HEADER = 0;
     public static final int TPL_COMMENT = 1;
-    public static final int TPL_FOOTER = 2;
 
     @Bind(R.id.toolBar)
     Toolbar toolBar;
@@ -62,11 +60,11 @@ public class MainActivity extends BaseListActivity {
                 //拼装需要的数据集
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
-                    models.add(new ItemDataWrapper(TPL_HEADER, "i am header"));
+                    models.add(new ItemDataWrapper(TPL_STICKY_HEADER, "i am sticky header"));
                     for (int i = 0; i < datas.size(); i++) {
                         models.add(new ItemDataWrapper(TPL_COMMENT, FakeUtil.getRandomAvatar(), datas.get(i)));
                     }
-                    models.add(new ItemDataWrapper(TPL_FOOTER, "i am footer"));
+                    models.add(new ItemDataWrapper(TPL_STICKY_HEADER, "i am sticky footer"));
                 } else {
                     for (int i = 0; i < datas.size(); i++) {
                         models.add(new ItemDataWrapper(TPL_COMMENT, FakeUtil.getRandomAvatar(), datas.get(i)));
@@ -83,9 +81,8 @@ public class MainActivity extends BaseListActivity {
     @Override
     public ArrayList<Class> onListViewTypeClassesReady() {
         ArrayList<Class> tpls = new ArrayList<Class>();
-        tpls.add(HeaderTpl.class);
-        tpls.add(CommentTpl.class);
-        tpls.add(FooterTpl.class);
+        tpls.add(TPL_STICKY_HEADER, HeaderTpl.class);
+        tpls.add(TPL_COMMENT, CommentTpl.class);
         return tpls;
     }
 

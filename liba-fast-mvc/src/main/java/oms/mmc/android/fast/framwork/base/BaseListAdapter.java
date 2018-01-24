@@ -24,24 +24,20 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
 
 public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<ArrayList<T>>, PinnedSectionListView.PinnedSectionListAdapter, Filterable {
     public static final int TPL_SECTION = 0;
-
+    //管理状态
     public static final int MODE_NORMAL = 0;
     public static final int MODE_EDIT = 1;
 
     protected BaseActivity _activity;
-
     protected ListViewHelper<T> listViewHelper;
     protected ArrayList<Class> viewTypeClasses;
     protected IDataSource<T> listViewDataSource;
     protected ArrayList<T> listViewData;
     protected ArrayList<T> originData;
     protected AbsListView listView;
-
-
     protected int checkedItemPosition = -1;
     protected ArrayList<Integer> checkedItemPositions = new ArrayList<Integer>();
     protected int mode = MODE_NORMAL;
-
     protected Runnable notifyRunnable;
     protected OnItemClickListener onItemClickListener;
     protected OnItemLongClickListener onItemLongClickListener;
