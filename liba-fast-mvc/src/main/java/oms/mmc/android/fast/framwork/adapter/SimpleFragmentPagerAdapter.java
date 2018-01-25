@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import oms.mmc.android.fast.framwork.base.ProxyFakeFragment;
+
 /**
  * 使用fragment的viewpager的适配器
  */
@@ -24,8 +26,27 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         this.titles = titles;
         fragmentNameList = new ArrayList<String>();
         for (Fragment fragment : fragments) {
-            fragmentNameList.add(fragment.getClass().getSimpleName());
+            fragmentNameList.add(fragment.getClass().getName());
         }
+    }
+
+    /**
+     * 从外部指定保存的Fragment名字，
+     *
+     * @param viewPagerId
+     * @param fm
+     * @param titles
+     * @param fragments
+     * @param realFragmentNameList
+     */
+    public SimpleFragmentPagerAdapter(int viewPagerId, FragmentManager fm, ArrayList<String> titles, ArrayList<Fragment> fragments, ArrayList<String> realFragmentNameList) {
+        super(fm);
+        this.viewPagerId = viewPagerId;
+        this.fm = fm;
+        this.fragments = fragments;
+        this.titles = titles;
+        fragmentNameList = new ArrayList<String>();
+        fragmentNameList.addAll(realFragmentNameList);
     }
 
     @Override
@@ -85,6 +106,12 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         for (int i = 0; i < fragmentNameList.size(); i++) {
             if (fragmentNameList.get(i).equals(fragmentName)) {
                 return fm.findFragmentByTag(SimpleFragmentPagerAdapter.getFragmentTag(viewPagerId, i));
+            } else if (fragmentNameList.get(i).equals(ProxyFakeFragment.class.getName())) {
+                //是懒加载代理fragment的话，找出里面包裹的fragment
+                ProxyFakeFragment proxyFragment = (ProxyFakeFragment) fm.findFragmentByTag(SimpleFragmentPagerAdapter.getFragmentTag(viewPagerId, i));
+                if (fragmentNameList.get(i).equals(proxyFragment.getRealFragmentName())) {
+                    return proxyFragment.getRealFragment();
+                }
             }
         }
         return null;

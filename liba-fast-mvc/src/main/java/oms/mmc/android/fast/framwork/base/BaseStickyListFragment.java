@@ -53,8 +53,8 @@ public abstract class BaseStickyListFragment<T> extends BaseFragment implements 
     protected BaseListAdapter<T> listViewAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState);
+    public View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = super.onInflaterRootView(inflater, container, savedInstanceState);
         pulltoRefreshListView = (PullToRefreshPinnedListView) root.findViewById(R.id.pullToRefreshListView);
         pulltoRefreshListView.setId(MethodCompat.generateViewId());
         if (listViewHelper == null) {

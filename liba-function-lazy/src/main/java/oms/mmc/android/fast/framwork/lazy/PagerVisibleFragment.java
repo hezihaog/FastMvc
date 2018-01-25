@@ -1,8 +1,15 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.lazy;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import oms.mmc.android.lifecycle.dispatch.base.LifecycleFragment;
 
@@ -10,6 +17,7 @@ import oms.mmc.android.lifecycle.dispatch.base.LifecycleFragment;
  * 切换fragment可见回调的fragment
  */
 public abstract class PagerVisibleFragment extends LifecycleFragment {
+    private Set<OnFragmentVisibleChangeCallback> visibleCallbacks = Collections.newSetFromMap(new HashMap<OnFragmentVisibleChangeCallback, Boolean>());
     /**
      * rootView是否初始化标志，防止回调函数在rootView为空的时候触发
      */
@@ -62,6 +70,12 @@ public abstract class PagerVisibleFragment extends LifecycleFragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        removeAllVisibleCallbacks();
+    }
+
     private void initVariable() {
         hasCreateView = false;
         isFragmentVisible = false;
@@ -79,6 +93,35 @@ public abstract class PagerVisibleFragment extends LifecycleFragment {
      * @param isVisible true  不可见 -> 可见 false 可见  -> 不可见
      */
     protected void onFragmentVisibleChange(boolean isVisible) {
+        for (OnFragmentVisibleChangeCallback callback : getSnapshot(visibleCallbacks)) {
+            callback.onFragmentVisibleChange(getClass().getName(), isVisible);
+        }
+    }
 
+
+    public interface OnFragmentVisibleChangeCallback {
+        void onFragmentVisibleChange(String name, boolean isVisible);
+    }
+
+    public void addVisibleChangeCallback(OnFragmentVisibleChangeCallback callback) {
+        visibleCallbacks.add(callback);
+    }
+
+    public void removeVisibleChangeCallback(OnFragmentVisibleChangeCallback callback) {
+        visibleCallbacks.remove(callback);
+    }
+
+    private void removeAllVisibleCallbacks() {
+        visibleCallbacks.clear();
+    }
+
+    public static <T> List<T> getSnapshot(Collection<T> other) {
+        // toArray creates a new ArrayList internally and this way we can guarantee entries will not
+        // be null. See #322.
+        List<T> result = new ArrayList<T>(other.size());
+        for (T item : other) {
+            result.add(item);
+        }
+        return result;
     }
 }

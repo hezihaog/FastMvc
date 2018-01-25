@@ -1,5 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.view.View;
+
 import oms.mmc.android.fast.framwork.base.BaseFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 
@@ -16,5 +18,15 @@ public class DiscoverFragment extends BaseFragment {
     @Override
     public int onLayoutId() {
         return R.layout.fragment_discover;
+    }
+
+    @Override
+    public void onFindViews(View mRootView) {
+
+    }
+
+    @Override
+    public void onBindContent() {
+
     }
 }

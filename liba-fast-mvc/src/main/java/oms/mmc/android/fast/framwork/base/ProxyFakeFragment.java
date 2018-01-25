@@ -125,6 +125,10 @@ public class ProxyFakeFragment extends Fragment {
         }
     }
 
+    public String getRealFragmentName() {
+        return realFragmentName;
+    }
+
     private void addRealFragment() {
         if (realFragment != null) {
             getChildFragmentManager()

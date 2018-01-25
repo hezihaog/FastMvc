@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import oms.mmc.android.fast.framwork.adapter.SimpleFragmentPagerAdapter;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
+import oms.mmc.android.fast.framwork.base.BaseFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.lazy.PagerVisibleFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationFragment;
@@ -67,5 +69,17 @@ public class MainActivity extends BaseActivity {
         }
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         tabLayout.setupWithViewPager(viewPager);
+        //fragment可见监听
+        PagerVisibleFragment.OnFragmentVisibleChangeCallback visibleCallback = new PagerVisibleFragment.OnFragmentVisibleChangeCallback() {
+            @Override
+            public void onFragmentVisibleChange(String name, boolean isVisible) {
+                //L.d("onFragmentVisibleChange ::: name --> " + name + " isVisible ::: " + isVisible);
+            }
+        };
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof BaseFragment) {
+                ((BaseFragment) fragment).addVisibleChangeCallback(visibleCallback);
+            }
+        }
     }
 }

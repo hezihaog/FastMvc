@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import oms.mmc.android.fast.framwork.lazy.inter.FragmentOperationCallback;
-import oms.mmc.android.lifecycle.dispatch.base.LifecycleFragment;
 
 
 /**
@@ -20,7 +19,7 @@ import oms.mmc.android.lifecycle.dispatch.base.LifecycleFragment;
  * Email: hezihao@linghit.com
  */
 
-public abstract class ExtendLazyFragment extends LifecycleFragment implements FragmentOperationCallback {
+public abstract class ExtendLazyFragment extends PagerVisibleFragment implements FragmentOperationCallback {
     //Fragment容器
     protected FrameLayout rootContainer;
     private LayoutInflater inflater;
@@ -142,5 +141,15 @@ public abstract class ExtendLazyFragment extends LifecycleFragment implements Fr
      */
     public boolean getFragmentIsVisible() {
         return isVisible;
+    }
+
+    @Override
+    public void onFindViews(View mRootView) {
+
+    }
+
+    @Override
+    public void onBindContent() {
+
     }
 }
