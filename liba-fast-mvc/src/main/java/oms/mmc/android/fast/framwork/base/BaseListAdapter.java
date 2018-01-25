@@ -240,7 +240,6 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
         listView.setOnItemLongClickListener(new OnItemLongClickListener() {

@@ -23,7 +23,6 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
         this._activity = activity;
     }
 
-
     @Override
     public ArrayList<T> getOriginListViewData() {
         return orginListViewData;

@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.PullToRefreshBase;
 
+/**
+ * ListView帮助类
+ */
 public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListener<ListView>, IViewHelper {
     private IDataAdapter<ArrayList<Model>> dataAdapter;
     private PullToRefreshBase<ListView> plv;
@@ -27,10 +30,11 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
     private OnStateChangeListener<ArrayList<Model>> onStateChangeListener;
     private AsyncTask<Void, Void, ArrayList<Model>> asyncTask;
     private long loadDataTime = -1;
-    //    private OnScrollListener mScrollListener;
     private ArrayList<OnScrollListener> mScrollListeners;
     private boolean isReverse;
-    //当前滚动状态
+    /**
+     * 当前滚动状态
+     */
     private int scrollState;
 
     /**
@@ -65,9 +69,10 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
         mListView.setCacheColorHint(Color.TRANSPARENT);
         plv.setScrollLoadEnabled(true);
         plv.setOnRefreshListener(this);
-        /*
-      滚动到底部自动加载更多数据
-     */
+
+        /**
+         * 滚动到底部自动加载更多数据
+         */
         OnScrollListener onScrollListener = new OnScrollListener() {
 
             @Override
@@ -119,16 +124,18 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
             }
         };
         mListView.setOnScrollListener(onScrollListener);
-        /*
-      针对于电视 选择到了底部项的时候自动加载更多数据
-     */
+
+        /**
+         * 针对于电视 选择到了底部项的时候自动加载更多数据
+         */
         OnItemSelectedListener onItemSelectedListener = new OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> listView, View view, int position, long id) {
                 if (autoLoadMore) {
                     if (hasMoreData) {
-                        if (listView.getLastVisiblePosition() + 1 == listView.getCount()) {// 如果滚动到最后一行
+                        //如果滚动到最后一行
+                        if (listView.getLastVisiblePosition() + 1 == listView.getCount()) {
                             // 如果网络可以用
                             if (hasNetwork(context)) {
                                 loadMore();
@@ -205,6 +212,8 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
             asyncTask.cancel(true);
         }
         asyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
+
+            @Override
             protected void onPreExecute() {
                 mLoadMoreView.showNormal();
                 if (dataAdapter.isEmpty() && mListView.getHeaderViewsCount() == 0) {
@@ -228,6 +237,7 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
                 return null;
             }
 
+            @Override
             protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
                     if (dataAdapter.isEmpty() && mListView.getHeaderViewsCount() == 0) {
@@ -259,7 +269,6 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
                 if (onStateChangeListener != null) {
                     onStateChangeListener.onEndRefresh(dataAdapter, result);
                 }
-
                 plv.onPullDownRefreshComplete();
                 plv.onPullUpRefreshComplete();
             }
@@ -283,7 +292,6 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
             refresh();
             return;
         }
-
         if (dataAdapter == null || dataSource == null) {
             if (plv != null) {
                 plv.onPullUpRefreshComplete();
@@ -294,6 +302,8 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
             asyncTask.cancel(true);
         }
         asyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
+
+            @Override
             protected void onPreExecute() {
                 if (onStateChangeListener != null) {
                     onStateChangeListener.onStartLoadMore(dataAdapter);
@@ -311,6 +321,7 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
                 return null;
             }
 
+            @Override
             protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
                     mLoadView.tipFail();
@@ -334,8 +345,8 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
                     onStateChangeListener.onEndLoadMore(dataAdapter, result);
                 }
             }
-
         };
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
