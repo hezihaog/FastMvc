@@ -19,13 +19,11 @@ package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
  * 加载的状态监听者
  */
 public interface OnStateChangeListener<T> {
+    void onStartRefresh(IDataAdapter<T> adapter);
 
-	void onStartRefresh(IDataAdapter<T> adapter);
+    void onEndRefresh(IDataAdapter<T> adapter, T result);
 
-	void onEndRefresh(IDataAdapter<T> adapter, T result);
+    void onStartLoadMore(IDataAdapter<T> adapter);
 
-	void onStartLoadMore(IDataAdapter<T> adapter);
-
-	void onEndLoadMore(IDataAdapter<T> adapter, T result);
-
+    void onEndLoadMore(IDataAdapter<T> adapter, T result);
 }

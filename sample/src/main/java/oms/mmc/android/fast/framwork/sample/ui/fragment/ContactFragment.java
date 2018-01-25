@@ -13,8 +13,13 @@ import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.loadview.TextLoadViewFactory;
+import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactGroupChatTpl;
+import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLabelTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLetterTpl;
+import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactOfficialAccountsTpl;
+import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactSumCountTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
+import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
@@ -29,18 +34,20 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
  */
 
 public class ContactFragment extends BaseStickyListFragment {
-    //悬浮的字母类型
-    public static final int TPL_STICKY_LETTER = 0;
     //新的好友条目
-    public static final int TPL_NEW_FRIEND = 1;
+    public static final int TPL_NEW_FRIEND = 0;
     //群聊条目
-    public static final int TPL_GROUP_CHAT = 2;
+    public static final int TPL_GROUP_CHAT = 1;
     //标签条目
-    public static final int TPL_LABLE = 3;
+    public static final int TPL_LABLE = 2;
     //公众号条目
-    public static final int TPL_OFFICIAL_ACCOUNTS = 4;
+    public static final int TPL_OFFICIAL_ACCOUNTS = 3;
+    //悬浮的字母类型
+    public static final int TPL_STICKY_LETTER = 4;
     //我的联系人条目
-    public static final int TPL_CONTACT = 1;
+    public static final int TPL_CONTACT = 5;
+    //联系人总数条目
+    public static final int TPL_SUM_CONTACT_COUNT = 6;
 
     @Override
     public int onLayoutId() {
@@ -54,14 +61,19 @@ public class ContactFragment extends BaseStickyListFragment {
             protected ArrayList load(int page) throws Exception {
                 //模拟后台数据
                 Thread.sleep(1000);
+                //拼装需要的数据集
+                ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
+                //插入固定数据在顶部
+                models.add(new BaseItemData(TPL_NEW_FRIEND));
+                models.add(new BaseItemData(TPL_GROUP_CHAT));
+                models.add(new BaseItemData(TPL_LABLE));
+                models.add(new BaseItemData(TPL_OFFICIAL_ACCOUNTS));
                 ArrayList<String> datas = new ArrayList<String>();
                 for (int i = 0; i < 15; i++) {
                     datas.add(FakeUtil.getRandomName());
                 }
                 //按字母排序
                 Collections.sort(datas, Collator.getInstance(Locale.CHINA));
-                //拼装需要的数据集
-                ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 char letter = 0;
                 for (int i = 0; i < datas.size(); i++) {
                     //首次肯定有一个字母
@@ -78,6 +90,8 @@ public class ContactFragment extends BaseStickyListFragment {
                     }
                     models.add(new ItemDataWrapper(TPL_CONTACT, FakeUtil.getRandomAvatar(), datas.get(i)));
                 }
+                //最后插入一条联系人总数
+                models.add(TPL_SUM_CONTACT_COUNT, new ItemDataWrapper(TPL_SUM_CONTACT_COUNT, String.valueOf(datas.size())));
                 //分页，需要和后台协商，一页返回大于多少条时可以有下一页
 //                this.page = page;
 //                this.hasMore = datas.size() >= Const.Config.pageSize;
@@ -89,9 +103,19 @@ public class ContactFragment extends BaseStickyListFragment {
     @Override
     public ArrayList<Class> onListViewTypeClassesReady() {
         ArrayList<Class> tpls = new ArrayList<Class>();
+        tpls.add(TPL_NEW_FRIEND, NewFriendTpl.class);
+        tpls.add(TPL_GROUP_CHAT, ContactGroupChatTpl.class);
+        tpls.add(TPL_LABLE, ContactLabelTpl.class);
+        tpls.add(TPL_OFFICIAL_ACCOUNTS, ContactOfficialAccountsTpl.class);
         tpls.add(TPL_STICKY_LETTER, ContactLetterTpl.class);
         tpls.add(TPL_CONTACT, ContactTpl.class);
+        tpls.add(TPL_SUM_CONTACT_COUNT, ContactSumCountTpl.class);
         return tpls;
+    }
+
+    @Override
+    protected int onGetStickyTemplateViewType() {
+        return TPL_STICKY_LETTER;
     }
 
     @Override
@@ -99,7 +123,7 @@ public class ContactFragment extends BaseStickyListFragment {
         super.onListViewReady();
         listView.setDivider(getResources().getDrawable(android.R.color.transparent));
         listView.setDividerHeight(0);
-        pulltoRefreshListView.setPullRefreshEnabled(false);
+        pullToRefreshListView.setPullRefreshEnabled(false);
     }
 
     @Override

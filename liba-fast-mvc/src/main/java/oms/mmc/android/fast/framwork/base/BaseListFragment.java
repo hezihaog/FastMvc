@@ -105,7 +105,8 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper);
+        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource,
+                onListViewTypeClassesReady(), listViewHelper, 0);
     }
 
     @Override

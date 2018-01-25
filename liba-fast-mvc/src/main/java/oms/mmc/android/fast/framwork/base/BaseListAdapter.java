@@ -23,7 +23,8 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
 
 public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<ArrayList<T>>, PinnedSectionListView.PinnedSectionListAdapter, Filterable {
-    public static final int TPL_SECTION = 0;
+    //粘性条目的类型
+    public int stickySectionViewType = 0;
     //管理状态
     public static final int MODE_NORMAL = 0;
     public static final int MODE_EDIT = 1;
@@ -62,7 +63,8 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
         }
     };
 
-    public BaseListAdapter(AbsListView absListView, BaseActivity activity, IDataSource<T> dataSource, ArrayList<Class> itemViewClazzs, ListViewHelper listViewHelper) {
+    public BaseListAdapter(AbsListView absListView, BaseActivity activity, IDataSource<T> dataSource
+            , ArrayList<Class> itemViewClazzs, ListViewHelper listViewHelper, int stickySectionViewType) {
         this.listView = absListView;
         this._activity = activity;
         this.listViewDataSource = dataSource;
@@ -70,10 +72,12 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
         this.originData = this.listViewData;
         this.viewTypeClasses = itemViewClazzs;
         this.listViewHelper = listViewHelper;
+        this.stickySectionViewType = stickySectionViewType;
         initListener();
     }
 
-    public BaseListAdapter(AbsListView absListView, BaseActivity activity, ArrayList<T> listViewData, Class itemViewClazz, ListViewHelper listViewHelper) {
+    public BaseListAdapter(AbsListView absListView, BaseActivity activity, ArrayList<T> listViewData
+            , Class itemViewClazz, ListViewHelper listViewHelper, int stickySectionViewType) {
         this.listView = absListView;
         this._activity = activity;
         this.listViewData = listViewData;
@@ -81,16 +85,19 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
         this.viewTypeClasses = new ArrayList<Class>();
         this.viewTypeClasses.add(itemViewClazz);
         this.listViewHelper = listViewHelper;
+        this.stickySectionViewType = stickySectionViewType;
         initListener();
     }
 
-    public BaseListAdapter(AbsListView absListView, BaseActivity activity, ArrayList<T> listViewData, ArrayList<Class> itemViewClazzs, ListViewHelper listViewHelper) {
+    public BaseListAdapter(AbsListView absListView, BaseActivity activity, ArrayList<T> listViewData
+            , ArrayList<Class> itemViewClazzs, ListViewHelper listViewHelper, int stickySectionViewType) {
         this.listView = absListView;
         this._activity = activity;
         this.listViewData = listViewData;
         this.originData = this.listViewData;
         this.viewTypeClasses = itemViewClazzs;
         this.listViewHelper = listViewHelper;
+        this.stickySectionViewType = stickySectionViewType;
         initListener();
     }
 
@@ -299,7 +306,7 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
 
     @Override
     public boolean isItemViewTypePinned(int viewType) {
-        return viewType == TPL_SECTION;
+        return viewType == stickySectionViewType;
     }
 
     @Override

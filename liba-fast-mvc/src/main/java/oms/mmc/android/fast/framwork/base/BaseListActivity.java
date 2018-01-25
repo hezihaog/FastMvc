@@ -84,7 +84,8 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper);
+        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource,
+                onListViewTypeClassesReady(), listViewHelper, 0);
     }
 
     @Override

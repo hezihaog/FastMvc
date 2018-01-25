@@ -84,7 +84,8 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper);
+        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource,
+                onListViewTypeClassesReady(), listViewHelper, onGetStickyTemplateViewType());
     }
 
     @Override
@@ -153,8 +154,12 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
         onApiError(tag);
     }
 
+    @Override
     protected void onApiError(String tag) {
     }
 
-
+    /**
+     * 需要设置粘性悬浮条目类时重写该方法返回粘性条目的类型
+     */
+    protected abstract int onGetStickyTemplateViewType();
 }

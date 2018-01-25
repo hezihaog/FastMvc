@@ -26,7 +26,7 @@ public abstract class BaseStickyListFragment<T> extends BaseFragment implements 
     /**
      * 下来刷新控件
      */
-    protected PullToRefreshPinnedListView pulltoRefreshListView;
+    protected PullToRefreshPinnedListView pullToRefreshListView;
     /**
      * 列表
      */
@@ -55,17 +55,17 @@ public abstract class BaseStickyListFragment<T> extends BaseFragment implements 
     @Override
     public View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onInflaterRootView(inflater, container, savedInstanceState);
-        pulltoRefreshListView = (PullToRefreshPinnedListView) root.findViewById(R.id.pullToRefreshListView);
-        pulltoRefreshListView.setId(MethodCompat.generateViewId());
+        pullToRefreshListView = (PullToRefreshPinnedListView) root.findViewById(R.id.pullToRefreshListView);
+        pullToRefreshListView.setId(MethodCompat.generateViewId());
         if (listViewHelper == null) {
-            listViewHelper = new ListViewHelper<T>(pulltoRefreshListView);
+            listViewHelper = new ListViewHelper<T>(pullToRefreshListView);
             listViewHelper.init(onLoadViewFactoryReady());
         }
         if (listViewDataSource == null) {
             listViewDataSource = onListViewDataSourceReady();
         }
         listViewHelper.setDataSource(this.listViewDataSource);
-        listView = pulltoRefreshListView.getRefreshableView();
+        listView = pullToRefreshListView.getRefreshableView();
         listView.setDivider(getResources().getDrawable(R.drawable.base_divider_line));
         listView.setOnItemClickListener(this);
         if (listViewData == null) {
@@ -105,7 +105,7 @@ public abstract class BaseStickyListFragment<T> extends BaseFragment implements 
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper);
+        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper, onGetStickyTemplateViewType());
     }
 
     @Override
@@ -142,4 +142,9 @@ public abstract class BaseStickyListFragment<T> extends BaseFragment implements 
     public void onEndLoadMore(IDataAdapter<ArrayList<T>> listViewAdapter, ArrayList<T> result) {
 
     }
+
+    /**
+     * 需要设置粘性悬浮条目类时重写该方法返回粘性条目的类型
+     */
+    protected abstract int onGetStickyTemplateViewType();
 }
