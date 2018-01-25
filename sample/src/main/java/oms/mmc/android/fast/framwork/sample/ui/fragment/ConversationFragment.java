@@ -6,6 +6,7 @@ import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationEmailTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationNewsTpl;
@@ -67,5 +68,11 @@ public class ConversationFragment extends BaseListFragment {
         tpls.add(TPL_EMAIL, ConversationEmailTpl.class);
         tpls.add(TPL_CHAT, ConversationChatTpl.class);
         return tpls;
+    }
+
+    @Override
+    public void onListViewReady() {
+        super.onListViewReady();
+        listView.setBackgroundColor(getResources().getColor(R.color.white));
     }
 }
