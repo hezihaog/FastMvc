@@ -5,7 +5,7 @@ import com.github.promeg.pinyinhelper.Pinyin;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Locale;
 
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
@@ -71,7 +71,7 @@ public class ContactFragment extends BaseStickyListFragment {
                 models.add(new BaseItemData(TPL_OFFICIAL_ACCOUNTS));
                 ArrayList<String> datas = new ArrayList<String>();
                 for (int i = 0; i < 15; i++) {
-                    datas.add(FakeUtil.getRandomName());
+                    datas.add(FakeUtil.getRandomName(i));
                 }
                 //按字母排序
                 Collections.sort(datas, Collator.getInstance(Locale.CHINA));
@@ -89,7 +89,7 @@ public class ContactFragment extends BaseStickyListFragment {
                             models.add(new ItemDataWrapper(TPL_STICKY_LETTER, String.valueOf(letter)));
                         }
                     }
-                    models.add(new ItemDataWrapper(TPL_CONTACT, FakeUtil.getRandomAvatar(), datas.get(i)));
+                    models.add(new ItemDataWrapper(TPL_CONTACT, FakeUtil.getRandomAvatar(i), datas.get(i)));
                 }
                 //最后插入一条联系人总数
                 models.add(new ItemDataWrapper(TPL_SUM_CONTACT_COUNT, String.valueOf(datas.size())));
@@ -102,8 +102,8 @@ public class ContactFragment extends BaseStickyListFragment {
     }
 
     @Override
-    public LinkedHashMap<Integer, Class> onListViewTypeClassesReady() {
-        LinkedHashMap<Integer, Class> tpls = new LinkedHashMap<Integer, Class>();
+    public HashMap<Integer, Class> onListViewTypeClassesReady() {
+        HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
         tpls.put(TPL_NEW_FRIEND, NewFriendTpl.class);
         tpls.put(TPL_GROUP_CHAT, ContactGroupChatTpl.class);
         tpls.put(TPL_LABLE, ContactLabelTpl.class);

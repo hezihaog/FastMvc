@@ -1,7 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
@@ -60,8 +60,8 @@ public class ConversationFragment extends BaseListFragment {
     }
 
     @Override
-    public LinkedHashMap<Integer, Class> onListViewTypeClassesReady() {
-        LinkedHashMap<Integer, Class> tpls = new LinkedHashMap<Integer, Class>();
+    public HashMap<Integer, Class> onListViewTypeClassesReady() {
+        HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
         tpls.put(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
         tpls.put(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
         tpls.put(TPL_NEWS, ConversationNewsTpl.class);

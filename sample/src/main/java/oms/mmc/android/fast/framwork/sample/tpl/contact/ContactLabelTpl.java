@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.sample.R;
 public class ContactLabelTpl extends BaseTpl<BaseItemData> {
     @Override
     public int onLayoutId() {
-        return R.layout.item_contact_official_accounts;
+        return R.layout.item_contact_label;
     }
 
     @Override

@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
@@ -32,7 +32,7 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
 
     protected BaseActivity _activity;
     protected ListViewHelper<T> listViewHelper;
-    protected LinkedHashMap<Integer, Class> viewTypeClasses;
+    protected HashMap<Integer, Class> viewTypeClasseMap;
     protected IDataSource<T> listViewDataSource;
     protected ArrayList<T> listViewData;
     protected ArrayList<T> originData;
@@ -65,13 +65,13 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
     };
 
     public BaseListAdapter(AbsListView absListView, BaseActivity activity, IDataSource<T> dataSource
-            , LinkedHashMap<Integer, Class> itemViewClazzMap, ListViewHelper listViewHelper, int stickySectionViewType) {
+            , HashMap<Integer, Class> itemViewClazzMap, ListViewHelper listViewHelper, int stickySectionViewType) {
         this.listView = absListView;
         this._activity = activity;
         this.listViewDataSource = dataSource;
         this.listViewData = dataSource.getOriginListViewData();
         this.originData = this.listViewData;
-        this.viewTypeClasses = itemViewClazzMap;
+        this.viewTypeClasseMap = itemViewClazzMap;
         this.listViewHelper = listViewHelper;
         this.stickySectionViewType = stickySectionViewType;
         initListener();
@@ -94,7 +94,7 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
 
     @Override
     public int getViewTypeCount() {
-        return viewTypeClasses.size();
+        return viewTypeClasseMap.size();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class BaseListAdapter<T> extends BaseAdapter implements IDataAdapter<Arra
                 //取出当前条目的类型
                 int itemViewType = getItemViewType(position);
                 //反射构造条目类
-                BaseTpl baseTpl = (BaseTpl) viewTypeClasses.get(itemViewType).getConstructor().newInstance();
+                BaseTpl baseTpl = (BaseTpl) viewTypeClasseMap.get(itemViewType).getConstructor().newInstance();
                 baseTpl.init(_activity, getItemViewType(position));
                 convertView = baseTpl.getRoot();
                 convertView.setTag(baseTpl);
