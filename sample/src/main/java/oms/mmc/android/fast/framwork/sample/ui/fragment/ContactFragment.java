@@ -12,7 +12,6 @@ import oms.mmc.android.fast.framwork.base.BaseStickyListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.sample.constant.Const;
 import oms.mmc.android.fast.framwork.sample.loadview.TextLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLetterTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
@@ -79,9 +78,9 @@ public class ContactFragment extends BaseStickyListFragment {
                     }
                     models.add(new ItemDataWrapper(TPL_CONTACT, FakeUtil.getRandomAvatar(), datas.get(i)));
                 }
-                //和后台协商，一页返回大于多少条时可以有下一页
-                this.page = page;
-                this.hasMore = datas.size() >= Const.Config.pageSize;
+                //分页，需要和后台协商，一页返回大于多少条时可以有下一页
+//                this.page = page;
+//                this.hasMore = datas.size() >= Const.Config.pageSize;
                 return models;
             }
         };

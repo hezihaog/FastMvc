@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.widget.pulltorefresh;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,13 +104,13 @@ public class HeaderLoadingLayout extends LoadingLayout {
 
     @Override
     public void setLastUpdatedLabel(CharSequence label) {
-//        if (mHeaderTimeViewTitle != null) {
-//            // 如果最后更新的时间的文本是空的话，隐藏前面的标题
-//            mHeaderTimeViewTitle.setVisibility(TextUtils.isEmpty(label) ? View.INVISIBLE : View.VISIBLE);
-//            if (mHeaderTimeView != null) {
-//                mHeaderTimeView.setText(label);
-//            }
-//        }
+        if (mHeaderTimeViewTitle != null) {
+            // 如果最后更新的时间的文本是空的话，隐藏前面的标题
+            mHeaderTimeViewTitle.setVisibility(TextUtils.isEmpty(label) ? View.INVISIBLE : View.VISIBLE);
+            if (mHeaderTimeView != null) {
+                mHeaderTimeView.setText(label);
+            }
+        }
     }
 
     @Override

@@ -50,7 +50,7 @@ public class ConversationFragment extends BaseListFragment {
                 models.add(new BaseItemData(TPL_SERVER_MSG));
                 models.add(new BaseItemData(TPL_EMAIL));
                 for (int i = 0; i < 15; i++) {
-                    models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(), FakeUtil.getRandomName(), FakeUtil.getRandomComment()));
+                    models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
                 }
                 models.add(new BaseItemData(TPL_WE_CHAT_TEAM_MSG));
                 return models;

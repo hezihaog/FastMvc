@@ -12,19 +12,23 @@ import oms.mmc.android.fast.framwork.R;
 
 /**
  * 这个类封装了下拉刷新的布局
- * 
+ *
  * @author Li Hong
  * @since 2013-7-30
  */
 public class FooterLoadingLayout extends LoadingLayout {
-    /**进度条*/
+    /**
+     * 进度条
+     */
     private ProgressBar mProgressBar;
-    /** 显示的文本 */
+    /**
+     * 显示的文本
+     */
     private TextView mHintView;
-    
+
     /**
      * 构造方法
-     * 
+     *
      * @param context _activity
      */
     public FooterLoadingLayout(Context context) {
@@ -34,9 +38,9 @@ public class FooterLoadingLayout extends LoadingLayout {
 
     /**
      * 构造方法
-     * 
+     *
      * @param context _activity
-     * @param attrs attrs
+     * @param attrs   attrs
      */
     public FooterLoadingLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,16 +49,16 @@ public class FooterLoadingLayout extends LoadingLayout {
 
     /**
      * 初始化
-     * 
+     *
      * @param context _activity
      */
     private void init(Context context) {
         mProgressBar = (ProgressBar) findViewById(R.id.pull_to_load_footer_progressbar);
         mHintView = (TextView) findViewById(R.id.pull_to_load_footer_hint_textview);
-        
+
         setState(State.RESET);
     }
-    
+
     @Override
     protected View createLoadingView(Context context, AttributeSet attrs) {
         View container = LayoutInflater.from(context).inflate(R.layout.pull_to_load_footer, null);
@@ -71,18 +75,18 @@ public class FooterLoadingLayout extends LoadingLayout {
         if (null != view) {
             return view.getHeight();
         }
-        
+
         return (int) (getResources().getDisplayMetrics().density * 40);
     }
-    
+
     @Override
     protected void onStateChanged(State curState, State oldState) {
         mProgressBar.setVisibility(View.GONE);
         mHintView.setVisibility(View.INVISIBLE);
-        
+
         super.onStateChanged(curState, oldState);
     }
-    
+
     @Override
     protected void onReset() {
         mHintView.setText(R.string.pull_to_refresh_header_hint_loading);
@@ -106,7 +110,7 @@ public class FooterLoadingLayout extends LoadingLayout {
         mHintView.setVisibility(View.VISIBLE);
         mHintView.setText(R.string.pull_to_refresh_header_hint_loading);
     }
-    
+
     @Override
     protected void onNoMoreData() {
         mHintView.setVisibility(View.VISIBLE);
