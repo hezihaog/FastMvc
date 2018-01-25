@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.sample.tpl;
+package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import android.widget.TextView;
 
@@ -9,27 +9,27 @@ import oms.mmc.android.fast.framwork.sample.R;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.tpl
- * FileName: HeaderTpl
+ * FileName: ContactLetterTpl
  * Date: on 2018/1/24  下午2:08
  * Auther: zihe
- * Descirbe:
+ * Descirbe:联系人字母条目
  * Email: hezihao@linghit.com
  */
 
-public class HeaderTpl extends BaseTpl<ItemDataWrapper> {
-    @Bind(R.id.header)
-    TextView header;
+public class ContactLetterTpl extends BaseTpl<ItemDataWrapper> {
+    @Bind(R.id.letter)
+    TextView letter;
 
     private String data;
 
     @Override
     public int onLayoutId() {
-        return R.layout.item_header;
+        return R.layout.item_contact_letter;
     }
 
     @Override
     public void render() {
         data = (String) bean.getDatas().get(0);
-        header.setText(data);
+        letter.setText(data);
     }
 }

@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="oms.mmc.android.fast.framwork.sample.SplashActivity"
+            android:name="oms.mmc.android.fast.framwork.sample.ui.activity.SplashActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="oms.mmc.android.fast.framwork.sample.MainActivity"
+            android:name="oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity"
             android:configChanges="locale"
             android:label="主界面"
             android:launchMode="singleTop"

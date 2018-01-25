@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.sample.tpl;
+package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +20,7 @@ import oms.mmc.android.fast.framwork.sample.R;
  * Email: hezihao@linghit.com
  */
 
-public class CommentTpl extends BaseTpl<ItemDataWrapper> {
+public class ContactTpl extends BaseTpl<ItemDataWrapper> {
     @Bind(R.id.text)
     TextView text;
     @Bind(R.id.avatar)
@@ -30,14 +30,14 @@ public class CommentTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     public int onLayoutId() {
-        return R.layout.item_text;
+        return R.layout.item_contact;
     }
 
     @Override
     public void render() {
         String avatarUrl = (String) getBean().getDatas().get(0);
         data = (String) getBean().getDatas().get(1);
-        Glide.with(_activity).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
+        Glide.with(mActivity).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
         text.setText(data);
     }
 }

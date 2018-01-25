@@ -21,7 +21,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
  */
 public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Serializable, View.OnAttachStateChangeListener {
     protected BaseMMCFastApplication ac;
-    protected BaseActivity _activity;
+    protected BaseActivity mActivity;
     protected Intent _intent;
     protected Bundle _Bundle;
 
@@ -45,8 +45,8 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     public void init(Context context, int itemViewType) {
         this.itemViewType = itemViewType;
-        this._activity = (BaseActivity) context;
-        this._intent = _activity.getIntent();
+        this.mActivity = (BaseActivity) context;
+        this._intent = mActivity.getIntent();
         if (this._intent != null) {
             this._Bundle = _intent.getExtras();
         }
@@ -56,7 +56,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     protected void initView() {
         onLayoutBefore();
-        root = View.inflate(_activity, onLayoutId(), null);
+        root = View.inflate(mActivity, onLayoutId(), null);
         root.addOnAttachStateChangeListener(this);
         ButterKnife.bind(this, root);
         onLayoutAfter();
@@ -69,6 +69,10 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     @Override
     public void onLayoutBefore() {
 
+    }
+
+    public BaseActivity getActivity() {
+        return mActivity;
     }
 
     @Override

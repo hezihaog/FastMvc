@@ -3,7 +3,7 @@ package oms.mmc.android.fast.framwork.sample.util;
 import android.app.Activity;
 import android.content.Intent;
 
-import oms.mmc.android.fast.framwork.sample.MainActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.util
