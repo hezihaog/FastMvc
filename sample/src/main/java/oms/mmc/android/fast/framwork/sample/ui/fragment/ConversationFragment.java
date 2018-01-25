@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
@@ -59,14 +60,14 @@ public class ConversationFragment extends BaseListFragment {
     }
 
     @Override
-    public ArrayList<Class> onListViewTypeClassesReady() {
-        ArrayList<Class> tpls = new ArrayList<Class>();
-        tpls.add(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
-        tpls.add(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
-        tpls.add(TPL_NEWS, ConversationNewsTpl.class);
-        tpls.add(TPL_SERVER_MSG, ConversationServerMsgTpl.class);
-        tpls.add(TPL_EMAIL, ConversationEmailTpl.class);
-        tpls.add(TPL_CHAT, ConversationChatTpl.class);
+    public LinkedHashMap<Integer, Class> onListViewTypeClassesReady() {
+        LinkedHashMap<Integer, Class> tpls = new LinkedHashMap<Integer, Class>();
+        tpls.put(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
+        tpls.put(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
+        tpls.put(TPL_NEWS, ConversationNewsTpl.class);
+        tpls.put(TPL_SERVER_MSG, ConversationServerMsgTpl.class);
+        tpls.put(TPL_EMAIL, ConversationEmailTpl.class);
+        tpls.put(TPL_CHAT, ConversationChatTpl.class);
         return tpls;
     }
 

@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.base;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
@@ -41,5 +42,5 @@ public interface ListLayoutCallback<T> {
      *
      * @return 列表条目模板
      */
-    ArrayList<Class> onListViewTypeClassesReady();
+    LinkedHashMap<Integer, Class> onListViewTypeClassesReady();
 }

@@ -5,6 +5,7 @@ import com.github.promeg.pinyinhelper.Pinyin;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
@@ -91,7 +92,7 @@ public class ContactFragment extends BaseStickyListFragment {
                     models.add(new ItemDataWrapper(TPL_CONTACT, FakeUtil.getRandomAvatar(), datas.get(i)));
                 }
                 //最后插入一条联系人总数
-                models.add(TPL_SUM_CONTACT_COUNT, new ItemDataWrapper(TPL_SUM_CONTACT_COUNT, String.valueOf(datas.size())));
+                models.add(new ItemDataWrapper(TPL_SUM_CONTACT_COUNT, String.valueOf(datas.size())));
                 //分页，需要和后台协商，一页返回大于多少条时可以有下一页
 //                this.page = page;
 //                this.hasMore = datas.size() >= Const.Config.pageSize;
@@ -101,15 +102,15 @@ public class ContactFragment extends BaseStickyListFragment {
     }
 
     @Override
-    public ArrayList<Class> onListViewTypeClassesReady() {
-        ArrayList<Class> tpls = new ArrayList<Class>();
-        tpls.add(TPL_NEW_FRIEND, NewFriendTpl.class);
-        tpls.add(TPL_GROUP_CHAT, ContactGroupChatTpl.class);
-        tpls.add(TPL_LABLE, ContactLabelTpl.class);
-        tpls.add(TPL_OFFICIAL_ACCOUNTS, ContactOfficialAccountsTpl.class);
-        tpls.add(TPL_STICKY_LETTER, ContactLetterTpl.class);
-        tpls.add(TPL_CONTACT, ContactTpl.class);
-        tpls.add(TPL_SUM_CONTACT_COUNT, ContactSumCountTpl.class);
+    public LinkedHashMap<Integer, Class> onListViewTypeClassesReady() {
+        LinkedHashMap<Integer, Class> tpls = new LinkedHashMap<Integer, Class>();
+        tpls.put(TPL_NEW_FRIEND, NewFriendTpl.class);
+        tpls.put(TPL_GROUP_CHAT, ContactGroupChatTpl.class);
+        tpls.put(TPL_LABLE, ContactLabelTpl.class);
+        tpls.put(TPL_OFFICIAL_ACCOUNTS, ContactOfficialAccountsTpl.class);
+        tpls.put(TPL_STICKY_LETTER, ContactLetterTpl.class);
+        tpls.put(TPL_CONTACT, ContactTpl.class);
+        tpls.put(TPL_SUM_CONTACT_COUNT, ContactSumCountTpl.class);
         return tpls;
     }
 

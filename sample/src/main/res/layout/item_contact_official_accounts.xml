@@ -11,14 +11,14 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="#77FFAA00" />
+        android:background="#77FF4400" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
-        android:text="公众号"
+        android:text="标签"
         android:textColor="#202020"
         android:textSize="14sp" />
 </LinearLayout>
