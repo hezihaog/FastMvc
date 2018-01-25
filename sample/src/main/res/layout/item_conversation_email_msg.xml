@@ -40,7 +40,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:minLines="1"
-            android:text="QQ油箱管理员:邀请你使用使用QQ邮箱..."
+            android:text="QQ邮箱管理员:邀请你使用使用QQ邮箱"
             android:textColor="#909090"
             android:textSize="13sp" />
     </LinearLayout>

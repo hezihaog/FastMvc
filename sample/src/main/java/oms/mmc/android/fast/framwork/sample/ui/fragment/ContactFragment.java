@@ -2,7 +2,10 @@ package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Locale;
 
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseStickyListFragment;
@@ -56,6 +59,8 @@ public class ContactFragment extends BaseStickyListFragment {
                 for (int i = 0; i < 15; i++) {
                     datas.add(FakeUtil.getRandomName());
                 }
+                //按字母排序
+                Collections.sort(datas, Collator.getInstance(Locale.CHINA));
                 //拼装需要的数据集
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 char letter = 0;
