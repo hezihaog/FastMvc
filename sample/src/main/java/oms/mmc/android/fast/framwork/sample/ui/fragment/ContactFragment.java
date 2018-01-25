@@ -100,6 +100,7 @@ public class ContactFragment extends BaseStickyListFragment {
         super.onListViewReady();
         listView.setDivider(getResources().getDrawable(android.R.color.transparent));
         listView.setDividerHeight(0);
+        pulltoRefreshListView.setPullRefreshEnabled(false);
     }
 
     @Override

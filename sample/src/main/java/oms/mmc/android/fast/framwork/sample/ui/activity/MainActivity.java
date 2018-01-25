@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.lazy.PagerVisibleFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationFragment;
-import oms.mmc.android.fast.framwork.sample.ui.fragment.DiscoverFragment;
+import oms.mmc.android.fast.framwork.sample.ui.fragment.FindFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
 
 /**
@@ -45,12 +45,13 @@ public class MainActivity extends BaseActivity {
     public void onLayoutAfter() {
         super.onLayoutAfter();
         toolBar.setTitle(R.string.app_name);
+        toolBar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
         ArrayList<String> titles = new ArrayList<String>();
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         //组装fragment
         Fragment conversationFragment = FragmentFactory.newInstance(getActivity(), ConversationFragment.class);
         Fragment contactFragment = FragmentFactory.newInstance(getActivity(), ContactFragment.class);
-        Fragment friendCircleFragment = FragmentFactory.newInstance(getActivity(), DiscoverFragment.class);
+        Fragment friendCircleFragment = FragmentFactory.newInstance(getActivity(), FindFragment.class);
         Fragment meFragment = FragmentFactory.newInstance(getActivity(), MeFragment.class);
         fragments.add(conversationFragment);
         fragments.add(contactFragment);

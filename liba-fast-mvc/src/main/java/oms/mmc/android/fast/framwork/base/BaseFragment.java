@@ -83,6 +83,11 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
 
     }
 
+    @Override
+    public void onFindViews(View mRootView) {
+        super.onFindViews(mRootView);
+    }
+
     /**
      * Fragment是否需要加入统计
      */
