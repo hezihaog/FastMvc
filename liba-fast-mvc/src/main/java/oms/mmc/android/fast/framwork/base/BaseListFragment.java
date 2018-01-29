@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.basiclib.util.MethodCompat;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.PullToRefreshListView;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.BaseLoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
@@ -26,7 +26,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     /**
      * 下来刷新控件
      */
-    protected PullToRefreshListView pulltoRefreshListView;
+    private SwipeRefreshLayout refreshLayout;
     /**
      * 列表
      */
@@ -55,17 +55,17 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     @Override
     public View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onInflaterRootView(inflater, container, savedInstanceState);
-        pulltoRefreshListView = (PullToRefreshListView) root.findViewById(R.id.pullToRefreshListView);
-        pulltoRefreshListView.setId(MethodCompat.generateViewId());
+        refreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fast_refresh_layout);
+        listView = (ListView) root.findViewById(R.id.base_list_view);
+        refreshLayout.setId(MethodCompat.generateViewId());
         if (listViewHelper == null) {
-            listViewHelper = new ListViewHelper<T>(pulltoRefreshListView);
+            listViewHelper = new ListViewHelper<T>(refreshLayout, listView);
             listViewHelper.init(onLoadViewFactoryReady());
         }
         if (listViewDataSource == null) {
             listViewDataSource = onListViewDataSourceReady();
         }
         listViewHelper.setDataSource(this.listViewDataSource);
-        listView = pulltoRefreshListView.getRefreshableView();
         listView.setDivider(getResources().getDrawable(R.drawable.base_divider_line));
         listView.setOnItemClickListener(this);
         if (listViewData == null) {

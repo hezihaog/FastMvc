@@ -45,6 +45,7 @@ public class ConversationFragment extends BaseListFragment {
         return new BaseListDataSource(getActivity()) {
             @Override
             protected ArrayList load(int page) throws Exception {
+                Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 models.add(new BaseItemData(TPL_SUBSCRIPTION));
                 models.add(new BaseItemData(TPL_NEWS));
@@ -54,6 +55,9 @@ public class ConversationFragment extends BaseListFragment {
                     models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
                 }
                 models.add(new BaseItemData(TPL_WE_CHAT_TEAM_MSG));
+
+                this.page = page;
+                this.hasMore = true;
                 return models;
             }
         };

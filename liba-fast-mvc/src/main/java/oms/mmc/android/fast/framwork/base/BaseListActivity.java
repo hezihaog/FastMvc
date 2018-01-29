@@ -56,7 +56,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
         super.onCreate(savedInstanceState);
         pulltoRefreshListView = (PullToRefreshListView) findViewById(R.id.pullToRefreshListView);
         pulltoRefreshListView.setId(MethodCompat.generateViewId());
-        listViewHelper = new ListViewHelper<T>(pulltoRefreshListView);
+//        listViewHelper = new ListViewHelper<T>(pulltoRefreshListView);
         listViewHelper.init(onLoadViewFactoryReady());
         listViewDataSource = onListViewDataSourceReady();
         listViewHelper.setDataSource(this.listViewDataSource);

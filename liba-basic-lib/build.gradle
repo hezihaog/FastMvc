@@ -23,6 +23,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':liba-basic-res')
     compile rootProject.ext.dependencies["appcompat-v7"]
+    compile rootProject.ext.dependencies["design"]
     compile 'com.android.support:multidex:1.0.1'
     //butterknife
     compile 'com.jakewharton:butterknife:7.0.1'

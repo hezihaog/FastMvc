@@ -9,7 +9,6 @@ import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.R;
 
 public class BaseLoadViewHelper implements ILoadViewFactory.ILoadView {
-
     protected VaryViewHelper helper;
     protected OnClickListener onClickRefreshListener;
     protected Context context;

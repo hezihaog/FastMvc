@@ -54,14 +54,14 @@ public class MainActivity extends BaseActivity {
         Fragment friendCircleFragment = FragmentFactory.newInstance(getActivity(), FindFragment.class);
         Fragment meFragment = FragmentFactory.newInstance(getActivity(), MeFragment.class);
         fragments.add(conversationFragment);
-        fragments.add(contactFragment);
-        fragments.add(friendCircleFragment);
-        fragments.add(meFragment);
+//        fragments.add(contactFragment);
+//        fragments.add(friendCircleFragment);
+//        fragments.add(meFragment);
         //组装标题
         titles.add("会话");
-        titles.add("联系人");
-        titles.add("发现");
-        titles.add("我");
+//        titles.add("联系人");
+//        titles.add("发现");
+//        titles.add("我");
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(fragments.size() - 1);

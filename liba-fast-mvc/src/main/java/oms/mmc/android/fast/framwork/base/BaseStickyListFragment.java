@@ -58,7 +58,7 @@ public abstract class BaseStickyListFragment<T> extends BaseFragment implements 
         pullToRefreshListView = (PullToRefreshPinnedListView) root.findViewById(R.id.pullToRefreshListView);
         pullToRefreshListView.setId(MethodCompat.generateViewId());
         if (listViewHelper == null) {
-            listViewHelper = new ListViewHelper<T>(pullToRefreshListView);
+//            listViewHelper = new ListViewHelper<T>(pullToRefreshListView);
             listViewHelper.init(onLoadViewFactoryReady());
         }
         if (listViewDataSource == null) {

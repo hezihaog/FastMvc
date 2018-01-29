@@ -22,7 +22,6 @@ import android.widget.AbsListView;
  * 布局切换工厂
  */
 public interface ILoadViewFactory {
-
     ILoadMoreView madeLoadMoreView();
 
     ILoadView madeLoadView();
@@ -31,7 +30,6 @@ public interface ILoadViewFactory {
      * 切换加载中，加载失败等布局
      */
     interface ILoadView {
-
         /**
          * 初始化
          */
@@ -61,14 +59,12 @@ public interface ILoadViewFactory {
          * 显示原先的布局
          */
         void restore();
-
     }
 
     /**
      * ListView底部加载更多的布局切换
      */
     interface ILoadMoreView {
-
         /**
          * 初始化
          *
@@ -96,7 +92,5 @@ public interface ILoadViewFactory {
          * 显示加载失败的布局
          */
         void showFail();
-
     }
-
 }

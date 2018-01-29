@@ -1,11 +1,13 @@
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
@@ -16,14 +18,12 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.PullToRefreshBase;
-
 /**
  * ListView帮助类
  */
-public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListener<ListView>, IViewHelper {
+public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.OnRefreshListener {
     private IDataAdapter<ArrayList<Model>> dataAdapter;
-    private PullToRefreshBase<ListView> plv;
+    private SwipeRefreshLayout refreshLayout;
     private IDataSource<Model> dataSource;
     private ListView mListView;
     private Context context;
@@ -51,7 +51,7 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
             loadMore();
         }
     };
-    private OnClickListener onClickRefresListener = new OnClickListener() {
+    private OnClickListener onClickRefreshListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -59,16 +59,16 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
         }
     };
 
-    public ListViewHelper(PullToRefreshBase pullToRefreshAdapterViewBase) {
+    public ListViewHelper(final SwipeRefreshLayout refreshLayout, ListView listView) {
         super();
-        this.context = pullToRefreshAdapterViewBase.getContext().getApplicationContext();
-        this.autoLoadMore = true;
-        this.plv = pullToRefreshAdapterViewBase;
-        mListView = plv.getRefreshableView();
+        this.context = refreshLayout.getContext().getApplicationContext();
+        //刷新布局
+        this.refreshLayout = refreshLayout;
+        mListView = listView;
         mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mListView.setCacheColorHint(Color.TRANSPARENT);
-        plv.setScrollLoadEnabled(true);
-        plv.setOnRefreshListener(this);
+        this.refreshLayout.setOnRefreshListener(this);
+        this.autoLoadMore = true;
 
         /**
          * 滚动到底部自动加载更多数据
@@ -79,20 +79,17 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
             public void onScrollStateChanged(AbsListView listView, int scrollState) {
                 ListViewHelper.this.scrollState = scrollState;
                 //fling时取消请求
-                if (scrollState == SCROLL_STATE_FLING) {
-                    //ImageLoader.getActualLoader().pause();
-                } else {
-                    //ImageLoader.getActualLoader().resume();
-                }
+//                if (scrollState == SCROLL_STATE_FLING) {
+//                    ImageLoader.getActualLoader().pause();
+//                } else {
+//                    ImageLoader.getActualLoader().resume();
+//                }
 
                 if (autoLoadMore) {
                     if (hasMoreData && !isReverse) {
-                        if (!plv.isPullRefreshing()) {// 如果不是刷新状态
-
+                        if (!ListViewHelper.this.refreshLayout.isRefreshing()) {// 如果不是刷新状态
                             if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && listView.getLastVisiblePosition() + 1 == listView.getCount()) {// 如果滚动到最后一行
-
                                 // 如果网络可以用
-
                                 if (hasNetwork(context)) {
                                     mLoadMoreView.showLoading();
                                     loadMore();
@@ -105,6 +102,7 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
                         }
                     }
                 }
+
                 for (int i = 0; mScrollListeners != null && i < mScrollListeners.size(); i++) {
                     OnScrollListener mScrollListener = mScrollListeners.get(i);
                     if (mScrollListener != null) {
@@ -115,6 +113,15 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (view.getFirstVisiblePosition() == 0) {
+                    if (view.getChildAt(0) != null) {
+                        if (view.getChildAt(0).getTop() == 0) {
+                            refreshLayout.setEnabled(true);
+                        } else {
+                            refreshLayout.setEnabled(false);
+                        }
+                    }
+                }
                 for (int i = 0; mScrollListeners != null && i < mScrollListeners.size(); i++) {
                     OnScrollListener mScrollListener = mScrollListeners.get(i);
                     if (mScrollListener != null) {
@@ -167,6 +174,7 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
      * @param paramContext
      * @return
      */
+    @SuppressLint("MissingPermission")
     public static boolean hasNetwork(Context paramContext) {
         try {
             ConnectivityManager localConnectivityManager = (ConnectivityManager) paramContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -179,32 +187,21 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
         return false;
     }
 
-    /**
-     * {@link android.Manifest.permission#ACCESS_NETWORK_STATE}.
-     *
-     * @param context
-     * @return
-     */
-    public static boolean isWifi(Context context) {
-        ConnectivityManager connectMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectMgr.getActiveNetworkInfo();
-        return info != null && info.getType() == ConnectivityManager.TYPE_WIFI;
-    }
-
     public void init(ILoadViewFactory loadViewFactory) {
         this.mLoadView = loadViewFactory.madeLoadView();
         this.mLoadMoreView = loadViewFactory.madeLoadMoreView();
-        mLoadView.init(mListView, onClickRefresListener);
+        mLoadView.init(mListView, onClickRefreshListener);
         mLoadMoreView.init(mListView, onClickLoadMoreListener);
     }
 
     /**
      * 刷新，开启异步线程，并且显示加载中的界面，当数据加载完成自动还原成加载完成的布局，并且刷新列表数据
      */
+    @Override
     public void refresh() {
         if (dataAdapter == null || dataSource == null) {
-            if (plv != null) {
-                plv.onPullUpRefreshComplete();
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(false);
             }
             return;
         }
@@ -218,7 +215,7 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
                 mLoadMoreView.showNormal();
                 if (dataAdapter.isEmpty() && mListView.getHeaderViewsCount() == 0) {
                     mLoadView.showLoading();
-                    plv.onPullUpRefreshComplete();
+                    refreshLayout.setRefreshing(false);
                 } else {
                     mLoadView.restore();
                 }
@@ -269,8 +266,8 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
                 if (onStateChangeListener != null) {
                     onStateChangeListener.onEndRefresh(dataAdapter, result);
                 }
-                plv.onPullDownRefreshComplete();
-                plv.onPullUpRefreshComplete();
+                //刷新结束
+                refreshLayout.setRefreshing(false);
             }
 
         };
@@ -293,8 +290,8 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
             return;
         }
         if (dataAdapter == null || dataSource == null) {
-            if (plv != null) {
-                plv.onPullUpRefreshComplete();
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(false);
             }
             return;
         }
@@ -374,7 +371,7 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
     }
 
     public ListView getListView() {
-        return plv.getRefreshableView();
+        return mListView;
     }
 
     /**
@@ -426,8 +423,8 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
         this.dataSource = dataSource;
     }
 
-    public PullToRefreshBase<ListView> getPullToRefreshAdapterViewBase() {
-        return plv;
+    public SwipeRefreshLayout getRefreshLayout() {
+        return refreshLayout;
     }
 
     @Override
@@ -451,24 +448,6 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
         }
     }
 
-    @Override
-    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        refresh();
-    }
-
-    @Override
-    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        loadMore();
-    }
-
-    public void doPullRefreshing(final boolean smoothScroll, final long delayMillis) {
-        plv.doPullRefreshing(smoothScroll, delayMillis);
-    }
-
-    public void doPullRefreshing() {
-        plv.doPullRefreshing(true, 300);
-    }
-
     public void addOnScrollListener(OnScrollListener onScrollListener) {
         if (mScrollListeners == null) {
             mScrollListeners = new ArrayList<OnScrollListener>();
@@ -488,5 +467,10 @@ public class ListViewHelper<Model> implements PullToRefreshBase.OnRefreshListene
 
     public void setReverse(boolean reverse) {
         isReverse = reverse;
+    }
+
+    @Override
+    public void onRefresh() {
+        refresh();
     }
 }

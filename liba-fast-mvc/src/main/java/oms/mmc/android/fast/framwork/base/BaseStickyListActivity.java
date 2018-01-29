@@ -56,7 +56,7 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
         super.onCreate(savedInstanceState);
         pulltoRefreshListView = (PullToRefreshPinnedListView) findViewById(R.id.pullToRefreshListView);
         pulltoRefreshListView.setId(MethodCompat.generateViewId());
-        listViewHelper = new ListViewHelper<T>(pulltoRefreshListView);
+//        listViewHelper = new ListViewHelper<T>(pulltoRefreshListView);
         listViewHelper.init(onLoadViewFactoryReady());
         listViewDataSource = onListViewDataSourceReady();
         listViewHelper.setDataSource(this.listViewDataSource);
