@@ -1,5 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -55,7 +58,6 @@ public class ConversationFragment extends BaseListFragment {
                     models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
                 }
                 models.add(new BaseItemData(TPL_WE_CHAT_TEAM_MSG));
-
                 this.page = page;
                 this.hasMore = true;
                 return models;
@@ -76,8 +78,13 @@ public class ConversationFragment extends BaseListFragment {
     }
 
     @Override
+    public RecyclerView.LayoutManager getLayoutManager() {
+        return new LinearLayoutManager(getActivity());
+    }
+
+    @Override
     public void onListViewReady() {
         super.onListViewReady();
-        listView.setBackgroundColor(getResources().getColor(R.color.white));
+        recyclerView.setBackgroundColor(getResources().getColor(R.color.white));
     }
 }

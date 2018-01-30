@@ -2,13 +2,10 @@ package oms.mmc.android.fast.framwork.base;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -22,7 +19,8 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeListener;
 
-public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>, OnItemClickListener, OnStateChangeListener<ArrayList<T>>, OnItemLongClickListener {
+public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>,
+        OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
      * 下来刷新控件
      */
@@ -30,7 +28,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     /**
      * 列表
      */
-    protected ListView listView;
+    protected RecyclerView recyclerView;
     /**
      * 列表加载帮助类
      */
@@ -56,29 +54,30 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     public View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onInflaterRootView(inflater, container, savedInstanceState);
         refreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fast_refresh_layout);
-        listView = (ListView) root.findViewById(R.id.base_list_view);
         refreshLayout.setId(MethodCompat.generateViewId());
-        if (listViewHelper == null) {
-            listViewHelper = new ListViewHelper<T>(refreshLayout, listView);
-            listViewHelper.init(onLoadViewFactoryReady());
-        }
+        //初始化rv
+        recyclerView = (RecyclerView) root.findViewById(R.id.base_list_view);
+        recyclerView.setLayoutManager(getLayoutManager());
         if (listViewDataSource == null) {
             listViewDataSource = onListViewDataSourceReady();
         }
-        listViewHelper.setDataSource(this.listViewDataSource);
-        listView.setDivider(getResources().getDrawable(R.drawable.base_divider_line));
-        listView.setOnItemClickListener(this);
         if (listViewData == null) {
             listViewData = listViewDataSource.getOriginListViewData();
             originData = listViewDataSource.getOriginListViewData();
         }
-        listViewHelper.setOnStateChangeListener(this);
         if (listViewAdapter == null) {
             listViewAdapter = (BaseListAdapter<T>) onListAdapterReady();
+        }
+        listViewAdapter.addOnItemClickListeners(this);
+        listViewAdapter.addOnItemLongClickListener(this);
+        if (listViewHelper == null) {
+            listViewHelper = new ListViewHelper<T>(refreshLayout, recyclerView);
             listViewHelper.setAdapter(listViewAdapter);
         }
-        listViewAdapter.setOnItemClickListener(this);
-        listViewAdapter.setOnItemLongClickListener(this);
+        listViewHelper.init(onLoadViewFactoryReady());
+        listViewHelper.setDataSource(this.listViewDataSource);
+        listViewHelper.setOnStateChangeListener(this);
+        listViewAdapter.setListViewHelper(listViewHelper);
         ButterKnife.bind(this, root);
         onListViewReady();
         return root;
@@ -105,8 +104,11 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(listView, mActivity, listViewDataSource,
-                onListViewTypeClassesReady(), listViewHelper, 0);
+        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper, 0);
+    }
+
+    public BaseListAdapter<T> getRecyclerViewAdapter() {
+        return (BaseListAdapter<T>) recyclerView.getAdapter();
     }
 
     @Override
@@ -115,18 +117,8 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
-
-    @Override
     public void onStartRefresh(IDataAdapter<ArrayList<T>> listViewAdapter) {
-
+        listViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -142,5 +134,15 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     @Override
     public void onEndLoadMore(IDataAdapter<ArrayList<T>> listViewAdapter, ArrayList<T> result) {
 
+    }
+
+    @Override
+    public void onItemClick(View view) {
+
+    }
+
+    @Override
+    public boolean onItemLongClick(View view) {
+        return false;
     }
 }

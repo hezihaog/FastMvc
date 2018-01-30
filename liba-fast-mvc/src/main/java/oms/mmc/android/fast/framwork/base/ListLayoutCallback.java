@@ -1,5 +1,7 @@
 package oms.mmc.android.fast.framwork.base;
 
+import android.support.v7.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,6 +13,11 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
  * 列表页面布局回调接口
  */
 public interface ListLayoutCallback<T> {
+    /**
+     * 获取RecyclerView的LayoutManager
+     */
+    RecyclerView.LayoutManager getLayoutManager();
+
     /**
      * 列表初始化完成回调
      */

@@ -1,73 +1,60 @@
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
-import android.view.LayoutInflater;
-import android.view.View;
+import android.support.v7.widget.RecyclerView;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.base.BaseListAdapter;
+import oms.mmc.android.fast.framwork.tpl.LoadMoreFooterTpl;
 
 
 public class BaseLoadMoreHelper implements ILoadViewFactory.ILoadMoreView {
-
-    protected View footView;
-    protected TextView text;
-    protected ProgressBar progressBar;
-
-    protected OnClickListener onClickRefreshListener;
+    private RecyclerView recyclerView;
 
     @Override
-    public void init(AbsListView listView, OnClickListener onClickRefreshListener) {
-        footView = LayoutInflater.from(listView.getContext()).inflate(R.layout.base_list_footer, listView, false);
-        text = (TextView) footView.findViewById(R.id.text);
-        progressBar = (ProgressBar) footView.findViewById(R.id.progressBar);
-        if (listView instanceof ListView) {
-            ((ListView) listView).addFooterView(footView);
-        }
-        this.onClickRefreshListener = onClickRefreshListener;
+    public void init(RecyclerView recyclerView, OnClickListener onClickRefreshListener) {
+        this.recyclerView = recyclerView;
         showNormal();
+    }
+
+    private LoadMoreFooterTpl findLoaderMoreFootTpl() {
+        BaseListAdapter adapter = (BaseListAdapter) recyclerView.getAdapter();
+        return adapter.findLoaderMoreFootTpl();
     }
 
     @Override
     public void showNormal() {
-        footView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        text.setVisibility(View.VISIBLE);
-        text.setText("");
-        footView.setOnClickListener(null);
+        LoadMoreFooterTpl loaderMoreTpl = findLoaderMoreFootTpl();
+        if (loaderMoreTpl != null) {
+            loaderMoreTpl.showNormal();
+        }
     }
 
     @Override
     public void showLoading() {
-        footView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        text.setVisibility(View.VISIBLE);
-
-        text.setText("正在加载中..");
-        footView.setOnClickListener(null);
+        LoadMoreFooterTpl loaderMoreTpl = findLoaderMoreFootTpl();
+        if (loaderMoreTpl != null) {
+            loaderMoreTpl.showLoading();
+        }
+//        footView.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
+//        text.setVisibility(View.VISIBLE);
+//        text.setText("正在加载中..");
+//        footView.setOnClickListener(null);
     }
 
     @Override
     public void showFail() {
-        footView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        text.setVisibility(View.VISIBLE);
-
-        text.setText("加载失败，点击重新加载");
-        footView.setOnClickListener(onClickRefreshListener);
+        LoadMoreFooterTpl loaderMoreTpl = findLoaderMoreFootTpl();
+        if (loaderMoreTpl != null) {
+            loaderMoreTpl.showFail();
+        }
     }
 
     @Override
-    public void showNomore() {
-        footView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        text.setVisibility(View.VISIBLE);
-
-        text.setText("");
-        footView.setOnClickListener(null);
+    public void showNoMore() {
+        LoadMoreFooterTpl loaderMoreTpl = findLoaderMoreFootTpl();
+        if (loaderMoreTpl != null) {
+            loaderMoreTpl.showNoMore();
+        }
     }
-
 }

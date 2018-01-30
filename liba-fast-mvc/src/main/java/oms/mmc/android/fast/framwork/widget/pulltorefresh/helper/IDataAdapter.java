@@ -15,12 +15,35 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
-import android.widget.ListAdapter;
+import android.support.v7.widget.RecyclerView;
 
-public interface IDataAdapter<T> extends ListAdapter {
+public interface IDataAdapter<T> {
+    /**
+     * 设置数据集
+     *
+     * @param data
+     * @param isRefresh
+     * @param isReverse
+     */
     void setListViewData(T data, boolean isRefresh, boolean isReverse);
 
+    /**
+     * 获取数据集
+     */
     T getListViewData();
 
+    /**
+     * 刷新数据集
+     */
     void notifyDataSetChanged();
+
+    /**
+     * adapter中数据是否为空
+     */
+    boolean isEmpty();
+
+    /**
+     * 获取rv的adapter，其实就是自身
+     */
+    RecyclerView.Adapter getAdapter();
 }

@@ -3,16 +3,17 @@ package oms.mmc.android.fast.framwork.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
-import oms.mmc.android.fast.framwork.bean.IResult;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.bean.IResult;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
 
@@ -29,37 +30,46 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected BaseListAdapter<? extends BaseItemData> listViewAdapter;
     protected IDataSource<? extends BaseItemData> listViewDataSource;
     protected ArrayList<? extends BaseItemData> listViewData;
-    protected AbsListView listView;
+    protected RecyclerView recyclerView;
     protected int itemViewType = -1;
     protected View root;
     protected int position;
     protected T bean;
+    protected BaseTpl.ViewHolder viewHolder;
+    private LayoutInflater mInflater;
 
-    public void config(BaseListAdapter<? extends BaseItemData> adapter, ArrayList<? extends BaseItemData> data, IDataSource<? extends BaseItemData> dataSource, AbsListView absListView, ListViewHelper listViewHelper) {
-        this.listViewAdapter = adapter;
-        this.listViewDataSource = dataSource;
-        this.listViewData = data;
-        this.listView = absListView;
-        this.listViewHelper = listViewHelper;
-    }
-
-    public void init(Context context, int itemViewType) {
+    public void init(Context context, RecyclerView recyclerView, int itemViewType) {
         this.itemViewType = itemViewType;
         this.mActivity = (BaseActivity) context;
+        this.recyclerView = recyclerView;
         this._intent = mActivity.getIntent();
         if (this._intent != null) {
             this._Bundle = _intent.getExtras();
         }
         ac = (BaseMMCFastApplication) context.getApplicationContext();
+        mInflater = LayoutInflater.from(context);
         initView();
+    }
+
+    public void config(BaseListAdapter<? extends BaseItemData> adapter, ArrayList<? extends BaseItemData> data
+            , IDataSource<? extends BaseItemData> dataSource, ListViewHelper listViewHelper) {
+        this.listViewAdapter = adapter;
+        this.listViewDataSource = dataSource;
+        this.listViewData = data;
+        this.listViewHelper = listViewHelper;
     }
 
     protected void initView() {
         onLayoutBefore();
-        root = View.inflate(mActivity, onLayoutId(), null);
+        root = mInflater.inflate(onLayoutId(), recyclerView, false);
         root.addOnAttachStateChangeListener(this);
+        viewHolder = new ViewHolder(root);
         ButterKnife.bind(this, root);
         onLayoutAfter();
+    }
+
+    public BaseTpl.ViewHolder getViewHolder() {
+        return viewHolder;
     }
 
     public View getRoot() {
@@ -88,6 +98,16 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     }
 
     protected void onItemLongClick() {
+    }
+
+    /**
+     * 内部持有Rv的ViewHolder
+     */
+    protected static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     public T getBean() {

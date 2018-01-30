@@ -15,8 +15,8 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
 
 /**
  * 布局切换工厂
@@ -33,7 +33,7 @@ public interface ILoadViewFactory {
         /**
          * 初始化
          */
-        void init(AbsListView mListView, OnClickListener onClickRefreshListener);
+        void init(RecyclerView recyclerView, OnClickListener onClickRefreshListener);
 
         /**
          * 显示加载中
@@ -68,10 +68,10 @@ public interface ILoadViewFactory {
         /**
          * 初始化
          *
-         * @param mListView
+         * @param recyclerView
          * @param onClickLoadMoreListener 加载更多的点击事件，需要点击调用加载更多的按钮都可以设置这个监听
          */
-        void init(AbsListView mListView, OnClickListener onClickLoadMoreListener);
+        void init(RecyclerView recyclerView, OnClickListener onClickLoadMoreListener);
 
         /**
          * 显示普通保布局
@@ -81,7 +81,7 @@ public interface ILoadViewFactory {
         /**
          * 显示已经加载完成，没有更多数据的布局
          */
-        void showNomore();
+        void showNoMore();
 
         /**
          * 显示正在加载中的布局

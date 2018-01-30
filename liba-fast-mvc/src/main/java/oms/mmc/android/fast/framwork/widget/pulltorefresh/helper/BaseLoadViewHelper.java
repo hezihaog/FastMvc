@@ -1,9 +1,9 @@
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
 
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.R;
@@ -14,9 +14,9 @@ public class BaseLoadViewHelper implements ILoadViewFactory.ILoadView {
     protected Context context;
 
     @Override
-    public void init(AbsListView mListView, OnClickListener onClickRefreshListener) {
-        helper = new VaryViewHelper(mListView);
-        this.context = mListView.getContext().getApplicationContext();
+    public void init(RecyclerView recyclerView, OnClickListener onClickRefreshListener) {
+        helper = new VaryViewHelper(recyclerView);
+        this.context = recyclerView.getContext().getApplicationContext();
         this.onClickRefreshListener = onClickRefreshListener;
     }
 
