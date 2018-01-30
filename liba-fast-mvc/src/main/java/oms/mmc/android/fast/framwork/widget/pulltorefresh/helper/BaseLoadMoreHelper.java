@@ -35,11 +35,6 @@ public class BaseLoadMoreHelper implements ILoadViewFactory.ILoadMoreView {
         if (loaderMoreTpl != null) {
             loaderMoreTpl.showLoading();
         }
-//        footView.setVisibility(View.VISIBLE);
-//        progressBar.setVisibility(View.VISIBLE);
-//        text.setVisibility(View.VISIBLE);
-//        text.setText("正在加载中..");
-//        footView.setOnClickListener(null);
     }
 
     @Override

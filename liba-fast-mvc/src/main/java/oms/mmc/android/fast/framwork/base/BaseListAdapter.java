@@ -1,7 +1,9 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.support.v4.util.ArrayMap;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
@@ -15,19 +17,25 @@ import java.util.Map;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeaders;
 import oms.mmc.android.fast.framwork.tpl.LoadMoreFooterTpl;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
 
-public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements IDataAdapter<ArrayList<T>>, Filterable {
+public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements IDataAdapter<ArrayList<T>>, Filterable, StickyHeaders, StickyHeaders.ViewSetup {
+    //不使用粘性头部
+    public static final int NOT_STICKY_SECTION = -1;
     //粘性条目的类型
-    public int stickySectionViewType = 0;
+    public int stickySectionViewType = NOT_STICKY_SECTION;
+    //加载更多尾部条目类型
     public static final int TPL_LOAD_MORE_FOOTER = 1000;
 
-    //管理状态
+    //管理、普通状态
     public static final int MODE_NORMAL = 0;
     public static final int MODE_EDIT = 1;
+
+    protected RecyclerView recyclerView;
 
     protected BaseActivity _activity;
     protected ListViewHelper<T> listViewHelper;
@@ -35,11 +43,10 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     protected IDataSource<T> listViewDataSource;
     protected ArrayList<T> listViewData;
     protected ArrayList<T> originData;
-    protected RecyclerView recyclerView;
-    protected int checkedItemPosition = -1;
+
     protected ArrayList<Integer> checkedItemPositions = new ArrayList<Integer>();
+    protected int checkedItemPosition = -1;
     protected int mode = MODE_NORMAL;
-    protected Runnable notifyRunnable;
     private int footerTplPosition;
 
     /**
@@ -47,14 +54,16 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
      */
     protected ArrayList<OnRecyclerViewItemClickListener> onItemClickListeners = new ArrayList<OnRecyclerViewItemClickListener>();
     protected ArrayList<OnRecyclerViewItemLongClickListener> onItemLongClickListener = new ArrayList<OnRecyclerViewItemLongClickListener>();
-
+    /**
+     * 是否存在头部和尾部
+     */
     private boolean hasHeader = false;
     private boolean hasFooter = false;
-
     /**
      * 可用于保存临时数据的容器
      */
-    protected Map<String, Object> tags;
+    protected Map<String, Object> tags = new ArrayMap<String, Object>();
+
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -82,24 +91,6 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         this.listViewHelper = listViewHelper;
         this.stickySectionViewType = stickySectionViewType;
         initListener();
-    }
-
-    public void setListViewHelper(ListViewHelper listViewHelper) {
-        this.listViewHelper = listViewHelper;
-    }
-
-    public T getItem(int position) {
-        return listViewData.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemCount() {
-        return listViewData.size();
     }
 
     @Override
@@ -157,6 +148,20 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         }
     }
 
+    public T getItem(int position) {
+        return listViewData.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return listViewData.size();
+    }
+
     @Override
     public int getItemViewType(int position) {
         BaseItemData base = (BaseItemData) getItem(position);
@@ -191,60 +196,35 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         return this;
     }
 
-    public void setListViewData(ArrayList<T> listViewData) {
-        this.listViewData = listViewData;
+    @Override
+    public boolean isStickyHeader(int position) {
+        //不使用粘性头部，则都返回false
+        if (stickySectionViewType == NOT_STICKY_SECTION) {
+            return false;
+        }
+        return getItemViewType(position) == stickySectionViewType;
     }
 
-//    @Override
-//    public void notifyDataSetChanged() {
-//        super.notifyDataSetChanged();
-//        if (listViewHelper != null) {
-//            if (getCount() == 0) {
-//                if (listView != null && ((ListView) listView).getHeaderViewsCount() > 0) {
-//                    listViewHelper.getLoadView().restore();
-//                } else {
-//                    listViewHelper.getLoadView().showEmpty();
-//                }
-//            } else {
-//                listViewHelper.getLoadView().restore();
-//            }
-//        }
-//        if (notifyRunnable != null) {
-//            notifyRunnable.run();
-//        }
-//    }
-
-    public Runnable getNotifyRunnable() {
-        return notifyRunnable;
+    @Override
+    public void setupStickyHeaderView(View stickyHeader) {
+        ViewCompat.setElevation(stickyHeader, 10);
     }
 
-    public void setNotifyRunnable(Runnable runnable) {
-        this.notifyRunnable = runnable;
+    @Override
+    public void teardownStickyHeaderView(View stickyHeader) {
+        ViewCompat.setElevation(stickyHeader, 0);
     }
 
-
-    public int getCheckedItemPosition() {
-        return checkedItemPosition;
-    }
-
-    public void setCheckedItemPosition(int checkedItemPosition) {
-        this.checkedItemPosition = checkedItemPosition;
-    }
-
-    public ArrayList<Integer> getCheckedItemPositions() {
-        return checkedItemPositions;
-    }
-
-    public void setCheckedItemPositions(ArrayList<Integer> checkedItemPositions) {
-        this.checkedItemPositions = checkedItemPositions;
-    }
-
-    public int getMode() {
-        return mode;
-    }
-
-    public void setMode(int mode) {
-        this.mode = mode;
+    @Override
+    public void onViewAttachedToWindow(BaseTpl.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+        if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+            if (isStickyHeader(holder.getLayoutPosition())) {
+                StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+                p.setFullSpan(true);
+            }
+        }
     }
 
     public interface OnRecyclerViewItemClickListener {
@@ -255,6 +235,17 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         boolean onItemLongClick(View view);
     }
 
+    public void setListViewData(ArrayList<T> listViewData) {
+        this.listViewData = listViewData;
+    }
+
+    public void setListViewHelper(ListViewHelper listViewHelper) {
+        this.listViewHelper = listViewHelper;
+    }
+
+    /**
+     * 初始化监听器
+     */
     private void initListener() {
         addOnItemClickListeners(new OnRecyclerViewItemClickListener() {
 
@@ -263,7 +254,7 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
                 try {
                     Method method = Class.forName(BaseTpl.class.getName()).getDeclaredMethod("onItemClick");
                     method.setAccessible(true);
-                    method.invoke(view.getTag());
+                    method.invoke(view.getTag(R.id.tag_tpl));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -276,7 +267,7 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
                 try {
                     Method method = Class.forName(BaseTpl.class.getName()).getDeclaredMethod("onItemLongClick");
                     method.setAccessible(true);
-                    method.invoke(view.getTag());
+                    method.invoke(view.getTag(R.id.tag_tpl));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -285,51 +276,18 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         });
     }
 
+    /**
+     * 添加条目点击事件
+     */
     public void addOnItemClickListeners(OnRecyclerViewItemClickListener onItemClickListeners) {
         this.onItemClickListeners.add(onItemClickListeners);
     }
 
+    /**
+     * 添加条目长按事件
+     */
     public void addOnItemLongClickListener(OnRecyclerViewItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener.add(onItemLongClickListener);
-    }
-
-    public void putTag(String key, Object value) {
-        if (tags == null) {
-            tags = new ArrayMap<String, Object>();
-        }
-        tags.put(key, value);
-    }
-
-    public Object getTag(String key) {
-        if (tags == null) {
-            return null;
-        }
-        return tags.get(key);
-    }
-
-
-    public Object removeTag(String key) {
-        if (tags == null) {
-            return null;
-        }
-        return tags.remove(key);
-    }
-
-    public Map<String, Object> getTags() {
-        return tags;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
-    }
-
-    public ArrayList<T> getOriginData() {
-        return originData;
     }
 
     /**
@@ -355,9 +313,15 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         return listViewData.subList(startIndex, endIndex);
     }
 
+    /**
+     * 添加头部
+     */
     public void addHeader(int viewType, Class headerTplClazz, BaseItemData headerData) {
         if (headerTplClazz == null) {
             throw new RuntimeException("headerTpl must not null");
+        }
+        if (viewTypeClassMap.get(viewType) != null) {
+            return;
         }
         viewTypeClassMap.put(viewType, headerTplClazz);
         hasHeader = true;
@@ -365,9 +329,15 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加尾部
+     */
     public void addFooter(int viewType, Class footerTplClazz, BaseItemData footerData) {
         if (footerTplClazz == null) {
             throw new RuntimeException("footerTpl must not null");
+        }
+        if (viewTypeClassMap.get(viewType) != null) {
+            return;
         }
         viewTypeClassMap.put(viewType, footerTplClazz);
         if (listViewData.size() == 0) {
@@ -379,10 +349,16 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         notifyDataSetChanged();
     }
 
+    /**
+     * 获取尾部
+     */
     public BaseTpl getFooter() {
         return (BaseTpl) listViewData.get(footerTplPosition);
     }
 
+    /**
+     * 移除尾部
+     */
     public void removeFooter() {
         if (!hasFooter) {
             return;
@@ -392,10 +368,16 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         notifyDataSetChanged();
     }
 
-    public int getFooterItemPosition() {
+    /**
+     * 获取加载更多尾部的position
+     */
+    public int getLoadMoreFooterItemPosition() {
         return footerTplPosition;
     }
 
+    /**
+     * 查找加载更多尾部条目
+     */
     public LoadMoreFooterTpl findLoaderMoreFootTpl() {
         View itemView = recyclerView.getLayoutManager().findViewByPosition(footerTplPosition);
         if (itemView != null) {
@@ -405,5 +387,67 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
             }
         }
         return null;
+    }
+
+    public void putTag(String key, Object value) {
+        if (tags == null) {
+            tags = new ArrayMap<String, Object>();
+        }
+        tags.put(key, value);
+    }
+
+    public Object getTag(String key) {
+        if (tags == null) {
+            return null;
+        }
+        return tags.get(key);
+    }
+
+    public Object removeTag(String key) {
+        if (tags == null) {
+            return null;
+        }
+        return tags.remove(key);
+    }
+
+    public Map<String, Object> getTags() {
+        return tags;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
+    public ArrayList<T> getOriginData() {
+        return originData;
+    }
+
+    public int getCheckedItemPosition() {
+        return checkedItemPosition;
+    }
+
+    public void setCheckedItemPosition(int checkedItemPosition) {
+        this.checkedItemPosition = checkedItemPosition;
+    }
+
+    public ArrayList<Integer> getCheckedItemPositions() {
+        return checkedItemPositions;
+    }
+
+    public void setCheckedItemPositions(ArrayList<Integer> checkedItemPositions) {
+        this.checkedItemPositions = checkedItemPositions;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 }

@@ -65,7 +65,6 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
         this.refreshLayout = refreshLayout;
         this.mRecyclerView = recyclerView;
         this.mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        mListView.setCacheColorHint(Color.TRANSPARENT);
         this.refreshLayout.setOnRefreshListener(this);
         this.autoLoadMore = true;
 
@@ -240,7 +239,6 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
             @Override
             protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
-//                    if (dataAdapter.isEmpty() && mRecyclerView.getHeaderViewsCount() == 0) {
                     if (dataAdapter.isEmpty()) {
                         if (hasNetwork(context)) {
                             mLoadView.showEmpty();
@@ -254,12 +252,10 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
                     loadDataTime = System.currentTimeMillis();
                     dataAdapter.setListViewData(result, true, false);
                     dataAdapter.notifyDataSetChanged();
-//                    if (dataAdapter.isEmpty() && mRecyclerView.getHeaderViewsCount() == 0) {
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
                     } else {
                         mLoadView.restore();
-
                     }
                     hasMoreData = dataSource.hasMore();
                     if (hasMoreData) {
@@ -331,7 +327,6 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
                 } else {
                     dataAdapter.setListViewData(result, false, isReverse);
                     dataAdapter.notifyDataSetChanged();
-//                    if (dataAdapter.isEmpty() && mRecyclerView.getHeaderViewsCount() == 0) {
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
                     } else {

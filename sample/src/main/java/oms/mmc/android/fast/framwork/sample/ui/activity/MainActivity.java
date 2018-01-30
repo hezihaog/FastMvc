@@ -14,6 +14,7 @@ import oms.mmc.android.fast.framwork.base.BaseFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.lazy.PagerVisibleFragment;
 import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.FindFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
@@ -49,16 +50,16 @@ public class MainActivity extends BaseActivity {
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         //组装fragment
         Fragment conversationFragment = FragmentFactory.newInstance(getActivity(), ConversationFragment.class);
-//        Fragment contactFragment = FragmentFactory.newInstance(getActivity(), ContactFragment.class);
+        Fragment contactFragment = FragmentFactory.newInstance(getActivity(), ContactFragment.class);
         Fragment friendCircleFragment = FragmentFactory.newInstance(getActivity(), FindFragment.class);
         Fragment meFragment = FragmentFactory.newInstance(getActivity(), MeFragment.class);
         fragments.add(conversationFragment);
-//        fragments.add(contactFragment);
+        fragments.add(contactFragment);
         fragments.add(friendCircleFragment);
         fragments.add(meFragment);
         //组装标题
         titles.add("会话");
-//        titles.add("联系人");
+        titles.add("联系人");
         titles.add("发现");
         titles.add("我");
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);

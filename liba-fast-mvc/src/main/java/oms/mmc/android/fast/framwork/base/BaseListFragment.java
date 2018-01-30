@@ -19,8 +19,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeListener;
 
-public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>,
-        OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
+public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>, OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
      * 下来刷新控件
      */
@@ -92,6 +91,8 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
 
     @Override
     public void onListViewReady() {
+        //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
+        recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
         if (listViewData.size() == 0) {
             listViewHelper.refresh();
         }
@@ -104,7 +105,8 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper, 0);
+        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource,
+                onListViewTypeClassesReady(), listViewHelper, BaseListAdapter.NOT_STICKY_SECTION);
     }
 
     public BaseListAdapter<T> getRecyclerViewAdapter() {

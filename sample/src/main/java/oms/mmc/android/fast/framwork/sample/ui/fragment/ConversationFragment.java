@@ -1,16 +1,16 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
-import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationEmailTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationNewsTpl;
@@ -79,12 +79,6 @@ public class ConversationFragment extends BaseListFragment {
 
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(getActivity());
-    }
-
-    @Override
-    public void onListViewReady() {
-        super.onListViewReady();
-        recyclerView.setBackgroundColor(getResources().getColor(R.color.white));
+        return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
     }
 }
