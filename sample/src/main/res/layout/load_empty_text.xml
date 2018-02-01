@@ -15,6 +15,6 @@
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
         android:text="啥也没有收藏 没回忆"
-        android:textColor="#606060"
+        android:textColor="#202020"
         android:textSize="14sp" />
 </RelativeLayout>

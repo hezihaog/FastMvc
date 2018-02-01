@@ -13,7 +13,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.BaseLoadViewFac
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
+import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeListener;
 
 public abstract class BaseStickyListActivity<T> extends BaseActivity implements ListLayoutCallback<T>, OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
@@ -28,7 +28,7 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
     /**
      * 列表加载帮助类
      */
-    protected ListViewHelper<T> listViewHelper;
+    protected RecyclerViewViewHelper<T> recyclerViewHelper;
     /**
      * 列表数据源
      */
@@ -66,21 +66,21 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
         }
         listViewAdapter.addOnItemClickListeners(this);
         listViewAdapter.addOnItemLongClickListener(this);
-        if (listViewHelper == null) {
-            listViewHelper = new ListViewHelper<T>(refreshLayout, recyclerView);
-            listViewHelper.setAdapter(listViewAdapter);
+        if (recyclerViewHelper == null) {
+            recyclerViewHelper = new RecyclerViewViewHelper<T>(refreshLayout, recyclerView);
+            recyclerViewHelper.setAdapter(listViewAdapter);
         }
-        listViewHelper.init(onLoadViewFactoryReady());
-        listViewHelper.setDataSource(this.listViewDataSource);
-        listViewHelper.setOnStateChangeListener(this);
-        listViewAdapter.setListViewHelper(listViewHelper);
+        recyclerViewHelper.init(onLoadViewFactoryReady());
+        recyclerViewHelper.setDataSource(this.listViewDataSource);
+        recyclerViewHelper.setOnStateChangeListener(this);
+        listViewAdapter.setRecyclerViewHelper(recyclerViewHelper);
         onListViewReady();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        listViewHelper.destory();
+        recyclerViewHelper.destory();
     }
 
 
@@ -89,7 +89,7 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
         if (listViewData.size() == 0) {
-            listViewHelper.refresh();
+            recyclerViewHelper.refresh();
         }
     }
 
@@ -100,7 +100,7 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource, onListViewTypeClassesReady(), listViewHelper, onGetStickyTemplateViewType());
+        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource, onListViewTypeClassesReady(), recyclerViewHelper, onGetStickyTemplateViewType());
     }
 
     public BaseListAdapter<T> getRecyclerViewAdapter() {

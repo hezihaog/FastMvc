@@ -6,7 +6,7 @@ import android.widget.AbsListView;
  * Created by Hezihao on 2017/6/23.
  */
 
-public class SimpleScrollAdapter implements AbsListView.OnScrollListener {
+public class SimpleAbsListViewScrollAdapter implements AbsListView.OnScrollListener {
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {

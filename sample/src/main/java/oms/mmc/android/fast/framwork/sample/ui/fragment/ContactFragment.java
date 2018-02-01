@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.base.BaseStickyListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
-import oms.mmc.android.fast.framwork.sample.loadview.TextLoadViewFactory;
+import oms.mmc.android.fast.framwork.sample.loadview.MyContactLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactGroupChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLabelTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLetterTpl;
@@ -91,9 +91,6 @@ public class ContactFragment extends BaseStickyListFragment {
                 }
                 //最后插入一条联系人总数
                 models.add(new ItemDataWrapper(TPL_SUM_CONTACT_COUNT, String.valueOf(datas.size())));
-                //分页，需要和后台协商，一页返回大于多少条时可以有下一页
-//                this.page = page;
-//                this.hasMore = datas.size() >= Const.Config.pageSize;
                 return models;
             }
         };
@@ -124,6 +121,12 @@ public class ContactFragment extends BaseStickyListFragment {
 
     @Override
     public ILoadViewFactory onLoadViewFactoryReady() {
-        return new TextLoadViewFactory();
+        return new MyContactLoadViewFactory();
+    }
+
+    @Override
+    public void onListViewReady() {
+        super.onListViewReady();
+        recyclerViewHelper.setCanPullToRefresh(false);
     }
 }

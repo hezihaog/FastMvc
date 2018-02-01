@@ -50,14 +50,23 @@ public class ConversationFragment extends BaseListFragment {
             protected ArrayList load(int page) throws Exception {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
-                models.add(new BaseItemData(TPL_SUBSCRIPTION));
-                models.add(new BaseItemData(TPL_NEWS));
-                models.add(new BaseItemData(TPL_SERVER_MSG));
-                models.add(new BaseItemData(TPL_EMAIL));
-                for (int i = 0; i < 15; i++) {
-                    models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
+                if (page == FIRST_PAGE_NUM) {
+                    models.add(new BaseItemData(TPL_SUBSCRIPTION));
+                    models.add(new BaseItemData(TPL_NEWS));
+                    models.add(new BaseItemData(TPL_SERVER_MSG));
+                    models.add(new BaseItemData(TPL_EMAIL));
+                    for (int i = 0; i < 15; i++) {
+                        models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
+                    }
+                    models.add(new BaseItemData(TPL_WE_CHAT_TEAM_MSG));
+                } else {
+                    for (int i = 0; i < 15; i++) {
+                        models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
+                    }
                 }
-                models.add(new BaseItemData(TPL_WE_CHAT_TEAM_MSG));
+                //分页，需要和后台协商，一页返回大于多少条时可以有下一页
+//                this.page = page;
+//                this.hasMore = datas.size() >= Const.Config.pageSize;
                 this.page = page;
                 this.hasMore = true;
                 return models;

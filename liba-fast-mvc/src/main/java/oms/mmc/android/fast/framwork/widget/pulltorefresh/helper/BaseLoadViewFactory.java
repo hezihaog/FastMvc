@@ -17,13 +17,8 @@ package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
 public class BaseLoadViewFactory implements ILoadViewFactory {
 
-	@Override
-	public ILoadMoreView madeLoadMoreView() {
-		return new BaseLoadMoreHelper();
-	}
-
-	@Override
-	public ILoadView madeLoadView() {
-		return new BaseLoadViewHelper();
-	}
+    @Override
+    public ILoadView madeLoadView() {
+        return new BaseLoadViewHelper();
+    }
 }

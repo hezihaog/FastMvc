@@ -20,12 +20,8 @@ import android.support.v7.widget.RecyclerView;
 public interface IDataAdapter<T> {
     /**
      * 设置数据集
-     *
-     * @param data
-     * @param isRefresh
-     * @param isReverse
      */
-    void setListViewData(T data, boolean isRefresh, boolean isReverse);
+    void setListViewData(T data, boolean isRefresh);
 
     /**
      * 获取数据集
@@ -46,4 +42,9 @@ public interface IDataAdapter<T> {
      * 获取rv的adapter，其实就是自身
      */
     RecyclerView.Adapter getAdapter();
+
+    /**
+     * 是否添加了加载更多的尾部条目
+     */
+    boolean isAddLoaderMoreItem();
 }

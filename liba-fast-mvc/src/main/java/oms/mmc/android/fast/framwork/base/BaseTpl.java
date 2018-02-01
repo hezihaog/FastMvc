@@ -14,8 +14,9 @@ import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.bean.IResult;
+import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
+import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 
 /**
  * 列表条目基础模板，条目类
@@ -26,8 +27,8 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected Intent _intent;
     protected Bundle _Bundle;
 
-    protected ListViewHelper listViewHelper;
-    protected BaseListAdapter<? extends BaseItemData> listViewAdapter;
+    protected RecyclerViewViewHelper recyclerViewHelper;
+    protected IDataAdapter<ArrayList<? extends BaseItemData>> listViewAdapter;
     protected IDataSource<? extends BaseItemData> listViewDataSource;
     protected ArrayList<? extends BaseItemData> listViewData;
     protected RecyclerView recyclerView;
@@ -51,12 +52,12 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
         initView();
     }
 
-    public void config(BaseListAdapter<? extends BaseItemData> adapter, ArrayList<? extends BaseItemData> data
-            , IDataSource<? extends BaseItemData> dataSource, ListViewHelper listViewHelper) {
+    public void config(IDataAdapter<ArrayList<? extends BaseItemData>> adapter, ArrayList<? extends BaseItemData> data
+            , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper) {
         this.listViewAdapter = adapter;
         this.listViewDataSource = dataSource;
         this.listViewData = data;
-        this.listViewHelper = listViewHelper;
+        this.recyclerViewHelper = recyclerViewHelper;
     }
 
     protected void initView() {

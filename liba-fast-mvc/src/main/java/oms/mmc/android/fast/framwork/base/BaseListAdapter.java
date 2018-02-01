@@ -21,7 +21,7 @@ import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeaders;
 import oms.mmc.android.fast.framwork.tpl.LoadMoreFooterTpl;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ListViewHelper;
+import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 
 public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements IDataAdapter<ArrayList<T>>, Filterable, StickyHeaders, StickyHeaders.ViewSetup {
     //不使用粘性头部
@@ -38,7 +38,7 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     protected RecyclerView recyclerView;
 
     protected BaseActivity _activity;
-    protected ListViewHelper<T> listViewHelper;
+    protected RecyclerViewViewHelper<T> recyclerViewHelper;
     protected HashMap<Integer, Class> viewTypeClassMap;
     protected IDataSource<T> listViewDataSource;
     protected ArrayList<T> listViewData;
@@ -81,14 +81,14 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     };
 
     public BaseListAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource<T> dataSource
-            , HashMap<Integer, Class> itemViewClazzMap, ListViewHelper listViewHelper, int stickySectionViewType) {
+            , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType) {
         this.recyclerView = recyclerView;
         this._activity = activity;
         this.listViewDataSource = dataSource;
         this.listViewData = dataSource.getOriginListViewData();
         this.originData = this.listViewData;
         this.viewTypeClassMap = itemViewClazzMap;
-        this.listViewHelper = listViewHelper;
+        this.recyclerViewHelper = recyclerViewHelper;
         this.stickySectionViewType = stickySectionViewType;
         initListener();
     }
@@ -102,7 +102,7 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
             baseTpl.init(_activity, recyclerView, viewType);
             viewHolder = baseTpl.getViewHolder();
             viewHolder.itemView.setTag(R.id.tag_tpl, baseTpl);
-            baseTpl.config(this, listViewData, listViewDataSource, listViewHelper);
+            baseTpl.config(this, listViewData, listViewDataSource, recyclerViewHelper);
             if (onItemClickListeners.size() > 0) {
                 baseTpl.getRoot().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -137,9 +137,9 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     @Override
     public void onBindViewHolder(BaseTpl.ViewHolder holder, int position) {
         BaseTpl view = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-        if (view.itemViewType == TPL_LOAD_MORE_FOOTER) {
-            footerTplPosition = position;
-        }
+//        if (view.itemViewType == TPL_LOAD_MORE_FOOTER) {
+//            footerTplPosition = position;
+//        }
         view.setBeanPosition(listViewData, getItem(position), position);
         try {
             view.render();
@@ -169,16 +169,27 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     }
 
     @Override
-    public void setListViewData(ArrayList<T> res, boolean isRefresh, boolean isReverse) {
+    public void setListViewData(ArrayList<T> res, boolean isRefresh) {
+        //每次刷新前，重新确认尾部位置
+        if (listViewData.size() == 0) {
+            footerTplPosition = 0;
+        } else {
+            footerTplPosition = listViewData.size() - 1;
+        }
         if (isRefresh) {
-            //刷新前，将所有数据情况，将footer移除
-            hasFooter = false;
-            this.listViewData.clear();
-            this.listViewData.addAll(res);
-            //在最后默认插入一条加载更多
-            if (!hasFooter) {
-                this.addFooter(TPL_LOAD_MORE_FOOTER, LoadMoreFooterTpl.class,
-                        new ItemDataWrapper(TPL_LOAD_MORE_FOOTER));
+            //第一次刷新
+            if (listViewData.size() == 1 && isAddLoaderMoreItem()) {
+                if (!hasFooter) {
+                    this.addFooter(TPL_LOAD_MORE_FOOTER, LoadMoreFooterTpl.class,
+                            new ItemDataWrapper(TPL_LOAD_MORE_FOOTER));
+                }
+                listViewData.addAll(0, res);
+            } else {
+                //不是第一次刷新
+                T footLoaderMoreTpl = listViewData.get(footerTplPosition);
+                this.listViewData.clear();
+                this.listViewData.addAll(res);
+                this.listViewData.add(footLoaderMoreTpl);
             }
         } else {
             //上拉加载更多，插入在尾部之前
@@ -188,12 +199,21 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
 
     @Override
     public boolean isEmpty() {
-        return this.getItemCount() == 0;
+        if (this.getItemCount() == 1 && hasFooter) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public RecyclerView.Adapter getAdapter() {
         return this;
+    }
+
+    @Override
+    public boolean isAddLoaderMoreItem() {
+        return findLoaderMoreFootTpl() != null;
     }
 
     @Override
@@ -239,8 +259,8 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         this.listViewData = listViewData;
     }
 
-    public void setListViewHelper(ListViewHelper listViewHelper) {
-        this.listViewHelper = listViewHelper;
+    public void setRecyclerViewHelper(RecyclerViewViewHelper recyclerViewHelper) {
+        this.recyclerViewHelper = recyclerViewHelper;
     }
 
     /**
@@ -347,6 +367,14 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         }
         hasFooter = true;
         notifyDataSetChanged();
+    }
+
+    public void addLoaderMoreFooterItem() {
+        if (hasFooter) {
+            return;
+        }
+        this.addFooter(TPL_LOAD_MORE_FOOTER, LoadMoreFooterTpl.class,
+                new ItemDataWrapper(TPL_LOAD_MORE_FOOTER));
     }
 
     /**

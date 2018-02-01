@@ -22,8 +22,6 @@ import android.view.View.OnClickListener;
  * 布局切换工厂
  */
 public interface ILoadViewFactory {
-    ILoadMoreView madeLoadMoreView();
-
     ILoadView madeLoadView();
 
     /**
@@ -66,15 +64,7 @@ public interface ILoadViewFactory {
      */
     interface ILoadMoreView {
         /**
-         * 初始化
-         *
-         * @param recyclerView
-         * @param onClickLoadMoreListener 加载更多的点击事件，需要点击调用加载更多的按钮都可以设置这个监听
-         */
-        void init(RecyclerView recyclerView, OnClickListener onClickLoadMoreListener);
-
-        /**
-         * 显示普通保布局
+         * 显示普通布局
          */
         void showNormal();
 

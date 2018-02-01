@@ -10,17 +10,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.util.ArrayList;
 
 /**
  * ListView帮助类
  */
-public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.OnRefreshListener {
+public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.OnRefreshListener {
     private IDataAdapter<ArrayList<Model>> dataAdapter;
     private SwipeRefreshLayout refreshLayout;
     private IDataSource<Model> dataSource;
@@ -30,26 +27,17 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
     private AsyncTask<Void, Void, ArrayList<Model>> asyncTask;
     private long loadDataTime = -1;
     private ArrayList<RecyclerView.OnScrollListener> mScrollListeners;
-    private boolean isReverse;
     /**
      * 当前滚动状态
      */
     private int scrollState;
+    private boolean isCanPullToRefresh = true;
 
     /**
      * 是否还有更多数据。如果服务器返回的数据为空的话，就说明没有更多数据了，也就没必要自动加载更多数据
      */
     private boolean hasMoreData = true;
     private ILoadViewFactory.ILoadView mLoadView;
-    private ILoadViewFactory.ILoadMoreView mLoadMoreView;
-    private boolean autoLoadMore = true;
-    private OnClickListener onClickLoadMoreListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            loadMore();
-        }
-    };
     private OnClickListener onClickRefreshListener = new OnClickListener() {
 
         @Override
@@ -58,7 +46,7 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
         }
     };
 
-    public ListViewHelper(final SwipeRefreshLayout refreshLayout, RecyclerView recyclerView) {
+    public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, RecyclerView recyclerView) {
         super();
         this.context = refreshLayout.getContext().getApplicationContext();
         //刷新布局
@@ -66,46 +54,12 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
         this.mRecyclerView = recyclerView;
         this.mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         this.refreshLayout.setOnRefreshListener(this);
-        this.autoLoadMore = true;
 
-        /**
-         * 滚动到底部自动加载更多数据
-         */
-        OnScrollListener onScrollListener = new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView listView, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        };
         this.mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                ListViewHelper.this.scrollState = scrollState;
-                if (autoLoadMore) {
-                    if (hasMoreData && !isReverse) {
-                        if (!ListViewHelper.this.refreshLayout.isRefreshing()) {// 如果不是刷新状态
-                            //如果滚动到最后一行，RecyclerView.canScrollVertically(1)的值表示是否能向上滚动，false表示已经滚动到底部
-                            if (scrollState == OnScrollListener.SCROLL_STATE_IDLE &&
-                                    !recyclerView.canScrollVertically(1)) {
-                                // 如果网络可以用
-                                if (hasNetwork(context)) {
-                                    mLoadMoreView.showLoading();
-                                    loadMore();
-                                } else {
-                                    if (!isLoading()) {
-                                        mLoadMoreView.showFail();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                RecyclerViewViewHelper.this.scrollState = newState;
                 for (int i = 0; mScrollListeners != null && i < mScrollListeners.size(); i++) {
                     RecyclerView.OnScrollListener scrollListener = mScrollListeners.get(i);
                     if (scrollListener != null) {
@@ -117,12 +71,17 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                //RecyclerView.canScrollVertically(-1)的值表示是否能向下滚动，false表示已经滚动到顶部
-                if (!recyclerView.canScrollVertically(-1)) {
-                    //已经滚动到了顶部，可以下拉刷新
-                    refreshLayout.setEnabled(true);
+                if (isCanPullToRefresh) {
+                    //RecyclerView.canScrollVertically(-1)的值表示是否能向下滚动，false表示已经滚动到顶部
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        //已经滚动到了顶部，可以下拉刷新
+                        refreshLayout.setEnabled(true);
+                    } else {
+                        //否则禁用下拉刷新
+                        refreshLayout.setEnabled(false);
+                    }
                 } else {
-                    //否则禁用下拉刷新
+                    //不允许下拉刷新，直接禁用
                     refreshLayout.setEnabled(false);
                 }
                 for (int i = 0; mScrollListeners != null && i < mScrollListeners.size(); i++) {
@@ -133,33 +92,6 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
                 }
             }
         });
-
-        /**
-         * 针对于电视 选择到了底部项的时候自动加载更多数据
-         */
-        OnItemSelectedListener onItemSelectedListener = new OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> listView, View view, int position, long id) {
-                if (autoLoadMore) {
-                    if (hasMoreData) {
-                        //如果滚动到最后一行
-                        if (listView.getLastVisiblePosition() + 1 == listView.getCount()) {
-                            // 如果网络可以用
-                            if (hasNetwork(context)) {
-                                loadMore();
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        };
-//        mListView.setOnItemSelectedListener(onItemSelectedListener);
     }
 
     public int getScrollState() {
@@ -191,9 +123,7 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
 
     public void init(ILoadViewFactory loadViewFactory) {
         this.mLoadView = loadViewFactory.madeLoadView();
-        this.mLoadMoreView = loadViewFactory.madeLoadMoreView();
         mLoadView.init(mRecyclerView, onClickRefreshListener);
-        mLoadMoreView.init(mRecyclerView, onClickLoadMoreListener);
     }
 
     /**
@@ -214,7 +144,6 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
 
             @Override
             protected void onPreExecute() {
-                mLoadMoreView.showNormal();
                 if (dataAdapter.isEmpty()) {
                     mLoadView.showLoading();
                     refreshLayout.setRefreshing(false);
@@ -250,7 +179,7 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
                     }
                 } else {
                     loadDataTime = System.currentTimeMillis();
-                    dataAdapter.setListViewData(result, true, false);
+                    dataAdapter.setListViewData(result, true);
                     dataAdapter.notifyDataSetChanged();
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
@@ -258,11 +187,6 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
                         mLoadView.restore();
                     }
                     hasMoreData = dataSource.hasMore();
-                    if (hasMoreData) {
-                        mLoadMoreView.showNormal();
-                    } else {
-                        mLoadMoreView.showNoMore();
-                    }
                 }
                 if (onStateChangeListener != null) {
                     onStateChangeListener.onEndRefresh(dataAdapter, result);
@@ -282,7 +206,7 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
     /**
      * 加载更多，开启异步线程，并且显示加载中的界面，当数据加载完成自动还原成加载完成的布局，并且刷新列表数据
      */
-    public void loadMore() {
+    public void loadMore(final ILoadViewFactory.ILoadMoreView mLoadMoreView) {
         if (isLoading()) {
             return;
         }
@@ -325,7 +249,7 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
                     mLoadView.tipFail();
                     mLoadMoreView.showFail();
                 } else {
-                    dataAdapter.setListViewData(result, false, isReverse);
+                    dataAdapter.setListViewData(result, false);
                     dataAdapter.notifyDataSetChanged();
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
@@ -333,7 +257,7 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
                         mLoadView.restore();
                     }
                     hasMoreData = dataSource.hasMore();
-                    if (hasMoreData && !isReverse) {
+                    if (hasMoreData) {
                         mLoadMoreView.showNormal();
                     } else {
                         mLoadMoreView.showNoMore();
@@ -375,10 +299,13 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
         return mRecyclerView;
     }
 
+    @Override
+    public ILoadViewFactory.ILoadView getLoadView() {
+        return mLoadView;
+    }
+
     /**
      * 获取上次刷新数据的时间（数据成功的加载），如果数据没有加载成功过，那么返回-1
-     *
-     * @return
      */
     public long getLoadDataTime() {
         return loadDataTime;
@@ -428,25 +355,8 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
         return refreshLayout;
     }
 
-    @Override
-    public ILoadViewFactory.ILoadView getLoadView() {
-        return mLoadView;
-    }
-
-    @Override
-    public ILoadViewFactory.ILoadMoreView getLoadMoreView() {
-        return mLoadMoreView;
-    }
-
-    public boolean isAutoLoadMore() {
-        return autoLoadMore;
-    }
-
-    public void setAutoLoadMore(boolean autoLoadMore) {
-        this.autoLoadMore = autoLoadMore;
-        if (!isLoading()) {
-            mLoadMoreView.showNormal();
-        }
+    public boolean isRefreshing() {
+        return refreshLayout.isRefreshing();
     }
 
     public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
@@ -462,16 +372,19 @@ public class ListViewHelper<Model> implements IViewHelper, SwipeRefreshLayout.On
         }
     }
 
-    public boolean isReverse() {
-        return isReverse;
-    }
-
-    public void setReverse(boolean reverse) {
-        isReverse = reverse;
-    }
-
     @Override
     public void onRefresh() {
         refresh();
+    }
+
+    public boolean isHasMoreData() {
+        return hasMoreData;
+    }
+
+    /**
+     * 设置是否可以下拉刷新
+     */
+    public void setCanPullToRefresh(boolean canPullToRefresh) {
+        isCanPullToRefresh = canPullToRefresh;
     }
 }
