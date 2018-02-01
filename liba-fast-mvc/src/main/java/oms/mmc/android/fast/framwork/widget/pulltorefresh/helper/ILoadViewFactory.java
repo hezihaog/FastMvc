@@ -22,6 +22,9 @@ import android.view.View.OnClickListener;
  * 布局切换工厂
  */
 public interface ILoadViewFactory {
+    /**
+     * 构建一个界面切换加载器
+     */
     ILoadView madeLoadView();
 
     /**
@@ -60,11 +63,11 @@ public interface ILoadViewFactory {
     }
 
     /**
-     * ListView底部加载更多的布局切换
+     * RecyclerView底部加载更多的布局切换
      */
     interface ILoadMoreView {
         /**
-         * 显示普通布局
+         * 显示普通布局，整个item是空白的
          */
         void showNormal();
 

@@ -15,8 +15,9 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
-import android.support.v7.widget.RecyclerView;
-
+/**
+ * 列表控件的adapter接口
+ */
 public interface IDataAdapter<T> {
     /**
      * 设置数据集
@@ -37,11 +38,6 @@ public interface IDataAdapter<T> {
      * adapter中数据是否为空
      */
     boolean isEmpty();
-
-    /**
-     * 获取rv的adapter，其实就是自身
-     */
-    RecyclerView.Adapter getAdapter();
 
     /**
      * 是否添加了加载更多的尾部条目

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="listview_msg" type="id" />
-    <item name="image_tag" type="id" />
-
-    <item name="expandable_text" type="id" />
-    <item name="expand_collapse" type="id" />
-
     <!--下拉刷新布局-->
     <item name="fast_refresh_layout" type="id" />
     <!--基础ListView-->

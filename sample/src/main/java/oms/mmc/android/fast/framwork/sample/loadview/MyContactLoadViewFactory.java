@@ -11,7 +11,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.BaseLoadViewHel
  * FileName: TextLoadViewFactory
  * Date: on 2018/1/24  下午2:50
  * Auther: zihe
- * Descirbe:
+ * Descirbe:我的联系人界面切换加载器
  * Email: hezihao@linghit.com
  */
 

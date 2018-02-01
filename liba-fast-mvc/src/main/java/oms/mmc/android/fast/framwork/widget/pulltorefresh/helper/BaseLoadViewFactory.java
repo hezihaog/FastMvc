@@ -15,6 +15,9 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
+/**
+ * 界面加载切换工厂
+ */
 public class BaseLoadViewFactory implements ILoadViewFactory {
 
     @Override

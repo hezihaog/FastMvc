@@ -68,7 +68,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
 
     @Override
     public int onLayoutId() {
-        return R.layout.base_list_footer;
+        return R.layout.item_load_more_footer;
     }
 
     @Override

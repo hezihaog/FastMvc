@@ -334,7 +334,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshL
      * @param adapter
      */
     public void setAdapter(IDataAdapter<ArrayList<Model>> adapter) {
-        mRecyclerView.setAdapter(adapter.getAdapter());
+        mRecyclerView.setAdapter((RecyclerView.Adapter) adapter);
         this.dataAdapter = adapter;
     }
 

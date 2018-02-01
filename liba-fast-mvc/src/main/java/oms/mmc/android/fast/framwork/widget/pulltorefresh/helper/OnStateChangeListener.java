@@ -16,14 +16,26 @@ limitations under the License.
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
 /**
- * 加载的状态监听者
+ * 界面加载切换的的状态监听器，开始刷新、结束刷新、开始加载更多、结束更多
  */
 public interface OnStateChangeListener<T> {
+    /**
+     * 开始刷新
+     */
     void onStartRefresh(IDataAdapter<T> adapter);
 
+    /**
+     * 结束刷新
+     */
     void onEndRefresh(IDataAdapter<T> adapter, T result);
 
+    /**
+     * 开始加载更多
+     */
     void onStartLoadMore(IDataAdapter<T> adapter);
 
+    /**
+     * 结束加载更多
+     */
     void onEndLoadMore(IDataAdapter<T> adapter, T result);
 }

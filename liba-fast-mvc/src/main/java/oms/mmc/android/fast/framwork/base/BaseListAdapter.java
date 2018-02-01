@@ -207,11 +207,6 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     }
 
     @Override
-    public RecyclerView.Adapter getAdapter() {
-        return this;
-    }
-
-    @Override
     public boolean isAddLoaderMoreItem() {
         return findLoaderMoreFootTpl() != null;
     }

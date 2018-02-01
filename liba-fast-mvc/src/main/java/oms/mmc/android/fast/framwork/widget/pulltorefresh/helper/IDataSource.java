@@ -50,5 +50,8 @@ public interface IDataSource<T> {
      */
     ArrayList<T> getOriginListViewData();
 
+    /**
+     * 获取当前页码
+     */
     int getPage();
 }

@@ -20,14 +20,6 @@ android {
     }
 }
 
-greendao {
-    schemaVersion 1
-    daoPackage 'oms.mmc.android.fast.framwork.db'
-    targetGenDir 'src/main/java'
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    //greenDao3数据库
-    compile 'org.greenrobot:greendao:3.2.2'
 }

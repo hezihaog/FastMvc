@@ -8,6 +8,9 @@ import android.view.View.OnClickListener;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.R;
 
+/**
+ * 基础的界面切换加载器，子类继承复写方法即可
+ */
 public class BaseLoadViewHelper implements ILoadViewFactory.ILoadView {
     protected VaryViewHelper helper;
     protected OnClickListener onClickRefreshListener;
