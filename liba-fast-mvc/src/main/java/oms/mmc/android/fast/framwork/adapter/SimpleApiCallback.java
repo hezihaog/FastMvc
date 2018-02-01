@@ -1,9 +1,10 @@
 package oms.mmc.android.fast.framwork.adapter;
 
 
+import com.hzh.logger.L;
+
 import oms.mmc.android.fast.framwork.base.ApiCallback;
 import oms.mmc.android.fast.framwork.bean.IResult;
-import oms.mmc.android.fast.framwork.logger.L;
 
 /**
  * 网络请求回调接口适配器

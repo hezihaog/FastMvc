@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.lazy.inter;
+package oms.mmc.android.fast.framwork.basiclib.lazy.inter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

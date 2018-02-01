@@ -15,6 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
+
 import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.basiclib.util.ActivityManager;
@@ -23,7 +25,6 @@ import oms.mmc.android.fast.framwork.basiclib.util.ViewUtil;
 import oms.mmc.android.fast.framwork.basiclib.widget.WaitDialog;
 import oms.mmc.android.fast.framwork.bean.IResult;
 import oms.mmc.android.fast.framwork.manager.factory.ManagerFactory;
-import oms.mmc.android.lifecycle.dispatch.base.LifecycleActivity;
 
 /**
  * Activity基类

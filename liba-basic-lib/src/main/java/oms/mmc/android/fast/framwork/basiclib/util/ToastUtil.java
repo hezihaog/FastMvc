@@ -10,9 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hzh.logger.L;
+
 import oms.mmc.android.fast.framwork.basiclib.R;
 import oms.mmc.android.fast.framwork.basiclib.base.BaseApplication;
-import oms.mmc.android.fast.framwork.logger.L;
 
 /**
  * Created by Hezihao on 2017/7/6.

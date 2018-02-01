@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.lazy;
+package oms.mmc.android.fast.framwork.basiclib.lazy;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import oms.mmc.android.fast.framwork.lazy.inter.FragmentOperationCallback;
+import oms.mmc.android.fast.framwork.basiclib.lazy.inter.FragmentOperationCallback;
 
 
 /**

@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
+import oms.mmc.android.fast.framwork.basiclib.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewUtil;
-import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
 
 
 /**
