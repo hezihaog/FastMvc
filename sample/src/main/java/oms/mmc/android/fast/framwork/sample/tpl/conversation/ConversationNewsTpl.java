@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
 import oms.mmc.android.fast.framwork.base.BaseTpl;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.sample.R;
 
@@ -17,6 +18,10 @@ public class ConversationNewsTpl extends BaseTpl<BaseItemData> {
     @Override
     public int onLayoutId() {
         return R.layout.item_conversation_news_msg;
+    }
+
+    @Override
+    public void onFindView(ViewFinder finder) {
     }
 
     @Override

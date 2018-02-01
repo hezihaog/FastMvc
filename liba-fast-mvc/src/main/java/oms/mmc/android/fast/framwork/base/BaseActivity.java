@@ -6,55 +6,38 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
-import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.basiclib.util.ActivityManager;
 import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewUtil;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.basiclib.widget.WaitDialog;
 import oms.mmc.android.fast.framwork.bean.IResult;
-import oms.mmc.android.fast.framwork.manager.factory.ManagerFactory;
 
 /**
  * Activity基类
  */
 public abstract class BaseActivity extends LifecycleActivity implements ApiCallback, LayoutCallback {
-    protected FragmentManager fm;
     protected BaseMMCFastApplication ac;
-    protected BaseActivity mActivity;
-    protected Intent mIntent;
-    protected Bundle mBundle;
     protected WaitDialog mWaitDialog;
-    private ImageView disableView;
+    private ViewFinder viewFinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
-        fm = getSupportFragmentManager();
         ac = (BaseMMCFastApplication) getApplication();
-        mActivity = this;
-        mIntent = getIntent();
-        if (mIntent != null) {
-            mBundle = mIntent.getExtras();
-        }
         onLayoutBefore();
-        setContentView(onLayoutId());
+        viewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
+        setContentView(viewFinder.getRootView());
         //onStatusBarSet();
         //onSetStatusBarBlack();
-        onBindView();
-        onReady(hasReqBase());
+        onFindView(viewFinder);
+        onLayoutAfter();
     }
 
     @Override
@@ -64,49 +47,6 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         if (mWaitDialog != null) {
             mWaitDialog.dismiss();
         }
-    }
-
-    /**
-     * 是否请求基础权限，需要返回true，会回调请求，只在appStart使用
-     */
-    protected boolean hasReqBase() {
-        return false;
-    }
-
-    protected void onReady(boolean isRead) {
-        onLayoutAfter();
-        if (isRead) {
-            ac.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    requestBasePermission();
-                }
-            }, 150);
-        }
-    }
-
-    protected void requestBasePermission() {
-//        final PermissionManager permissionManager = ac.getManagerFactory().getPermissionManager();
-//        permissionManager.requestBase(_activity, new PermissionCallback() {
-//            @Override
-//            public void onGranted() {
-//                onBasePermissionRequestSuccess();
-//            }
-//
-//            @Override
-//            public void onDenied(List<String> perms) {
-//                new UltimatumPermDialog(_activity).show();
-//            }
-//        });
-    }
-
-    @CallSuper
-    protected void onBasePermissionRequestSuccess() {
-        ManagerFactory factory = ac.getManagerFactory();
-    }
-
-    protected void onBindView() {
-        ButterKnife.bind(this);
     }
 
     /**
@@ -134,7 +74,7 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
      * 设置状态栏文字黑色
      */
     protected void onSetStatusBarBlack() {
-        TDevice.setStatusBarMode(mActivity, true);
+        TDevice.setStatusBarMode(getActivity(), true);
     }
 
     protected void hideStatusBar() {
@@ -153,13 +93,6 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         }
     }
 
-    /**
-     * 页面是否需要加入统计
-     */
-    protected boolean isNeedStat() {
-        return true;
-    }
-
     @Override
     public void onLayoutBefore() {
 
@@ -171,25 +104,15 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     }
 
     public String intentStr(String key) {
-        return mIntent.getStringExtra(key);
+        return getIntent().getStringExtra(key);
     }
 
     public final <E extends View> E findView(int id) {
         return (E) findViewById(id);
     }
 
-
-    public static void setText(String text, TextView view) {
-        ViewUtil.setText(text, view);
-    }
-
-    public static void setTextWithDefault(String text, String defaultText, TextView view) {
-        ViewUtil.setTextWithDefault(text, defaultText, view);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public ViewFinder getViewFinder() {
+        return viewFinder;
     }
 
     public void showWaitDialog() {
@@ -201,7 +124,7 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     }
 
     public void showWaitDialog(String msg, final boolean isNotBackFinish) {
-        if (mActivity != null && !mActivity.isFinishing()) {
+        if (getActivity() != null && !getActivity().isFinishing()) {
             if (mWaitDialog != null && mWaitDialog.isShowing()) {
                 return;
             }
@@ -219,34 +142,6 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
                 }
             });
             mWaitDialog.showMessage(msg);
-        }
-    }
-
-    public void hideWaitDialog() {
-        if (mWaitDialog != null) {
-            mWaitDialog.dismiss();
-        }
-    }
-
-    public void showDisableView() {
-        FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
-        disableView = new ImageView(mActivity);
-        disableView.setImageResource(android.R.color.black);
-        disableView.setAlpha(0f);
-        disableView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        decorView.addView(disableView, params);
-    }
-
-    public void hideDisableView() {
-        if (disableView != null) {
-            FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
-            decorView.removeView(disableView);
         }
     }
 

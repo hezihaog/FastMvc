@@ -8,12 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.basiclib.lazy.ExtendLazyFragment;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewUtil;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 
 
 /**
@@ -25,6 +23,7 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
     protected BaseActivity mActivity;
     protected Fragment mFragment;
     protected Bundle mArguments;
+    private ViewFinder viewFinder;
 
     @Override
     public void onAttach(Activity activity) {
@@ -56,21 +55,15 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
 
     @Override
     public View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(onLayoutId(), null);
-        setRootView(root);
-        ButterKnife.bind(this, root);
-        return root;
+        viewFinder = new ViewFinder(inflater, container, onLayoutId());
+        setRootView(viewFinder.getRootView());
+        return viewFinder.getRootView();
     }
 
     @Override
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        onFindView(getViewFinder());
         onLayoutAfter();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override
@@ -83,24 +76,7 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
 
     }
 
-    @Override
-    public void onFindViews(View mRootView) {
-        super.onFindViews(mRootView);
-    }
-
-    /**
-     * Fragment是否需要加入统计
-     */
-    protected boolean isNeedStat() {
-        return true;
-    }
-
-
-    protected String getTitle() {
-        return null;
-    }
-
-    public static void setText(String text, TextView view) {
-        ViewUtil.setText(text, view);
+    public ViewFinder getViewFinder() {
+        return viewFinder;
     }
 }

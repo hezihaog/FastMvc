@@ -10,8 +10,8 @@ import android.view.View;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.bean.IResult;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
@@ -38,6 +38,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected T bean;
     protected BaseTpl.ViewHolder viewHolder;
     private LayoutInflater mInflater;
+    private ViewFinder viewFinder;
 
     public void init(Context context, RecyclerView recyclerView, int itemViewType) {
         this.itemViewType = itemViewType;
@@ -65,7 +66,8 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
         root = mInflater.inflate(onLayoutId(), recyclerView, false);
         root.addOnAttachStateChangeListener(this);
         viewHolder = new ViewHolder(root);
-        ButterKnife.bind(this, root);
+        viewFinder = new ViewFinder(root);
+        onFindView(viewFinder);
         onLayoutAfter();
     }
 

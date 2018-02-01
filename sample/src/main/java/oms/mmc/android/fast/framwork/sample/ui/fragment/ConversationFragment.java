@@ -9,6 +9,7 @@ import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
@@ -42,6 +43,10 @@ public class ConversationFragment extends BaseListFragment {
     public static final int TPL_EMAIL = 4;
     //具体聊天
     public static final int TPL_CHAT = 5;
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+    }
 
     @Override
     public IDataSource onListViewDataSourceReady() {

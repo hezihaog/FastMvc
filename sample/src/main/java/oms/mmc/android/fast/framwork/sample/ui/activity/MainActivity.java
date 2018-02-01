@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import oms.mmc.android.fast.framwork.adapter.SimpleFragmentPagerAdapter;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.BaseFragment;
 import oms.mmc.android.fast.framwork.basiclib.lazy.PagerVisibleFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationFragment;
@@ -29,16 +29,20 @@ import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
  */
 
 public class MainActivity extends BaseActivity {
-    @Bind(R.id.toolBar)
     Toolbar toolBar;
-    @Bind(R.id.viewPager)
     ViewPager viewPager;
-    @Bind(R.id.tabLayout)
     TabLayout tabLayout;
 
     @Override
     public int onLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+        toolBar = finder.get(R.id.toolBar);
+        viewPager = finder.get(R.id.viewPager);
+        tabLayout = finder.get(R.id.tabLayout);
     }
 
     @Override

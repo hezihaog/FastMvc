@@ -14,6 +14,7 @@ import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseStickyListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.android.fast.framwork.sample.loadview.MyContactLoadViewFactory;
@@ -52,6 +53,10 @@ public class ContactFragment extends BaseStickyListFragment {
     public static final int TPL_CONTACT = 5;
     //联系人总数条目
     public static final int TPL_SUM_CONTACT_COUNT = 6;
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+    }
 
     @Override
     public IDataSource onListViewDataSourceReady() {

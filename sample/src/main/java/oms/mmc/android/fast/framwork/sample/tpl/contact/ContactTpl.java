@@ -6,9 +6,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import butterknife.Bind;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -21,9 +21,7 @@ import oms.mmc.android.fast.framwork.sample.R;
  */
 
 public class ContactTpl extends BaseTpl<ItemDataWrapper> {
-    @Bind(R.id.text)
     TextView text;
-    @Bind(R.id.avatar)
     ImageView avatar;
 
     private String data;
@@ -31,6 +29,12 @@ public class ContactTpl extends BaseTpl<ItemDataWrapper> {
     @Override
     public int onLayoutId() {
         return R.layout.item_contact;
+    }
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+        text = finder.get(R.id.text);
+        avatar = finder.get(R.id.avatar);
     }
 
     @Override

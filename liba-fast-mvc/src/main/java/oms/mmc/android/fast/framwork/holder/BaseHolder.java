@@ -15,11 +15,11 @@ import com.hzh.lifecycle.dispatch.listener.ActivityLifecycleListener;
 
 import java.io.Serializable;
 
-import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.base.ApiCallback;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.IResult;
 
 /**
@@ -31,6 +31,7 @@ public abstract class BaseHolder implements ApiCallback, LayoutCallback, Seriali
     protected Bundle _Bundle;
     protected BaseMMCFastApplication ac;
     protected View root;
+    private ViewFinder viewFinder;
 
     public BaseHolder(Context context) {
         this._activity = (BaseActivity) context;
@@ -64,7 +65,7 @@ public abstract class BaseHolder implements ApiCallback, LayoutCallback, Seriali
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             addOnWindowFocusChangeListener();
         }
-        ButterKnife.bind(this, root);
+        viewFinder = new ViewFinder(root);
         root.setLayoutParams(onGetLayoutParams());
         onLayoutAfter();
         registerActivityLife();

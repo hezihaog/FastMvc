@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import oms.mmc.android.fast.framwork.basiclib.lazy.inter.FragmentOperationCallback;
-
 
 /**
  * Package: com.hzh.lazy.fragment
@@ -19,7 +17,7 @@ import oms.mmc.android.fast.framwork.basiclib.lazy.inter.FragmentOperationCallba
  * Email: hezihao@linghit.com
  */
 
-public abstract class ExtendLazyFragment extends PagerVisibleFragment implements FragmentOperationCallback {
+public abstract class ExtendLazyFragment extends PagerVisibleFragment {
     //Fragment容器
     protected FrameLayout rootContainer;
     private LayoutInflater inflater;
@@ -88,10 +86,6 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment implements
         isLazyViewCreated = true;
         //懒加载完毕
         onLazyViewCreated(rootContainer, savedInstanceState);
-        //可以开始查找控件了
-        onFindViews(rootContainer);
-        //开始控件绑定
-        onBindContent();
     }
 
     /**
@@ -113,6 +107,16 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment implements
         isVisible = false;
         isLazyViewCreated = false;
     }
+
+    /**
+     * 请务必在此方法中返回此Fragment提供的根视图，返回结果不可为空
+     *
+     * @param inflater           用于实例化layout文件的Inflater
+     * @param container          父容器
+     * @param savedInstanceState 有可能为空，使用之前请先进行判断
+     * @return 不可为空
+     */
+    protected abstract View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     /**
      * 用来代替Fragment的onViewCreated，在真正获得用户焦点并且{@link #onLazyViewCreated(View, Bundle)}
@@ -141,15 +145,5 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment implements
      */
     public boolean getFragmentIsVisible() {
         return isVisible;
-    }
-
-    @Override
-    public void onFindViews(View mRootView) {
-
-    }
-
-    @Override
-    public void onBindContent() {
-
     }
 }

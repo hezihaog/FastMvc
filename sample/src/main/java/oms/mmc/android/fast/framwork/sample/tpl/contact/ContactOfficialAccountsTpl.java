@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import oms.mmc.android.fast.framwork.base.BaseTpl;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.sample.R;
 
@@ -17,6 +18,10 @@ public class ContactOfficialAccountsTpl extends BaseTpl<BaseItemData> {
     @Override
     public int onLayoutId() {
         return R.layout.item_contact_official_accounts;
+    }
+
+    @Override
+    public void onFindView(ViewFinder finder) {
     }
 
     @Override

@@ -100,7 +100,7 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource, onListViewTypeClassesReady(), recyclerViewHelper, onGetStickyTemplateViewType());
+        return new BaseListAdapter<T>(recyclerView, getActivity(), listViewDataSource, onListViewTypeClassesReady(), recyclerViewHelper, onGetStickyTemplateViewType());
     }
 
     public BaseListAdapter<T> getRecyclerViewAdapter() {

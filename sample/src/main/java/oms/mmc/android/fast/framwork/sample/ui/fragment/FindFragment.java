@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import oms.mmc.android.fast.framwork.base.BaseFragment;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -19,7 +20,6 @@ public class FindFragment extends BaseFragment {
     }
 
     @Override
-    public void onBindContent() {
-
+    public void onFindView(ViewFinder finder) {
     }
 }

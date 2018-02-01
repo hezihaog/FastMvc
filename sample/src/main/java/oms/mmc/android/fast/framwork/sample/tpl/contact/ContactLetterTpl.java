@@ -2,9 +2,9 @@ package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import android.widget.TextView;
 
-import butterknife.Bind;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -17,7 +17,6 @@ import oms.mmc.android.fast.framwork.sample.R;
  */
 
 public class ContactLetterTpl extends BaseTpl<ItemDataWrapper> {
-    @Bind(R.id.letter)
     TextView letter;
 
     private String data;
@@ -25,6 +24,11 @@ public class ContactLetterTpl extends BaseTpl<ItemDataWrapper> {
     @Override
     public int onLayoutId() {
         return R.layout.item_contact_letter;
+    }
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+        letter = finder.get(R.id.letter);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleRecyclerViewScrollAdapter;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
 
@@ -38,9 +39,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
                 loadMore();
             }
         };
-        /**
-         * 滚动到底部自动加载更多数据
-         */
+        //滚动到底部自动加载更多数据
         recyclerView.addOnScrollListener(new SimpleRecyclerViewScrollAdapter() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -72,8 +71,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     }
 
     @Override
-    public void onLayoutAfter() {
-        super.onLayoutAfter();
+    public void onFindView(ViewFinder finder) {
         footView = getRoot();
         text = (TextView) footView.findViewById(R.id.text);
         progressBar = (ProgressBar) footView.findViewById(R.id.progressBar);

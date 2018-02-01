@@ -6,9 +6,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import butterknife.Bind;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -21,16 +21,20 @@ import oms.mmc.android.fast.framwork.sample.R;
  */
 
 public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> {
-    @Bind(R.id.avatar)
     ImageView avatar;
-    @Bind(R.id.name)
     TextView name;
-    @Bind(R.id.msgContent)
     TextView msgContent;
 
     @Override
     public int onLayoutId() {
         return R.layout.item_conversation_chat_msg;
+    }
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+        avatar = finder.get(R.id.avatar);
+        name = finder.get(R.id.name);
+        msgContent = finder.get(R.id.msgContent);
     }
 
     @Override

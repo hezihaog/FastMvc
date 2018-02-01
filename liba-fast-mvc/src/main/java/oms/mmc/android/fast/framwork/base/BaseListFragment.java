@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.basiclib.util.MethodCompat;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.BaseLoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeListener;
+import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 
 public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>, OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
@@ -77,7 +76,6 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
         recyclerViewHelper.setDataSource(this.listViewDataSource);
         recyclerViewHelper.setOnStateChangeListener(this);
         listViewAdapter.setRecyclerViewHelper(recyclerViewHelper);
-        ButterKnife.bind(this, root);
         onListViewReady();
         return root;
     }

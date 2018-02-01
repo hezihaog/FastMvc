@@ -7,7 +7,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.basiclib.util.MethodCompat;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.BaseLoadViewFactory;
@@ -75,7 +74,6 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
         recyclerViewHelper.setDataSource(this.listViewDataSource);
         recyclerViewHelper.setOnStateChangeListener(this);
         listViewAdapter.setRecyclerViewHelper(recyclerViewHelper);
-        ButterKnife.bind(this, this);
         onListViewReady();
     }
 
@@ -102,7 +100,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource,
+        return new BaseListAdapter<T>(recyclerView, getActivity(), listViewDataSource,
                 onListViewTypeClassesReady(), recyclerViewHelper, BaseListAdapter.NOT_STICKY_SECTION);
     }
 

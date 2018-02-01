@@ -2,9 +2,9 @@ package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import android.widget.TextView;
 
-import butterknife.Bind;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -17,12 +17,16 @@ import oms.mmc.android.fast.framwork.sample.R;
  */
 
 public class ContactSumCountTpl extends BaseTpl<ItemDataWrapper> {
-    @Bind(R.id.count)
     TextView count;
 
     @Override
     public int onLayoutId() {
         return R.layout.item_contact_sum_count;
+    }
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+        count = finder.get(R.id.count);
     }
 
     @Override
