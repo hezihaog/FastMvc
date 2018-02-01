@@ -1,5 +1,7 @@
 package oms.mmc.android.fast.framwork.sample;
 
+import android.content.Context;
+
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 
 /**
@@ -15,5 +17,11 @@ public class AppContext extends BaseMMCFastApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+//        MultiDex.install(this);
     }
 }

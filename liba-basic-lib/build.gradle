@@ -24,11 +24,6 @@ dependencies {
     compile project(':liba-basic-res')
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
-    compile 'com.android.support:multidex:1.0.1'
-    //eventBus3
-    compile 'org.greenrobot:eventbus:3.0.0'
-    //Glide图片加载框架
-    compile 'com.github.bumptech.glide:glide:3.8.0'
     compile project(':liba-function-manager-factory')
     compile project(':liba-function-recycler-view')
     compile 'com.hzh:lifecycle-dispatch:1.0.3'

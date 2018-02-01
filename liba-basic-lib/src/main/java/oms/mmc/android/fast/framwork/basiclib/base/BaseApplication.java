@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.multidex.MultiDex;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +16,6 @@ import java.io.Serializable;
 
 /**
  * 应用程序基类
- * 提供Multidex支持
  */
 @SuppressLint("Registered")
 public class BaseApplication extends Application {
@@ -53,12 +51,6 @@ public class BaseApplication extends Application {
 
     public static Resources getResource() {
         return _resource;
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 
     /**
