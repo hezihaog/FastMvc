@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -262,30 +261,20 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
      * 初始化监听器
      */
     private void initListener() {
-        addOnItemClickListeners(new OnRecyclerViewItemClickListener() {
+        addOnItemClickListener(new OnRecyclerViewItemClickListener() {
 
             @Override
             public void onItemClick(View view) {
-                try {
-                    Method method = Class.forName(BaseTpl.class.getName()).getDeclaredMethod("onItemClick");
-                    method.setAccessible(true);
-                    method.invoke(view.getTag(R.id.tag_tpl));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                tpl.onItemClick(view);
             }
         });
         addOnItemLongClickListener(new OnRecyclerViewItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(View view) {
-                try {
-                    Method method = Class.forName(BaseTpl.class.getName()).getDeclaredMethod("onItemLongClick");
-                    method.setAccessible(true);
-                    method.invoke(view.getTag(R.id.tag_tpl));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                tpl.onItemLongClick(view);
                 return true;
             }
         });
@@ -294,7 +283,7 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     /**
      * 添加条目点击事件
      */
-    public void addOnItemClickListeners(OnRecyclerViewItemClickListener onItemClickListeners) {
+    public void addOnItemClickListener(OnRecyclerViewItemClickListener onItemClickListeners) {
         this.onItemClickListeners.add(onItemClickListeners);
     }
 

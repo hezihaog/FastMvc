@@ -30,6 +30,7 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile project(':liba-fast_mvc-db')
     compile project(':liba-basic-lib')
+    compile project(':liba-function-recycler-view')
 }
 
 //项目主页

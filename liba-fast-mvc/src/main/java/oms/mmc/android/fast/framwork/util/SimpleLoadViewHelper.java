@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.basiclib.base.ManagerContext;
+import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.VaryViewHelper;
 
 
@@ -62,7 +62,7 @@ public class SimpleLoadViewHelper {
     }
 
     public void tipFail() {
-        ManagerContext.showToast("网络出错，加载失败");
+        ToastUtil.showToast(context, R.string.net_tip_net_load_error);
     }
 
     public void showEmpty() {

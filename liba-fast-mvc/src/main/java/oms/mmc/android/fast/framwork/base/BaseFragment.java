@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.basiclib.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 
@@ -19,7 +18,6 @@ import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
  */
 public abstract class BaseFragment extends ExtendLazyFragment implements LayoutCallback {
     protected FragmentManager fm;
-    protected BaseMMCFastApplication ac;
     protected BaseActivity mActivity;
     protected Fragment mFragment;
     protected Bundle mArguments;
@@ -29,7 +27,6 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (BaseActivity) activity;
-        ac = (BaseMMCFastApplication) mActivity.getApplication();
         fm = getChildFragmentManager();
         mFragment = this;
     }

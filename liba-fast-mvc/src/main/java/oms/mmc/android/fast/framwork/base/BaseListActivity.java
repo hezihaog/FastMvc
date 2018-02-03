@@ -64,7 +64,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
         if (listViewAdapter == null) {
             listViewAdapter = (BaseListAdapter<T>) onListAdapterReady();
         }
-        listViewAdapter.addOnItemClickListeners(this);
+        listViewAdapter.addOnItemClickListener(this);
         listViewAdapter.addOnItemLongClickListener(this);
         if (recyclerViewHelper == null) {
             recyclerViewHelper = new RecyclerViewViewHelper<T>(refreshLayout, recyclerView);

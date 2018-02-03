@@ -25,7 +25,6 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile project(':liba-function-manager-factory')
-    compile project(':liba-function-recycler-view')
     compile 'com.hzh:lifecycle-dispatch:1.0.3'
     compile 'com.hzh:liba-logger:1.0.0'
 }

@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
+import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.bean.IResult;
@@ -96,11 +98,12 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     }
 
-    protected void onItemClick() {
+    protected void onItemClick(View view) {
 
     }
 
-    protected void onItemLongClick() {
+    protected void onItemLongClick(View view) {
+
     }
 
     /**
@@ -143,14 +146,14 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     @Override
     public void onApiFailure(Throwable t, int errorNo, String strMsg, String tag) {
-        BaseMMCFastApplication.showToast("网络请求错误");
+        ToastUtil.showToast(getRoot().getContext(), R.string.net_tip_net_request_error);
         t.printStackTrace();
         onApiError(tag);
     }
 
     @Override
     public void onParseError(String tag) {
-        BaseMMCFastApplication.showToast("数据解析错误");
+        ToastUtil.showToast(getRoot().getContext(), R.string.net_tip_net_parse_data_error);
         onApiError(tag);
     }
 

@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -8,6 +9,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
@@ -45,5 +47,17 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> {
         Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
         name.setText(nameText);
         msgContent.setText(content);
+    }
+
+    @Override
+    protected void onItemClick(View view) {
+        super.onItemClick(view);
+        ToastUtil.showToast(getActivity(), "onItemClick");
+    }
+
+    @Override
+    protected void onItemLongClick(View view) {
+        super.onItemLongClick(view);
+        ToastUtil.showToast(getActivity(), "onItemLongClick");
     }
 }

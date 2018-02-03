@@ -11,9 +11,10 @@ import android.view.WindowManager;
 
 import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
-import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
+import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.basiclib.util.ActivityManager;
 import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
+import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.basiclib.widget.WaitDialog;
 import oms.mmc.android.fast.framwork.bean.IResult;
@@ -22,7 +23,6 @@ import oms.mmc.android.fast.framwork.bean.IResult;
  * Activity基类
  */
 public abstract class BaseActivity extends LifecycleActivity implements ApiCallback, LayoutCallback {
-    protected BaseMMCFastApplication ac;
     protected WaitDialog mWaitDialog;
     private ViewFinder viewFinder;
 
@@ -30,7 +30,6 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
-        ac = (BaseMMCFastApplication) getApplication();
         onLayoutBefore();
         viewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
         setContentView(viewFinder.getRootView());
@@ -175,14 +174,14 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
 
     @Override
     public void onApiFailure(Throwable t, int errorNo, String strMsg, String tag) {
-        BaseMMCFastApplication.showToast("网络请求错误");
+        ToastUtil.showToast(getActivity(), R.string.net_tip_net_request_error);
         t.printStackTrace();
         onApiError(tag);
     }
 
     @Override
     public void onParseError(String tag) {
-        BaseMMCFastApplication.showToast("数据解析错误");
+        ToastUtil.showToast(getActivity(), R.string.net_tip_net_parse_data_error);
         onApiError(tag);
     }
 

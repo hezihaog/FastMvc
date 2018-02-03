@@ -95,4 +95,16 @@ public class ConversationFragment extends BaseListFragment {
     public RecyclerView.LayoutManager getLayoutManager() {
         return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
     }
+
+//    @Override
+//    public void onItemClick(View view) {
+//        super.onItemClick(view);
+//        ToastUtil.toast("ConversationFragment ::: onItemClick");
+//    }
+//
+//    @Override
+//    public boolean onItemLongClick(View view) {
+//        ToastUtil.toast("ConversationFragment ::: onItemLongClick");
+//        return true;
+//    }
 }

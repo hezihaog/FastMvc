@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 
 /**
  * 基础的界面切换加载器，子类继承复写方法即可
@@ -36,7 +36,7 @@ public class BaseLoadViewHelper implements ILoadViewFactory.ILoadView {
 
     @Override
     public void tipFail() {
-        BaseMMCFastApplication.showToast("网络出错，加载失败");
+        ToastUtil.showToast(context, R.string.net_tip_net_load_error);
     }
 
     @Override

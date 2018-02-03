@@ -16,9 +16,11 @@ import com.hzh.lifecycle.dispatch.listener.ActivityLifecycleListener;
 import java.io.Serializable;
 
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
+import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.ApiCallback;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
+import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.IResult;
 
@@ -202,14 +204,14 @@ public abstract class BaseHolder implements ApiCallback, LayoutCallback, Seriali
 
     @Override
     public void onApiFailure(Throwable t, int errorNo, String strMsg, String tag) {
-        BaseMMCFastApplication.showToast("网络请求错误");
+        ToastUtil.showToast(getRoot().getContext(), R.string.net_tip_net_request_error);
         t.printStackTrace();
         onApiError(tag);
     }
 
     @Override
     public void onParseError(String tag) {
-        BaseMMCFastApplication.showToast("数据解析错误");
+        ToastUtil.showToast(getRoot().getContext(), R.string.net_tip_net_parse_data_error);
         onApiError(tag);
     }
 
