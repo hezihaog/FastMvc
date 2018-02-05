@@ -577,7 +577,7 @@ public class TDevice {
             intent = new Intent();
             ComponentName component = new ComponentName("com.android.settings", "com.android.settings.WirelessSettings");
             intent.setComponent(component);
-            intent.setAction("android.intent.action.VIEW");
+            intent.setAction("android.intent.newAction.VIEW");
         }
         context.startActivity(intent);
     }

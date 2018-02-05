@@ -1,14 +1,17 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
@@ -19,6 +22,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationServerM
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationSubscriptionMsgTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatTeamChatMsgTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
+import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 
 /**
@@ -53,7 +57,7 @@ public class ConversationFragment extends BaseListFragment {
         return new BaseListDataSource(getActivity()) {
             @Override
             protected ArrayList load(int page) throws Exception {
-                Thread.sleep(1500);
+                Thread.sleep(3500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
                     models.add(new BaseItemData(TPL_SUBSCRIPTION));
@@ -96,15 +100,27 @@ public class ConversationFragment extends BaseListFragment {
         return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
     }
 
-//    @Override
-//    public void onItemClick(View view) {
-//        super.onItemClick(view);
-//        ToastUtil.toast("ConversationFragment ::: onItemClick");
-//    }
-//
-//    @Override
-//    public boolean onItemLongClick(View view) {
-//        ToastUtil.toast("ConversationFragment ::: onItemLongClick");
-//        return true;
-//    }
+    @Override
+    public void onStartRefresh(IDataAdapter adapter, boolean isFirst) {
+        super.onStartRefresh(adapter, isFirst);
+        ((BaseActivity) getActivity()).showWaitDialog();
+    }
+
+    @Override
+    public void onEndRefresh(IDataAdapter adapter, ArrayList result, boolean isFirstRefresh) {
+        super.onEndRefresh(adapter, result, isFirstRefresh);
+        ((BaseActivity) getActivity()).hideWiatDialog();
+    }
+
+    @Override
+    public void onItemClick(View view) {
+        super.onItemClick(view);
+        ToastUtil.showToast(getActivity(), "ConversationFragment ::: onItemClick");
+    }
+
+    @Override
+    public boolean onItemLongClick(View view) {
+        ToastUtil.showToast(getActivity(), "ConversationFragment ::: onItemLongClick");
+        return true;
+    }
 }

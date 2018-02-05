@@ -1,7 +1,5 @@
 package oms.mmc.android.fast.framwork.base;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,15 +14,15 @@ import oms.mmc.android.fast.framwork.basiclib.util.ActivityManager;
 import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
 import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
-import oms.mmc.android.fast.framwork.basiclib.widget.WaitDialog;
+import oms.mmc.android.fast.framwork.basiclib.util.WaitDialogHelper;
 import oms.mmc.android.fast.framwork.bean.IResult;
 
 /**
  * Activity基类
  */
 public abstract class BaseActivity extends LifecycleActivity implements ApiCallback, LayoutCallback {
-    protected WaitDialog mWaitDialog;
     private ViewFinder viewFinder;
+    private WaitDialogHelper.WaitAction waitAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +30,7 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
         viewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
+        waitAction = WaitDialogHelper.getInstance().newAction();
         setContentView(viewFinder.getRootView());
         //onStatusBarSet();
         //onSetStatusBarBlack();
@@ -43,9 +42,6 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     protected void onDestroy() {
         super.onDestroy();
         ActivityManager.getActivityManager().removeActivity(this);
-        if (mWaitDialog != null) {
-            mWaitDialog.dismiss();
-        }
     }
 
     /**
@@ -115,33 +111,19 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     }
 
     public void showWaitDialog() {
-        showWaitDialog("", false);
+        waitAction.getWaitIml().showWaitDialog(getActivity(), "", false);
     }
 
-    public void showWaitDialog(String message) {
-        showWaitDialog(message, false);
+    public void showWaitDialog(String msg) {
+        waitAction.getWaitIml().showWaitDialog(getActivity(), msg, false);
     }
 
-    public void showWaitDialog(String msg, final boolean isNotBackFinish) {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            if (mWaitDialog != null && mWaitDialog.isShowing()) {
-                return;
-            }
-            if (mWaitDialog == null) {
-                mWaitDialog = new WaitDialog(this);
-            }
-            mWaitDialog.setCanceledOnTouchOutside(isNotBackFinish);
-            mWaitDialog.setOnCancelListener(new OnCancelListener() {
+    public void showWaitDialog(String msg, final boolean isTouchCancelable) {
+        waitAction.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
+    }
 
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    if (!isNotBackFinish) {
-                        finish();
-                    }
-                }
-            });
-            mWaitDialog.showMessage(msg);
-        }
+    public void hideWiatDialog() {
+        waitAction.getWaitIml().hideWaitDialog();
     }
 
     protected void setResult(int resultCode, Bundle bundle) {

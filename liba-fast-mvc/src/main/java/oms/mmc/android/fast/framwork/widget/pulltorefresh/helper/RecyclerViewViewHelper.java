@@ -32,11 +32,12 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshL
      */
     private int scrollState;
     private boolean isCanPullToRefresh = true;
-
     /**
      * 是否还有更多数据。如果服务器返回的数据为空的话，就说明没有更多数据了，也就没必要自动加载更多数据
      */
     private boolean hasMoreData = true;
+    private boolean isFirstRefresh = false;
+    private boolean isFistLoaderMore = false;
     private ILoadViewFactory.ILoadView mLoadView;
     private OnClickListener onClickRefreshListener = new OnClickListener() {
 
@@ -151,7 +152,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshL
                     mLoadView.restore();
                 }
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onStartRefresh(dataAdapter);
+                    onStateChangeListener.onStartRefresh(dataAdapter, isFirstRefresh);
                 }
             }
 
@@ -189,10 +190,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshL
                     hasMoreData = dataSource.hasMore();
                 }
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onEndRefresh(dataAdapter, result);
+                    onStateChangeListener.onEndRefresh(dataAdapter, result, isFirstRefresh);
                 }
                 //刷新结束
                 refreshLayout.setRefreshing(false);
+                if (isFirstRefresh) {
+                    isFirstRefresh = false;
+                }
             }
 
         };
@@ -228,7 +232,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshL
             @Override
             protected void onPreExecute() {
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onStartLoadMore(dataAdapter);
+                    onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoaderMore);
                 }
                 mLoadMoreView.showLoading();
             }
@@ -264,7 +268,10 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshL
                     }
                 }
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onEndLoadMore(dataAdapter, result);
+                    onStateChangeListener.onEndLoadMore(dataAdapter, result, isFistLoaderMore);
+                }
+                if (isFistLoaderMore) {
+                    isFistLoaderMore = false;
                 }
             }
         };
@@ -279,7 +286,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper, SwipeRefreshL
     /**
      * 做销毁操作，比如关闭正在加载数据的异步线程等
      */
-    public void destory() {
+    public void destroy() {
         if (asyncTask != null && asyncTask.getStatus() != AsyncTask.Status.FINISHED) {
             asyncTask.cancel(true);
             asyncTask = null;

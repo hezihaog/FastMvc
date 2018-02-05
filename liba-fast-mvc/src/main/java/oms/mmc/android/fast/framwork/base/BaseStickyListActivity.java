@@ -80,7 +80,7 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        recyclerViewHelper.destory();
+        recyclerViewHelper.destroy();
     }
 
 
@@ -113,22 +113,22 @@ public abstract class BaseStickyListActivity<T> extends BaseActivity implements 
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<T>> listViewAdapter) {
-        listViewAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<T>> listViewAdapter, ArrayList<T> result) {
+    public void onStartRefresh(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {
 
     }
 
     @Override
-    public void onStartLoadMore(IDataAdapter<ArrayList<T>> listViewAdapter) {
+    public void onEndRefresh(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst) {
 
     }
 
     @Override
-    public void onEndLoadMore(IDataAdapter<ArrayList<T>> listViewAdapter, ArrayList<T> result) {
+    public void onStartLoadMore(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {
+
+    }
+
+    @Override
+    public void onEndLoadMore(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst) {
 
     }
 

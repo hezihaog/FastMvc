@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FastMvc</string>
+    <string name="wait_dialog_tip_loading">載入中...</string>
 </resources>
