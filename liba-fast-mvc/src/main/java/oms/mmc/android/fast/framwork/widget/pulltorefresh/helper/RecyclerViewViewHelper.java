@@ -114,12 +114,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                             refreshLayoutIsEnabled = false;
                         }
                     }
-                } else {
-                    refreshLayoutIsEnabled = false;
-                    if (!refreshLayoutIsEnabled) {
-                        //不允许下拉刷新，直接禁用
-                        refreshLayout.setEnabled(false);
-                    }
                 }
                 for (int i = 0; mScrollListeners != null && i < mScrollListeners.size(); i++) {
                     RecyclerView.OnScrollListener scrollListener = mScrollListeners.get(i);
@@ -435,5 +429,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      */
     public void setCanPullToRefresh(boolean canPullToRefresh) {
         isCanPullToRefresh = canPullToRefresh;
+        refreshLayoutIsEnabled = false;
+        //不允许下拉刷新，直接禁用
+        refreshLayout.setEnabled(false);
     }
 }
