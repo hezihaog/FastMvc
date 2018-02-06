@@ -26,8 +26,8 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewVie
 public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Serializable, View.OnAttachStateChangeListener {
     protected BaseMMCFastApplication ac;
     protected BaseActivity mActivity;
-    protected Intent _intent;
-    protected Bundle _Bundle;
+    protected Intent intent;
+    protected Bundle bundle;
 
     protected RecyclerViewViewHelper recyclerViewHelper;
     protected IDataAdapter<ArrayList<? extends BaseItemData>> listViewAdapter;
@@ -46,9 +46,9 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
         this.itemViewType = itemViewType;
         this.mActivity = (BaseActivity) context;
         this.recyclerView = recyclerView;
-        this._intent = mActivity.getIntent();
-        if (this._intent != null) {
-            this._Bundle = _intent.getExtras();
+        this.intent = mActivity.getIntent();
+        if (this.intent != null) {
+            this.bundle = intent.getExtras();
         }
         ac = (BaseMMCFastApplication) context.getApplicationContext();
         mInflater = LayoutInflater.from(context);
@@ -91,9 +91,6 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     }
 
     @Override
-    public abstract int onLayoutId();
-
-    @Override
     public void onLayoutAfter() {
 
     }
@@ -110,7 +107,6 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
      * 内部持有Rv的ViewHolder
      */
     protected static class ViewHolder extends RecyclerView.ViewHolder {
-
         public ViewHolder(View itemView) {
             super(itemView);
         }
@@ -129,7 +125,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     public abstract void render();
 
     public String intentStr(String key) {
-        return _intent.getStringExtra(key);
+        return intent.getStringExtra(key);
     }
 
     @Override
