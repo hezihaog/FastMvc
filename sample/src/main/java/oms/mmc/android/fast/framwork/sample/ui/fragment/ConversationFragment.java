@@ -53,7 +53,7 @@ public class ConversationFragment extends BaseListFragment {
     }
 
     @Override
-    public IDataSource onListViewDataSourceReady() {
+    public IDataSource onListDataSourceReady() {
         return new BaseListDataSource(getActivity()) {
             @Override
             protected ArrayList load(int page) throws Exception {
@@ -84,7 +84,7 @@ public class ConversationFragment extends BaseListFragment {
     }
 
     @Override
-    public HashMap<Integer, Class> onListViewTypeClassesReady() {
+    public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
         tpls.put(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
         tpls.put(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
@@ -96,7 +96,7 @@ public class ConversationFragment extends BaseListFragment {
     }
 
     @Override
-    public RecyclerView.LayoutManager getLayoutManager() {
+    public RecyclerView.LayoutManager getListLayoutManager() {
         return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
     }
 

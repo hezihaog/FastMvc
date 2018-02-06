@@ -20,7 +20,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
     /**
      * 下来刷新控件
      */
-    private SwipeRefreshLayout refreshLayout;
+    protected SwipeRefreshLayout refreshLayout;
     /**
      * 列表
      */
@@ -32,7 +32,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
     /**
      * 列表数据源
      */
-    protected IDataSource<T> listViewDataSource;
+    protected IDataSource<T> listDataSource;
     /**
      * 列表数据
      */
@@ -44,7 +44,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
     /**
      * 列表适配器
      */
-    protected BaseListAdapter<T> listViewAdapter;
+    protected BaseListAdapter<T> listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,28 +53,28 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
         refreshLayout.setId(MethodCompat.generateViewId());
         //初始化rv
         recyclerView = (RecyclerView) this.findViewById(R.id.base_list_view);
-        recyclerView.setLayoutManager(getLayoutManager());
-        if (listViewDataSource == null) {
-            listViewDataSource = onListViewDataSourceReady();
+        recyclerView.setLayoutManager(getListLayoutManager());
+        if (listDataSource == null) {
+            listDataSource = onListDataSourceReady();
         }
         if (listViewData == null) {
-            listViewData = listViewDataSource.getOriginListViewData();
-            originData = listViewDataSource.getOriginListViewData();
+            listViewData = listDataSource.getOriginListViewData();
+            originData = listDataSource.getOriginListViewData();
         }
-        if (listViewAdapter == null) {
-            listViewAdapter = (BaseListAdapter<T>) onListAdapterReady();
+        if (listAdapter == null) {
+            listAdapter = (BaseListAdapter<T>) onListAdapterReady();
         }
-        listViewAdapter.addOnItemClickListener(this);
-        listViewAdapter.addOnItemLongClickListener(this);
+        listAdapter.addOnItemClickListener(this);
+        listAdapter.addOnItemLongClickListener(this);
         if (recyclerViewHelper == null) {
             recyclerViewHelper = new RecyclerViewViewHelper<T>(refreshLayout, recyclerView);
-            recyclerViewHelper.setAdapter(listViewAdapter);
+            recyclerViewHelper.setAdapter(listAdapter);
         }
         recyclerViewHelper.init(onLoadViewFactoryReady());
-        recyclerViewHelper.setDataSource(this.listViewDataSource);
+        recyclerViewHelper.setDataSource(this.listDataSource);
         recyclerViewHelper.setOnStateChangeListener(this);
-        listViewAdapter.setRecyclerViewHelper(recyclerViewHelper);
-        onListViewReady();
+        listAdapter.setRecyclerViewHelper(recyclerViewHelper);
+        onListReady();
     }
 
     @Override
@@ -85,7 +85,7 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
 
 
     @Override
-    public void onListViewReady() {
+    public void onListReady() {
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
         if (listViewData.size() == 0) {
@@ -100,8 +100,8 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, getActivity(), listViewDataSource,
-                onListViewTypeClassesReady(), recyclerViewHelper, BaseListAdapter.NOT_STICKY_SECTION);
+        return new BaseListAdapter<T>(recyclerView, getActivity(), listDataSource,
+                onListTypeClassesReady(), recyclerViewHelper, onGetStickyTplViewType());
     }
 
     public BaseListAdapter<T> getRecyclerViewAdapter() {
@@ -115,31 +115,31 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
 
     @Override
     public void onStartRefresh(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {
-
     }
 
     @Override
     public void onEndRefresh(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst) {
-
     }
 
     @Override
     public void onStartLoadMore(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {
-
     }
 
     @Override
     public void onEndLoadMore(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst) {
-
     }
 
     @Override
     public void onItemClick(View view) {
-
     }
 
     @Override
     public boolean onItemLongClick(View view) {
         return false;
+    }
+
+    @Override
+    public int onGetStickyTplViewType() {
+        return BaseListAdapter.NOT_STICKY_SECTION;
     }
 }

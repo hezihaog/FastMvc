@@ -12,7 +12,7 @@ import java.util.Locale;
 
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
-import oms.mmc.android.fast.framwork.base.BaseStickyListFragment;
+import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
@@ -38,7 +38,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
  * Email: hezihao@linghit.com
  */
 
-public class ContactFragment extends BaseStickyListFragment {
+public class ContactFragment extends BaseListFragment {
     //新的好友条目
     public static final int TPL_NEW_FRIEND = 0;
     //群聊条目
@@ -59,7 +59,7 @@ public class ContactFragment extends BaseStickyListFragment {
     }
 
     @Override
-    public IDataSource onListViewDataSourceReady() {
+    public IDataSource onListDataSourceReady() {
         return new BaseListDataSource(getActivity()) {
             @Override
             protected ArrayList load(int page) throws Exception {
@@ -102,7 +102,7 @@ public class ContactFragment extends BaseStickyListFragment {
     }
 
     @Override
-    public HashMap<Integer, Class> onListViewTypeClassesReady() {
+    public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
         tpls.put(TPL_NEW_FRIEND, NewFriendTpl.class);
         tpls.put(TPL_GROUP_CHAT, ContactGroupChatTpl.class);
@@ -115,12 +115,12 @@ public class ContactFragment extends BaseStickyListFragment {
     }
 
     @Override
-    protected int onGetStickyTemplateViewType() {
+    public int onGetStickyTplViewType() {
         return TPL_STICKY_LETTER;
     }
 
     @Override
-    public RecyclerView.LayoutManager getLayoutManager() {
+    public RecyclerView.LayoutManager getListLayoutManager() {
         return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
     }
 
@@ -130,8 +130,8 @@ public class ContactFragment extends BaseStickyListFragment {
     }
 
     @Override
-    public void onListViewReady() {
-        super.onListViewReady();
+    public void onListReady() {
+        super.onListReady();
         recyclerViewHelper.setCanPullToRefresh(false);
     }
 }

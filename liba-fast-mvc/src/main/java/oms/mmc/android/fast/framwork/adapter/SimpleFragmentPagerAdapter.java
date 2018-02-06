@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.base.ProxyFakeFragment;
-
 /**
  * 使用fragment的viewpager的适配器
  */
@@ -106,12 +104,6 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         for (int i = 0; i < fragmentNameList.size(); i++) {
             if (fragmentNameList.get(i).equals(fragmentName)) {
                 return fm.findFragmentByTag(SimpleFragmentPagerAdapter.getFragmentTag(viewPagerId, i));
-            } else if (fragmentNameList.get(i).equals(ProxyFakeFragment.class.getName())) {
-                //是懒加载代理fragment的话，找出里面包裹的fragment
-                ProxyFakeFragment proxyFragment = (ProxyFakeFragment) fm.findFragmentByTag(SimpleFragmentPagerAdapter.getFragmentTag(viewPagerId, i));
-                if (fragmentNameList.get(i).equals(proxyFragment.getRealFragmentName())) {
-                    return proxyFragment.getRealFragment();
-                }
             }
         }
         return null;

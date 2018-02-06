@@ -22,7 +22,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     /**
      * 下来刷新控件
      */
-    private SwipeRefreshLayout refreshLayout;
+    protected SwipeRefreshLayout refreshLayout;
     /**
      * 列表
      */
@@ -55,9 +55,9 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
         refreshLayout.setId(MethodCompat.generateViewId());
         //初始化rv
         recyclerView = (RecyclerView) root.findViewById(R.id.base_list_view);
-        recyclerView.setLayoutManager(getLayoutManager());
+        recyclerView.setLayoutManager(getListLayoutManager());
         if (listViewDataSource == null) {
-            listViewDataSource = onListViewDataSourceReady();
+            listViewDataSource = onListDataSourceReady();
         }
         if (listViewData == null) {
             listViewData = listViewDataSource.getOriginListViewData();
@@ -76,7 +76,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
         recyclerViewHelper.setDataSource(this.listViewDataSource);
         recyclerViewHelper.setOnStateChangeListener(this);
         listViewAdapter.setRecyclerViewHelper(recyclerViewHelper);
-        onListViewReady();
+        onListReady();
         return root;
     }
 
@@ -88,7 +88,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
 
 
     @Override
-    public void onListViewReady() {
+    public void onListReady() {
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
         if (listViewData.size() == 0) {
@@ -106,7 +106,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
         return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource,
-                onListViewTypeClassesReady(), recyclerViewHelper, BaseListAdapter.NOT_STICKY_SECTION);
+                onListTypeClassesReady(), recyclerViewHelper, onGetStickyTplViewType());
     }
 
     public BaseListAdapter<T> getRecyclerViewAdapter() {
@@ -146,5 +146,10 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     @Override
     public boolean onItemLongClick(View view) {
         return false;
+    }
+
+    @Override
+    public int onGetStickyTplViewType() {
+        return BaseListAdapter.NOT_STICKY_SECTION;
     }
 }
