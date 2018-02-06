@@ -57,7 +57,7 @@ public class ConversationFragment extends BaseListFragment {
         return new BaseListDataSource(getActivity()) {
             @Override
             protected ArrayList load(int page) throws Exception {
-                Thread.sleep(3500);
+                Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
                     models.add(new BaseItemData(TPL_SUBSCRIPTION));

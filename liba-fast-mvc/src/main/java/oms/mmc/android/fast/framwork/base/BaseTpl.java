@@ -64,6 +64,16 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     }
 
     protected void initView() {
+        recyclerView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                onRecyclerViewDetachedFromWindow(v);
+            }
+        });
         onLayoutBefore();
         root = mInflater.inflate(onLayoutId(), recyclerView, false);
         root.addOnAttachStateChangeListener(this);
@@ -164,6 +174,13 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     @Override
     public void onViewDetachedFromWindow(View v) {
+
+    }
+
+    /**
+     * RecyclerView从窗口移除时回调
+     */
+    public void onRecyclerViewDetachedFromWindow(View view) {
 
     }
 }

@@ -24,6 +24,9 @@ public class ProgressDialogWaitIml extends WaitDialogHelper.AbsWait {
 
     @Override
     public void showWaitDialog(final Activity activity, CharSequence msg, final boolean isTouchCancelable) {
+        if (!(activity != null && !activity.isFinishing())) {
+            return;
+        }
         hostHashCode = activity.hashCode();
         if (dialog == null) {
             dialog = new ProgressDialog(activity);
@@ -44,7 +47,9 @@ public class ProgressDialogWaitIml extends WaitDialogHelper.AbsWait {
                 }
             }
         });
-        dialog.show();
+        if (activity != null && activity.isFinishing()) {
+            dialog.show();
+        }
     }
 
     @Override

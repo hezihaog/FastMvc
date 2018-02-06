@@ -1,15 +1,17 @@
 package oms.mmc.android.fast.framwork.tpl;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.adapter.SimpleRecyclerViewScrollAdapter;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.util.LocalBroadcastHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
 
 /**
@@ -25,44 +27,46 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     protected View footView;
     protected TextView tipText;
     protected ProgressBar progressBar;
-    protected View.OnClickListener onClickRefreshListener;
 
     //是否是第一次添加尾部，如果是第一次，就忽略了第一次的render方法，其实就是onBindView的回调，后续的回调就是拉到底部时回调的
     private boolean isFirstAddFooter = true;
+    private BroadcastReceiver receiver;
 
     @Override
     public void onLayoutBefore() {
         super.onLayoutBefore();
-        onClickRefreshListener = new View.OnClickListener() {
+        receiver = new BroadcastReceiver() {
             @Override
-            public void onClick(View v) {
-                loadMore();
-            }
-        };
-        //滚动到底部自动加载更多数据
-        recyclerView.addOnScrollListener(new SimpleRecyclerViewScrollAdapter() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (recyclerViewHelper.getDataSource().hasMore()) {
-                    if (!recyclerViewHelper.isRefreshing()) {//如果不是刷新状态
-                        //如果滚动到最后一行，RecyclerView.canScrollVertically(1)的值表示是否能向上滚动，false表示已经滚动到底部
-                        if (newState == RecyclerView.SCROLL_STATE_IDLE &&
-                                !recyclerView.canScrollVertically(1)) {
-                            //必须网络可用才能进行加载更多，没有网络直接显示失败了
-                            if (recyclerViewHelper.hasNetwork(getActivity())) {
+            public void onReceive(Context context, Intent intent) {
+                if (intent != null) {
+                    int helperHash = intent.getIntExtra(ILoadViewFactory.ILoadMoreView.BUNDLE_KEY_HELPER_HASH, -1);
+                    if (helperHash == recyclerViewHelper.hashCode()) {
+                        int state = intent.getIntExtra(ILoadViewFactory.ILoadMoreView.BUNDLE_KEY_STATE, ILoadViewFactory.ILoadMoreView.NOMAL);
+                        switch (state) {
+                            case ILoadViewFactory.ILoadMoreView.NOMAL:
+                                showNormal();
+                                break;
+                            case ILoadViewFactory.ILoadMoreView.LOADING:
                                 showLoading();
-                                loadMore();
-                            } else {
-                                if (!recyclerViewHelper.isLoading()) {
-                                    showFail();
-                                }
-                            }
+                                break;
+                            case ILoadViewFactory.ILoadMoreView.FAIL:
+                                showFail();
+                                break;
+                            case ILoadViewFactory.ILoadMoreView.NO_MORE:
+                                showNoMore();
+                                break;
                         }
                     }
                 }
             }
-        });
+        };
+        LocalBroadcastHelper.registerLoadMore(mActivity, receiver);
+    }
+
+    @Override
+    public void onRecyclerViewDetachedFromWindow(View view) {
+        super.onRecyclerViewDetachedFromWindow(view);
+        LocalBroadcastHelper.unRegister(mActivity, receiver);
     }
 
     @Override
@@ -97,7 +101,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     }
 
     private void loadMore() {
-        recyclerViewHelper.loadMore(this);
+        recyclerViewHelper.loadMore();
     }
 
     @Override
@@ -124,7 +128,12 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
         progressBar.setVisibility(View.GONE);
         tipText.setVisibility(View.VISIBLE);
         tipText.setText(R.string.base_list_load_more_load_error);
-        footView.setOnClickListener(onClickRefreshListener);
+        footView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadMore();
+            }
+        });
     }
 
     @Override

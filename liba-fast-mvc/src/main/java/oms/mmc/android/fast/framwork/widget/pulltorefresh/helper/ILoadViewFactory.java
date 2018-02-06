@@ -66,6 +66,13 @@ public interface ILoadViewFactory {
      * RecyclerView底部加载更多的布局切换
      */
     interface ILoadMoreView {
+        String BUNDLE_KEY_STATE = "load_more_state";
+        String BUNDLE_KEY_HELPER_HASH = "list_helper_hash_code";
+        int NOMAL = 1;
+        int LOADING = 2;
+        int FAIL = 3;
+        int NO_MORE = 4;
+
         /**
          * 显示普通布局，整个item是空白的
          */

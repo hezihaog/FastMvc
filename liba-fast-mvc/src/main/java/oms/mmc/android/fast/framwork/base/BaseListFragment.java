@@ -83,7 +83,9 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     @Override
     public void onDestroy() {
         super.onDestroy();
-        recyclerViewHelper.destroy();
+        if (recyclerViewHelper != null) {
+            recyclerViewHelper.destroy();
+        }
     }
 
 
