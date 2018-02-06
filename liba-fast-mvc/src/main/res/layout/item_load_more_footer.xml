@@ -15,11 +15,11 @@
         android:indeterminate="false" />
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/base_list_error_tip"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="没有更多数据"
+        android:text="@string/base_list_load_more_no_more_tip_text"
         android:textColor="#909090"
         android:textSize="14sp" />
 </LinearLayout>

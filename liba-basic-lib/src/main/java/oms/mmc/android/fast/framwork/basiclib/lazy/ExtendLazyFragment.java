@@ -24,9 +24,10 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
     private Bundle savedInstanceState;
     private boolean isLazyViewCreated = false;
     private boolean isVisible = false;
+    private View loadingView;
 
     /**
-     * 已加final，该方法不要重写，请重写{@link #onInflaterRootView(LayoutInflater, ViewGroup, Bundle)} 来返回视图
+     * 已加final，该方法不要重写，请重写{@link #onLazyCreateView(LayoutInflater, ViewGroup, Bundle)} 来返回视图
      *
      * @param inflater           填充器
      * @param container          父容器
@@ -39,6 +40,8 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
         this.inflater = inflater;
         this.savedInstanceState = savedInstanceState;
         rootContainer = new FrameLayout(getContext().getApplicationContext());
+        loadingView = onGetLazyLoadingView();
+        rootContainer.addView(loadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         rootContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return rootContainer;
     }
@@ -81,7 +84,8 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
      */
     private void startLazy() {
         //开始懒加载，并且将Fragment的View视图添加到容器
-        View view = onInflaterRootView(inflater, rootContainer, savedInstanceState);
+        View view = onLazyCreateView(inflater, rootContainer, savedInstanceState);
+        rootContainer.removeView(loadingView);
         rootContainer.addView(view);
         isLazyViewCreated = true;
         //懒加载完毕
@@ -116,7 +120,7 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
      * @param savedInstanceState 有可能为空，使用之前请先进行判断
      * @return 不可为空
      */
-    protected abstract View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+    protected abstract View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     /**
      * 用来代替Fragment的onViewCreated，在真正获得用户焦点并且{@link #onLazyViewCreated(View, Bundle)}
@@ -125,6 +129,8 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
      * @param savedInstanceState
      */
     protected abstract void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState);
+
+    protected abstract View onGetLazyLoadingView();
 
     /**
      * Fragment可见时回调，子类按需重写

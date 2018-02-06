@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--刷新-->
+    <string name="base_list_error_tip_text">哎呀，網路異常了</string>
+    <string name="base_list_error_refresh_text">刷新看看</string>
+    <string name="base_list_loading_tip_text">拼命載入中...</string>
+    <!--加载更多-->
+    <string name="base_list_load_more_no_more_tip_text">沒有更多資料了</string>
+    <string name="base_list_load_more_loading_tip_text">正在載入中...</string>
+    <string name="base_list_load_more_load_error">載入失敗，點擊重新載入</string>
+</resources>

@@ -33,7 +33,7 @@ public class ContactTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     public void onFindView(ViewFinder finder) {
-        text = finder.get(R.id.text);
+        text = finder.get(R.id.base_list_error_tip);
         avatar = finder.get(R.id.avatar);
     }
 

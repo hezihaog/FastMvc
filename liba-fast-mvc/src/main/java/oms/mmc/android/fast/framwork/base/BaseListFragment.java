@@ -49,8 +49,8 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     protected BaseListAdapter<T> listViewAdapter;
 
     @Override
-    public View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = super.onInflaterRootView(inflater, container, savedInstanceState);
+    public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = super.onLazyCreateView(inflater, container, savedInstanceState);
         refreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fast_refresh_layout);
         refreshLayout.setId(MethodCompat.generateViewId());
         //初始化rv

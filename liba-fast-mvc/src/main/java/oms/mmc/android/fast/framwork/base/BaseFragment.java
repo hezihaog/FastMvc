@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.basiclib.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 
@@ -51,7 +52,7 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
     }
 
     @Override
-    public View onInflaterRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewFinder = new ViewFinder(inflater, container, onLayoutId());
         setRootView(viewFinder.getRootView());
         return viewFinder.getRootView();
@@ -61,6 +62,11 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
         onFindView(getViewFinder());
         onLayoutAfter();
+    }
+
+    @Override
+    protected View onGetLazyLoadingView() {
+        return LayoutInflater.from(getContext()).inflate(R.layout.base_list_loading, null);
     }
 
     @Override

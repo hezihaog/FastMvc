@@ -94,7 +94,7 @@ public class SimpleLoadViewHelper {
             @Override
             public void run() {
                 View layout = helper.inflate(R.layout.base_list_error);
-                layout.findViewById(R.id.refresh).setOnClickListener(onClickRefreshListener);
+                layout.findViewById(R.id.base_list_error_refresh).setOnClickListener(onClickRefreshListener);
                 helper.showLayout(layout);
                 if (listener != null) {
                     listener.onShowFail();

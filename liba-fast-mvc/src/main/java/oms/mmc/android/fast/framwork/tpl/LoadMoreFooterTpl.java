@@ -23,7 +23,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
 
 public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadViewFactory.ILoadMoreView {
     protected View footView;
-    protected TextView text;
+    protected TextView tipText;
     protected ProgressBar progressBar;
     protected View.OnClickListener onClickRefreshListener;
 
@@ -73,7 +73,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     @Override
     public void onFindView(ViewFinder finder) {
         footView = getRoot();
-        text = (TextView) footView.findViewById(R.id.text);
+        tipText = (TextView) footView.findViewById(R.id.base_list_error_tip);
         progressBar = (ProgressBar) footView.findViewById(R.id.progressBar);
     }
 
@@ -104,8 +104,8 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     public void showNormal() {
         footView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-        text.setVisibility(View.VISIBLE);
-        text.setText("");
+        tipText.setVisibility(View.VISIBLE);
+        tipText.setText("");
         footView.setOnClickListener(null);
     }
 
@@ -113,8 +113,8 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     public void showLoading() {
         footView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
-        text.setVisibility(View.VISIBLE);
-        text.setText("正在加载中..");
+        tipText.setVisibility(View.VISIBLE);
+        tipText.setText(R.string.base_list_load_more_loading_tip_text);
         footView.setOnClickListener(null);
     }
 
@@ -122,8 +122,8 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     public void showFail() {
         footView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-        text.setVisibility(View.VISIBLE);
-        text.setText("加载失败，点击重新加载");
+        tipText.setVisibility(View.VISIBLE);
+        tipText.setText(R.string.base_list_load_more_load_error);
         footView.setOnClickListener(onClickRefreshListener);
     }
 
@@ -131,8 +131,8 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     public void showNoMore() {
         footView.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
-        text.setVisibility(View.VISIBLE);
-        text.setText("");
+        tipText.setVisibility(View.VISIBLE);
+        tipText.setText("");
         footView.setOnClickListener(null);
     }
 }
