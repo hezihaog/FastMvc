@@ -35,18 +35,20 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
  */
 
 public class ConversationFragment extends BaseListFragment {
+    //编辑功能条目
+    public static final int TPL_EDIT = 0;
     //微信团队
-    public static final int TPL_WE_CHAT_TEAM_MSG = 0;
+    public static final int TPL_WE_CHAT_TEAM_MSG = 1;
     //订阅号
-    public static final int TPL_SUBSCRIPTION = 1;
+    public static final int TPL_SUBSCRIPTION = 2;
     //新闻
-    public static final int TPL_NEWS = 2;
+    public static final int TPL_NEWS = 3;
     //服务通知
-    public static final int TPL_SERVER_MSG = 3;
+    public static final int TPL_SERVER_MSG = 4;
     //邮箱
-    public static final int TPL_EMAIL = 4;
+    public static final int TPL_EMAIL = 5;
     //具体聊天
-    public static final int TPL_CHAT = 5;
+    public static final int TPL_CHAT = 6;
 
     @Override
     public void onFindView(ViewFinder finder) {

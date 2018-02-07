@@ -2,7 +2,6 @@ package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,7 +14,7 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.util.LocalBroadcastHelper;
+import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
 
 /**
  * ListView帮助类
@@ -79,11 +78,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                                 !recyclerView.canScrollVertically(1)) {
                             //必须网络可用才能进行加载更多，没有网络直接显示失败了
                             if (RecyclerViewViewHelper.hasNetwork(context)) {
-                                sendLoadMoreState(ILoadViewFactory.ILoadMoreView.LOADING);
+                                sendLoadMoreState(LoadMoreBroadcast.LOADING);
                                 loadMore();
                             } else {
                                 if (!isLoading()) {
-                                    sendLoadMoreState(ILoadViewFactory.ILoadMoreView.FAIL);
+                                    sendLoadMoreState(LoadMoreBroadcast.FAIL);
                                 }
                             }
                         }
@@ -126,10 +125,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     }
 
     private void sendLoadMoreState(int state) {
-        Intent intent = new Intent();
-        intent.putExtra(ILoadViewFactory.ILoadMoreView.BUNDLE_KEY_HELPER_HASH, helperHashCode);
-        intent.putExtra(ILoadViewFactory.ILoadMoreView.BUNDLE_KEY_STATE, state);
-        LocalBroadcastHelper.sendLoadMore(context, intent);
+        new LoadMoreBroadcast().
+                put(LoadMoreBroadcast.BUNDLE_KEY_HELPER_HASH, helperHashCode)
+                .put(LoadMoreBroadcast.BUNDLE_KEY_STATE, state).send(context);
     }
 
     public int getScrollState() {
@@ -271,7 +269,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 if (onStateChangeListener != null) {
                     onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoaderMore);
                 }
-                sendLoadMoreState(ILoadViewFactory.ILoadMoreView.LOADING);
+                sendLoadMoreState(LoadMoreBroadcast.LOADING);
             }
 
             @Override
@@ -288,7 +286,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
                     mLoadView.tipFail();
-                    sendLoadMoreState(ILoadViewFactory.ILoadMoreView.FAIL);
+                    sendLoadMoreState(LoadMoreBroadcast.FAIL);
                 } else {
                     dataAdapter.setListViewData(result, false);
                     dataAdapter.notifyDataSetChanged();
@@ -299,9 +297,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                     hasMoreData = dataSource.hasMore();
                     if (hasMoreData) {
-                        sendLoadMoreState(ILoadViewFactory.ILoadMoreView.NO_MORE);
+                        sendLoadMoreState(LoadMoreBroadcast.NO_MORE);
                     } else {
-                        sendLoadMoreState(ILoadViewFactory.ILoadMoreView.NO_MORE);
+                        sendLoadMoreState(LoadMoreBroadcast.NO_MORE);
                     }
                 }
                 if (onStateChangeListener != null) {
@@ -361,8 +359,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     /**
      * 设置状态监听，监听开始刷新，刷新成功，开始加载更多，加载更多成功
-     *
-     * @param onStateChangeListener
      */
     public void setOnStateChangeListener(OnStateChangeListener<ArrayList<Model>> onStateChangeListener) {
         this.onStateChangeListener = onStateChangeListener;

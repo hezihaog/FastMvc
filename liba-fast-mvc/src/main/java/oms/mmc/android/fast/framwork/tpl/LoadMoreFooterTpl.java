@@ -11,7 +11,8 @@ import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
-import oms.mmc.android.fast.framwork.util.LocalBroadcastHelper;
+import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
+import oms.mmc.android.fast.framwork.util.BroadcastHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
 
 /**
@@ -39,20 +40,20 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent != null) {
-                    int helperHash = intent.getIntExtra(ILoadViewFactory.ILoadMoreView.BUNDLE_KEY_HELPER_HASH, -1);
+                    int helperHash = intent.getIntExtra(LoadMoreBroadcast.BUNDLE_KEY_HELPER_HASH, -1);
                     if (helperHash == recyclerViewHelper.hashCode()) {
-                        int state = intent.getIntExtra(ILoadViewFactory.ILoadMoreView.BUNDLE_KEY_STATE, ILoadViewFactory.ILoadMoreView.NOMAL);
+                        int state = intent.getIntExtra(LoadMoreBroadcast.BUNDLE_KEY_STATE, LoadMoreBroadcast.NOMAL);
                         switch (state) {
-                            case ILoadViewFactory.ILoadMoreView.NOMAL:
+                            case LoadMoreBroadcast.NOMAL:
                                 showNormal();
                                 break;
-                            case ILoadViewFactory.ILoadMoreView.LOADING:
+                            case LoadMoreBroadcast.LOADING:
                                 showLoading();
                                 break;
-                            case ILoadViewFactory.ILoadMoreView.FAIL:
+                            case LoadMoreBroadcast.FAIL:
                                 showFail();
                                 break;
-                            case ILoadViewFactory.ILoadMoreView.NO_MORE:
+                            case LoadMoreBroadcast.NO_MORE:
                                 showNoMore();
                                 break;
                         }
@@ -60,13 +61,13 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
                 }
             }
         };
-        LocalBroadcastHelper.registerLoadMore(mActivity, receiver);
+        BroadcastHelper.register(mActivity, LoadMoreBroadcast.class.getName(), receiver);
     }
 
     @Override
     public void onRecyclerViewDetachedFromWindow(View view) {
         super.onRecyclerViewDetachedFromWindow(view);
-        LocalBroadcastHelper.unRegister(mActivity, receiver);
+        BroadcastHelper.unRegister(mActivity, receiver);
     }
 
     @Override
