@@ -2,6 +2,9 @@ package oms.mmc.android.fast.framwork.broadcast;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -36,6 +39,8 @@ public abstract class BaseBroadcast {
         for (Map.Entry<String, Serializable> entry : getDatas().entrySet()) {
             intent.putExtra(entry.getKey(), entry.getValue());
         }
+        //限制广播只在当前应用传递
+        limit(context, intent);
         BroadcastHelper.sendBroadcast(context, intent, onGetBroadcastAction());
     }
 
@@ -60,5 +65,32 @@ public abstract class BaseBroadcast {
             return defaultValue;
         }
         return value;
+    }
+
+    /**
+     * 限制广播只在当前应用传递
+     */
+    private void limit(Context context, Intent intent) {
+        String packageName = getAppPackageName(context);
+        if (!TextUtils.isEmpty(packageName)) {
+            intent.setPackage(packageName);
+        }
+    }
+
+    /**
+     * 获取当前App的包名
+     */
+    private static String getAppPackageName(Context context) {
+        String packageName;
+        try {
+            PackageManager manager = context.getPackageManager();
+            //getPackageName()是当前App的包名，0代表是获取版本信息
+            PackageInfo packageInfo = manager.getPackageInfo(context.getPackageName(), 0);
+            packageName = packageInfo.packageName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            packageName = "";
+        }
+        return packageName;
     }
 }
