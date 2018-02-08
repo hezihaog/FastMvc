@@ -16,7 +16,6 @@ import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.bean.IResult;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 
@@ -30,7 +29,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected Bundle bundle;
 
     protected RecyclerViewViewHelper recyclerViewHelper;
-    protected IDataAdapter<ArrayList<? extends BaseItemData>> listViewAdapter;
+    protected BaseListAdapter<? extends BaseItemData> listViewAdapter;
     protected IDataSource<? extends BaseItemData> listViewDataSource;
     protected ArrayList<? extends BaseItemData> listViewData;
     protected RecyclerView recyclerView;
@@ -55,7 +54,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
         initView();
     }
 
-    public void config(IDataAdapter<ArrayList<? extends BaseItemData>> adapter, ArrayList<? extends BaseItemData> data
+    public void config(BaseListAdapter<? extends BaseItemData> adapter, ArrayList<? extends BaseItemData> data
             , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper) {
         this.listViewAdapter = adapter;
         this.listViewDataSource = dataSource;
@@ -89,6 +88,10 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     public View getRoot() {
         return root;
+    }
+
+    protected ViewFinder getViewFinder() {
+        return viewFinder;
     }
 
     @Override

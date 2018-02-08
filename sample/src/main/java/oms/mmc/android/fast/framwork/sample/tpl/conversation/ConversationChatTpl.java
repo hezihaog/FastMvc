@@ -1,6 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,10 +24,11 @@ import oms.mmc.android.fast.framwork.sample.R;
  * Email: hezihao@linghit.com
  */
 
-public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> {
+public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> implements CompoundButton.OnCheckedChangeListener {
     ImageView avatar;
     TextView name;
     TextView msgContent;
+    private CheckBox checkBox;
 
     @Override
     public int onLayoutId() {
@@ -37,6 +40,8 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> {
         avatar = finder.get(R.id.avatar);
         name = finder.get(R.id.name);
         msgContent = finder.get(R.id.msgContent);
+        checkBox = finder.get(R.id.checkBox);
+        checkBox.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -47,6 +52,17 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> {
         Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
         name.setText(nameText);
         msgContent.setText(content);
+
+        if (listViewAdapter.isEditMode()) {
+            getViewFinder().setVisibility(R.id.checkBox);
+        } else {
+            getViewFinder().setGone(R.id.checkBox);
+        }
+        if (listViewAdapter.getCheckedItemPositions().contains(position)) {
+            checkBox.setChecked(true);
+        } else {
+            checkBox.setChecked(false);
+        }
     }
 
     @Override
@@ -59,5 +75,14 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> {
     protected void onItemLongClick(View view) {
         super.onItemLongClick(view);
         ToastUtil.showToast(getActivity(), "onItemLongClick");
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            listViewAdapter.getCheckedItemPositions().add(position);
+        } else {
+            listViewAdapter.getCheckedItemPositions().remove(position);
+        }
     }
 }

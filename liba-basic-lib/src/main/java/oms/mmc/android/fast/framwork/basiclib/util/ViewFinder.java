@@ -118,4 +118,22 @@ public class ViewFinder {
             get(id).setOnClickListener(l);
         }
     }
+
+    public void setVisibility(int... ids) {
+        for (int id : ids) {
+            if (id <= 0) {
+                continue;
+            }
+            get(id).setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setGone(int... ids) {
+        for (int id : ids) {
+            if (id <= 0) {
+                continue;
+            }
+            get(id).setVisibility(View.GONE);
+        }
+    }
 }

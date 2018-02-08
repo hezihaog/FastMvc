@@ -13,26 +13,7 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimary">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/editMode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="@string/main_tool_bar_edit_mode_text"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
+            android:background="@color/colorPrimary" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"

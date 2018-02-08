@@ -2,5 +2,5 @@
     <string name="app_name">FastMvc</string>
     <string name="wait_dialog_tip_loading">載入中...</string>
     <string name="main_tool_bar_edit_mode_text">編輯</string>
-    <string name="main_tool_bar_cancel_mode_text">取消</string>
+    <string name="main_tool_bar_complete_mode_text">完成</string>
 </resources>

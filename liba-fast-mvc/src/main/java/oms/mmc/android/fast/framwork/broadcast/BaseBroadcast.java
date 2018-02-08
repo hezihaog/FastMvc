@@ -23,19 +23,16 @@ import oms.mmc.android.fast.framwork.util.BroadcastHelper;
 
 public abstract class BaseBroadcast {
     private HashMap<String, Serializable> datas;
-    private final Intent intent;
 
     public BaseBroadcast() {
         datas = new HashMap<String, Serializable>();
-        String action = onGetBroadcastAction();
-        intent = new Intent(action);
     }
 
     /**
      * 发送广播
      */
     public void send(Context context) {
-        Intent intent = getIntent();
+        Intent intent = new Intent(onGetBroadcastAction());
         for (Map.Entry<String, Serializable> entry : getDatas().entrySet()) {
             intent.putExtra(entry.getKey(), entry.getValue());
         }
@@ -48,10 +45,6 @@ public abstract class BaseBroadcast {
 
     public HashMap<String, Serializable> getDatas() {
         return datas;
-    }
-
-    public Intent getIntent() {
-        return intent;
     }
 
     public BaseBroadcast put(String key, Serializable value) {

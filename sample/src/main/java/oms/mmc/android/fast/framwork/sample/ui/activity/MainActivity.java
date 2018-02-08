@@ -4,8 +4,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -30,11 +28,11 @@ import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
  * Email: hezihao@linghit.com
  */
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity {
     private Toolbar toolBar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private TextView editModeTv;
+    private SimpleFragmentPagerAdapter viewPagerAdapter;
 
     @Override
     public int onLayoutId() {
@@ -46,14 +44,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         toolBar = finder.get(R.id.toolBar);
         viewPager = finder.get(R.id.viewPager);
         tabLayout = finder.get(R.id.tabLayout);
-        editModeTv = finder.get(R.id.editMode);
     }
 
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        toolBar.setTitle(R.string.app_name);
         toolBar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
-        editModeTv.setOnClickListener(this);
         ArrayList<String> titles = new ArrayList<String>();
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         //组装fragment
@@ -70,8 +67,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         titles.add("联系人");
         titles.add("发现");
         titles.add("我");
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
-        viewPager.setAdapter(adapter);
+        viewPagerAdapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
+        viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(fragments.size() - 1);
         for (int i = 0; i < fragments.size(); i++) {
             tabLayout.addTab(tabLayout.newTab().setText(fragments.get(i).getClass().getSimpleName()));
@@ -90,10 +87,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 ((BaseFragment) fragment).addVisibleChangeCallback(visibleCallback);
             }
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }

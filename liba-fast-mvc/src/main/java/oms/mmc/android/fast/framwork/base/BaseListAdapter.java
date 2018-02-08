@@ -514,4 +514,12 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     public int getMode() {
         return mode;
     }
+
+    public boolean isEditMode() {
+        return getMode() == BaseListAdapter.MODE_EDIT;
+    }
+
+    public boolean isNormalMode() {
+        return getMode() == BaseListAdapter.MODE_NORMAL;
+    }
 }
