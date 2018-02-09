@@ -72,8 +72,11 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
                 int mode = intent.getIntExtra(ConversationEditStateChangeBroadcast.KEY_MODE, ConversationEditStateChangeBroadcast.NOMAL_MODE);
                 if (ConversationEditStateChangeBroadcast.isEditMode(mode)) {
                     listViewAdapter.setMode(BaseListAdapter.MODE_EDIT);
+                    //编辑模式时不能下拉刷新
+                    recyclerViewHelper.setCanPullToRefresh(false);
                 } else {
                     listViewAdapter.setMode(BaseListAdapter.MODE_NORMAL);
+                    recyclerViewHelper.setCanPullToRefresh(true);
                 }
                 listViewAdapter.notifyDataSetChanged();
             }

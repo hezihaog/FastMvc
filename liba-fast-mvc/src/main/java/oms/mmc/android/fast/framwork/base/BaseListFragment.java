@@ -20,7 +20,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewVie
 
 public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>, OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
-     * 下来刷新控件
+     * 下拉刷新控件
      */
     protected SwipeRefreshLayout refreshLayout;
     /**

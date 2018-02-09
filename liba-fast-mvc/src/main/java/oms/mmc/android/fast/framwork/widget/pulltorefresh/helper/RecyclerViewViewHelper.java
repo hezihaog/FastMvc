@@ -425,8 +425,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      */
     public void setCanPullToRefresh(boolean canPullToRefresh) {
         isCanPullToRefresh = canPullToRefresh;
-        refreshLayoutIsEnabled = false;
-        //不允许下拉刷新，直接禁用
-        refreshLayout.setEnabled(false);
+        if (isCanPullToRefresh) {
+            refreshLayoutIsEnabled = true;
+            refreshLayout.setEnabled(true);
+        } else {
+            refreshLayoutIsEnabled = false;
+            //不允许下拉刷新，直接禁用
+            refreshLayout.setEnabled(false);
+        }
     }
 }
