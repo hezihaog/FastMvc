@@ -2,7 +2,7 @@ package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import android.widget.TextView;
 
-import oms.mmc.android.fast.framwork.base.BaseTpl;
+import oms.mmc.android.fast.framwork.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.sample.R;
  * Email: hezihao@linghit.com
  */
 
-public class ContactLetterTpl extends BaseTpl<ItemDataWrapper> {
+public class ContactLetterTpl extends BaseStickyTpl<ItemDataWrapper> {
     TextView letter;
 
     private String data;
@@ -35,5 +35,15 @@ public class ContactLetterTpl extends BaseTpl<ItemDataWrapper> {
     public void render() {
         data = (String) bean.getDatas().get(0);
         letter.setText(data);
+    }
+
+    @Override
+    public void onAttachSticky() {
+
+    }
+
+    @Override
+    public void onDetachedSticky() {
+
     }
 }

@@ -255,11 +255,21 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
 
     @Override
     public void setupStickyHeaderView(View stickyHeader) {
+        Object tag = stickyHeader.getTag(R.id.tag_tpl);
+        if (tag != null && tag instanceof BaseStickyTpl) {
+            BaseStickyTpl tpl = (BaseStickyTpl) tag;
+            tpl.onAttachSticky();
+        }
         ViewCompat.setElevation(stickyHeader, 10);
     }
 
     @Override
     public void teardownStickyHeaderView(View stickyHeader) {
+        Object tag = stickyHeader.getTag(R.id.tag_tpl);
+        if (tag != null && tag instanceof BaseStickyTpl) {
+            BaseStickyTpl tpl = (BaseStickyTpl) tag;
+            tpl.onDetachedSticky();
+        }
         ViewCompat.setElevation(stickyHeader, 0);
     }
 
