@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.sample.util;
 import android.app.Activity;
 import android.content.Intent;
 
+import oms.mmc.android.fast.framwork.sample.ui.activity.ConversationDetailActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
 
 /**
@@ -20,6 +21,14 @@ public class MMCUIHelper {
      */
     public static void showMain(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 跳转到会话详情
+     */
+    public static void showConversationDetail(Activity activity) {
+        Intent intent = new Intent(activity, ConversationDetailActivity.class);
         activity.startActivity(intent);
     }
 }

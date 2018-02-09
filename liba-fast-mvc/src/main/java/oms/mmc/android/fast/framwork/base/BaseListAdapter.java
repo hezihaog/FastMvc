@@ -125,7 +125,8 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
                     public void onClick(View view) {
                         if (onItemClickListeners != null) {
                             for (OnRecyclerViewItemClickListener clickListener : onItemClickListeners) {
-                                clickListener.onItemClick(view);
+                                BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                                clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
                             }
                         }
                     }
@@ -136,8 +137,9 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
                     @Override
                     public boolean onLongClick(View view) {
                         if (onItemLongClickListener != null) {
+                            BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
                             for (OnRecyclerViewItemLongClickListener longClickListener : onItemLongClickListener) {
-                                longClickListener.onItemLongClick(view);
+                                longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
                             }
                         }
                         return true;
@@ -266,11 +268,11 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     }
 
     public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view);
+        void onItemClick(View view, BaseTpl clickTpl, int position);
     }
 
     public interface OnRecyclerViewItemLongClickListener {
-        boolean onItemLongClick(View view);
+        boolean onItemLongClick(View view, BaseTpl longClickTpl, int position);
     }
 
     public void setListViewData(ArrayList<T> listViewData) {
@@ -288,17 +290,17 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
         addOnItemClickListener(new OnRecyclerViewItemClickListener() {
 
             @Override
-            public void onItemClick(View view) {
+            public void onItemClick(View view, BaseTpl clickTpl, int position) {
                 BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                tpl.onItemClick(view);
+                tpl.onItemClick(view, position);
             }
         });
         addOnItemLongClickListener(new OnRecyclerViewItemLongClickListener() {
 
             @Override
-            public boolean onItemLongClick(View view) {
+            public boolean onItemLongClick(View view, BaseTpl longClickTpl, int position) {
                 BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                tpl.onItemLongClick(view);
+                tpl.onItemLongClick(view, position);
                 return true;
             }
         });

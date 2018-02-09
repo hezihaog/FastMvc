@@ -149,12 +149,12 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     }
 
     @Override
-    public void onItemClick(View view) {
+    public void onItemClick(View view, BaseTpl clickTpl, int position) {
 
     }
 
     @Override
-    public boolean onItemLongClick(View view) {
+    public boolean onItemLongClick(View view, BaseTpl longClickTpl, int position) {
         return false;
     }
 

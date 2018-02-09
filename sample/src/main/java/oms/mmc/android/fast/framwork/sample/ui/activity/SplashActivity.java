@@ -19,6 +19,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected FragmentFactory.FragmentInfoWrapper onGetFragmentInfo() {
-        return new FragmentFactory.FragmentInfoWrapper<SplashFragment>(SplashFragment.class, null);
+        return new FragmentFactory.FragmentInfoWrapper(SplashFragment.class, null);
     }
 }

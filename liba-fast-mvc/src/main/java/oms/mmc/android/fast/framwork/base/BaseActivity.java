@@ -101,6 +101,11 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
 
     }
 
+    @Override
+    public void onFindView(ViewFinder finder) {
+
+    }
+
     public String intentStr(String key) {
         return getIntent().getStringExtra(key);
     }
@@ -177,6 +182,11 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         return null;
     }
 
+    /**
+     * 初始化对应的的fragment，当界面很简单，只有一个activity对应一个fragment时使用
+     *
+     * @param infoWrapper fragment和跳转数据的包装
+     */
     protected void setupFragment(FragmentFactory.FragmentInfoWrapper infoWrapper) {
         if (infoWrapper == null) {
             return;
@@ -190,5 +200,17 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
                 .beginTransaction()
                 .add(android.R.id.content, fragment, fragment.getClass().getName())
                 .commit();
+    }
+
+    /**
+     * 将Intent的数据转移到Fragment
+     */
+    public Bundle transformActivityData() {
+        Intent intent = getIntent();
+        Bundle bundle = new Bundle();
+        if (intent.getExtras() != null && !intent.getExtras().isEmpty()) {
+            bundle.putAll(intent.getExtras());
+        }
+        return bundle;
     }
 }

@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.hzh.logger.L;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -65,7 +63,6 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected void initView() {
         onLayoutBefore();
         root = LayoutInflater.from(mActivity).inflate(onLayoutId(), recyclerView, false);
-        L.d("initView ::: ");
         root.addOnAttachStateChangeListener(this);
         viewHolder = new ViewHolder(root);
         viewFinder = new ViewFinder(root);
@@ -99,11 +96,11 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     }
 
-    protected void onItemClick(View view) {
+    protected void onItemClick(View view, int position) {
 
     }
 
-    protected void onItemLongClick(View view) {
+    protected void onItemLongClick(View view, int position) {
 
     }
 
@@ -118,6 +115,10 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     public T getBean() {
         return bean;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public void setBeanPosition(ArrayList<? extends BaseItemData> listViewData, T item, int position) {

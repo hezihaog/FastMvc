@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.ui.activity;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -33,6 +34,7 @@ public class MainActivity extends BaseActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private SimpleFragmentPagerAdapter viewPagerAdapter;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     public int onLayoutId() {
@@ -44,6 +46,7 @@ public class MainActivity extends BaseActivity {
         toolBar = finder.get(R.id.toolBar);
         viewPager = finder.get(R.id.viewPager);
         tabLayout = finder.get(R.id.tabLayout);
+        floatingActionButton = finder.get(R.id.floatingActionButton);
     }
 
     @Override
@@ -79,7 +82,15 @@ public class MainActivity extends BaseActivity {
         PagerVisibleFragment.OnFragmentVisibleChangeCallback visibleCallback = new PagerVisibleFragment.OnFragmentVisibleChangeCallback() {
             @Override
             public void onFragmentVisibleChange(String name, boolean isVisible) {
-                //L.d("onFragmentVisibleChange ::: name --> " + name + " isVisible ::: " + isVisible);
+                if (isVisible) {
+                    if (name.equals(ConversationFragment.class.getName())) {
+                        floatingActionButton.show();
+                    }
+                } else {
+                    if (name.equals(ConversationFragment.class.getName())) {
+                        floatingActionButton.hide();
+                    }
+                }
             }
         };
         for (Fragment fragment : fragments) {

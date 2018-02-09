@@ -66,14 +66,14 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> implements Com
     }
 
     @Override
-    protected void onItemClick(View view) {
-        super.onItemClick(view);
+    protected void onItemClick(View view, int position) {
+        super.onItemClick(view, position);
         ToastUtil.showToast(getActivity(), "onItemClick");
     }
 
     @Override
-    protected void onItemLongClick(View view) {
-        super.onItemLongClick(view);
+    protected void onItemLongClick(View view, int position) {
+        super.onItemLongClick(view, position);
         ToastUtil.showToast(getActivity(), "onItemLongClick");
     }
 

@@ -55,20 +55,20 @@ public class FragmentFactory {
         return newInstance(context, infoWrapper.getClazz(), infoWrapper.getArgs());
     }
 
-    public static class FragmentInfoWrapper<T extends Fragment> {
-        private Class<T> clazz;
+    public static class FragmentInfoWrapper {
+        private Class clazz;
         private Bundle args;
 
-        public FragmentInfoWrapper(Class<T> clazz, Bundle args) {
+        public FragmentInfoWrapper(Class clazz, Bundle args) {
             this.clazz = clazz;
             this.args = args;
         }
 
-        public Class<T> getClazz() {
+        public Class getClazz() {
             return clazz;
         }
 
-        public void setClazz(Class<T> clazz) {
+        public void setClazz(Class clazz) {
             this.clazz = clazz;
         }
 

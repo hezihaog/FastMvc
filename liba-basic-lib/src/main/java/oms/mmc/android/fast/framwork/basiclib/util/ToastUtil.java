@@ -61,6 +61,9 @@ public class ToastUtil {
      * 显示toast信息
      */
     private static void toast(final Context context, final String message, final int showTime) {
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
         Handler uiHandler = new Handler(context.getMainLooper());
         uiHandler.post(new Runnable() {
             @Override

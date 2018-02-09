@@ -89,9 +89,28 @@ public abstract class PagerVisibleFragment extends LifecycleFragment {
      * @param isVisible true  不可见 -> 可见 false 可见  -> 不可见
      */
     protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible) {
+            onFragmentInVisible();
+        } else {
+            onFragmentInVisible();
+        }
         for (OnFragmentVisibleChangeCallback callback : visibleCallbacks) {
             callback.onFragmentVisibleChange(getClass().getName(), isVisible);
         }
+    }
+
+    /**
+     * 当fragment显示时回调
+     */
+    protected void onFragmentVisibled() {
+
+    }
+
+    /**
+     * 当fragment隐藏时回调
+     */
+    protected void onFragmentInVisible() {
+
     }
 
     public interface OnFragmentVisibleChangeCallback {
