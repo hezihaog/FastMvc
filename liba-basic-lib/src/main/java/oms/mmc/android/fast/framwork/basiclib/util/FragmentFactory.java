@@ -44,4 +44,40 @@ public class FragmentFactory {
         }
         return fragment;
     }
+
+    /**
+     * 支持类对象和Arg参数包裹类
+     */
+    public static Fragment newInstance(Context context, FragmentInfoWrapper infoWrapper) {
+        if (infoWrapper == null) {
+            return null;
+        }
+        return newInstance(context, infoWrapper.getClazz(), infoWrapper.getArgs());
+    }
+
+    public static class FragmentInfoWrapper<T extends Fragment> {
+        private Class<T> clazz;
+        private Bundle args;
+
+        public FragmentInfoWrapper(Class<T> clazz, Bundle args) {
+            this.clazz = clazz;
+            this.args = args;
+        }
+
+        public Class<T> getClazz() {
+            return clazz;
+        }
+
+        public void setClazz(Class<T> clazz) {
+            this.clazz = clazz;
+        }
+
+        public Bundle getArgs() {
+            return args;
+        }
+
+        public void setArgs(Bundle args) {
+            this.args = args;
+        }
+    }
 }

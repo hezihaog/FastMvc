@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -11,6 +12,7 @@ import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.basiclib.util.ActivityManager;
+import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
 import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
@@ -36,6 +38,7 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         //onSetStatusBarBlack();
         onFindView(viewFinder);
         onLayoutAfter();
+        setupFragment(onGetFragmentInfo());
     }
 
     @Override
@@ -168,5 +171,24 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     }
 
     protected void onApiError(String tag) {
+    }
+
+    protected FragmentFactory.FragmentInfoWrapper onGetFragmentInfo() {
+        return null;
+    }
+
+    protected void setupFragment(FragmentFactory.FragmentInfoWrapper infoWrapper) {
+        if (infoWrapper == null) {
+            return;
+        }
+        if (infoWrapper.getClazz() == null) {
+            return;
+        }
+        Fragment fragment = FragmentFactory.newInstance(getActivity(), infoWrapper.getClazz()
+                , infoWrapper.getArgs());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(android.R.id.content, fragment, fragment.getClass().getName())
+                .commit();
     }
 }
