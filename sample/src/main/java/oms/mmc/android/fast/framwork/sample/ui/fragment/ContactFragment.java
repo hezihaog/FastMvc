@@ -73,7 +73,7 @@ public class ContactFragment extends BaseListFragment {
                 models.add(new BaseItemData(TPL_LABLE));
                 models.add(new BaseItemData(TPL_OFFICIAL_ACCOUNTS));
                 ArrayList<String> datas = new ArrayList<String>();
-                for (int i = 0; i < 15; i++) {
+                for (int i = 0; i < 25; i++) {
                     datas.add(FakeUtil.getRandomName(i));
                 }
                 //按字母排序
