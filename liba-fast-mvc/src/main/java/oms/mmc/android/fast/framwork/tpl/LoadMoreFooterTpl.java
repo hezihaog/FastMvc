@@ -86,11 +86,6 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     public void render() {
         //一开始都先显示空布局
         showNormal();
-        //如果是因为条目比较少，一开始尾部就显示了
-        if (isFirstAddFooter) {
-            isFirstAddFooter = false;
-            return;
-        }
         //有更多数据，加载更多，并显示空布局
         if (recyclerViewHelper.isHasMoreData()) {
             this.showNormal();

@@ -91,6 +91,11 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
+    public int onLayoutId() {
+        return R.layout.fragment_conversation;
+    }
+
+    @Override
     public void onFindView(ViewFinder finder) {
     }
 
@@ -164,7 +169,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public void onListReady() {
         super.onListReady();
-        recyclerView.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+        compatNestedScroll();
     }
 
     @Override

@@ -38,7 +38,6 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected int position;
     protected T bean;
     protected BaseTpl.ViewHolder viewHolder;
-    private LayoutInflater mInflater;
     private ViewFinder viewFinder;
 
     public void init(Context context, RecyclerView recyclerView, int itemViewType) {
@@ -50,7 +49,6 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
             this.bundle = intent.getExtras();
         }
         ac = (BaseMMCFastApplication) context.getApplicationContext();
-        mInflater = LayoutInflater.from(context);
         initView();
     }
 
@@ -74,7 +72,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
             }
         });
         onLayoutBefore();
-        root = mInflater.inflate(onLayoutId(), recyclerView, false);
+        root = LayoutInflater.from(mActivity).inflate(onLayoutId(), recyclerView, false);
         root.addOnAttachStateChangeListener(this);
         viewHolder = new ViewHolder(root);
         viewFinder = new ViewFinder(root);

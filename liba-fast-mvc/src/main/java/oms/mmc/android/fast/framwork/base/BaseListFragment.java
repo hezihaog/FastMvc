@@ -102,7 +102,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
 
     @Override
     public int onLayoutId() {
-        return R.layout.base_list_frag;
+        return R.layout.fragment_base_list;
     }
 
     @Override
@@ -119,6 +119,8 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     public ILoadViewFactory onLoadViewFactoryReady() {
         return new BaseLoadViewFactory();
     }
+
+//    protected abstract void onGetListScrollListenerDelegate();
 
     @Override
     public void onStartRefresh(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {
@@ -153,5 +155,15 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     @Override
     public int onGetStickyTplViewType() {
         return BaseListAdapter.NOT_STICKY_SECTION;
+    }
+
+    /**
+     * 嵌套NestedScrollView时在onListReady()时调用
+     */
+    public void compatNestedScroll() {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        layoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
     }
 }

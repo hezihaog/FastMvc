@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +20,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 
-public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements IDataAdapter<ArrayList<T>>, Filterable, StickyHeaders, StickyHeaders.ViewSetup {
+public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements IDataAdapter<ArrayList<T>>, StickyHeaders, StickyHeaders.ViewSetup {
     /**
      * 不使用粘性头部
      */
@@ -97,24 +95,6 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
      * 可用于保存临时数据的容器
      */
     protected Map<String, Object> tagList = new ArrayMap<String, Object>();
-    /**
-     * 过滤器
-     */
-    private Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            FilterResults results = new FilterResults();
-            results.values = originData;
-            results.count = originData.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            listViewData = (ArrayList<T>) results.values;
-            notifyDataSetChanged();
-        }
-    };
 
     public BaseListAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource<T> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType) {
@@ -480,15 +460,6 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
      */
     public Map<String, Object> getTagList() {
         return tagList;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
     }
 
     public ArrayList<T> getOriginData() {
