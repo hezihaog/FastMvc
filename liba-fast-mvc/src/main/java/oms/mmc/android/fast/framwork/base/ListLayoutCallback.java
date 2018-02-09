@@ -55,4 +55,9 @@ public interface ListLayoutCallback<T> {
      * 需要设置粘性悬浮条目类时重写该方法返回粘性条目的类型
      */
     int onGetStickyTplViewType();
+
+    /**
+     * 获取滚动刷新帮助类对象
+     */
+    ListScrollHelper onGetScrollHelper();
 }

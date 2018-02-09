@@ -74,6 +74,9 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
         recyclerViewHelper.setDataSource(this.listDataSource);
         recyclerViewHelper.setOnStateChangeListener(this);
         listAdapter.setRecyclerViewHelper(recyclerViewHelper);
+        //加入滚动监听
+        ListScrollHelper scrollHelper = onGetScrollHelper();
+        recyclerViewHelper.setupScrollHelper(scrollHelper);
         onListReady();
     }
 
@@ -82,7 +85,6 @@ public abstract class BaseListActivity<T> extends BaseActivity implements ListLa
         super.onDestroy();
         recyclerViewHelper.destroy();
     }
-
 
     @Override
     public void onListReady() {

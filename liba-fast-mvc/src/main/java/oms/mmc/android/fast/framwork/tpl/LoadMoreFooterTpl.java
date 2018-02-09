@@ -25,12 +25,10 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
  */
 
 public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadViewFactory.ILoadMoreView {
-    protected View footView;
-    protected TextView tipText;
-    protected ProgressBar progressBar;
+    private View footView;
+    private TextView tipText;
+    private ProgressBar progressBar;
 
-    //是否是第一次添加尾部，如果是第一次，就忽略了第一次的render方法，其实就是onBindView的回调，后续的回调就是拉到底部时回调的
-    private boolean isFirstAddFooter = true;
     private BroadcastReceiver receiver;
 
     @Override
@@ -84,16 +82,8 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
 
     @Override
     public void render() {
-        //一开始都先显示空布局
-        showNormal();
-        //有更多数据，加载更多，并显示空布局
-        if (recyclerViewHelper.isHasMoreData()) {
-            this.showNormal();
-            loadMore();
-        } else {
-            //没有更多，则显示没有更多数据
-            this.showNoMore();
-        }
+        //一开始都先显示加载中
+        showLoading();
     }
 
     private void loadMore() {

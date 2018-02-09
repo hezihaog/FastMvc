@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -88,6 +89,13 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
         }
     }
 
+    @Override
+    protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onLazyViewCreated(view, savedInstanceState);
+        //加入滚动监听
+        ListScrollHelper listScrollHelper = onGetScrollHelper();
+        recyclerViewHelper.setupScrollHelper(listScrollHelper);
+    }
 
     @Override
     public void onListReady() {
@@ -119,8 +127,6 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     public ILoadViewFactory onLoadViewFactoryReady() {
         return new BaseLoadViewFactory();
     }
-
-//    protected abstract void onGetListScrollListenerDelegate();
 
     @Override
     public void onStartRefresh(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {

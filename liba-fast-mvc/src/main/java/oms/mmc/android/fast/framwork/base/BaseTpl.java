@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.hzh.logger.L;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -61,18 +63,9 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     }
 
     protected void initView() {
-        recyclerView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(View v) {
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-                onRecyclerViewDetachedFromWindow(v);
-            }
-        });
         onLayoutBefore();
         root = LayoutInflater.from(mActivity).inflate(onLayoutId(), recyclerView, false);
+        L.d("initView ::: ");
         root.addOnAttachStateChangeListener(this);
         viewHolder = new ViewHolder(root);
         viewFinder = new ViewFinder(root);

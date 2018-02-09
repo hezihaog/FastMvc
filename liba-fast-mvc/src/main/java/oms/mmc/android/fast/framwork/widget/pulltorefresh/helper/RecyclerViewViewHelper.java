@@ -14,6 +14,11 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
+import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
+import oms.mmc.android.fast.framwork.base.BaseTpl;
+import oms.mmc.android.fast.framwork.base.ListScrollHelper;
+import oms.mmc.android.fast.framwork.base.SimpleListScrollListener;
 import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
 
 /**
@@ -51,8 +56,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private boolean refreshLayoutIsEnabled = true;
     //RecyclerViewViewHelper的哈希值，用于加载更多时发送广播的判断标志
     private final int helperHashCode;
+    private ListScrollHelper listScrollHelper;
 
-    public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, RecyclerView recyclerView) {
+    public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView) {
         super();
         helperHashCode = getRecyclerViewViewHelper().hashCode();
         this.context = refreshLayout.getContext().getApplicationContext();
@@ -66,58 +72,59 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 refresh();
             }
         });
-        //滚动到底部自动加载更多数据
-        this.mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (getDataSource().hasMore()) {
-                    if (!isRefreshing()) {//如果不是刷新状态
-                        //如果滚动到最后一行，RecyclerView.canScrollVertically(1)的值表示是否能向上滚动，false表示已经滚动到底部
-                        if (newState == RecyclerView.SCROLL_STATE_IDLE &&
-                                !recyclerView.canScrollVertically(1)) {
-                            //必须网络可用才能进行加载更多，没有网络直接显示失败了
-                            if (RecyclerViewViewHelper.hasNetwork(context)) {
-                                sendLoadMoreState(LoadMoreBroadcast.LOADING);
-                                loadMore();
-                            } else {
-                                if (!isLoading()) {
-                                    sendLoadMoreState(LoadMoreBroadcast.FAIL);
-                                }
-                            }
-                        }
-                    }
+            public void onViewDetachedFromWindow(View v) {
+                int allItemCount = mRecyclerView.getAdapter().getItemCount();
+                for (int i = 0; i < allItemCount; i++) {
+                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                    BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
+                    tpl.onRecyclerViewDetachedFromWindow(v);
                 }
-                for (int i = 0; mScrollListeners != null && i < mScrollListeners.size(); i++) {
-                    RecyclerView.OnScrollListener scrollListener = mScrollListeners.get(i);
-                    if (scrollListener != null) {
-                        scrollListener.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+    }
+
+    public void setupScrollHelper(ListScrollHelper scrollHelper) {
+        this.listScrollHelper = scrollHelper;
+        listScrollHelper.addListScrollListener(new SimpleListScrollListener() {
+            @Override
+            public void onScrollTop() {
+                if (isCanPullToRefresh) {
+                    if (!refreshLayoutIsEnabled) {
+                        //已经滚动到了顶部，可以下拉刷新
+                        refreshLayout.setEnabled(true);
                     }
                 }
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (isCanPullToRefresh) {
-                    //RecyclerView.canScrollVertically(-1)的值表示是否能向下滚动，false表示已经滚动到顶部
-                    if (!recyclerView.canScrollVertically(-1)) {
-                        if (!refreshLayoutIsEnabled) {
-                            //已经滚动到了顶部，可以下拉刷新
-                            refreshLayout.setEnabled(true);
-                        }
-                    } else {
-                        if (!refreshLayoutIsEnabled) {
-                            //否则禁用下拉刷新
-                            refreshLayout.setEnabled(false);
-                            refreshLayoutIsEnabled = false;
-                        }
+            public void onScrollBottom() {
+                //必须网络可用才能进行加载更多，没有网络直接显示失败了
+                if (RecyclerViewViewHelper.hasNetwork(context)) {
+                    sendLoadMoreState(LoadMoreBroadcast.LOADING);
+                    loadMore();
+                } else {
+                    if (!isLoading()) {
+                        sendLoadMoreState(LoadMoreBroadcast.FAIL);
                     }
                 }
-                for (int i = 0; mScrollListeners != null && i < mScrollListeners.size(); i++) {
-                    RecyclerView.OnScrollListener scrollListener = mScrollListeners.get(i);
-                    if (scrollListener != null) {
-                        scrollListener.onScrolled(recyclerView, dx, dy);
+            }
+
+            @Override
+            public void onScrollStateChanged(View view, int newState) {
+                if (mScrollListeners != null) {
+                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
+                        listener.onScrollStateChanged((RecyclerView) view, newState);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(View view, int dx, int dy) {
+                if (mScrollListeners != null) {
+                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
+                        listener.onScrolled((RecyclerView) view, dx, dy);
                     }
                 }
             }

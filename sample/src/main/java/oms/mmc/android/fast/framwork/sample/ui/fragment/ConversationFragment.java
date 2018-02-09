@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.base.ListScrollHelper;
+import oms.mmc.android.fast.framwork.base.NestedScrollViewScrollableViewWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
@@ -61,6 +64,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     //具体聊天
     public static final int TPL_CHAT = 7;
 
+    private NestedScrollView nestedScrollView;
     private BroadcastReceiver receiver;
 
     @Override
@@ -96,7 +100,14 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
+    public ListScrollHelper onGetScrollHelper() {
+        NestedScrollViewScrollableViewWrapper viewWrapper = new NestedScrollViewScrollableViewWrapper(nestedScrollView);
+        return new ListScrollHelper(viewWrapper);
+    }
+
+    @Override
     public void onFindView(ViewFinder finder) {
+        nestedScrollView = finder.get(R.id.nestedScrollView);
     }
 
     @Override

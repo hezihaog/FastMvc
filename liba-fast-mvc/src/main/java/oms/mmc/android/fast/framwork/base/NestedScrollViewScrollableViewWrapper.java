@@ -1,0 +1,45 @@
+package oms.mmc.android.fast.framwork.base;
+
+import android.support.v4.widget.NestedScrollView;
+
+/**
+ * Package: oms.mmc.android.fast.framwork.base
+ * FileName: NestedScrollViewScrollableViewWrapper
+ * Date: on 2018/2/9  下午4:43
+ * Auther: zihe
+ * Descirbe:NestedScrollView的滚动包裹类
+ * Email: hezihao@linghit.com
+ */
+
+public class NestedScrollViewScrollableViewWrapper extends AbsScrollableViewWrapper<NestedScrollView> {
+    public NestedScrollViewScrollableViewWrapper(NestedScrollView scrollingView) {
+        super(scrollingView);
+    }
+
+    @Override
+    public void setup(final ScrollDelegate delegate) {
+        getScrollableView().setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (delegate != null) {
+                    //向下滑动
+                    if (scrollY > oldScrollY) {
+                        delegate.onScrolledUp();
+                    }
+                    //向上滑动
+                    if (scrollY < oldScrollY) {
+                        delegate.onScrolledDown();
+                    }
+                    //滑动到了顶部
+                    if (scrollY == 0) {
+                        delegate.onScrolledToTop();
+                    }
+                    //滑动到了底部
+                    if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                        delegate.onScrolledToBottom();
+                    }
+                }
+            }
+        });
+    }
+}

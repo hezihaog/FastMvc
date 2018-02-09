@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 
 import com.github.promeg.pinyinhelper.Pinyin;
@@ -14,6 +15,8 @@ import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.base.ListScrollHelper;
+import oms.mmc.android.fast.framwork.base.NestedScrollViewScrollableViewWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
@@ -55,6 +58,8 @@ public class ContactFragment extends BaseListFragment {
     //联系人总数条目
     public static final int TPL_SUM_CONTACT_COUNT = 6;
 
+    private NestedScrollView nestedScrollView;
+
     @Override
     public int onLayoutId() {
         return R.layout.fragment_contact;
@@ -62,6 +67,7 @@ public class ContactFragment extends BaseListFragment {
 
     @Override
     public void onFindView(ViewFinder finder) {
+        nestedScrollView = finder.get(R.id.nestedScrollView);
     }
 
     @Override
@@ -133,6 +139,12 @@ public class ContactFragment extends BaseListFragment {
     @Override
     public ILoadViewFactory onLoadViewFactoryReady() {
         return new MyContactLoadViewFactory();
+    }
+
+    @Override
+    public ListScrollHelper onGetScrollHelper() {
+        NestedScrollViewScrollableViewWrapper viewWrapper = new NestedScrollViewScrollableViewWrapper(nestedScrollView);
+        return new ListScrollHelper(viewWrapper);
     }
 
     @Override
