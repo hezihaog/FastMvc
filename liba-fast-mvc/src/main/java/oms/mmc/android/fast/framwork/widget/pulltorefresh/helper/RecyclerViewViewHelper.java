@@ -66,6 +66,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         //刷新布局
         this.refreshLayout = refreshLayout;
         this.mRecyclerView = recyclerView;
+        this.refreshLayout.setEnabled(false);
         this.mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         this.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -244,6 +245,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     onStateChangeListener.onEndRefresh(dataAdapter, result, isFirstRefresh);
                 }
                 //刷新结束
+                refreshLayout.setEnabled(true);
                 refreshLayout.setRefreshing(false);
                 if (isFirstRefresh) {
                     isFirstRefresh = false;

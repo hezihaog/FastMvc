@@ -2,8 +2,10 @@ package oms.mmc.android.fast.framwork.sample.ui.activity;
 
 import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.basiclib.util.WaitDialogController;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ChatFragment;
+import oms.mmc.android.fast.framwork.sample.widget.IOSWaitDialogIml;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.activity
@@ -24,5 +26,10 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected FragmentFactory.FragmentInfoWrapper onGetFragmentInfo() {
         return new FragmentFactory.FragmentInfoWrapper(ChatFragment.class, transformActivityData());
+    }
+
+    @Override
+    protected WaitDialogController onGetWaitDialogController() {
+        return new WaitDialogController(this, IOSWaitDialogIml.class);
     }
 }

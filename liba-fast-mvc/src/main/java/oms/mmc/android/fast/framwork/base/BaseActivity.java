@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
 import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
-import oms.mmc.android.fast.framwork.basiclib.util.WaitDialogHelper;
+import oms.mmc.android.fast.framwork.basiclib.util.WaitDialogController;
 import oms.mmc.android.fast.framwork.bean.IResult;
 
 /**
@@ -24,7 +24,7 @@ import oms.mmc.android.fast.framwork.bean.IResult;
  */
 public abstract class BaseActivity extends LifecycleActivity implements ApiCallback, LayoutCallback {
     private ViewFinder viewFinder;
-    private WaitDialogHelper.WaitAction waitAction;
+    private WaitDialogController mWaitController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
         viewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
-        waitAction = WaitDialogHelper.getInstance().newAction();
+        mWaitController = onGetWaitDialogController();
         setContentView(viewFinder.getRootView());
         //onStatusBarSet();
         //onSetStatusBarBlack();
@@ -91,6 +91,10 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         }
     }
 
+    protected WaitDialogController onGetWaitDialogController() {
+        return new WaitDialogController(this);
+    }
+
     @Override
     public void onLayoutBefore() {
 
@@ -119,19 +123,23 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     }
 
     public void showWaitDialog() {
-        waitAction.getWaitIml().showWaitDialog(getActivity(), "", false);
+        mWaitController.getWaitIml().showWaitDialog(getActivity(), "", false);
     }
 
     public void showWaitDialog(String msg) {
-        waitAction.getWaitIml().showWaitDialog(getActivity(), msg, false);
+        mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, false);
     }
 
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        waitAction.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
     }
 
-    public void hideWiatDialog() {
-        waitAction.getWaitIml().hideWaitDialog();
+    public void hideWaitDialog() {
+        mWaitController.getWaitIml().hideWaitDialog();
+    }
+
+    protected WaitDialogController getWaitController() {
+        return mWaitController;
     }
 
     protected void setResult(int resultCode, Bundle bundle) {

@@ -3,8 +3,6 @@ package oms.mmc.android.fast.framwork.sample;
 import android.content.Context;
 
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
-import oms.mmc.android.fast.framwork.basiclib.util.ProgressDialogWaitIml;
-import oms.mmc.android.fast.framwork.basiclib.util.WaitDialogHelper;
 
 /**
  * Package: PACKAGE_NAME
@@ -19,7 +17,6 @@ public class AppContext extends BaseMMCFastApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        WaitDialogHelper.init(this, ProgressDialogWaitIml.class);
     }
 
     @Override

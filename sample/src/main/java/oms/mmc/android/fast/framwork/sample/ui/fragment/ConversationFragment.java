@@ -10,7 +10,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
@@ -171,22 +170,22 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter adapter, boolean isFirst) {
-        super.onStartRefresh(adapter, isFirst);
-        ((BaseActivity) getActivity()).showWaitDialog();
-    }
-
-    @Override
-    public void onEndRefresh(IDataAdapter adapter, ArrayList result, boolean isFirstRefresh) {
-        super.onEndRefresh(adapter, result, isFirstRefresh);
-        ((BaseActivity) getActivity()).hideWiatDialog();
-    }
-
-    @Override
     public void onItemClick(View view, BaseTpl clickTpl, int position) {
         int itemViewType = clickTpl.getItemViewType();
         if (itemViewType == TPL_CHAT) {
             MMCUIHelper.showConversationDetail(getActivity());
         }
+    }
+
+    @Override
+    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, boolean isFirst) {
+        super.onStartRefresh(adapter, isFirst);
+        showWaitDialog();
+    }
+
+    @Override
+    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst) {
+        super.onEndRefresh(adapter, result, isFirst);
+        hideWaitDialog();
     }
 }

@@ -19,6 +19,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextReceiverTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
+import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 
 /**
@@ -38,13 +39,13 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     private Toolbar toolbar;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.fragment_chat;
+    public void onLayoutBefore() {
+        super.onLayoutBefore();
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
-        toolbar = finder.get(R.id.toolBar);
+    public int onLayoutId() {
+        return R.layout.fragment_chat;
     }
 
     @Override
@@ -55,10 +56,16 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
+    public void onFindView(ViewFinder finder) {
+        toolbar = finder.get(R.id.toolBar);
+    }
+
+    @Override
     public IDataSource<ItemDataWrapper> onListDataSourceReady() {
         return new BaseListDataSource<ItemDataWrapper>(getActivity()) {
             @Override
             protected ArrayList<ItemDataWrapper> load(int page) throws Exception {
+                Thread.sleep(1500);
                 ArrayList<ItemDataWrapper> model = new ArrayList<ItemDataWrapper>();
                 for (int i = 0; i < 10; i++) {
                     String dateTime = FakeUtil.getRandomDate();
@@ -106,7 +113,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
 
             @Override
             public void onScrollBottom() {
-                moveToTop();
+
             }
         });
     }
@@ -114,5 +121,17 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public ListScrollHelper onGetScrollHelper() {
         return new ListScrollHelper(new RecyclerViewScrollableViewWrapper(recyclerView));
+    }
+
+    @Override
+    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, boolean isFirst) {
+        super.onStartRefresh(adapter, isFirst);
+        showWaitDialog();
+    }
+
+    @Override
+    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst) {
+        super.onEndRefresh(adapter, result, isFirst);
+        hideWaitDialog();
     }
 }

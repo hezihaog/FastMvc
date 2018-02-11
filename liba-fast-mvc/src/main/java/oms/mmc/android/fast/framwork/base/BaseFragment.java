@@ -82,4 +82,25 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
     public ViewFinder getViewFinder() {
         return viewFinder;
     }
+
+
+    public void showWaitDialog() {
+        getBaseActivity().showWaitDialog("", false);
+    }
+
+    public void showWaitDialog(String msg) {
+        getBaseActivity().showWaitDialog(msg, false);
+    }
+
+    public void showWaitDialog(String msg, final boolean isTouchCancelable) {
+        getBaseActivity().showWaitDialog(msg, isTouchCancelable);
+    }
+
+    public void hideWaitDialog() {
+        getBaseActivity().hideWaitDialog();
+    }
+
+    public BaseActivity getBaseActivity() {
+        return (BaseActivity) getActivity();
+    }
 }
