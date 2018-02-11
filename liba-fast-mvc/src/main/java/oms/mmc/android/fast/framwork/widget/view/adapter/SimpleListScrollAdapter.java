@@ -1,4 +1,6 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.view.adapter;
+
+import oms.mmc.android.fast.framwork.widget.view.listener.IListScrollListener;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -9,7 +11,7 @@ package oms.mmc.android.fast.framwork.base;
  * Email: hezihao@linghit.com
  */
 
-public class SimpleListScrollListener implements IListScrollListener {
+public class SimpleListScrollAdapter implements IListScrollListener {
 
     @Override
     public void onScrolledUp() {

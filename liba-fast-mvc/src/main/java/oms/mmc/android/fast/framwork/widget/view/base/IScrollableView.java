@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.view.base;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

@@ -18,6 +18,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
 public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>,
         OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener

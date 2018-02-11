@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
-import oms.mmc.android.fast.framwork.base.ListScrollHelper;
-import oms.mmc.android.fast.framwork.base.SimpleListScrollListener;
+import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
+import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
 import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
 
 /**
@@ -112,7 +112,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     public void setupScrollHelper(ListScrollHelper scrollHelper) {
         this.listScrollHelper = scrollHelper;
-        listScrollHelper.addListScrollListener(new SimpleListScrollListener() {
+        listScrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
             @Override
             public void onScrollTop() {
                 if (isCanPullToRefresh) {

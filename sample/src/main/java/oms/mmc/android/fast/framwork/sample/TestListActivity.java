@@ -9,9 +9,9 @@ import android.widget.ArrayAdapter;
 import com.hzh.logger.L;
 
 import oms.mmc.android.fast.framwork.adapter.ScrollableLayoutFactory;
-import oms.mmc.android.fast.framwork.base.ListScrollHelper;
-import oms.mmc.android.fast.framwork.base.ListViewScrollableViewWrapper;
-import oms.mmc.android.fast.framwork.base.SimpleListScrollListener;
+import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
+import oms.mmc.android.fast.framwork.widget.view.wrapper.ListViewScrollableViewWrapper;
+import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableListView;
 
 /**
@@ -38,7 +38,7 @@ public class TestListActivity extends ListActivity {
         setListAdapter(arrayAdapter);
 
         ListScrollHelper scrollHelper = new ListScrollHelper(new ListViewScrollableViewWrapper((ScrollableListView) getListView()));
-        scrollHelper.addListScrollListener(new SimpleListScrollListener() {
+        scrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
             @Override
             public void onScrolledUp() {
                 super.onScrolledUp();

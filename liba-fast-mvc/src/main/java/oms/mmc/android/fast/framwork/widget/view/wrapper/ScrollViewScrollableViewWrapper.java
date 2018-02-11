@@ -1,8 +1,9 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.view.wrapper;
 
 import com.hzh.logger.L;
 
 import oms.mmc.android.fast.framwork.widget.view.ScrollableScrollView;
+import oms.mmc.android.fast.framwork.widget.view.base.AbsScrollableViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

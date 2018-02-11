@@ -15,6 +15,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeListener;
+import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
 public abstract class BaseListActivity<T> extends BaseActivity implements ListLayoutCallback<T>, OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**

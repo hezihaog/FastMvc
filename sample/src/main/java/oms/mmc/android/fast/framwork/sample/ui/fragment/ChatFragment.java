@@ -12,9 +12,9 @@ import java.util.HashMap;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.base.ListScrollHelper;
-import oms.mmc.android.fast.framwork.base.RecyclerViewScrollableViewWrapper;
-import oms.mmc.android.fast.framwork.base.SimpleListScrollListener;
+import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
+import oms.mmc.android.fast.framwork.widget.view.wrapper.RecyclerViewScrollableViewWrapper;
+import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
@@ -98,7 +98,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     protected void onListScrollHelperReady(ListScrollHelper listScrollHelper) {
         super.onListScrollHelperReady(listScrollHelper);
-        listScrollHelper.addListScrollListener(new SimpleListScrollListener() {
+        listScrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
             @Override
             public void onScrolledUp() {
                 L.d("onScrolledUp ::: ");

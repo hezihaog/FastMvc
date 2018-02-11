@@ -1,8 +1,9 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.view.wrapper;
 
 import android.widget.AbsListView;
 
 import oms.mmc.android.fast.framwork.widget.view.ScrollableListView;
+import oms.mmc.android.fast.framwork.widget.view.base.AbsScrollableViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

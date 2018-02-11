@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.view.listener;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

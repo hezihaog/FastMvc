@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import oms.mmc.android.fast.framwork.base.IScrollableView;
+import oms.mmc.android.fast.framwork.widget.view.base.IScrollableView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.widget.view

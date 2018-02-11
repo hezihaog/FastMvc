@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 
-import oms.mmc.android.fast.framwork.base.IScrollableView;
+import oms.mmc.android.fast.framwork.widget.view.base.IScrollableView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.widget.view

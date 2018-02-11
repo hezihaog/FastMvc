@@ -1,7 +1,11 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import oms.mmc.android.fast.framwork.widget.view.base.IScrollHelper;
+import oms.mmc.android.fast.framwork.widget.view.base.IScrollableViewWrapper;
+import oms.mmc.android.fast.framwork.widget.view.listener.IListScrollListener;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

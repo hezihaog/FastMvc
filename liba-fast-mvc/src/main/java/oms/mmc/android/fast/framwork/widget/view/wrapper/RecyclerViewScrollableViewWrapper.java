@@ -1,8 +1,9 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.view.wrapper;
 
 import android.support.v7.widget.RecyclerView;
 
 import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
+import oms.mmc.android.fast.framwork.widget.view.base.AbsScrollableViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

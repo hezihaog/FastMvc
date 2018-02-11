@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.base.IScrollableView;
+import oms.mmc.android.fast.framwork.widget.view.base.IScrollableView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.widget.view
