@@ -35,23 +35,6 @@ public interface IScrollableViewWrapper<T extends View & IScrollableView> {
          * 滚动到底部
          */
         void onScrolledToBottom();
-
-        /**
-         * 滚动状态改变时回调
-         *
-         * @param view     滚动控件
-         * @param newState 当前状态
-         */
-        void onScrollStateChanged(T view, int newState);
-
-        /**
-         * 当滚动时回调
-         *
-         * @param view 滚动控件
-         * @param dx   x轴滚动的记录
-         * @param dy   y轴滚动的距离
-         */
-        void onScrolled(T view, int dx, int dy);
     }
 
     /**

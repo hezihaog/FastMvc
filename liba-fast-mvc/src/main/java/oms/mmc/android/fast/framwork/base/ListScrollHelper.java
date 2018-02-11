@@ -48,20 +48,6 @@ public class ListScrollHelper implements IScrollHelper {
                     listener.onScrollBottom();
                 }
             }
-
-            @Override
-            public void onScrollStateChanged(View view, int newState) {
-                for (IListScrollListener listener : listeners) {
-                    listener.onScrollStateChanged(view, newState);
-                }
-            }
-
-            @Override
-            public void onScrolled(View view, int dx, int dy) {
-                for (IListScrollListener listener : listeners) {
-                    listener.onScrolled(view, dx, dy);
-                }
-            }
         });
     }
 

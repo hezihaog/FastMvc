@@ -87,6 +87,27 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 }
             }
         });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (mScrollListeners != null) {
+                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
+                        listener.onScrollStateChanged(recyclerView, newState);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (mScrollListeners != null) {
+                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
+                        listener.onScrolled(recyclerView, dx, dy);
+                    }
+                }
+            }
+        });
     }
 
     public void setupScrollHelper(ListScrollHelper scrollHelper) {
@@ -117,24 +138,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                                 sendLoadMoreState(LoadMoreBroadcast.FAIL);
                             }
                         }
-                    }
-                }
-            }
-
-            @Override
-            public void onScrollStateChanged(View view, int newState) {
-                if (mScrollListeners != null) {
-                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
-                        listener.onScrollStateChanged((RecyclerView) view, newState);
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(View view, int dx, int dy) {
-                if (mScrollListeners != null) {
-                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
-                        listener.onScrolled((RecyclerView) view, dx, dy);
                     }
                 }
             }

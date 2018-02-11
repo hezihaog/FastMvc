@@ -24,7 +24,7 @@ public class ListViewScrollableViewWrapper extends AbsScrollableViewWrapper<Scro
 
     @Override
     public void setup(final ScrollDelegate delegate) {
-        getScrollableView().setOnScrollListener(new AbsListView.OnScrollListener() {
+        getScrollableView().addOnListViewScrollListener(new ScrollableListView.OnListViewScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView listView, int scrollState) {
                 isFirst = true;

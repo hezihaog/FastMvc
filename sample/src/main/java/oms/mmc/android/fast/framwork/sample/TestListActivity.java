@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.sample;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 
 import com.hzh.logger.L;
@@ -60,6 +61,18 @@ public class TestListActivity extends ListActivity {
             public void onScrollBottom() {
                 super.onScrollBottom();
                 L.d("list view ::: 滑动到底部啦");
+            }
+        });
+        ScrollableListView listView = (ScrollableListView) getListView();
+        listView.addOnListViewScrollListener(new ScrollableListView.OnListViewScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
             }
         });
     }

@@ -1,7 +1,5 @@
 package oms.mmc.android.fast.framwork.base;
 
-import android.view.View;
-
 /**
  * Package: oms.mmc.android.fast.framwork.base
  * FileName: SimpleListScrollListener
@@ -30,16 +28,6 @@ public class SimpleListScrollListener implements IListScrollListener {
 
     @Override
     public void onScrollBottom() {
-
-    }
-
-    @Override
-    public void onScrollStateChanged(View view, int newState) {
-
-    }
-
-    @Override
-    public void onScrolled(View view, int dx, int dy) {
 
     }
 }

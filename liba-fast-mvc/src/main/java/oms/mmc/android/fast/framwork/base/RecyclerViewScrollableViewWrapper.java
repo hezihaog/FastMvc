@@ -25,7 +25,6 @@ public class RecyclerViewScrollableViewWrapper extends AbsScrollableViewWrapper<
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (delegate != null) {
-                    delegate.onScrollStateChanged(recyclerView, newState);
                     //如果滚动到最后一行，RecyclerView.canScrollVertically(1)的值表示是否能向上滚动，false表示已经滚动到底部
                     if (newState == RecyclerView.SCROLL_STATE_IDLE &&
                             !recyclerView.canScrollVertically(1)) {
@@ -38,7 +37,6 @@ public class RecyclerViewScrollableViewWrapper extends AbsScrollableViewWrapper<
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (delegate != null) {
-                    delegate.onScrolled(recyclerView, dx, dy);
                     //RecyclerView.canScrollVertically(-1)的值表示是否能向下滚动，false表示已经滚动到顶部
                     if (!recyclerView.canScrollVertically(-1)) {
                         delegate.onScrolledToTop();
