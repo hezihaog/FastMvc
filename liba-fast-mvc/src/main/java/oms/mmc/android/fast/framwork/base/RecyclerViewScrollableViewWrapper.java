@@ -51,4 +51,12 @@ public class RecyclerViewScrollableViewWrapper extends AbsScrollableViewWrapper<
             }
         });
     }
+
+    @Override
+    public void moveToTop() {
+        RecyclerView recyclerView = getScrollableView();
+        if (recyclerView != null) {
+            recyclerView.smoothScrollToPosition(0);
+        }
+    }
 }

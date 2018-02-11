@@ -42,4 +42,9 @@ public interface IScrollHelper {
      * 获取所有滚动监听器
      */
     List<IListScrollListener> getScrollListeners();
+
+    /**
+     * 滚动到顶部
+     */
+    void moveToTop();
 }

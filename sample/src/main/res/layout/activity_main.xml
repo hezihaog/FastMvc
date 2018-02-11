@@ -12,7 +12,8 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Light">
 
             <include layout="@layout/layout_tool_bar" />
 
@@ -33,10 +34,11 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingActionButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom|right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_margin="20dp"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@drawable/ic_fab_up"
+            app:layout_behavior="@string/scale_down_show_behavior" />
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>

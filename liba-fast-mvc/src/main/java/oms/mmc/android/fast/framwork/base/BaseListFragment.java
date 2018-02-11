@@ -48,6 +48,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
      * 列表适配器
      */
     protected BaseListAdapter<T> listViewAdapter;
+    private ListScrollHelper listScrollHelper;
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,8 +94,9 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onLazyViewCreated(view, savedInstanceState);
         //加入滚动监听
-        ListScrollHelper listScrollHelper = onGetScrollHelper();
+        listScrollHelper = onGetScrollHelper();
         recyclerViewHelper.setupScrollHelper(listScrollHelper);
+        onListScrollHelperReady(listScrollHelper);
     }
 
     @Override
@@ -124,8 +126,16 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
                 onListTypeClassesReady(), recyclerViewHelper, onGetStickyTplViewType());
     }
 
+    protected void onListScrollHelperReady(ListScrollHelper listScrollHelper) {
+
+    }
+
     public BaseListAdapter<T> getRecyclerViewAdapter() {
         return (BaseListAdapter<T>) recyclerView.getAdapter();
+    }
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
     }
 
     @Override
@@ -174,5 +184,13 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     public void compatNestedScroll() {
         //放弃滚动，将滚动交给上层的NestedScrollView
         recyclerView.setNestedScrollingEnabled(false);
+    }
+
+    public ListScrollHelper getListScrollHelper() {
+        return listScrollHelper;
+    }
+
+    public void moveToTop() {
+        getListScrollHelper().moveToTop();
     }
 }

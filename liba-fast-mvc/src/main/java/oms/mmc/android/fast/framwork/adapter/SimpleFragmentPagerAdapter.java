@@ -118,4 +118,11 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         }
         return fragments.get(index);
     }
+
+    public static boolean isTargetFragment(Fragment fragment, Class targetFragmentClazz) {
+        if (fragment == null) {
+            return false;
+        }
+        return fragment.getClass().getName().equals(targetFragmentClazz.getName());
+    }
 }

@@ -12,6 +12,7 @@ import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.base.ListScrollHelper;
 import oms.mmc.android.fast.framwork.base.RecyclerViewScrollableViewWrapper;
+import oms.mmc.android.fast.framwork.base.SimpleListScrollListener;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
@@ -59,7 +60,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
             @Override
             protected ArrayList<ItemDataWrapper> load(int page) throws Exception {
                 ArrayList<ItemDataWrapper> model = new ArrayList<ItemDataWrapper>();
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 10; i++) {
                     String dateTime = FakeUtil.getRandomDate();
                     model.add(new ItemDataWrapper(TPL_CHAT_DATE, dateTime));
                     model.add(new ItemDataWrapper(TPL_CHAT_TEXT_SENDER, FakeUtil.getRandomAvatar(), FakeUtil.getRandomName(), "能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间"));
@@ -82,6 +83,32 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public RecyclerView.LayoutManager getListLayoutManager() {
         return new LinearLayoutManager(getActivity());
+    }
+
+    @Override
+    protected void onListScrollHelperReady(ListScrollHelper listScrollHelper) {
+        super.onListScrollHelperReady(listScrollHelper);
+        listScrollHelper.addListScrollListener(new SimpleListScrollListener() {
+            @Override
+            public void onScrolledUp() {
+
+            }
+
+            @Override
+            public void onScrolledDown() {
+
+            }
+
+            @Override
+            public void onScrollTop() {
+
+            }
+
+            @Override
+            public void onScrollBottom() {
+                moveToTop();
+            }
+        });
     }
 
     @Override

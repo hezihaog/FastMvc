@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
@@ -90,13 +91,11 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     public void onAttachSticky() {
-        TextView stickyTip = getViewFinder().get(R.id.stickyTip);
-        stickyTip.setText("粘性中");
+        getRoot().setBackgroundColor(Color.parseColor("#202020"));
     }
 
     @Override
     public void onDetachedSticky() {
-        TextView stickyTip = getViewFinder().get(R.id.stickyTip);
-        stickyTip.setText("未粘性");
+        getRoot().setBackgroundColor(getRoot().getContext().getColor(R.color.white));
     }
 }

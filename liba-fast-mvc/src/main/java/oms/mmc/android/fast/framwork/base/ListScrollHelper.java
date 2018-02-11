@@ -89,4 +89,9 @@ public class ListScrollHelper implements IScrollHelper {
     public List<IListScrollListener> getScrollListeners() {
         return listeners;
     }
+
+    @Override
+    public void moveToTop() {
+        getScrollableViewWrapper().moveToTop();
+    }
 }

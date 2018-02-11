@@ -5,12 +5,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.adapter.SimpleFragmentPagerAdapter;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.BaseFragment;
+import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.basiclib.lazy.PagerVisibleFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
@@ -29,11 +31,12 @@ import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
  * Email: hezihao@linghit.com
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Toolbar toolBar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private FloatingActionButton floatingActionButton;
+    private SimpleFragmentPagerAdapter viewPagerAdapter;
 
     @Override
     public int onLayoutId() {
@@ -53,6 +56,7 @@ public class MainActivity extends BaseActivity {
         super.onLayoutAfter();
         toolBar.setTitle(R.string.app_name);
         toolBar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
+        getViewFinder().setOnClickListener(this, R.id.floatingActionButton);
         ArrayList<String> titles = new ArrayList<String>();
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         //组装fragment
@@ -69,7 +73,7 @@ public class MainActivity extends BaseActivity {
         titles.add("联系人");
         titles.add("发现");
         titles.add("我");
-        SimpleFragmentPagerAdapter viewPagerAdapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
+        viewPagerAdapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(fragments.size() - 1);
         for (int i = 0; i < fragments.size(); i++) {
@@ -77,25 +81,40 @@ public class MainActivity extends BaseActivity {
         }
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Fragment fragment = viewPagerAdapter.findByPagerIndex(position);
+                if (fragment != null) {
+                    if (SimpleFragmentPagerAdapter.isTargetFragment(fragment, ConversationFragment.class)
+                            || SimpleFragmentPagerAdapter.isTargetFragment(fragment, ContactFragment.class)) {
+                        floatingActionButton.show();
+                    } else {
+                        floatingActionButton.hide();
+                    }
+                }
+            }
+        });
         //fragment可见监听
         PagerVisibleFragment.OnFragmentVisibleChangeCallback visibleCallback = new PagerVisibleFragment.OnFragmentVisibleChangeCallback() {
             @Override
             public void onFragmentVisibleChange(String name, boolean isVisible) {
-                if (isVisible) {
-                    if (name.equals(ConversationFragment.class.getName())) {
-                        floatingActionButton.show();
-                    }
-                } else {
-                    if (name.equals(ConversationFragment.class.getName())) {
-                        floatingActionButton.hide();
-                    }
-                }
             }
         };
         for (Fragment fragment : fragments) {
             if (fragment instanceof BaseFragment) {
                 ((BaseFragment) fragment).addVisibleChangeCallback(visibleCallback);
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int currentItem = viewPager.getCurrentItem();
+        Fragment fragment = viewPagerAdapter.findByPagerIndex(currentItem);
+        if (fragment != null && (fragment instanceof ConversationFragment || fragment instanceof ContactFragment)) {
+            BaseListFragment listFragment = (BaseListFragment) fragment;
+            listFragment.moveToTop();
         }
     }
 }

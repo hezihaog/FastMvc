@@ -68,4 +68,9 @@ public interface IScrollableViewWrapper<T extends ScrollingView> {
      * @return 当前包裹的滚动控件对象
      */
     T getScrollableView();
+
+    /**
+     * 滚动到顶部
+     */
+    void moveToTop();
 }

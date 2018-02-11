@@ -105,6 +105,19 @@ public class ViewFinder {
     }
 
     /**
+     * 查找并且设置监听器
+     *
+     * @param l  监听器
+     * @param id view 的 id
+     */
+    public void findAndSetOnClick(int id, View.OnClickListener l) {
+        if (id <= 0) {
+            return;
+        }
+        get(id).setOnClickListener(l);
+    }
+
+    /**
      * 设置监听器
      *
      * @param l   监听器
