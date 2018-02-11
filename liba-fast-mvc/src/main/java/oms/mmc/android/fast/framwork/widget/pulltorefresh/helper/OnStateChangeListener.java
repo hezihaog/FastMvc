@@ -22,34 +22,34 @@ public interface OnStateChangeListener<T> {
     /**
      * 开始刷新
      *
-     * @param adapter        列表适配器
+     * @param adapter 列表适配器
      * @param isFirst 是否是第一次刷新
      */
-    void onStartRefresh(IDataAdapter<T> adapter, boolean isFirst);
+    void onStartRefresh(IDataAdapter<T> adapter, boolean isFirst, boolean isReverse);
 
     /**
      * 结束刷新
      *
-     * @param adapter        列表适配器
-     * @param result         结果集
+     * @param adapter 列表适配器
+     * @param result  结果集
      * @param isFirst 是否是第一次刷新
      */
-    void onEndRefresh(IDataAdapter<T> adapter, T result, boolean isFirst);
+    void onEndRefresh(IDataAdapter<T> adapter, T result, boolean isFirst, boolean isReverse);
 
     /**
      * 开始加载更多
      *
-     * @param adapter        列表适配器
+     * @param adapter 列表适配器
      * @param isFirst 是否是第一次加载更多
      */
-    void onStartLoadMore(IDataAdapter<T> adapter, boolean isFirst);
+    void onStartLoadMore(IDataAdapter<T> adapter, boolean isFirst, boolean isReverse);
 
     /**
      * 结束加载更多
      *
-     * @param adapter        列表适配器
-     * @param result         结果集
+     * @param adapter 列表适配器
+     * @param result  结果集
      * @param isFirst 是否是第一次加载更多
      */
-    void onEndLoadMore(IDataAdapter<T> adapter, T result, boolean isFirst);
+    void onEndLoadMore(IDataAdapter<T> adapter, T result, boolean isFirst, boolean isReverse);
 }

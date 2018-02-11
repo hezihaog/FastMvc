@@ -112,6 +112,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
             @Override
             public void onScrollTop() {
                 L.d("onScrollTop ::: ");
+                recyclerViewHelper.startRefresh();
             }
 
             @Override
@@ -127,14 +128,31 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, boolean isFirst) {
-        super.onStartRefresh(adapter, isFirst);
-        showWaitDialog();
+    public void onListReady() {
+        super.onListReady();
+        recyclerViewHelper.setReverse(true);
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst) {
-        super.onEndRefresh(adapter, result, isFirst);
-        hideWaitDialog();
+    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, boolean isFirst, boolean isReverse) {
+        super.onStartRefresh(adapter, isFirst, isReverse);
+        if (isFirst) {
+            showWaitDialog();
+        }
+    }
+
+    @Override
+    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst, boolean isReverse) {
+        super.onEndRefresh(adapter, result, isFirst, isReverse);
+        if (isFirst) {
+            hideWaitDialog();
+        }
+        if (isFirst) {
+            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+        }
+        if (isReverse) {
+            int position = result.size() - 1;
+            recyclerView.scrollToPosition(position);
+        }
     }
 }

@@ -183,7 +183,7 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
     }
 
     @Override
-    public void setListViewData(ArrayList<T> res, boolean isRefresh) {
+    public void setListViewData(ArrayList<T> res, boolean isRefresh, boolean isReverse) {
         //每次刷新前，重新确认尾部位置
         if (listViewData.size() == 0) {
             loadMoreTplPosition = 0;
@@ -201,9 +201,13 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
             } else {
                 //不是第一次刷新
                 T footLoaderMoreTpl = listViewData.get(loadMoreTplPosition);
-                this.listViewData.clear();
-                this.listViewData.addAll(res);
-                this.listViewData.add(footLoaderMoreTpl);
+                if (!isReverse) {
+                    this.listViewData.clear();
+                    this.listViewData.addAll(res);
+                    this.listViewData.add(footLoaderMoreTpl);
+                } else {
+                    this.listViewData.addAll(0, res);
+                }
             }
         } else {
             //上拉加载更多，插入在尾部之前

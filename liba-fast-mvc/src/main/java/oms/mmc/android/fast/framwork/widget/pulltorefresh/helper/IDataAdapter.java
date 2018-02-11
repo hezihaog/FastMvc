@@ -22,7 +22,7 @@ public interface IDataAdapter<T> {
     /**
      * 设置数据集
      */
-    void setListViewData(T data, boolean isRefresh);
+    void setListViewData(T data, boolean isRefresh, boolean isReverse);
 
     /**
      * 获取数据集

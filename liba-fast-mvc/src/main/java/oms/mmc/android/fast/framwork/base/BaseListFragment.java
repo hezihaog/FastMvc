@@ -147,22 +147,22 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {
+    public void onStartRefresh(IDataAdapter<ArrayList<T>> adapter, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst) {
+    public void onEndRefresh(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onStartLoadMore(IDataAdapter<ArrayList<T>> adapter, boolean isFirst) {
+    public void onStartLoadMore(IDataAdapter<ArrayList<T>> adapter, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onEndLoadMore(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst) {
+    public void onEndLoadMore(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
 
     }
 

@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,6 +41,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * 是否可以下拉刷新
      */
     private boolean isCanPullToRefresh = true;
+    private boolean isReverse;
     /**
      * 是否还有更多数据。如果服务器返回的数据为空的话，就说明没有更多数据了，也就没必要自动加载更多数据
      */
@@ -58,11 +61,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     //RecyclerViewViewHelper的哈希值，用于加载更多时发送广播的判断标志
     private final int helperHashCode;
     private ListScrollHelper listScrollHelper;
+    private final Handler mUiHandler;
 
     public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView) {
         super();
         helperHashCode = getRecyclerViewViewHelper().hashCode();
         this.context = refreshLayout.getContext().getApplicationContext();
+        mUiHandler = new Handler(Looper.getMainLooper());
         //刷新布局
         this.refreshLayout = refreshLayout;
         this.mRecyclerView = recyclerView;
@@ -207,7 +212,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     mLoadView.restore();
                 }
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onStartRefresh(dataAdapter, isFirstRefresh);
+                    onStateChangeListener.onStartRefresh(dataAdapter, isFirstRefresh, isReverse);
                 }
             }
 
@@ -235,7 +240,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                 } else {
                     loadDataTime = System.currentTimeMillis();
-                    dataAdapter.setListViewData(result, true);
+                    dataAdapter.setListViewData(result, true, isReverse);
                     dataAdapter.notifyDataSetChanged();
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
@@ -245,10 +250,12 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     hasMoreData = dataSource.hasMore();
                 }
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onEndRefresh(dataAdapter, result, isFirstRefresh);
+                    onStateChangeListener.onEndRefresh(dataAdapter, result, isFirstRefresh, isReverse);
                 }
                 //刷新结束
-                refreshLayout.setEnabled(true);
+                if (isCanPullToRefresh) {
+                    refreshLayout.setEnabled(true);
+                }
                 refreshLayout.setRefreshing(false);
                 if (isFirstRefresh) {
                     isFirstRefresh = false;
@@ -288,7 +295,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             @Override
             protected void onPreExecute() {
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoadMore);
+                    onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoadMore, isReverse);
                 }
                 sendLoadMoreState(LoadMoreBroadcast.LOADING);
             }
@@ -309,7 +316,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     mLoadView.tipFail();
                     sendLoadMoreState(LoadMoreBroadcast.FAIL);
                 } else {
-                    dataAdapter.setListViewData(result, false);
+                    dataAdapter.setListViewData(result, false, isReverse);
                     dataAdapter.notifyDataSetChanged();
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
@@ -324,7 +331,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                 }
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onEndLoadMore(dataAdapter, result, isFistLoadMore);
+                    onStateChangeListener.onEndLoadMore(dataAdapter, result, isFistLoadMore, isReverse);
                 }
                 if (isFistLoadMore) {
                     isFistLoadMore = false;
@@ -429,6 +436,16 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return refreshLayout;
     }
 
+    public void startRefresh() {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                getRefreshLayout().setRefreshing(true);
+                refresh();
+            }
+        });
+    }
+
     public boolean isRefreshing() {
         return refreshLayout.isRefreshing();
     }
@@ -466,5 +483,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             //不允许下拉刷新，直接禁用
             refreshLayout.setEnabled(false);
         }
+    }
+
+    public boolean isReverse() {
+        return isReverse;
+    }
+
+    public void setReverse(boolean reverse) {
+        isReverse = reverse;
     }
 }
