@@ -20,8 +20,8 @@ public class ScrollableNestedScrollViewWrapper extends AbsScrollableViewWrapper<
     }
 
     @Override
-    public void setup(final ScrollDelegate delegate) {
-        getScrollableView().setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+    public void setup(final ScrollDelegate delegate, ScrollableNestedScrollView scrollableView) {
+        scrollableView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (delegate != null) {

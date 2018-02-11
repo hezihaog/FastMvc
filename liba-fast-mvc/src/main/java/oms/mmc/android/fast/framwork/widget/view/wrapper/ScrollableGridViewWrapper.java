@@ -2,46 +2,43 @@ package oms.mmc.android.fast.framwork.widget.view.wrapper;
 
 import android.widget.AbsListView;
 
-import oms.mmc.android.fast.framwork.widget.view.ScrollableListView;
+import oms.mmc.android.fast.framwork.widget.view.ScrollableGridView;
 import oms.mmc.android.fast.framwork.widget.view.base.AbsScrollableViewWrapper;
 
 /**
- * Package: oms.mmc.android.fast.framwork.base
- * FileName: ListViewScrollableViewWrapper
- * Date: on 2018/2/11  下午6:30
+ * Package: oms.mmc.android.fast.framwork.widget.view.wrapper
+ * FileName: ScrollableGridViewWrapper
+ * Date: on 2018/2/11  下午11:17
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
 
-public class ScrollableListViewWrapper extends AbsScrollableViewWrapper<ScrollableListView> {
+public class ScrollableGridViewWrapper extends AbsScrollableViewWrapper<ScrollableGridView> {
     private int oldVisibleItem = 0;
     //第一次进入界面时也会回调滚动，所以当手动滚动再监听
     private boolean isFirst = true;
 
-    public ScrollableListViewWrapper(ScrollableListView scrollingView) {
+    public ScrollableGridViewWrapper(ScrollableGridView scrollingView) {
         super(scrollingView);
     }
 
     @Override
-    public void setup(final ScrollDelegate delegate, ScrollableListView scrollableView) {
-        scrollableView.addOnListViewScrollListener(new ScrollableListView.OnListViewScrollListener() {
+    public void setup(final ScrollDelegate delegate, ScrollableGridView scrollableView) {
+        scrollableView.addOnListViewScrollListener(new ScrollableGridView.OnListViewScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView listView, int scrollState) {
-                isFirst = true;
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    if (delegate != null) {
-                        if (listView.getLastVisiblePosition() + 1 == listView.getCount()) {
-                            delegate.onScrolledToBottom();
-                        } else if (listView.getFirstVisiblePosition() == 0) {
-                            delegate.onScrolledToTop();
-                        }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (delegate != null) {
+                    if (view.getLastVisiblePosition() + 1 == view.getCount()) {
+                        delegate.onScrolledToBottom();
+                    } else if (view.getFirstVisiblePosition() == 0) {
+                        delegate.onScrolledToTop();
                     }
                 }
             }
 
             @Override
-            public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (delegate != null) {
                     if (firstVisibleItem > oldVisibleItem && isFirst) {
                         //上滑

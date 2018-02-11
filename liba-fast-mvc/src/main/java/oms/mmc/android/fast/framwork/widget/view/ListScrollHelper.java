@@ -50,7 +50,7 @@ public class ListScrollHelper implements IScrollHelper {
                     listener.onScrollBottom();
                 }
             }
-        });
+        }, scrollableViewWrapper.getScrollableView());
     }
 
     @Override

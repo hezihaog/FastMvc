@@ -21,8 +21,8 @@ public class ScrollableScrollViewWrapper extends AbsScrollableViewWrapper<Scroll
     }
 
     @Override
-    public void setup(final ScrollDelegate delegate) {
-        getScrollableView().addScrollChangedListener(new ScrollableScrollView.OnScrollChangedListener() {
+    public void setup(final ScrollDelegate delegate, ScrollableScrollView scrollableView) {
+        scrollableView.addScrollChangedListener(new ScrollableScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(int l, int t, int oldl, int oldt) {
                 if (delegate != null) {

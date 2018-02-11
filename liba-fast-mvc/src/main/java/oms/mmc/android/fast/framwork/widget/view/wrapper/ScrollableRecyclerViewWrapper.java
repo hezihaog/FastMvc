@@ -20,8 +20,8 @@ public class ScrollableRecyclerViewWrapper extends AbsScrollableViewWrapper<Scro
     }
 
     @Override
-    public void setup(final ScrollDelegate delegate) {
-        getScrollableView().addOnScrollListener(new RecyclerView.OnScrollListener() {
+    public void setup(final ScrollDelegate delegate, ScrollableRecyclerView scrollableView) {
+        scrollableView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);

@@ -40,9 +40,10 @@ public interface IScrollableViewWrapper<T extends View & IScrollableView> {
     /**
      * 设置滚动代理
      *
-     * @param delegate 代理对象
+     * @param delegate       代理对象
+     * @param scrollableView 滚动view
      */
-    void setup(ScrollDelegate delegate);
+    void setup(ScrollDelegate delegate, T scrollableView);
 
     /**
      * 获取当前包裹的滚动控件对象

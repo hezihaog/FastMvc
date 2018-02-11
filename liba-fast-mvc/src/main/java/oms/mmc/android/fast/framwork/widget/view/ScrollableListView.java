@@ -19,7 +19,8 @@ import oms.mmc.android.fast.framwork.widget.view.base.IScrollableView;
  */
 
 public abstract class ScrollableListView extends ListView implements IScrollableView {
-    private final ArrayList<OnListViewScrollListener> mListener = new ArrayList<OnListViewScrollListener>();
+    private final ArrayList<ScrollableListView.OnListViewScrollListener> mListener
+            = new ArrayList<ScrollableListView.OnListViewScrollListener>();
 
     public ScrollableListView(Context context) {
         super(context);
