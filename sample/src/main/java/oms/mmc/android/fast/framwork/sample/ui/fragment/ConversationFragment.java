@@ -184,6 +184,9 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
 
     @Override
     public void onItemClick(View view, BaseTpl clickTpl, int position) {
-        MMCUIHelper.showConversationDetail(getActivity());
+        int itemViewType = clickTpl.getItemViewType();
+        if (itemViewType == TPL_CHAT) {
+            MMCUIHelper.showConversationDetail(getActivity());
+        }
     }
 }

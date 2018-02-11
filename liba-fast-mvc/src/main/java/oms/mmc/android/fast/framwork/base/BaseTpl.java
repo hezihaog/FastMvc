@@ -162,6 +162,10 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
 
     }
 
+    public int getItemViewType() {
+        return itemViewType;
+    }
+
     @Override
     public void onViewAttachedToWindow(View v) {
 

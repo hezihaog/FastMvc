@@ -11,7 +11,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
@@ -68,13 +67,11 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> implements Com
     @Override
     protected void onItemClick(View view, int position) {
         super.onItemClick(view, position);
-        ToastUtil.showToast(getActivity(), "onItemClick");
     }
 
     @Override
     protected void onItemLongClick(View view, int position) {
         super.onItemLongClick(view, position);
-        ToastUtil.showToast(getActivity(), "onItemLongClick");
     }
 
     @Override
