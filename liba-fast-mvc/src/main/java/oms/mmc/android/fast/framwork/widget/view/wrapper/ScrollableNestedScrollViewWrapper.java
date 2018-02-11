@@ -14,8 +14,8 @@ import oms.mmc.android.fast.framwork.widget.view.base.AbsScrollableViewWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class NestedScrollViewScrollableViewWrapper extends AbsScrollableViewWrapper<ScrollableNestedScrollView> {
-    public NestedScrollViewScrollableViewWrapper(ScrollableNestedScrollView scrollingView) {
+public class ScrollableNestedScrollViewWrapper extends AbsScrollableViewWrapper<ScrollableNestedScrollView> {
+    public ScrollableNestedScrollViewWrapper(ScrollableNestedScrollView scrollingView) {
         super(scrollingView);
     }
 

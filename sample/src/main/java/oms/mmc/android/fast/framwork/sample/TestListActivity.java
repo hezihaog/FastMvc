@@ -10,7 +10,7 @@ import com.hzh.logger.L;
 
 import oms.mmc.android.fast.framwork.adapter.ScrollableLayoutFactory;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
-import oms.mmc.android.fast.framwork.widget.view.wrapper.ListViewScrollableViewWrapper;
+import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableListViewWrapper;
 import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableListView;
 
@@ -37,7 +37,7 @@ public class TestListActivity extends ListActivity {
         //设置该窗口显示列表
         setListAdapter(arrayAdapter);
 
-        ListScrollHelper scrollHelper = new ListScrollHelper(new ListViewScrollableViewWrapper((ScrollableListView) getListView()));
+        ListScrollHelper scrollHelper = new ListScrollHelper(new ScrollableListViewWrapper((ScrollableListView) getListView()));
         scrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
             @Override
             public void onScrolledUp() {

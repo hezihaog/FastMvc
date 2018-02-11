@@ -14,12 +14,12 @@ import oms.mmc.android.fast.framwork.widget.view.base.AbsScrollableViewWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class ListViewScrollableViewWrapper extends AbsScrollableViewWrapper<ScrollableListView> {
+public class ScrollableListViewWrapper extends AbsScrollableViewWrapper<ScrollableListView> {
     private int oldVisibleItem = 0;
     //第一次进入界面时也会回调滚动，所以当手动滚动再监听
     private boolean isFirst = true;
 
-    public ListViewScrollableViewWrapper(ScrollableListView scrollingView) {
+    public ScrollableListViewWrapper(ScrollableListView scrollingView) {
         super(scrollingView);
     }
 
