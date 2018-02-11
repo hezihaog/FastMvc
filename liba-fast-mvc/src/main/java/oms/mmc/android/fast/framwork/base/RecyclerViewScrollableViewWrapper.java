@@ -56,6 +56,14 @@ public class RecyclerViewScrollableViewWrapper extends AbsScrollableViewWrapper<
     public void moveToTop() {
         RecyclerView recyclerView = getScrollableView();
         if (recyclerView != null) {
+            recyclerView.scrollTo(0, 0);
+        }
+    }
+
+    @Override
+    public void smoothMoveToTop() {
+        RecyclerView recyclerView = getScrollableView();
+        if (recyclerView != null) {
             recyclerView.smoothScrollToPosition(0);
         }
     }

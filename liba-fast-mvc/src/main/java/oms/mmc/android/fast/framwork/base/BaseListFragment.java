@@ -192,6 +192,10 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
         return listScrollHelper;
     }
 
+    public void smoothMoveToTop() {
+        getListScrollHelper().smoothMoveToTop();
+    }
+
     public void moveToTop() {
         getListScrollHelper().moveToTop();
     }

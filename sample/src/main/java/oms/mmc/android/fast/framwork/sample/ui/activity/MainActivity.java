@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Fragment fragment = viewPagerAdapter.findByPagerIndex(currentItem);
         if (fragment != null && (fragment instanceof ConversationFragment || fragment instanceof ContactFragment)) {
             BaseListFragment listFragment = (BaseListFragment) fragment;
-            listFragment.moveToTop();
+            listFragment.smoothMoveToTop();
         }
     }
 }

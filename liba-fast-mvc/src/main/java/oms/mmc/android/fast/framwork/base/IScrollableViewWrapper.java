@@ -52,7 +52,12 @@ public interface IScrollableViewWrapper<T extends View & IScrollableView> {
     T getScrollableView();
 
     /**
-     * 滚动到顶部
+     * 瞬时滚动到顶部
      */
     void moveToTop();
+
+    /**
+     * 缓缓滚动到顶部
+     */
+    void smoothMoveToTop();
 }

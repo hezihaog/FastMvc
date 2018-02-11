@@ -1,7 +1,5 @@
 package oms.mmc.android.fast.framwork.base;
 
-import android.view.View;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,5 +77,10 @@ public class ListScrollHelper implements IScrollHelper {
     @Override
     public void moveToTop() {
         getScrollableViewWrapper().moveToTop();
+    }
+
+    @Override
+    public void smoothMoveToTop() {
+        getScrollableViewWrapper().smoothMoveToTop();
     }
 }

@@ -49,6 +49,14 @@ public class NestedScrollViewScrollableViewWrapper extends AbsScrollableViewWrap
     public void moveToTop() {
         NestedScrollView nestedScrollView = getScrollableView();
         if (nestedScrollView != null) {
+            nestedScrollView.scrollTo(0, 0);
+        }
+    }
+
+    @Override
+    public void smoothMoveToTop() {
+        NestedScrollView nestedScrollView = getScrollableView();
+        if (nestedScrollView != null) {
             nestedScrollView.smoothScrollTo(0, 0);
         }
     }
