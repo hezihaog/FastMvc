@@ -19,7 +19,6 @@ import oms.mmc.android.fast.framwork.base.RecyclerViewScrollableViewWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
-import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.loadview.MyContactLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactGroupChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLabelTpl;
@@ -56,11 +55,6 @@ public class ContactFragment extends BaseListFragment {
     public static final int TPL_CONTACT = 5;
     //联系人总数条目
     public static final int TPL_SUM_CONTACT_COUNT = 6;
-
-    @Override
-    public int onLayoutId() {
-        return R.layout.fragment_contact;
-    }
 
     @Override
     public void onFindView(ViewFinder finder) {
@@ -145,7 +139,6 @@ public class ContactFragment extends BaseListFragment {
     @Override
     public void onListReady() {
         super.onListReady();
-        compatNestedScroll();
         recyclerViewHelper.setCanPullToRefresh(false);
     }
 }

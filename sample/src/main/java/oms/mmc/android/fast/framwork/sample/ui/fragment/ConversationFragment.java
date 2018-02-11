@@ -21,7 +21,6 @@ import oms.mmc.android.fast.framwork.base.RecyclerViewScrollableViewWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
-import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.broadcast.ConversationEditStateChangeBroadcast;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationDividerTpl;
@@ -93,11 +92,6 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     public void onDetach() {
         super.onDetach();
         BroadcastHelper.unRegister(getActivity(), receiver);
-    }
-
-    @Override
-    public int onLayoutId() {
-        return R.layout.fragment_conversation;
     }
 
     @Override
