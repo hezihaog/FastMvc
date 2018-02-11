@@ -35,7 +35,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="oms.mmc.android.fast.framwork.sample.ui.activity.ConversationDetailActivity"
+            android:name="oms.mmc.android.fast.framwork.sample.ui.activity.ChatActivity"
             android:configChanges="locale"
             android:label="会话详情"
             android:launchMode="singleTop"

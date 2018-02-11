@@ -32,7 +32,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private Context context;
     private OnStateChangeListener<ArrayList<Model>> onStateChangeListener;
     private AsyncTask<Void, Void, ArrayList<Model>> asyncTask;
-    private long loadDataTime = -1;
+    private static final long NO_LOAD_DATA = -1;
+    private long loadDataTime = NO_LOAD_DATA;
     private ArrayList<RecyclerView.OnScrollListener> mScrollListeners;
     /**
      * 是否可以下拉刷新
@@ -43,7 +44,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      */
     private boolean hasMoreData = true;
     private boolean isFirstRefresh = false;
-    private boolean isFistLoaderMore = false;
+    private boolean isFistLoadMore = false;
     private ILoadViewFactory.ILoadView mLoadView;
     private OnClickListener onClickRefreshListener = new OnClickListener() {
 
@@ -78,8 +79,10 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 int allItemCount = mRecyclerView.getAdapter().getItemCount();
                 for (int i = 0; i < allItemCount; i++) {
                     RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                    BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-                    tpl.onRecyclerViewDetachedFromWindow(v);
+                    if (holder != null && holder.itemView != null) {
+                        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
+                        tpl.onRecyclerViewDetachedFromWindow(v);
+                    }
                 }
             }
         });
@@ -100,13 +103,19 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
             @Override
             public void onScrollBottom() {
-                //必须网络可用才能进行加载更多，没有网络直接显示失败了
-                if (RecyclerViewViewHelper.hasNetwork(context)) {
-                    sendLoadMoreState(LoadMoreBroadcast.LOADING);
-                    loadMore();
-                } else {
-                    if (!isLoading()) {
-                        sendLoadMoreState(LoadMoreBroadcast.FAIL);
+                //必须有数据先
+                if (getDataSource().hasMore()) {
+                    //必须不是刷新状态
+                    if (!isRefreshing()) {
+                        //必须网络可用才能进行加载更多，没有网络直接显示失败了
+                        if (RecyclerViewViewHelper.hasNetwork(context)) {
+                            sendLoadMoreState(LoadMoreBroadcast.LOADING);
+                            loadMore();
+                        } else {
+                            if (!isLoading()) {
+                                sendLoadMoreState(LoadMoreBroadcast.FAIL);
+                            }
+                        }
                     }
                 }
             }
@@ -274,7 +283,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             @Override
             protected void onPreExecute() {
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoaderMore);
+                    onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoadMore);
                 }
                 sendLoadMoreState(LoadMoreBroadcast.LOADING);
             }
@@ -310,10 +319,10 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                 }
                 if (onStateChangeListener != null) {
-                    onStateChangeListener.onEndLoadMore(dataAdapter, result, isFistLoaderMore);
+                    onStateChangeListener.onEndLoadMore(dataAdapter, result, isFistLoadMore);
                 }
-                if (isFistLoaderMore) {
-                    isFistLoaderMore = false;
+                if (isFistLoadMore) {
+                    isFistLoadMore = false;
                 }
             }
         };
@@ -358,6 +367,15 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      */
     public long getLoadDataTime() {
         return loadDataTime;
+    }
+
+    /**
+     * 是否加载过数据
+     *
+     * @return true代表成功加载过，false代表未加载成功过数据
+     */
+    public boolean isLoadDataed() {
+        return loadDataTime != NO_LOAD_DATA;
     }
 
     public OnStateChangeListener<ArrayList<Model>> getOnStateChangeListener() {
@@ -423,6 +441,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         }
     }
 
+    /**
+     * 是否有下一页
+     */
     public boolean isHasMoreData() {
         return hasMoreData;
     }

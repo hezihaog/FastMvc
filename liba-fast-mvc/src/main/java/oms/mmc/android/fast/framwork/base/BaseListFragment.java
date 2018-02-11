@@ -101,8 +101,13 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     public void onListReady() {
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        //自动测量
+        layoutManager.setAutoMeasureEnabled(true);
+        //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
+        recyclerView.setHasFixedSize(true);
+        //一开始先加一个尾部加载更多条目，然后刷新
         if (listViewData.size() == 0) {
-            //一开始先加一个尾部加载更多条目
             listViewAdapter.addLoaderMoreFooterItem();
             recyclerViewHelper.refresh();
         }
@@ -167,9 +172,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
      * 嵌套NestedScrollView时在onListReady()时调用
      */
     public void compatNestedScroll() {
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        layoutManager.setAutoMeasureEnabled(true);
-        recyclerView.setHasFixedSize(true);
+        //放弃滚动，将滚动交给上层的NestedScrollView
         recyclerView.setNestedScrollingEnabled(false);
     }
 }

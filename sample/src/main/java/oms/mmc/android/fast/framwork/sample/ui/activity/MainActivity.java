@@ -33,7 +33,6 @@ public class MainActivity extends BaseActivity {
     private Toolbar toolBar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private SimpleFragmentPagerAdapter viewPagerAdapter;
     private FloatingActionButton floatingActionButton;
 
     @Override
@@ -70,7 +69,7 @@ public class MainActivity extends BaseActivity {
         titles.add("联系人");
         titles.add("发现");
         titles.add("我");
-        viewPagerAdapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
+        SimpleFragmentPagerAdapter viewPagerAdapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(fragments.size() - 1);
         for (int i = 0; i < fragments.size(); i++) {

@@ -82,8 +82,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
 
     @Override
     public void render() {
-        //一开始都先显示加载中
-        showLoading();
+        showNormal();
     }
 
     private void loadMore() {
