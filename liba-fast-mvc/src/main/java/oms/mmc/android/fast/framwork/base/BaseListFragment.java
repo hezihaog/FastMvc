@@ -19,7 +19,9 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactor
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 
-public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>, OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
+public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>,
+        OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener
+        , BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
      * 下拉刷新控件
      */

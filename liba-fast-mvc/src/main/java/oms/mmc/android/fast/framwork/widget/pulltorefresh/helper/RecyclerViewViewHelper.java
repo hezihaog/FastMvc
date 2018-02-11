@@ -43,8 +43,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * 是否还有更多数据。如果服务器返回的数据为空的话，就说明没有更多数据了，也就没必要自动加载更多数据
      */
     private boolean hasMoreData = true;
-    private boolean isFirstRefresh = false;
-    private boolean isFistLoadMore = false;
+    private boolean isFirstRefresh = true;
+    private boolean isFistLoadMore = true;
     private ILoadViewFactory.ILoadView mLoadView;
     private OnClickListener onClickRefreshListener = new OnClickListener() {
 

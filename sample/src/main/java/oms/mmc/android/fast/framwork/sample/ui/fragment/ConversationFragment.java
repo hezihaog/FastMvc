@@ -180,12 +180,16 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, boolean isFirst) {
         super.onStartRefresh(adapter, isFirst);
-        showWaitDialog();
+        if (isFirst) {
+            showWaitDialog();
+        }
     }
 
     @Override
     public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst) {
         super.onEndRefresh(adapter, result, isFirst);
-        hideWaitDialog();
+        if (isFirst) {
+            hideWaitDialog();
+        }
     }
 }
