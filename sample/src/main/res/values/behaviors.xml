@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scale_down_show_behavior">oms.mmc.android.fast.framwork.sample.widget.behavior.ScaleDownShowBehavior</string>
+</resources>

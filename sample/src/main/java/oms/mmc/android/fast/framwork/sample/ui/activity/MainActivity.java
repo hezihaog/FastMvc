@@ -69,10 +69,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragments.add(friendCircleFragment);
         fragments.add(meFragment);
         //组装标题
-        titles.add("会话");
-        titles.add("联系人");
-        titles.add("发现");
-        titles.add("我");
+        titles.add(getString(R.string.main_tab_conversation));
+        titles.add(getString(R.string.main_tab_contact));
+        titles.add(getString(R.string.main_tab_find));
+        titles.add(getString(R.string.main_tab_me));
         viewPagerAdapter = new SimpleFragmentPagerAdapter(viewPager.getId(), getSupportFragmentManager(), titles, fragments);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(fragments.size() - 1);

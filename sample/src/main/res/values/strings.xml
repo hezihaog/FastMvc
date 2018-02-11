@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">FastMvc</string>
-    <string name="scale_down_show_behavior">oms.mmc.android.fast.framwork.sample.widget.behavior.ScaleDownShowBehavior</string>
-
     <string name="wait_dialog_tip_loading">載入中...</string>
     <string name="main_tool_bar_edit_mode_text">編輯</string>
     <string name="main_tool_bar_complete_mode_text">完成</string>
+
+    <string name="main_tab_conversation">會話</string>
+    <string name="main_tab_contact">聯繫人</string>
+    <string name="main_tab_find">發現</string>
+    <string name="main_tab_me">我</string>
 </resources>

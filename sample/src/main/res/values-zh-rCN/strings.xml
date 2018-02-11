@@ -3,4 +3,9 @@
     <string name="wait_dialog_tip_loading">加载中...</string>
     <string name="main_tool_bar_edit_mode_text">编辑</string>
     <string name="main_tool_bar_complete_mode_text">完成</string>
+
+    <string name="main_tab_conversation">会话</string>
+    <string name="main_tab_contact">联系人</string>
+    <string name="main_tab_find">发现</string>
+    <string name="main_tab_me">我</string>
 </resources>
