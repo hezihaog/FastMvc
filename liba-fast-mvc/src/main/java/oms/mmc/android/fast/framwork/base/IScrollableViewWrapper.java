@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.base;
 
-import android.support.v4.view.ScrollingView;
 import android.view.View;
 
 /**
@@ -12,11 +11,11 @@ import android.view.View;
  * Email: hezihao@linghit.com
  */
 
-public interface IScrollableViewWrapper<T extends ScrollingView> {
+public interface IScrollableViewWrapper<T extends View & IScrollableView> {
     /**
      * 滚动代理接口，转接滚动控件的监听器滚动事件
      */
-    interface ScrollDelegate<T extends ScrollingView> {
+    interface ScrollDelegate<T extends View & IScrollableView> {
         /**
          * 当前正在向上滚动
          */
@@ -43,7 +42,7 @@ public interface IScrollableViewWrapper<T extends ScrollingView> {
          * @param view     滚动控件
          * @param newState 当前状态
          */
-        void onScrollStateChanged(View view, int newState);
+        void onScrollStateChanged(T view, int newState);
 
         /**
          * 当滚动时回调
@@ -52,7 +51,7 @@ public interface IScrollableViewWrapper<T extends ScrollingView> {
          * @param dx   x轴滚动的记录
          * @param dy   y轴滚动的距离
          */
-        void onScrolled(View view, int dx, int dy);
+        void onScrolled(T view, int dx, int dy);
     }
 
     /**

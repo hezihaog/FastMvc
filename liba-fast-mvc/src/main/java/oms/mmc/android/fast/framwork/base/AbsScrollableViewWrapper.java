@@ -1,6 +1,6 @@
 package oms.mmc.android.fast.framwork.base;
 
-import android.support.v4.view.ScrollingView;
+import android.view.View;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -11,7 +11,7 @@ import android.support.v4.view.ScrollingView;
  * Email: hezihao@linghit.com
  */
 
-public abstract class AbsScrollableViewWrapper<T extends ScrollingView> implements IScrollableViewWrapper<T> {
+public abstract class AbsScrollableViewWrapper<T extends View & IScrollableView> implements IScrollableViewWrapper<T> {
     private T scrollingView;
 
     public AbsScrollableViewWrapper(T scrollingView) {

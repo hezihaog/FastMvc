@@ -35,6 +35,7 @@ import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.util.BroadcastHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
+import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -95,7 +96,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
 
     @Override
     public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new RecyclerViewScrollableViewWrapper(recyclerView));
+        return new ListScrollHelper(new RecyclerViewScrollableViewWrapper((ScrollableRecyclerView) recyclerView));
     }
 
     @Override

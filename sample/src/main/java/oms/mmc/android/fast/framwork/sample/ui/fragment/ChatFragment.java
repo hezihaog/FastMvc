@@ -23,6 +23,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
+import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -122,7 +123,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
 
     @Override
     public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new RecyclerViewScrollableViewWrapper(recyclerView));
+        return new ListScrollHelper(new RecyclerViewScrollableViewWrapper((ScrollableRecyclerView) recyclerView));
     }
 
     @Override

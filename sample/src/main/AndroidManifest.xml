@@ -40,5 +40,11 @@
             android:label="会话详情"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".TestListActivity"
+            android:configChanges="locale"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

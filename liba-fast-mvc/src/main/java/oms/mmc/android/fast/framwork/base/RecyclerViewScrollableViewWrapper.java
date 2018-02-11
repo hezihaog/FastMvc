@@ -2,6 +2,8 @@ package oms.mmc.android.fast.framwork.base;
 
 import android.support.v7.widget.RecyclerView;
 
+import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
+
 /**
  * Package: oms.mmc.android.fast.framwork.base
  * FileName: RecyclerViewScrollableViewWapper
@@ -11,8 +13,8 @@ import android.support.v7.widget.RecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public class RecyclerViewScrollableViewWrapper extends AbsScrollableViewWrapper<RecyclerView> {
-    public RecyclerViewScrollableViewWrapper(RecyclerView scrollingView) {
+public class RecyclerViewScrollableViewWrapper extends AbsScrollableViewWrapper<ScrollableRecyclerView> {
+    public RecyclerViewScrollableViewWrapper(ScrollableRecyclerView scrollingView) {
         super(scrollingView);
     }
 

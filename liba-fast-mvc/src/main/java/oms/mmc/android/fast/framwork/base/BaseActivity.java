@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.adapter.ScrollableLayoutFactory;
 import oms.mmc.android.fast.framwork.basiclib.util.ActivityManager;
 import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
@@ -28,6 +29,7 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        installLayoutInflaterFactory();
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
@@ -93,6 +95,13 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
 
     protected WaitDialogController onGetWaitDialogController() {
         return new WaitDialogController(this);
+    }
+
+    /**
+     * 添加Scrollable控件替换工厂
+     */
+    private void installLayoutInflaterFactory() {
+        ScrollableLayoutFactory.create(getActivity()).install();
     }
 
     @Override

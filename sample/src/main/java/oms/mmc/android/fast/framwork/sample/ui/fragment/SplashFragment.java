@@ -1,11 +1,12 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.content.Intent;
 import android.widget.FrameLayout;
 
 import oms.mmc.android.fast.framwork.base.BaseFragment;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
+import oms.mmc.android.fast.framwork.sample.TestListActivity;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -59,7 +60,8 @@ public class SplashFragment extends BaseFragment {
     }
 
     private void goMain() {
-        MMCUIHelper.showMain(getActivity());
+        //MMCUIHelper.showMain(getActivity());
+        startActivity(new Intent(getActivity(), TestListActivity.class));
         getActivity().finish();
     }
 }
