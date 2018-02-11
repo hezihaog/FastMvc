@@ -1,7 +1,6 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.support.v4.util.ArrayMap;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -242,7 +241,6 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
             BaseStickyTpl tpl = (BaseStickyTpl) tag;
             tpl.onAttachSticky();
         }
-        ViewCompat.setElevation(stickyHeader, 10);
     }
 
     @Override
@@ -252,7 +250,6 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
             BaseStickyTpl tpl = (BaseStickyTpl) tag;
             tpl.onDetachedSticky();
         }
-        ViewCompat.setElevation(stickyHeader, 0);
     }
 
     @Override

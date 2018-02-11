@@ -9,24 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <FrameLayout
+            android:id="@id/base_status_place_holder_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:visibility="visible">
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@id/base_status_place_holder_layout"
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/base_list_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@id/base_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-            </FrameLayout>
-        </android.support.v4.widget.NestedScrollView>
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

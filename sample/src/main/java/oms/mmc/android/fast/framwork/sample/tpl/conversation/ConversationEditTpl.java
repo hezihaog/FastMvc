@@ -1,7 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
@@ -91,11 +91,11 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     public void onAttachSticky() {
-        getRoot().setBackgroundColor(Color.parseColor("#202020"));
+        ViewCompat.setElevation(getRoot(), 10);
     }
 
     @Override
     public void onDetachedSticky() {
-        getRoot().setBackgroundColor(getRoot().getContext().getColor(R.color.white));
+        ViewCompat.setElevation(getRoot(), 0);
     }
 }

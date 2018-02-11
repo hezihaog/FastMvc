@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
+import android.support.v4.view.ViewCompat;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.base.BaseStickyTpl;
@@ -39,11 +40,11 @@ public class ContactLetterTpl extends BaseStickyTpl<ItemDataWrapper> {
 
     @Override
     public void onAttachSticky() {
-
+        ViewCompat.setElevation(getRoot(), 10);
     }
 
     @Override
     public void onDetachedSticky() {
-
+        ViewCompat.setElevation(getRoot(), 0);
     }
 }
