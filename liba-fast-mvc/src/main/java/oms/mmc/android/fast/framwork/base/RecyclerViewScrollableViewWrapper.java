@@ -42,10 +42,10 @@ public class RecyclerViewScrollableViewWrapper extends AbsScrollableViewWrapper<
                         delegate.onScrolledToTop();
                     }
                     if (dy < 0) {
-                        delegate.onScrolledUp();
+                        delegate.onScrolledDown();
                     }
                     if (dy > 0) {
-                        delegate.onScrolledDown();
+                        delegate.onScrolledUp();
                     }
                 }
             }

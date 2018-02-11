@@ -4,6 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.hzh.logger.L;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -98,17 +100,17 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
         listScrollHelper.addListScrollListener(new SimpleListScrollListener() {
             @Override
             public void onScrolledUp() {
-
+                L.d("onScrolledUp ::: ");
             }
 
             @Override
             public void onScrolledDown() {
-
+                L.d("onScrolledDown ::: ");
             }
 
             @Override
             public void onScrollTop() {
-
+                L.d("onScrollTop ::: ");
             }
 
             @Override
