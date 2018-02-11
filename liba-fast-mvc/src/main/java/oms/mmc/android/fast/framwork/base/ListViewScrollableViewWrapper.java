@@ -58,7 +58,7 @@ public class ListViewScrollableViewWrapper extends AbsScrollableViewWrapper<Scro
 
     @Override
     public void moveToTop() {
-        getScrollableView().scrollTo(0, 0);
+        getScrollableView().setSelection(0);
     }
 
     @Override
