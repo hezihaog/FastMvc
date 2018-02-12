@@ -29,8 +29,12 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
     }
 
     @Override
-    public ArrayList<T> refresh() throws Exception {
-        return load(FIRST_PAGE_NUM);
+    public ArrayList<T> refresh(boolean isReverse) throws Exception {
+        if (!isReverse) {
+            return load(FIRST_PAGE_NUM);
+        } else {
+            return load(page + 1);
+        }
     }
 
     @Override

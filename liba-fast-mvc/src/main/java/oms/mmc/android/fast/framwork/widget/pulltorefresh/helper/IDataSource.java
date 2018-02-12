@@ -28,7 +28,7 @@ public interface IDataSource<T> {
      * @return
      * @throws Exception
      */
-    ArrayList<T> refresh() throws Exception;
+    ArrayList<T> refresh(boolean isReverse) throws Exception;
 
     /**
      * 获取加载更多的数据

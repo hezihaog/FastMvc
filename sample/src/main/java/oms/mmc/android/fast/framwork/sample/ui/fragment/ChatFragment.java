@@ -12,9 +12,6 @@ import java.util.HashMap;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
-import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
-import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
@@ -23,7 +20,10 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
+import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
+import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
+import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -71,11 +71,19 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
                 Thread.sleep(1500);
                 ArrayList<ItemDataWrapper> model = new ArrayList<ItemDataWrapper>();
                 for (int i = 0; i < 10; i++) {
-                    String dateTime = FakeUtil.getRandomDate();
-                    model.add(new ItemDataWrapper(TPL_CHAT_DATE, dateTime));
-                    model.add(new ItemDataWrapper(TPL_CHAT_TEXT_SENDER, FakeUtil.getRandomAvatar(), FakeUtil.getRandomName(), "能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间"));
-                    model.add(new ItemDataWrapper(TPL_CHAT_TEXT_RECEIVER, FakeUtil.getRandomAvatar(), FakeUtil.getRandomName(), "能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间"));
+                    if (page == FIRST_PAGE_NUM) {
+                        String dateTime = FakeUtil.getRandomDate(i);
+                        model.add(new ItemDataWrapper(TPL_CHAT_TEXT_SENDER, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i),  "第" + i + "条" + "  --- page ::: " + page));
+                        model.add(new ItemDataWrapper(TPL_CHAT_TEXT_RECEIVER, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), "能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间"));
+                        model.add(new ItemDataWrapper(TPL_CHAT_DATE, dateTime));
+                    } else {
+                        String dateTime = FakeUtil.getRandomDate(i);
+                        model.add(new ItemDataWrapper(TPL_CHAT_TEXT_SENDER, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), "第" + i + "条" + " --- page ::: " + page));
+                        model.add(new ItemDataWrapper(TPL_CHAT_TEXT_RECEIVER, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), "能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间"));
+                        model.add(new ItemDataWrapper(TPL_CHAT_DATE, dateTime));
+                    }
                 }
+                this.page = page;
                 return model;
             }
         };
@@ -131,6 +139,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     public void onListReady() {
         super.onListReady();
         recyclerViewHelper.setReverse(true);
+        reverseListLayout();
     }
 
     @Override
@@ -146,13 +155,8 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
         if (isFirst) {
             hideWaitDialog();
-        }
-        if (isFirst) {
-            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
-        }
-        if (isReverse) {
-            int position = result.size() - 1;
-            recyclerView.scrollToPosition(position);
+            //一开始滚动到底部
+            recyclerView.scrollToPosition(0);
         }
     }
 }

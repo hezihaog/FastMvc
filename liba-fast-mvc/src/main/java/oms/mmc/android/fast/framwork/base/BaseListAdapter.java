@@ -206,7 +206,8 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
                     this.listViewData.addAll(res);
                     this.listViewData.add(footLoaderMoreTpl);
                 } else {
-                    this.listViewData.addAll(0, res);
+                    //如果是QQ聊天界面的在顶部下拉加载，直接将数据加上，rv设置布局反转即可
+                    this.listViewData.addAll(res);
                 }
             }
         } else {

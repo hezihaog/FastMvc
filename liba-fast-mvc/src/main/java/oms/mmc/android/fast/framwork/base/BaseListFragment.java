@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -187,6 +188,15 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
     public void compatNestedScroll() {
         //放弃滚动，将滚动交给上层的NestedScrollView
         recyclerView.setNestedScrollingEnabled(false);
+    }
+
+    /**
+     * 反转列表布局，实现类似QQ聊天时使用
+     */
+    public void reverseListLayout() {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
     }
 
     public ListScrollHelper getListScrollHelper() {

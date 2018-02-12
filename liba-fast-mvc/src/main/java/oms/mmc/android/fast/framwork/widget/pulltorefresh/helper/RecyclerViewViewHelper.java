@@ -219,7 +219,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             @Override
             protected ArrayList<Model> doInBackground(Void... params) {
                 try {
-                    return dataSource.refresh();
+                    return dataSource.refresh(isReverse);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
