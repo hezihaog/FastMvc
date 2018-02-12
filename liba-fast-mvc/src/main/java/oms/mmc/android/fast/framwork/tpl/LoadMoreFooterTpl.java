@@ -39,7 +39,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
             public void onReceive(Context context, Intent intent) {
                 if (intent != null) {
                     int helperHash = intent.getIntExtra(LoadMoreBroadcast.BUNDLE_KEY_HELPER_HASH, -1);
-                    if (helperHash == recyclerViewHelper.hashCode()) {
+                    if (helperHash == getRecyclerViewHelper().hashCode()) {
                         int state = intent.getIntExtra(LoadMoreBroadcast.BUNDLE_KEY_STATE, LoadMoreBroadcast.NOMAL);
                         switch (state) {
                             case LoadMoreBroadcast.NOMAL:
@@ -59,13 +59,13 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
                 }
             }
         };
-        BroadcastHelper.register(mActivity, LoadMoreBroadcast.class.getName(), receiver);
+        BroadcastHelper.register(getActivity(), LoadMoreBroadcast.class.getName(), receiver);
     }
 
     @Override
     public void onRecyclerViewDetachedFromWindow(View view) {
         super.onRecyclerViewDetachedFromWindow(view);
-        BroadcastHelper.unRegister(mActivity, receiver);
+        BroadcastHelper.unRegister(getActivity(), receiver);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     }
 
     private void loadMore() {
-        recyclerViewHelper.loadMore();
+        getRecyclerViewHelper().loadMore();
     }
 
     @Override

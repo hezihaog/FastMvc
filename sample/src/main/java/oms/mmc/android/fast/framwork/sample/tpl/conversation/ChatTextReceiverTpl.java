@@ -43,7 +43,7 @@ public class ChatTextReceiverTpl extends BaseTpl<ItemDataWrapper> {
         String avatarUrl = (String) itemData.getDatas().get(0);
         String name = (String) itemData.getDatas().get(1);
         String content = (String) itemData.getDatas().get(2);
-        Glide.with(mActivity).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatarIv);
+        Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatarIv);
         ViewUtil.setText(name, nameTv);
         ViewUtil.setText(content, contentTv);
     }

@@ -41,7 +41,7 @@ public class ContactTpl extends BaseTpl<ItemDataWrapper> {
     protected void onRender(ItemDataWrapper itemData) {
         String avatarUrl = (String) itemData.getDatas().get(0);
         name = (String) itemData.getDatas().get(1);
-        Glide.with(mActivity).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
+        Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
         contactName.setText(name);
     }
 }

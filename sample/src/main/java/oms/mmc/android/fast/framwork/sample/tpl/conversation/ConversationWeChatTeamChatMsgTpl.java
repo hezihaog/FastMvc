@@ -33,12 +33,12 @@ public class ConversationWeChatTeamChatMsgTpl extends BaseTpl<BaseItemData> impl
 
     @Override
     protected void onRender(BaseItemData itemData) {
-        if (listViewAdapter.isEditMode()) {
+        if (getListAdapter().isEditMode()) {
             getViewFinder().setVisibility(R.id.checkBox);
         } else {
             getViewFinder().setGone(R.id.checkBox);
         }
-        if (listViewAdapter.getCheckedItemPositions().contains(position)) {
+        if (getListAdapter().getCheckedItemPositions().contains(getPosition())) {
             checkBox.setChecked(true);
         } else {
             checkBox.setChecked(false);
@@ -48,9 +48,9 @@ public class ConversationWeChatTeamChatMsgTpl extends BaseTpl<BaseItemData> impl
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            listViewAdapter.getCheckedItemPositions().add(position);
+            getListAdapter().getCheckedItemPositions().add(getPosition());
         } else {
-            listViewAdapter.getCheckedItemPositions().remove(position);
+            getListAdapter().getCheckedItemPositions().remove(getPosition());
         }
     }
 }

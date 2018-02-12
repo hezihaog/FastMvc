@@ -39,7 +39,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     protected void onRender(BaseItemData itemData) {
-        boolean isNormalMode = listViewAdapter.isNormalMode();
+        boolean isNormalMode = getListAdapter().isNormalMode();
         if (isNormalMode) {
             editTv.setText(R.string.main_tool_bar_edit_mode_text);
         } else {
@@ -49,8 +49,8 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     public void onClick(View v) {
-        final List<Integer> checkedItemPositions = listViewAdapter.getCheckedItemPositions();
-        boolean isEditMode = listViewAdapter.isEditMode();
+        final List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        boolean isEditMode = getListAdapter().isEditMode();
         if (!isEditMode) {
             new ConversationEditStateChangeBroadcast().setEditMode().send(getActivity());
             editTv.setText(R.string.main_tool_bar_complete_mode_text);
@@ -60,7 +60,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
                 editTv.setText(R.string.main_tool_bar_edit_mode_text);
                 return;
             }
-            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("提示");
             builder.setMessage("是否删除这" + checkedItemPositions.size() + "条数据");
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -71,7 +71,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
                     //不是编辑模式，并且勾选了条目，则删除这些条目
                     if (checkedItemPositions.size() > 0) {
                         for (Integer itemPosition : checkedItemPositions) {
-                            listViewData.remove(itemPosition.intValue());
+                            getListViewData().remove(itemPosition.intValue());
                         }
                         //清除完条目后，记得将保存选择的位置的集合清空
                         checkedItemPositions.clear();

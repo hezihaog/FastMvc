@@ -52,12 +52,12 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> implements Com
         name.setText(nameText);
         msgContent.setText(content);
 
-        if (listViewAdapter.isEditMode()) {
+        if (getListAdapter().isEditMode()) {
             getViewFinder().setVisibility(R.id.checkBox);
         } else {
             getViewFinder().setGone(R.id.checkBox);
         }
-        if (listViewAdapter.getCheckedItemPositions().contains(position)) {
+        if (getListAdapter().getCheckedItemPositions().contains(getPosition())) {
             checkBox.setChecked(true);
         } else {
             checkBox.setChecked(false);
@@ -77,9 +77,9 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> implements Com
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            listViewAdapter.getCheckedItemPositions().add(position);
+            getListAdapter().getCheckedItemPositions().add(getPosition());
         } else {
-            listViewAdapter.getCheckedItemPositions().remove(position);
+            getListAdapter().getCheckedItemPositions().remove(getPosition());
         }
     }
 }
