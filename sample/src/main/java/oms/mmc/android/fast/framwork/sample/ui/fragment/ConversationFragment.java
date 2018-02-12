@@ -160,7 +160,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
 
     @Override
     public RecyclerView.LayoutManager getListLayoutManager() {
-        return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
+        return new StickyHeadersLinearLayoutManager(getActivity());
     }
 
     @Override

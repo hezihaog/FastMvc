@@ -1,5 +1,7 @@
 package oms.mmc.android.fast.framwork.base;
 
+import android.support.v7.widget.RecyclerView;
+
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,26 @@ public interface IAssistRecyclerAdapter {
      * 管理模式
      */
     int MODE_EDIT = 1;
+
+    interface OnAttachedToRecyclerViewListener {
+        void onAttachedToRecyclerView();
+    }
+
+    void addOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener);
+
+    void removeOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener);
+
+    void removeAllOnAttachedToRecyclerViewListener();
+
+    interface onViewAttachedToWindowListener<T extends RecyclerView.ViewHolder> {
+        void onViewAttachedToWindow(T holder);
+    }
+
+    void addOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener);
+
+    void removeOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener);
+
+    void removeAllOnViewAttachedToWindowListener();
 
     /**
      * 设置一个Tag

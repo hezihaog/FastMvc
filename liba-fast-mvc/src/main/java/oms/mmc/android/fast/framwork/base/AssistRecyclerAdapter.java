@@ -35,6 +35,57 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
      */
     private Map<String, Object> tagList = new HashMap<String, Object>();
 
+    private ArrayList<OnAttachedToRecyclerViewListener> mAttachedRecyclerListener = new ArrayList<OnAttachedToRecyclerViewListener>();
+    private ArrayList<onViewAttachedToWindowListener> mAttachedWindowListener = new ArrayList<onViewAttachedToWindowListener>();
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        for (OnAttachedToRecyclerViewListener listener : mAttachedRecyclerListener) {
+            listener.onAttachedToRecyclerView();
+        }
+    }
+
+    @Override
+    public void addOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener) {
+        if (!mAttachedRecyclerListener.contains(listener)) {
+            mAttachedRecyclerListener.add(listener);
+        }
+    }
+
+    @Override
+    public void removeOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener) {
+        mAttachedRecyclerListener.remove(listener);
+    }
+
+    @Override
+    public void removeAllOnAttachedToRecyclerViewListener() {
+        mAttachedRecyclerListener.clear();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(T holder) {
+        super.onViewAttachedToWindow(holder);
+        for (onViewAttachedToWindowListener listener : mAttachedWindowListener) {
+            listener.onViewAttachedToWindow(holder);
+        }
+    }
+
+    @Override
+    public void addOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener) {
+        mAttachedWindowListener.add(listener);
+    }
+
+    @Override
+    public void removeOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener) {
+        mAttachedWindowListener.remove(listener);
+    }
+
+    @Override
+    public void removeAllOnViewAttachedToWindowListener() {
+        mAttachedWindowListener.clear();
+    }
+
     @Override
     public void putTag(String key, Object value) {
         if (tagList == null) {

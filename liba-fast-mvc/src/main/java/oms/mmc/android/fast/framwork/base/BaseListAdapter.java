@@ -1,7 +1,9 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +35,18 @@ public class BaseListAdapter<T extends BaseItemData> extends HeaderFooterAdapter
     }
 
     @Override
+    public void onViewAttachedToWindow(BaseTpl.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+        if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+            if (isStickyHeader(holder.getLayoutPosition())) {
+                StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+                p.setFullSpan(true);
+            }
+        }
+    }
+
+    @Override
     public void setRefreshListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
         ArrayList<T> listViewData = getListViewData();
         mLoadMoreHelper.setLoadMoreTplPosition(listViewData.size() - 1);
@@ -55,7 +69,6 @@ public class BaseListAdapter<T extends BaseItemData> extends HeaderFooterAdapter
                         footers.add(viewData);
                     }
                 }
-                //待解决
                 listViewData.clear();
                 listViewData.addAll(headers);
                 listViewData.addAll(data);

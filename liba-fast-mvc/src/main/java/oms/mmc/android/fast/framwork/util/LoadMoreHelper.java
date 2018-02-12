@@ -1,11 +1,15 @@
 package oms.mmc.android.fast.framwork.util;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.HeaderFooterAdapter;
+import oms.mmc.android.fast.framwork.base.IAssistRecyclerAdapter;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.tpl.LoadMoreFooterTpl;
@@ -23,7 +27,7 @@ public class LoadMoreHelper implements ILoadMoreHelper {
     /**
      * 加载更多尾部条目类型
      */
-    public static final int TPL_LOAD_MORE_FOOTER = 1000;
+    private static final int TPL_LOAD_MORE_FOOTER = 1000;
     /**
      * 加载更多条目的位置
      */
@@ -33,8 +37,35 @@ public class LoadMoreHelper implements ILoadMoreHelper {
      */
     private HeaderFooterAdapter<BaseItemData> mAdapter;
 
-    public LoadMoreHelper(HeaderFooterAdapter adapter) {
+    public LoadMoreHelper(final HeaderFooterAdapter adapter) {
         mAdapter = adapter;
+        //重写此方法，判断recyclerView的layoutManager为GridLayoutManager的时候，是header和footer独占一行，而不是一个item
+        mAdapter.addOnAttachedToRecyclerViewListener(new IAssistRecyclerAdapter.OnAttachedToRecyclerViewListener() {
+            @Override
+            public void onAttachedToRecyclerView() {
+                RecyclerView.LayoutManager layoutManager = adapter.getRecyclerView().getLayoutManager();
+                if (layoutManager instanceof GridLayoutManager) {
+                    final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
+                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int position) {
+                            return mAdapter.getItemViewType(position) == LoadMoreHelper.TPL_LOAD_MORE_FOOTER ? gridLayoutManager.getSpanCount() : 1;
+                        }
+                    });
+                }
+            }
+        });
+        mAdapter.addOnViewAttachedToWindowListener(new IAssistRecyclerAdapter.onViewAttachedToWindowListener() {
+
+            @Override
+            public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+                ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+                if (layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+                    StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
+                    params.setFullSpan(mAdapter.getItemViewType(holder.getLayoutPosition()) == TPL_LOAD_MORE_FOOTER);
+                }
+            }
+        });
     }
 
     @Override
