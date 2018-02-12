@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.List;
+
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
@@ -76,10 +78,15 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> implements Com
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         if (isChecked) {
-            getListAdapter().getCheckedItemPositions().add(getPosition());
+            if (!checkedItemPositions.contains(getPosition())) {
+                getListAdapter().getCheckedItemPositions().add(getPosition());
+            }
         } else {
-            getListAdapter().getCheckedItemPositions().remove(getPosition());
+            if (checkedItemPositions.contains(getPosition())) {
+                checkedItemPositions.remove(getPosition());
+            }
         }
     }
 }
