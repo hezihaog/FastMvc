@@ -2,6 +2,7 @@ package oms.mmc.android.fast.framwork.base;
 
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,8 +20,13 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewVie
  */
 
 public abstract class HeaderFooterAdapter<T extends BaseItemData> extends MultiTypeAdapter<T> implements IHeaderFooterAdapter {
+    /**
+     * 是否添加了头部和尾部
+     */
     private boolean hasHeader = false;
     private boolean hasFooter = false;
+    private ArrayList<Integer> headerTypeList = new ArrayList<Integer>();
+    private ArrayList<Integer> footerTypeList = new ArrayList<Integer>();
 
     public HeaderFooterAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource<T> dataSource, HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper) {
         super(recyclerView, activity, dataSource, itemViewClazzMap, recyclerViewHelper);
@@ -35,16 +41,18 @@ public abstract class HeaderFooterAdapter<T extends BaseItemData> extends MultiT
             return;
         }
         getViewTypeClassMap().put(viewType, headerTplClazz);
+        headerTypeList.add(viewType);
         hasHeader = true;
         getListViewData().add(0, (T) headerData);
         notifyDataSetChanged();
     }
 
     @Override
-    public void unRegisterHeader() {
+    public void unRegisterHeader(int viewType) {
         if (!hasHeader) {
             return;
         }
+        headerTypeList.remove(viewType);
         this.getListViewData().remove(0);
         hasHeader = false;
         notifyDataSetChanged();
@@ -62,6 +70,7 @@ public abstract class HeaderFooterAdapter<T extends BaseItemData> extends MultiT
         if (getViewTypeClassMap().get(viewType) != null) {
             return;
         }
+        footerTypeList.add(viewType);
         getViewTypeClassMap().put(viewType, footerTplClazz);
         List listViewData = getListViewData();
         if (listViewData.size() == 0) {
@@ -74,11 +83,12 @@ public abstract class HeaderFooterAdapter<T extends BaseItemData> extends MultiT
     }
 
     @Override
-    public void unRegisterFooter() {
+    public void unRegisterFooter(int viewType) {
         if (!hasFooter) {
             return;
         }
         List listViewData = getListViewData();
+        footerTypeList.remove(viewType);
         listViewData.remove(listViewData.size() - 1);
         hasFooter = false;
         notifyDataSetChanged();
@@ -92,5 +102,15 @@ public abstract class HeaderFooterAdapter<T extends BaseItemData> extends MultiT
     @Override
     public boolean hasFooter() {
         return hasFooter;
+    }
+
+    @Override
+    public ArrayList<Integer> getHeaderTypeList() {
+        return headerTypeList;
+    }
+
+    @Override
+    public ArrayList<Integer> getFooterTypeList() {
+        return footerTypeList;
     }
 }

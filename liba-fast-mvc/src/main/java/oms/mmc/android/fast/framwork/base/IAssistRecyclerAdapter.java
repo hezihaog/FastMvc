@@ -89,4 +89,9 @@ public interface IAssistRecyclerAdapter {
      * 是否是普通模式
      */
     boolean isNormalMode();
+
+    /**
+     * 刷新数据集
+     */
+    void notifyDataSetChanged();
 }

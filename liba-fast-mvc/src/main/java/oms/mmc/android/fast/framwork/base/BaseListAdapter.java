@@ -38,14 +38,28 @@ public class BaseListAdapter<T extends BaseItemData> extends HeaderFooterAdapter
         mLoadMoreHelper.setLoadMoreTplPosition(listViewData.size() - 1);
         //第一次刷新
         if (isFirst) {
-            listViewData.addAll(0, data);
+            listViewData.addAll(listViewData.size() - 1, data);
         } else {
             //不是第一次刷新
-            T footLoaderMoreTpl = listViewData.get(mLoadMoreHelper.getLoadMoreTplPosition());
             if (!isReverse) {
+                ArrayList<Integer> headerTypeList = getHeaderTypeList();
+                ArrayList<Integer> footerTypeList = getFooterTypeList();
+                ArrayList<T> headers = new ArrayList<T>();
+                ArrayList<T> footers = new ArrayList<T>();
+                for (int i = 0; i < listViewData.size(); i++) {
+                    T viewData = listViewData.get(i);
+                    if (headerTypeList.contains(viewData.getViewType())) {
+                        headers.add(viewData);
+                    }
+                    if (footerTypeList.contains(viewData.getViewType())) {
+                        footers.add(viewData);
+                    }
+                }
+                //待解决
                 listViewData.clear();
+                listViewData.addAll(headers);
                 listViewData.addAll(data);
-                listViewData.add(footLoaderMoreTpl);
+                listViewData.addAll(footers);
             } else {
                 //如果是QQ聊天界面的在顶部下拉加载，直接将数据加上，rv设置布局反转即可
                 listViewData.addAll(data);
@@ -63,6 +77,8 @@ public class BaseListAdapter<T extends BaseItemData> extends HeaderFooterAdapter
 
     @Override
     public void setListViewData(ArrayList<T> data) {
+        ArrayList<T> listViewData = getListViewData();
+        mLoadMoreHelper.setLoadMoreTplPosition(listViewData.size() - 1);
         setListData(data);
     }
 

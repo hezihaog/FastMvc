@@ -45,7 +45,7 @@ public class LoadMoreHelper implements ILoadMoreHelper {
 
     @Override
     public void removeLoadMoreTpl() {
-        mAdapter.unRegisterFooter();
+        mAdapter.unRegisterFooter(TPL_LOAD_MORE_FOOTER);
     }
 
     @Override

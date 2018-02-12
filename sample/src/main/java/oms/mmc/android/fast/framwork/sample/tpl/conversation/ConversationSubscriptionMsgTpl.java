@@ -3,6 +3,8 @@ package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import java.util.List;
+
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
@@ -47,10 +49,15 @@ public class ConversationSubscriptionMsgTpl extends BaseTpl<BaseItemData> implem
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         if (isChecked) {
-            getListAdapter().getCheckedItemPositions().add(getPosition());
+            if (!checkedItemPositions.contains(getPosition())) {
+                getListAdapter().getCheckedItemPositions().add(getPosition());
+            }
         } else {
-            getListAdapter().getCheckedItemPositions().remove(getPosition());
+            if (checkedItemPositions.contains(getPosition())) {
+                checkedItemPositions.remove(getPosition());
+            }
         }
     }
 }

@@ -15,8 +15,6 @@ import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
-import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
@@ -35,7 +33,9 @@ import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.util.BroadcastHelper;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
+import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
+import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -48,7 +48,7 @@ import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
 
 public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     public static final int TPL_DIVIDER = 0;
-    //编辑功能条目
+    //搜索条目，是一个header类型。
     public static final int TPL_SEARCH = 1;
     //编辑条目
     public static final int TPL_EDIT = 2;
@@ -111,7 +111,6 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
-                    models.add(new BaseItemData(TPL_SEARCH));
                     models.add(new BaseItemData(TPL_DIVIDER));
                     models.add(new BaseItemData(TPL_EDIT));
                     models.add(new BaseItemData(TPL_DIVIDER));
@@ -149,7 +148,6 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
         tpls.put(TPL_DIVIDER, ConversationDividerTpl.class);
-        tpls.put(TPL_SEARCH, ConversationSearchTpl.class);
         tpls.put(TPL_EDIT, ConversationEditTpl.class);
         tpls.put(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
         tpls.put(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
@@ -168,6 +166,12 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public int onGetStickyTplViewType() {
         return TPL_EDIT;
+    }
+
+    @Override
+    public void onListReady() {
+        super.onListReady();
+        getRecyclerViewAdapter().registerHeader(TPL_SEARCH, ConversationSearchTpl.class, new BaseItemData(TPL_SEARCH));
     }
 
     @Override

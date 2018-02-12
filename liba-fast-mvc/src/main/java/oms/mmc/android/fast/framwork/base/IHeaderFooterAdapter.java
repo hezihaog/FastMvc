@@ -1,5 +1,7 @@
 package oms.mmc.android.fast.framwork.base;
 
+import java.util.ArrayList;
+
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 
 /**
@@ -20,7 +22,7 @@ public interface IHeaderFooterAdapter<T> {
     /**
      * 注销头部
      */
-    void unRegisterHeader();
+    void unRegisterHeader(int viewType);
 
     /**
      * 注册尾部
@@ -30,7 +32,7 @@ public interface IHeaderFooterAdapter<T> {
     /**
      * 注销尾部
      */
-    void unRegisterFooter();
+    void unRegisterFooter(int viewType);
 
     /**
      * 是否存在头部
@@ -41,4 +43,14 @@ public interface IHeaderFooterAdapter<T> {
      * 是否存在尾部
      */
     boolean hasFooter();
+
+    /**
+     * 获取头部条目的条目类型集合
+     */
+    ArrayList<Integer> getHeaderTypeList();
+
+    /**
+     * 获取尾部条目的条目类型集合
+     */
+    ArrayList<Integer> getFooterTypeList();
 }

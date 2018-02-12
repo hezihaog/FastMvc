@@ -75,7 +75,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
                         }
                         //清除完条目后，记得将保存选择的位置的集合清空
                         checkedItemPositions.clear();
-                        //listViewAdapter.notifyDataSetChanged();
+                        getListAdapter().notifyDataSetChanged();
                     }
                 }
             });
