@@ -6,7 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import oms.mmc.android.fast.framwork.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
@@ -49,7 +49,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     public void onClick(View v) {
-        final ArrayList<Integer> checkedItemPositions = listViewAdapter.getCheckedItemPositions();
+        final List<Integer> checkedItemPositions = listViewAdapter.getCheckedItemPositions();
         boolean isEditMode = listViewAdapter.isEditMode();
         if (!isEditMode) {
             new ConversationEditStateChangeBroadcast().setEditMode().send(getActivity());
@@ -75,7 +75,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
                         }
                         //清除完条目后，记得将保存选择的位置的集合清空
                         checkedItemPositions.clear();
-                        listViewAdapter.notifyDataSetChanged();
+                        //listViewAdapter.notifyDataSetChanged();
                     }
                 }
             });

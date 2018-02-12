@@ -16,12 +16,10 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
-import oms.mmc.android.fast.framwork.base.BaseTpl;
+import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
-import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
 
 /**
  * ListView帮助类
@@ -82,14 +80,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         mRecyclerView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
             @Override
             public void onViewDetachedFromWindow(View v) {
-                int allItemCount = mRecyclerView.getAdapter().getItemCount();
-                for (int i = 0; i < allItemCount; i++) {
-                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                    if (holder != null && holder.itemView != null) {
-                        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-                        tpl.onRecyclerViewDetachedFromWindow(v);
-                    }
-                }
+
             }
         });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -240,7 +231,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                 } else {
                     loadDataTime = System.currentTimeMillis();
-                    dataAdapter.setListViewData(result, true, isReverse);
+                    dataAdapter.setRefreshListViewData(result, isReverse, isFirstRefresh);
                     dataAdapter.notifyDataSetChanged();
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
@@ -316,7 +307,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     mLoadView.tipFail();
                     sendLoadMoreState(LoadMoreBroadcast.FAIL);
                 } else {
-                    dataAdapter.setListViewData(result, false, isReverse);
+                    dataAdapter.setLoadMoreListViewData(result, isReverse, isFistLoadMore);
                     dataAdapter.notifyDataSetChanged();
                     if (dataAdapter.isEmpty()) {
                         mLoadView.showEmpty();

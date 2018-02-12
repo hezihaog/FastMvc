@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.basiclib.util.MethodCompat;
+import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.BaseLoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
@@ -21,7 +22,7 @@ import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.OnStateChangeLi
 import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
-public abstract class BaseListFragment<T> extends BaseFragment implements ListLayoutCallback<T>,
+public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragment implements ListLayoutCallback<T>,
         OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener
         , BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
@@ -114,7 +115,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
         recyclerView.setHasFixedSize(true);
         //一开始先加一个尾部加载更多条目，然后刷新
         if (listViewData.size() == 0) {
-            listViewAdapter.addLoaderMoreFooterItem();
+            listViewAdapter.getLoadMoreHelper().addLoadMoreTpl();
             recyclerViewHelper.refresh();
         }
     }
@@ -126,8 +127,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements ListLa
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource,
-                onListTypeClassesReady(), recyclerViewHelper, onGetStickyTplViewType());
+        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource, onListTypeClassesReady(), recyclerViewHelper, onGetStickyTplViewType());
     }
 
     protected void onListScrollHelperReady(ListScrollHelper listScrollHelper) {

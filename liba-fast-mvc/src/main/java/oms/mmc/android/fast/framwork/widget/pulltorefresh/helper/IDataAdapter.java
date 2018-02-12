@@ -20,14 +20,19 @@ package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
  */
 public interface IDataAdapter<T> {
     /**
-     * 设置数据集
+     * 设置下拉刷新数据集
      */
-    void setListViewData(T data, boolean isRefresh, boolean isReverse);
+    void setRefreshListViewData(T data, boolean isReverse, boolean isFirst);
 
     /**
-     * 获取数据集
+     * 设置加载更多数据集
      */
-    T getListViewData();
+    void setLoadMoreListViewData(T data, boolean isReverse, boolean isFirst);
+
+    /**
+     * 设置数据集
+     */
+    void setListViewData(T data);
 
     /**
      * 刷新数据集
@@ -38,9 +43,4 @@ public interface IDataAdapter<T> {
      * adapter中数据是否为空
      */
     boolean isEmpty();
-
-    /**
-     * 是否添加了加载更多的尾部条目
-     */
-    boolean isAddLoaderMoreItem();
 }

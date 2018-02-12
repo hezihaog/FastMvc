@@ -47,23 +47,23 @@ import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
  */
 
 public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
-    public static final int TPL_DIVIDER = -1;
+    public static final int TPL_DIVIDER = 0;
     //编辑功能条目
-    public static final int TPL_SEARCH = 0;
+    public static final int TPL_SEARCH = 1;
     //编辑条目
-    public static final int TPL_EDIT = 1;
+    public static final int TPL_EDIT = 2;
     //微信团队
-    public static final int TPL_WE_CHAT_TEAM_MSG = 2;
+    public static final int TPL_WE_CHAT_TEAM_MSG = 3;
     //订阅号
-    public static final int TPL_SUBSCRIPTION = 3;
+    public static final int TPL_SUBSCRIPTION = 4;
     //新闻
-    public static final int TPL_NEWS = 4;
+    public static final int TPL_NEWS = 5;
     //服务通知
-    public static final int TPL_SERVER_MSG = 5;
+    public static final int TPL_SERVER_MSG = 6;
     //邮箱
-    public static final int TPL_EMAIL = 6;
+    public static final int TPL_EMAIL = 7;
     //具体聊天
-    public static final int TPL_CHAT = 7;
+    public static final int TPL_CHAT = 8;
 
     private BroadcastReceiver receiver;
 

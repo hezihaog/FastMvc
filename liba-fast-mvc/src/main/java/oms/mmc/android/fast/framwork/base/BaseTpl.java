@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.R;
@@ -29,9 +29,9 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected Bundle bundle;
 
     protected RecyclerViewViewHelper recyclerViewHelper;
-    protected BaseListAdapter<? extends BaseItemData> listViewAdapter;
+    protected IAssistRecyclerAdapter listViewAdapter;
     protected IDataSource<? extends BaseItemData> listViewDataSource;
-    protected ArrayList<? extends BaseItemData> listViewData;
+    protected List<? extends BaseItemData> listViewData;
     protected RecyclerView recyclerView;
     protected int itemViewType = -1;
     protected View root;
@@ -52,7 +52,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
         initView();
     }
 
-    public void config(BaseListAdapter<? extends BaseItemData> adapter, ArrayList<? extends BaseItemData> data
+    public void config(IAssistRecyclerAdapter adapter, List<? extends BaseItemData> data
             , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper) {
         this.listViewAdapter = adapter;
         this.listViewDataSource = dataSource;
@@ -121,7 +121,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
         return position;
     }
 
-    public void setBeanPosition(ArrayList<? extends BaseItemData> listViewData, T item, int position) {
+    public void setBeanPosition(List<? extends BaseItemData> listViewData, T item, int position) {
         this.listViewData = listViewData;
         this.bean = item;
         this.position = position;
