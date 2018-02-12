@@ -36,7 +36,7 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
     protected int itemViewType = -1;
     protected View root;
     protected int position;
-    protected T bean;
+    private T bean;
     protected BaseTpl.ViewHolder viewHolder;
     private ViewFinder viewFinder;
 
@@ -127,7 +127,12 @@ public abstract class BaseTpl<T> implements ApiCallback, LayoutCallback, Seriali
         this.position = position;
     }
 
-    public abstract void render();
+    public final void render() {
+        T bean = getBean();
+        onRender(bean);
+    }
+
+    protected abstract void onRender(T itemData);
 
     public String intentStr(String key) {
         return intent.getStringExtra(key);

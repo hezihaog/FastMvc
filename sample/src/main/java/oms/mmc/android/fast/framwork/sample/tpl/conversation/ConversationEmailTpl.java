@@ -32,7 +32,7 @@ public class ConversationEmailTpl extends BaseTpl<BaseItemData> implements Compo
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
         if (listViewAdapter.isEditMode()) {
             getViewFinder().setVisibility(R.id.checkBox);
         } else {

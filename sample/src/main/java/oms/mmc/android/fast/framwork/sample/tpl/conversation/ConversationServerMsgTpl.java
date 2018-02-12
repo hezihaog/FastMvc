@@ -32,7 +32,7 @@ public class ConversationServerMsgTpl extends BaseTpl<BaseItemData> implements C
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
         if (listViewAdapter.isEditMode()) {
             getViewFinder().setVisibility(R.id.checkBox);
         } else {

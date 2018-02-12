@@ -33,8 +33,8 @@ public class ContactLetterTpl extends BaseStickyTpl<ItemDataWrapper> {
     }
 
     @Override
-    public void render() {
-        data = (String) bean.getDatas().get(0);
+    protected void onRender(ItemDataWrapper itemData) {
+        data = (String) itemData.getDatas().get(0);
         letter.setText(data);
     }
 

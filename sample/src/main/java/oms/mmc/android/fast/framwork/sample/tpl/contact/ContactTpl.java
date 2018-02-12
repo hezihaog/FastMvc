@@ -38,9 +38,9 @@ public class ContactTpl extends BaseTpl<ItemDataWrapper> {
     }
 
     @Override
-    public void render() {
-        String avatarUrl = (String) getBean().getDatas().get(0);
-        name = (String) getBean().getDatas().get(1);
+    protected void onRender(ItemDataWrapper itemData) {
+        String avatarUrl = (String) itemData.getDatas().get(0);
+        name = (String) itemData.getDatas().get(1);
         Glide.with(mActivity).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
         contactName.setText(name);
     }

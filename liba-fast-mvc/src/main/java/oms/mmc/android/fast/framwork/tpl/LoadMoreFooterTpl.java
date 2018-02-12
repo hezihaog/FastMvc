@@ -81,7 +81,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
         showNormal();
     }
 

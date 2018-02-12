@@ -44,10 +44,10 @@ public class ConversationChatTpl extends BaseTpl<ItemDataWrapper> implements Com
     }
 
     @Override
-    public void render() {
-        String avatarUrl = (String) getBean().getDatas().get(0);
-        String nameText = (String) getBean().getDatas().get(1);
-        String content = (java.lang.String) getBean().getDatas().get(2);
+    protected void onRender(ItemDataWrapper itemData) {
+        String avatarUrl = (String) itemData.getDatas().get(0);
+        String nameText = (String) itemData.getDatas().get(1);
+        String content = (java.lang.String) itemData.getDatas().get(2);
         Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
         name.setText(nameText);
         msgContent.setText(content);

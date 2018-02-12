@@ -32,7 +32,7 @@ public class ConversationSubscriptionMsgTpl extends BaseTpl<BaseItemData> implem
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
         if (listViewAdapter.isEditMode()) {
             getViewFinder().setVisibility(R.id.checkBox);
         } else {

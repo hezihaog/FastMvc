@@ -153,10 +153,10 @@ public class BaseListAdapter<T> extends RecyclerView.Adapter<BaseTpl.ViewHolder>
 
     @Override
     public void onBindViewHolder(BaseTpl.ViewHolder holder, int position) {
-        BaseTpl view = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-        view.setBeanPosition(listViewData, getItem(position), position);
+        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
+        tpl.setBeanPosition(listViewData, getItem(position), position);
         try {
-            view.render();
+            tpl.render();
         } catch (Throwable e) {
             e.printStackTrace();
         }

@@ -39,11 +39,10 @@ public class ChatTextSenderTpl extends BaseTpl<ItemDataWrapper> {
     }
 
     @Override
-    public void render() {
-        ItemDataWrapper bean = getBean();
-        String avatarUrl = (String) bean.getDatas().get(0);
-        String name = (String) bean.getDatas().get(1);
-        String content = (String) bean.getDatas().get(2);
+    protected void onRender(ItemDataWrapper itemData) {
+        String avatarUrl = (String) itemData.getDatas().get(0);
+        String name = (String) itemData.getDatas().get(1);
+        String content = (String) itemData.getDatas().get(2);
         Glide.with(mActivity).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatarIv);
         ViewUtil.setText(name, nameTv);
         ViewUtil.setText(content, contentTv);

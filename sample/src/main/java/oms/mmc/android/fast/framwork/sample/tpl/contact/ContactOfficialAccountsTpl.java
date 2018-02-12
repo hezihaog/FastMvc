@@ -25,7 +25,7 @@ public class ContactOfficialAccountsTpl extends BaseTpl<BaseItemData> {
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
 
     }
 }

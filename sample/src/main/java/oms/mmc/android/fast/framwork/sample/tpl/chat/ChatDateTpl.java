@@ -31,8 +31,8 @@ public class ChatDateTpl extends BaseTpl<ItemDataWrapper> {
     }
 
     @Override
-    public void render() {
-        String date = (String) getBean().getDatas().get(0);
+    protected void onRender(ItemDataWrapper itemData) {
+        String date = (String) itemData.getDatas().get(0);
         ViewUtil.setText(date, dateTV);
     }
 }

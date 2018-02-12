@@ -38,7 +38,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
         boolean isNormalMode = listViewAdapter.isNormalMode();
         if (isNormalMode) {
             editTv.setText(R.string.main_tool_bar_edit_mode_text);

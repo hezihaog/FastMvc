@@ -32,7 +32,7 @@ public class ConversationWeChatTeamChatMsgTpl extends BaseTpl<BaseItemData> impl
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
         if (listViewAdapter.isEditMode()) {
             getViewFinder().setVisibility(R.id.checkBox);
         } else {

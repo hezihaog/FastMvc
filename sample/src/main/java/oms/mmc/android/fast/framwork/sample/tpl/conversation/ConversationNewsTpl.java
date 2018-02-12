@@ -32,7 +32,7 @@ public class ConversationNewsTpl extends BaseTpl<BaseItemData> implements Compou
     }
 
     @Override
-    public void render() {
+    protected void onRender(BaseItemData itemData) {
         if (listViewAdapter.isEditMode()) {
             getViewFinder().setVisibility(R.id.checkBox);
         } else {
