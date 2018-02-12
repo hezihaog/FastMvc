@@ -15,7 +15,7 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.widget.pulltorefresh.helper;
 
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
@@ -34,7 +34,7 @@ public interface ILoadViewFactory {
         /**
          * 初始化
          */
-        void init(RecyclerView recyclerView, OnClickListener onClickRefreshListener);
+        void init(View view, OnClickListener onClickRefreshListener);
 
         /**
          * 显示加载中

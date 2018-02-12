@@ -184,7 +184,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     public void init(ILoadViewFactory loadViewFactory) {
         this.mLoadView = loadViewFactory.madeLoadView();
-        mLoadView.init(mRecyclerView, onClickRefreshListener);
+        mLoadView.init(getRefreshLayout(), onClickRefreshListener);
     }
 
     /**
