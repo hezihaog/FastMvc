@@ -113,15 +113,15 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
-                    models.add(new BaseItemData(TPL_EDIT));
-                    models.add(new BaseItemData(TPL_SUBSCRIPTION));
-                    models.add(new BaseItemData(TPL_NEWS));
-                    models.add(new BaseItemData(TPL_SERVER_MSG));
-                    models.add(new BaseItemData(TPL_EMAIL));
+                    models.add(new ItemDataWrapper(TPL_EDIT));
+                    models.add(new ItemDataWrapper(TPL_SUBSCRIPTION));
+                    models.add(new ItemDataWrapper(TPL_NEWS));
+                    models.add(new ItemDataWrapper(TPL_SERVER_MSG));
+                    models.add(new ItemDataWrapper(TPL_EMAIL));
                     for (int i = 0; i < 15; i++) {
                         models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
                     }
-                    models.add(new BaseItemData(TPL_WE_CHAT_TEAM_MSG));
+                    models.add(new ItemDataWrapper(TPL_WE_CHAT_TEAM_MSG));
                 } else {
                     for (int i = 0; i < 15; i++) {
                         models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
