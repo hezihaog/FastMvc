@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.github.magiepooh.recycleritemdecoration.ItemDecorations;
+import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,9 +21,9 @@ import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
+import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.broadcast.ConversationEditStateChangeBroadcast;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
-import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationDividerTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationEditTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationEmailTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationNewsTpl;
@@ -47,9 +50,8 @@ import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewW
  */
 
 public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
-    public static final int TPL_DIVIDER = 0;
     //搜索条目，是一个header类型。
-    public static final int TPL_SEARCH = 1;
+    public static final int TPL_HEADER_SEARCH = 1;
     //编辑条目
     public static final int TPL_EDIT = 2;
     //微信团队
@@ -111,27 +113,18 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
-                    models.add(new BaseItemData(TPL_DIVIDER));
                     models.add(new BaseItemData(TPL_EDIT));
-                    models.add(new BaseItemData(TPL_DIVIDER));
                     models.add(new BaseItemData(TPL_SUBSCRIPTION));
-                    models.add(new BaseItemData(TPL_DIVIDER));
                     models.add(new BaseItemData(TPL_NEWS));
-                    models.add(new BaseItemData(TPL_DIVIDER));
                     models.add(new BaseItemData(TPL_SERVER_MSG));
-                    models.add(new BaseItemData(TPL_DIVIDER));
                     models.add(new BaseItemData(TPL_EMAIL));
-                    models.add(new BaseItemData(TPL_DIVIDER));
                     for (int i = 0; i < 15; i++) {
                         models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
-                        models.add(new BaseItemData(TPL_DIVIDER));
                     }
                     models.add(new BaseItemData(TPL_WE_CHAT_TEAM_MSG));
-                    models.add(new BaseItemData(TPL_DIVIDER));
                 } else {
                     for (int i = 0; i < 15; i++) {
                         models.add(new ItemDataWrapper(TPL_CHAT, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), FakeUtil.getRandomComment(i)));
-                        models.add(new BaseItemData(TPL_DIVIDER));
                     }
                 }
                 //分页，需要和后台协商，一页返回大于多少条时可以有下一页
@@ -147,7 +140,6 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
-        tpls.put(TPL_DIVIDER, ConversationDividerTpl.class);
         tpls.put(TPL_EDIT, ConversationEditTpl.class);
         tpls.put(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
         tpls.put(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
@@ -171,7 +163,19 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public void onListReady() {
         super.onListReady();
-        getRecyclerViewAdapter().registerHeader(TPL_SEARCH, ConversationSearchTpl.class, new BaseItemData(TPL_SEARCH));
+        getRecyclerViewAdapter().registerHeader(TPL_HEADER_SEARCH, ConversationSearchTpl.class, new BaseItemData(TPL_HEADER_SEARCH));
+        //添加分隔线
+        VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
+                .type(TPL_HEADER_SEARCH, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_EDIT, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_WE_CHAT_TEAM_MSG, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_SUBSCRIPTION, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_NEWS, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_SERVER_MSG, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_EMAIL, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_CHAT, R.drawable.shape_conversation_item_decoration)
+                .create();
+        getRecyclerView().addItemDecoration(decoration);
     }
 
     @Override
