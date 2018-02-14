@@ -25,6 +25,11 @@ public class ContactGroupChatTpl extends BaseTpl<BaseItemData> {
     }
 
     @Override
+    protected void onBindContent() {
+
+    }
+
+    @Override
     protected void onRender(BaseItemData itemData) {
 
     }

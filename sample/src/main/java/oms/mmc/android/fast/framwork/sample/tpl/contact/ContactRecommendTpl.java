@@ -29,6 +29,8 @@ import oms.mmc.android.fast.framwork.sample.R;
 
 public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
 
+    private UltraViewPager mUltraViewPager;
+
     @Override
     public int onLayoutId() {
         return R.layout.item_contact_recomment;
@@ -36,28 +38,32 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     public void onFindView(ViewFinder finder) {
-        UltraViewPager ultraViewPager = finder.get(R.id.viewPager);
-        ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
+        mUltraViewPager = finder.get(R.id.viewPager);
+    }
+
+    @Override
+    protected void onBindContent() {
+        mUltraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
         //UltraPagerAdapter 绑定子view到UltraViewPager
         Adapter adapter = new Adapter();
-        ultraViewPager.setAdapter(adapter);
+        mUltraViewPager.setAdapter(adapter);
         //内置indicator初始化
-        ultraViewPager.initIndicator();
+        mUltraViewPager.initIndicator();
         //设置indicator样式
-        ultraViewPager.getIndicator()
+        mUltraViewPager.getIndicator()
                 .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
                 .setFocusColor(Color.GREEN)
                 .setNormalColor(Color.WHITE)
                 .setIndicatorPadding(dip2px(getActivity(), 4f))
                 .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2.8f, getActivity().getResources().getDisplayMetrics()));
         //设置indicator对齐方式
-        ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0, 0, 0, dip2px(getActivity(), 5f));
+        mUltraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0, 0, 0, dip2px(getActivity(), 5f));
         //构造indicator,绑定到UltraViewPager
-        ultraViewPager.getIndicator().build();
+        mUltraViewPager.getIndicator().build();
         //设定页面循环播放
-        ultraViewPager.setInfiniteLoop(true);
+        mUltraViewPager.setInfiniteLoop(true);
         //设定页面自动切换  间隔2秒
-        ultraViewPager.setAutoScroll(1500);
+        mUltraViewPager.setAutoScroll(1500);
     }
 
     @Override

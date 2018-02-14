@@ -17,4 +17,9 @@ public class ConversationEmailTpl extends ConversationEditableTpl {
     public int onLayoutId() {
         return R.layout.item_conversation_email_msg;
     }
+
+    @Override
+    protected void onBindContent() {
+
+    }
 }

@@ -30,6 +30,11 @@ public class ContactSumCountTpl extends BaseTpl<ItemDataWrapper> {
     }
 
     @Override
+    protected void onBindContent() {
+
+    }
+
+    @Override
     protected void onRender(ItemDataWrapper itemData) {
         String sumCount = (String) itemData.getDatas().get(0);
         count.setText(sumCount + "位联系人");

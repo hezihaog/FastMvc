@@ -39,6 +39,11 @@ public class ChatTextSenderTpl extends BaseTpl<ItemDataWrapper> {
     }
 
     @Override
+    protected void onBindContent() {
+
+    }
+
+    @Override
     protected void onRender(ItemDataWrapper itemData) {
         String avatarUrl = (String) itemData.getDatas().get(0);
         String name = (String) itemData.getDatas().get(1);

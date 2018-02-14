@@ -59,6 +59,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
         mViewHolder = new ViewHolder(mRoot);
         mViewFinder = new ViewFinder(mRoot);
         onFindView(mViewFinder);
+        onBindContent();
         onLayoutAfter();
     }
 
@@ -133,6 +134,8 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
         T bean = getBean();
         onRender(bean);
     }
+
+    protected abstract void onBindContent();
 
     protected abstract void onRender(T itemData);
 

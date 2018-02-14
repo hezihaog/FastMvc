@@ -63,6 +63,11 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     }
 
     @Override
+    protected void onBindContent() {
+
+    }
+
+    @Override
     public void onRecyclerViewDetachedFromWindow(View view) {
         super.onRecyclerViewDetachedFromWindow(view);
         BroadcastHelper.unRegister(getActivity(), receiver);

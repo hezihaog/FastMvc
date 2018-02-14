@@ -38,6 +38,11 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
     }
 
     @Override
+    protected void onBindContent() {
+
+    }
+
+    @Override
     protected void onRender(BaseItemData itemData) {
         boolean isNormalMode = getListAdapter().isNormalMode();
         if (isNormalMode) {

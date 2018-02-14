@@ -33,6 +33,11 @@ public class ContactLetterTpl extends BaseStickyTpl<ItemDataWrapper> {
     }
 
     @Override
+    protected void onBindContent() {
+
+    }
+
+    @Override
     protected void onRender(ItemDataWrapper itemData) {
         data = (String) itemData.getDatas().get(0);
         letter.setText(data);

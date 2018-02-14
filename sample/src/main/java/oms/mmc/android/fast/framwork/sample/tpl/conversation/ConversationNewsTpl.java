@@ -17,4 +17,9 @@ public class ConversationNewsTpl extends ConversationEditableTpl {
     public int onLayoutId() {
         return R.layout.item_conversation_news_msg;
     }
+
+    @Override
+    protected void onBindContent() {
+
+    }
 }
