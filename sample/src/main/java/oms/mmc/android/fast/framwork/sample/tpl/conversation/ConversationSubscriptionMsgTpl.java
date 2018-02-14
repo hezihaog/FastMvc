@@ -17,9 +17,4 @@ public class ConversationSubscriptionMsgTpl extends ConversationEditableTpl {
     public int onLayoutId() {
         return R.layout.item_conversation_subscription_msg;
     }
-
-    @Override
-    protected void onBindContent() {
-
-    }
 }

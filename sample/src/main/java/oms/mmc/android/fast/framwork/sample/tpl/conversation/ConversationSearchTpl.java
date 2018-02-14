@@ -23,12 +23,6 @@ public class ConversationSearchTpl extends BaseTpl<BaseItemData> {
 
     @Override
     public void onFindView(ViewFinder finder) {
-
-    }
-
-    @Override
-    protected void onBindContent() {
-
     }
 
     @Override

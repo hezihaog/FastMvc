@@ -17,9 +17,4 @@ public class ConversationServerMsgTpl extends ConversationEditableTpl {
     public int onLayoutId() {
         return R.layout.item_server_msg;
     }
-
-    @Override
-    protected void onBindContent() {
-
-    }
 }

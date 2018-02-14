@@ -17,9 +17,4 @@ public class ConversationWeChatTeamChatMsgTpl extends ConversationEditableTpl {
     public int onLayoutId() {
         return R.layout.item_conversation_we_chat_team_msg;
     }
-
-    @Override
-    protected void onBindContent() {
-
-    }
 }

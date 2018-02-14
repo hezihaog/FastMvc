@@ -130,12 +130,20 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
         this.mPosition = position;
     }
 
+    /**
+     * 每次条目onBindView时，重新设置数据
+     */
     public final void render() {
         T bean = getBean();
         onRender(bean);
     }
 
-    protected abstract void onBindContent();
+    /**
+     * onFindView查找控件后，初始化控件时使用，例如ViewPager的adapter，如条目类不需要，则不需要重写
+     */
+    protected void onBindContent() {
+
+    }
 
     protected abstract void onRender(T itemData);
 
