@@ -138,6 +138,11 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
         onRender(bean);
     }
 
+    @Override
+    public void onFindView(ViewFinder finder) {
+
+    }
+
     /**
      * onFindView查找控件后，初始化控件时使用，例如ViewPager的adapter，如条目类不需要，则不需要重写
      */

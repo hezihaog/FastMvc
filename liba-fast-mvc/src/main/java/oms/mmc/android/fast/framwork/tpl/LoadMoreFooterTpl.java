@@ -75,6 +75,7 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         footView = getRoot();
         tipText = (TextView) footView.findViewById(R.id.base_list_error_tip);
         progressBar = (ProgressBar) footView.findViewById(R.id.progressBar);

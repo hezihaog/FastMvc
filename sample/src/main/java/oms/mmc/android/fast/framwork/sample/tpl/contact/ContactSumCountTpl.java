@@ -26,12 +26,8 @@ public class ContactSumCountTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         count = finder.get(R.id.count);
-    }
-
-    @Override
-    protected void onBindContent() {
-
     }
 
     @Override

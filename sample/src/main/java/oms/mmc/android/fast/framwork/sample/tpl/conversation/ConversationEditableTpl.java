@@ -24,6 +24,7 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         checkBox = finder.get(R.id.checkBox);
         checkBox.setOnCheckedChangeListener(this);
     }

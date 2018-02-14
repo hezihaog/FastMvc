@@ -38,6 +38,7 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         mUltraViewPager = finder.get(R.id.viewPager);
     }
 

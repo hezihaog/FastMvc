@@ -33,13 +33,9 @@ public class ContactTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         contactName = finder.get(R.id.contactName);
         avatar = finder.get(R.id.avatar);
-    }
-
-    @Override
-    protected void onBindContent() {
-
     }
 
     @Override

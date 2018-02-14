@@ -33,13 +33,9 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         editTv = finder.get(R.id.editTv);
         editTv.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onBindContent() {
-
     }
 
     @Override

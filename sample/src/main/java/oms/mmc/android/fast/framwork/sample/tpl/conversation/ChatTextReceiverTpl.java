@@ -33,14 +33,10 @@ public class ChatTextReceiverTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         avatarIv = finder.get(R.id.avatar);
         nameTv = finder.get(R.id.name);
         contentTv = finder.get(R.id.content);
-    }
-
-    @Override
-    protected void onBindContent() {
-
     }
 
     @Override

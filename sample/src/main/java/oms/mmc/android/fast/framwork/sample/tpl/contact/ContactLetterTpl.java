@@ -29,12 +29,8 @@ public class ContactLetterTpl extends BaseStickyTpl<ItemDataWrapper> {
 
     @Override
     public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
         letter = finder.get(R.id.letter);
-    }
-
-    @Override
-    protected void onBindContent() {
-
     }
 
     @Override
