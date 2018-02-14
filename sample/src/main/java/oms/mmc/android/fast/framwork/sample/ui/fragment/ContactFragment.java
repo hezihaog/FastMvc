@@ -14,6 +14,7 @@ import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactRecommendTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
 import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
@@ -56,6 +57,8 @@ public class ContactFragment extends BaseListFragment {
     public static final int TPL_CONTACT = 5;
     //联系人总数条目
     public static final int TPL_SUM_CONTACT_COUNT = 6;
+    //推荐卡片
+    public static final int TPL_RECOMMENT = 7;
 
     @Override
     public void onFindView(ViewFinder finder) {
@@ -70,6 +73,7 @@ public class ContactFragment extends BaseListFragment {
                 Thread.sleep(1000);
                 //拼装需要的数据集
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
+                models.add(new ItemDataWrapper(TPL_RECOMMENT));
                 //插入固定数据在顶部
                 models.add(new BaseItemData(TPL_NEW_FRIEND));
                 models.add(new BaseItemData(TPL_GROUP_CHAT));
@@ -114,6 +118,7 @@ public class ContactFragment extends BaseListFragment {
         tpls.put(TPL_STICKY_LETTER, ContactLetterTpl.class);
         tpls.put(TPL_CONTACT, ContactTpl.class);
         tpls.put(TPL_SUM_CONTACT_COUNT, ContactSumCountTpl.class);
+        tpls.put(TPL_RECOMMENT, ContactRecommendTpl.class);
         return tpls;
     }
 
