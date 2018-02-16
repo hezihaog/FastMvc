@@ -10,11 +10,11 @@ import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
-import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeaders;
+import oms.mmc.android.fast.framwork.widget.rv.StickyHeaders;
 import oms.mmc.android.fast.framwork.util.LoadMoreHelper;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.IDataAdapter;
+import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 
 public class BaseListAdapter<T extends BaseItemData> extends HeaderFooterAdapter<T> implements IDataAdapter<ArrayList<T>>, StickyHeaders, StickyHeaders.ViewSetup {
     /**

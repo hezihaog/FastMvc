@@ -4,7 +4,7 @@ package oms.mmc.android.fast.framwork.adapter;
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.ApiCallback;
-import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
+import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.bean.IResult;
 
 /**

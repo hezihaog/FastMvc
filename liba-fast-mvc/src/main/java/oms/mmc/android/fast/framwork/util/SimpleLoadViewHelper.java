@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.VaryViewHelper;
 
 
 public class SimpleLoadViewHelper {

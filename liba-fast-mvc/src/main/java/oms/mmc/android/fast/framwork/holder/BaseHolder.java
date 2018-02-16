@@ -20,8 +20,8 @@ import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.ApiCallback;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
-import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.ToastUtil;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.IResult;
 
 /**

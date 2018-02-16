@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataAdapter;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
+import oms.mmc.android.fast.framwork.util.IDataAdapter;
+import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
 /**

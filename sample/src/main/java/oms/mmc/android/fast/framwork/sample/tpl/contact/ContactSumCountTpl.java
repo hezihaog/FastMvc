@@ -4,7 +4,7 @@ import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.base.BaseTpl;
 import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**

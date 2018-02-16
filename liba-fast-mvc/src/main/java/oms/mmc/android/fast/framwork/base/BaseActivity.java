@@ -12,12 +12,12 @@ import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.ScrollableLayoutFactory;
-import oms.mmc.android.fast.framwork.basiclib.util.ActivityManager;
-import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
-import oms.mmc.android.fast.framwork.basiclib.util.TDevice;
-import oms.mmc.android.fast.framwork.basiclib.util.ToastUtil;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
-import oms.mmc.android.fast.framwork.basiclib.util.WaitDialogController;
+import oms.mmc.android.fast.framwork.util.ActivityManager;
+import oms.mmc.android.fast.framwork.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.util.TDevice;
+import oms.mmc.android.fast.framwork.util.ToastUtil;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.WaitDialogController;
 import oms.mmc.android.fast.framwork.bean.IResult;
 
 /**

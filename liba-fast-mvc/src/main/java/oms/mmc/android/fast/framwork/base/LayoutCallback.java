@@ -1,6 +1,6 @@
 package oms.mmc.android.fast.framwork.base;
 
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 /**
  * 普通界面布局回调接口

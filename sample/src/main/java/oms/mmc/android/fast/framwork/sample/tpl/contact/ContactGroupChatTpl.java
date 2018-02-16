@@ -1,7 +1,7 @@
 package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import oms.mmc.android.fast.framwork.base.BaseTpl;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.sample.R;
 

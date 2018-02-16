@@ -3,7 +3,7 @@ package oms.mmc.android.fast.framwork;
 import android.content.res.Configuration;
 import android.os.Handler;
 
-import oms.mmc.android.fast.framwork.basiclib.base.ManagerContext;
+import oms.mmc.android.fast.framwork.base.ManagerContext;
 
 
 /**

@@ -11,8 +11,8 @@ import java.util.List;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

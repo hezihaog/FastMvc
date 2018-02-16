@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseTpl;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
 import oms.mmc.android.fast.framwork.util.BroadcastHelper;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
+import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.tpl.base

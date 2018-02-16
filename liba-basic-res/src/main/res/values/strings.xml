@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">liba-basicres</string>
-    <string name="net_tip_net_load_error">網路出錯，載入失敗</string>
-    <string name="net_tip_net_parse_data_error">資料解析錯誤</string>
-    <string name="net_tip_net_request_error">網路請求錯誤</string>
-</resources>

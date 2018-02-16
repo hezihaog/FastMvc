@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.basiclib.lazy.ExtendLazyFragment;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 
 /**

@@ -1,8 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.ui.activity;
 
 import oms.mmc.android.fast.framwork.base.BaseActivity;
-import oms.mmc.android.fast.framwork.basiclib.util.FragmentFactory;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.SplashFragment;
 

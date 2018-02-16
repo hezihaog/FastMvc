@@ -5,7 +5,7 @@ import android.app.Activity;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
+import oms.mmc.android.fast.framwork.util.IDataSource;
 
 public abstract class BaseListDataSource<T> implements IDataSource<T> {
     public final static int FIRST_PAGE_NUM = 1;

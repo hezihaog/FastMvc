@@ -17,9 +17,9 @@ import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactRecommendTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
-import oms.mmc.android.fast.framwork.basiclib.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.bean.BaseItemData;
-import oms.mmc.android.fast.framwork.recyclerview.sticky.StickyHeadersLinearLayoutManager;
+import oms.mmc.android.fast.framwork.widget.rv.StickyHeadersLinearLayoutManager;
 import oms.mmc.android.fast.framwork.sample.loadview.MyContactLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactGroupChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLabelTpl;
@@ -29,8 +29,8 @@ import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactSumCountTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.IDataSource;
-import oms.mmc.android.fast.framwork.widget.pulltorefresh.helper.ILoadViewFactory;
+import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
 
 /**
