@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.adapter;
+package oms.mmc.android.fast.framwork.widget.view.base;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,11 +10,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import oms.mmc.android.fast.framwork.widget.view.ScrollableGridView;
-import oms.mmc.android.fast.framwork.widget.view.ScrollableListView;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableNestedScrollView;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
-import oms.mmc.android.fast.framwork.widget.view.ScrollableScrollView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.adapter
@@ -69,16 +66,17 @@ public class ScrollableLayoutFactory {
         } else if (name.equals("android.support.v4.widget.NestedScrollView")) {
             return new ScrollableNestedScrollView(context, attrs) {
             };
-        } else if (name.equals("ListView")) {
-            return new ScrollableListView(context, attrs) {
-            };
-        } else if (name.equals("GridView")) {
-            return new ScrollableGridView(context, attrs) {
-            };
-        } else if (name.equals("ScrollView")) {
-            return new ScrollableScrollView(context, attrs) {
-            };
         }
+//        else if (name.equals("ListView")) {
+//            return new ScrollableListView(context, attrs) {
+//            };
+//        } else if (name.equals("GridView")) {
+//            return new ScrollableGridView(context, attrs) {
+//            };
+//        } else if (name.equals("ScrollView")) {
+//            return new ScrollableScrollView(context, attrs) {
+//            };
+//        }
         return null;
     }
 }

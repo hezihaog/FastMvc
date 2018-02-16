@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.adapter.ScrollableLayoutFactory;
+import oms.mmc.android.fast.framwork.widget.view.base.ScrollableLayoutFactory;
 import oms.mmc.android.fast.framwork.util.ActivityManager;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;

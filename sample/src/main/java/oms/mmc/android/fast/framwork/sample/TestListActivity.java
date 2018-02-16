@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.hzh.logger.L;
 
-import oms.mmc.android.fast.framwork.adapter.ScrollableLayoutFactory;
+import oms.mmc.android.fast.framwork.widget.view.base.ScrollableLayoutFactory;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableListViewWrapper;
 import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
