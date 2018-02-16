@@ -10,20 +10,17 @@ import android.view.WindowManager;
 
 import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
-import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.widget.view.base.ScrollableLayoutFactory;
 import oms.mmc.android.fast.framwork.util.ActivityManager;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.util.WaitDialogController;
-import oms.mmc.android.fast.framwork.bean.IResult;
+import oms.mmc.android.fast.framwork.widget.view.base.ScrollableLayoutFactory;
 
 /**
  * Activity基类
  */
-public abstract class BaseActivity extends LifecycleActivity implements ApiCallback, LayoutCallback {
+public abstract class BaseActivity extends LifecycleActivity implements LayoutCallback {
     private ViewFinder viewFinder;
     private WaitDialogController mWaitController;
 
@@ -36,8 +33,10 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         viewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
         mWaitController = onGetWaitDialogController();
         setContentView(viewFinder.getRootView());
-        //onStatusBarSet();
-        //onSetStatusBarBlack();
+        if (hasTranslucentStatusBar()) {
+            onStatusBarSet();
+            onSetStatusBarBlack();
+        }
         onFindView(viewFinder);
         onLayoutAfter();
         setupFragment(onGetFragmentInfo());
@@ -104,6 +103,14 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
         ScrollableLayoutFactory.create(getActivity()).install();
     }
 
+    /**
+     * 是否需要透明状态栏，默认为false，需要则子类重写并返回true；
+     * 注意，透明后布局会上移，建议顶部的ToolBar的高度加上状态栏的高度
+     */
+    protected boolean hasTranslucentStatusBar() {
+        return false;
+    }
+
     @Override
     public void onLayoutBefore() {
 
@@ -162,37 +169,9 @@ public abstract class BaseActivity extends LifecycleActivity implements ApiCallb
     }
 
     @Override
-    public void onApiStart(String tag) {
-    }
-
-    @Override
-    public void onApiLoading(long count, long current, String tag) {
-    }
-
-    @Override
-    public void onApiSuccess(IResult res, String tag) {
-    }
-
-    @Override
     public void finish() {
         super.finish();
         TDevice.hideSoftKeyboard(getWindow().getDecorView());
-    }
-
-    @Override
-    public void onApiFailure(Throwable t, int errorNo, String strMsg, String tag) {
-        ToastUtil.showToast(getActivity(), R.string.net_tip_net_request_error);
-        t.printStackTrace();
-        onApiError(tag);
-    }
-
-    @Override
-    public void onParseError(String tag) {
-        ToastUtil.showToast(getActivity(), R.string.net_tip_net_parse_data_error);
-        onApiError(tag);
-    }
-
-    protected void onApiError(String tag) {
     }
 
     protected FragmentFactory.FragmentInfoWrapper onGetFragmentInfo() {

@@ -16,18 +16,14 @@ import com.hzh.lifecycle.dispatch.listener.ActivityLifecycleListener;
 import java.io.Serializable;
 
 import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
-import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.base.ApiCallback;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.bean.IResult;
 
 /**
  * View容器
  */
-public abstract class BaseHolder implements ApiCallback, LayoutCallback, Serializable, View.OnAttachStateChangeListener {
+public abstract class BaseHolder implements LayoutCallback, Serializable, View.OnAttachStateChangeListener {
     protected BaseActivity _activity;
     protected Intent _intent;
     protected Bundle _Bundle;
@@ -185,34 +181,6 @@ public abstract class BaseHolder implements ApiCallback, LayoutCallback, Seriali
 
     protected ViewGroup.LayoutParams onGetLayoutParams() {
         return new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-    }
-
-    @Override
-    public void onApiStart(String tag) {
-
-    }
-
-    @Override
-    public void onApiLoading(long count, long current, String tag) {
-
-    }
-
-    @Override
-    public void onApiSuccess(IResult res, String tag) {
-
-    }
-
-    @Override
-    public void onApiFailure(Throwable t, int errorNo, String strMsg, String tag) {
-        ToastUtil.showToast(getRoot().getContext(), R.string.net_tip_net_request_error);
-        t.printStackTrace();
-        onApiError(tag);
-    }
-
-    @Override
-    public void onParseError(String tag) {
-        ToastUtil.showToast(getRoot().getContext(), R.string.net_tip_net_parse_data_error);
-        onApiError(tag);
     }
 
     protected void onApiError(String tag) {
