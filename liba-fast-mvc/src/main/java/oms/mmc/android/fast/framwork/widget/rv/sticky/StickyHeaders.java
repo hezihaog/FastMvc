@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.widget.rv;
+package oms.mmc.android.fast.framwork.widget.rv.sticky;
 
 import android.view.View;
 

@@ -1,9 +1,7 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.rv.base;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
 
 public class ItemDataWrapper extends BaseItemData {
     protected ArrayList<Object> datas = new ArrayList<Object>();

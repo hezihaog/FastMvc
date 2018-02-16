@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
-import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;

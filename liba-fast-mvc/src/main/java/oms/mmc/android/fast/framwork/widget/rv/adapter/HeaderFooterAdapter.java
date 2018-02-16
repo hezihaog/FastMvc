@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.base.BaseActivity;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 

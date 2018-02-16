@@ -3,8 +3,8 @@ package oms.mmc.android.fast.framwork.sample.tpl.contact;
 import android.support.v4.view.ViewCompat;
 import android.widget.TextView;
 
-import oms.mmc.android.fast.framwork.base.BaseStickyTpl;
-import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 

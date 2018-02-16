@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
-import oms.mmc.android.fast.framwork.widget.rv.StickyHeaders;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 import oms.mmc.android.fast.framwork.util.LoadMoreHelper;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;

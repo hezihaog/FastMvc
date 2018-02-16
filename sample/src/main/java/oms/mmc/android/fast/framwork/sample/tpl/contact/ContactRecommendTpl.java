@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.tmall.ultraviewpager.UltraViewPager;
 
-import oms.mmc.android.fast.framwork.base.BaseTpl;
-import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 

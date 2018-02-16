@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.support.v7.widget.RecyclerView;
 

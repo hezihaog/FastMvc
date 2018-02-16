@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import oms.mmc.android.fast.framwork.base.BaseStickyTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.broadcast.ConversationEditStateChangeBroadcast;
 

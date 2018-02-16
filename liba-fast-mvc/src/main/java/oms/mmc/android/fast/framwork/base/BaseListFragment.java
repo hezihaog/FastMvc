@@ -13,13 +13,14 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.util.MethodCompat;
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.util.BaseLoadViewFactory;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
 public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragment implements ListLayoutCallback<T>,

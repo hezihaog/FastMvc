@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.rv.base;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +9,12 @@ import android.view.View;
 
 import java.util.List;
 
+import oms.mmc.android.fast.framwork.base.BaseActivity;
+import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
 
 /**
  * 列表条目基础模板，条目类
@@ -87,18 +89,18 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
         return mActivity;
     }
 
-    protected void onItemClick(View view, int position) {
+    public void onItemClick(View view, int position) {
 
     }
 
-    protected void onItemLongClick(View view, int position) {
+    public void onItemLongClick(View view, int position) {
 
     }
 
     /**
      * 内部持有Rv的ViewHolder
      */
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
         }

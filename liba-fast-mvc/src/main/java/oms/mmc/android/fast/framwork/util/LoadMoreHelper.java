@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.base.BaseTpl;
-import oms.mmc.android.fast.framwork.base.HeaderFooterAdapter;
-import oms.mmc.android.fast.framwork.base.IAssistRecyclerAdapter;
-import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.tpl.LoadMoreFooterTpl;
 
 /**

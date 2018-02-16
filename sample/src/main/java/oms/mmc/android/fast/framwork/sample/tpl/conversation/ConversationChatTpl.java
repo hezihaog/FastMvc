@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import oms.mmc.android.fast.framwork.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
@@ -50,12 +50,12 @@ public class ConversationChatTpl extends ConversationEditableTpl {
     }
 
     @Override
-    protected void onItemClick(View view, int position) {
+    public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
     }
 
     @Override
-    protected void onItemLongClick(View view, int position) {
+    public void onItemLongClick(View view, int position) {
         super.onItemLongClick(view, position);
     }
 }

@@ -1,4 +1,6 @@
-package oms.mmc.android.fast.framwork.bean;
+package oms.mmc.android.fast.framwork.widget.rv.base;
+
+import oms.mmc.android.fast.framwork.bean.Base;
 
 /**
  * 列表条目需要的实体基类

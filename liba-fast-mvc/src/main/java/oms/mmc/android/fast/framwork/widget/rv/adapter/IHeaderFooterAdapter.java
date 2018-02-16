@@ -1,8 +1,8 @@
-package oms.mmc.android.fast.framwork.base;
+package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.bean.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
