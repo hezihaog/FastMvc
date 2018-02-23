@@ -28,16 +28,16 @@ public abstract class PagerVisibleFragment extends LifecycleFragment {
     /**
      * onCreateView()里返回的view，修饰为protected,所以子类继承该类时，在onCreateView里必须对该变量进行初始化
      */
-    protected View rootView;
+    protected View mRootView;
 
     public void setRootView(View rootView) {
-        this.rootView = rootView;
+        this.mRootView = rootView;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (rootView == null) {
+        if (mRootView == null) {
             return;
         }
         hasCreateView = true;

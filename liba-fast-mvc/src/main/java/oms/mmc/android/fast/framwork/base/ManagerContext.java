@@ -12,16 +12,17 @@ import oms.mmc.android.fast.framwork.manager.factory.ManagerFactory;
  */
 @SuppressLint("Registered")
 public abstract class ManagerContext extends BaseApplication {
-    private static ManagerContext instance;
+    @SuppressLint("StaticFieldLeak")
+    private static ManagerContext mInstance;
 
     public static ManagerContext getInstance() {
-        return instance;
+        return mInstance;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
+        mInstance = this;
         ManagerFactory.getInstance().init(this);
     }
 

@@ -25,16 +25,16 @@ import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
  */
 
 public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadViewFactory.ILoadMoreView {
-    private View footView;
-    private TextView tipText;
-    private ProgressBar progressBar;
+    private View mFootView;
+    private TextView mTipText;
+    private ProgressBar mProgressBar;
 
-    private BroadcastReceiver receiver;
+    private BroadcastReceiver mReceiver;
 
     @Override
     public void onLayoutBefore() {
         super.onLayoutBefore();
-        receiver = new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent != null) {
@@ -59,13 +59,13 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
                 }
             }
         };
-        BroadcastHelper.register(getActivity(), LoadMoreBroadcast.class.getName(), receiver);
+        BroadcastHelper.register(getActivity(), LoadMoreBroadcast.class.getName(), mReceiver);
     }
 
     @Override
     public void onRecyclerViewDetachedFromWindow(View view) {
         super.onRecyclerViewDetachedFromWindow(view);
-        BroadcastHelper.unRegister(getActivity(), receiver);
+        BroadcastHelper.unRegister(getActivity(), mReceiver);
     }
 
     @Override
@@ -76,9 +76,9 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
     @Override
     public void onFindView(ViewFinder finder) {
         super.onFindView(finder);
-        footView = getRoot();
-        tipText = (TextView) footView.findViewById(R.id.base_list_error_tip);
-        progressBar = (ProgressBar) footView.findViewById(R.id.progressBar);
+        mFootView = getRoot();
+        mTipText = (TextView) mFootView.findViewById(R.id.base_list_error_tip);
+        mProgressBar = (ProgressBar) mFootView.findViewById(R.id.progressBar);
     }
 
     @Override
@@ -92,29 +92,29 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
 
     @Override
     public void showNormal() {
-        footView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        tipText.setVisibility(View.VISIBLE);
-        tipText.setText("");
-        footView.setOnClickListener(null);
+        mFootView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        mTipText.setVisibility(View.VISIBLE);
+        mTipText.setText("");
+        mFootView.setOnClickListener(null);
     }
 
     @Override
     public void showLoading() {
-        footView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
-        tipText.setVisibility(View.VISIBLE);
-        tipText.setText(R.string.base_list_load_more_loading_tip_text);
-        footView.setOnClickListener(null);
+        mFootView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mTipText.setVisibility(View.VISIBLE);
+        mTipText.setText(R.string.base_list_load_more_loading_tip_text);
+        mFootView.setOnClickListener(null);
     }
 
     @Override
     public void showFail() {
-        footView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        tipText.setVisibility(View.VISIBLE);
-        tipText.setText(R.string.base_list_load_more_load_error);
-        footView.setOnClickListener(new View.OnClickListener() {
+        mFootView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        mTipText.setVisibility(View.VISIBLE);
+        mTipText.setText(R.string.base_list_load_more_load_error);
+        mFootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadMore();
@@ -124,10 +124,10 @@ public class LoadMoreFooterTpl extends BaseTpl<BaseItemData> implements ILoadVie
 
     @Override
     public void showNoMore() {
-        footView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        tipText.setVisibility(View.VISIBLE);
-        tipText.setText("");
-        footView.setOnClickListener(null);
+        mFootView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+        mTipText.setVisibility(View.VISIBLE);
+        mTipText.setText("");
+        mFootView.setOnClickListener(null);
     }
 }

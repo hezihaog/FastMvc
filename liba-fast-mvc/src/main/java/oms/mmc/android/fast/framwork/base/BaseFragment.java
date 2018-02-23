@@ -18,17 +18,17 @@ import oms.mmc.android.fast.framwork.util.ViewFinder;
  * Fragment基类
  */
 public abstract class BaseFragment extends ExtendLazyFragment implements LayoutCallback {
-    protected FragmentManager fm;
+    protected FragmentManager mFm;
     protected BaseActivity mActivity;
     protected Fragment mFragment;
     protected Bundle mArguments;
-    private ViewFinder viewFinder;
+    private ViewFinder mViewFinder;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (BaseActivity) activity;
-        fm = getChildFragmentManager();
+        mFm = getChildFragmentManager();
         mFragment = this;
     }
 
@@ -53,9 +53,9 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        viewFinder = new ViewFinder(inflater, container, onLayoutId());
-        setRootView(viewFinder.getRootView());
-        return viewFinder.getRootView();
+        mViewFinder = new ViewFinder(inflater, container, onLayoutId());
+        setRootView(mViewFinder.getRootView());
+        return mViewFinder.getRootView();
     }
 
     @Override
@@ -80,7 +80,7 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
     }
 
     public ViewFinder getViewFinder() {
-        return viewFinder;
+        return mViewFinder;
     }
 
 

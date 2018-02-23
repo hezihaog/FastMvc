@@ -27,7 +27,7 @@ public class BaseListAdapter<T extends BaseItemData> extends HeaderFooterAdapter
     /**
      * 粘性条目的类型，默认没有粘性头部
      */
-    public int stickySectionViewType = NOT_STICKY_SECTION;
+    protected int stickySectionViewType = NOT_STICKY_SECTION;
     private final LoadMoreHelper mLoadMoreHelper;
 
     public BaseListAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource dataSource,

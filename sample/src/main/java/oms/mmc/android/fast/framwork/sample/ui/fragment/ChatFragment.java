@@ -120,7 +120,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
             @Override
             public void onScrollTop() {
                 L.d("onScrollTop ::: ");
-                recyclerViewHelper.startRefresh();
+                mRecyclerViewViewHelper.startRefresh();
             }
 
             @Override
@@ -132,13 +132,13 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
 
     @Override
     public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) recyclerView));
+        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) mRecyclerView));
     }
 
     @Override
     public void onListReady() {
         super.onListReady();
-        recyclerViewHelper.setReverse(true);
+        mRecyclerViewViewHelper.setReverse(true);
         reverseListLayout();
     }
 
@@ -156,7 +156,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
         if (isFirst) {
             hideWaitDialog();
             //一开始滚动到底部
-            recyclerView.scrollToPosition(0);
+            mRecyclerView.scrollToPosition(0);
         }
     }
 }

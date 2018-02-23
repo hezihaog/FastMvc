@@ -40,11 +40,5 @@
             android:label="会话详情"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
-        <activity
-            android:name="oms.mmc.android.fast.framwork.sample.TestListActivity"
-            android:configChanges="locale"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
     </application>
 </manifest>

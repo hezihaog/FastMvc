@@ -21,7 +21,7 @@ import oms.mmc.android.fast.framwork.widget.view.base.ScrollableLayoutFactory;
  * Activity基类
  */
 public abstract class BaseActivity extends LifecycleActivity implements LayoutCallback {
-    private ViewFinder viewFinder;
+    private ViewFinder mViewFinder;
     private WaitDialogController mWaitController;
 
     @Override
@@ -30,14 +30,14 @@ public abstract class BaseActivity extends LifecycleActivity implements LayoutCa
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
-        viewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
+        mViewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
         mWaitController = onGetWaitDialogController();
-        setContentView(viewFinder.getRootView());
+        setContentView(mViewFinder.getRootView());
         if (hasTranslucentStatusBar()) {
             onStatusBarSet();
             onSetStatusBarBlack();
         }
-        onFindView(viewFinder);
+        onFindView(mViewFinder);
         onLayoutAfter();
         setupFragment(onGetFragmentInfo());
     }
@@ -135,7 +135,7 @@ public abstract class BaseActivity extends LifecycleActivity implements LayoutCa
     }
 
     public ViewFinder getViewFinder() {
-        return viewFinder;
+        return mViewFinder;
     }
 
     public void showWaitDialog() {

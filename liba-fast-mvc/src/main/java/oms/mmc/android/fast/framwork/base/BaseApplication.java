@@ -19,38 +19,39 @@ import java.io.Serializable;
  */
 @SuppressLint("Registered")
 public class BaseApplication extends Application {
-    private static Context _context;
-    private static Resources _resource;
+    @SuppressLint("StaticFieldLeak")
+    private static Context mContext;
+    private static Resources mResource;
 
     public static BaseApplication context() {
-        return (BaseApplication) _context;
+        return (BaseApplication) mContext;
     }
 
     public static Resources resources() {
-        return _resource;
+        return mResource;
     }
 
     public static String string(int id) {
-        return _resource.getString(id);
+        return mResource.getString(id);
     }
 
     public static String string(int id, Object... args) {
-        return _resource.getString(id, args);
+        return mResource.getString(id, args);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        _context = getApplicationContext();
-        _resource = _context.getResources();
+        mContext = getApplicationContext();
+        mResource = mContext.getResources();
     }
 
     public static Context getContext() {
-        return _context;
+        return mContext;
     }
 
     public static Resources getResource() {
-        return _resource;
+        return mResource;
     }
 
     /**

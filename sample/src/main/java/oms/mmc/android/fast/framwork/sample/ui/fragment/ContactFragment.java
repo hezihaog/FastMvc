@@ -139,12 +139,12 @@ public class ContactFragment extends BaseListFragment {
 
     @Override
     public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) recyclerView));
+        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) mRecyclerView));
     }
 
     @Override
     public void onListReady() {
         super.onListReady();
-        recyclerViewHelper.setCanPullToRefresh(false);
+        mRecyclerViewViewHelper.setCanPullToRefresh(false);
     }
 }

@@ -29,61 +29,64 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     /**
      * 下拉刷新控件
      */
-    protected SwipeRefreshLayout refreshLayout;
+    protected SwipeRefreshLayout mRefreshLayout;
     /**
      * 列表
      */
-    protected RecyclerView recyclerView;
+    protected RecyclerView mRecyclerView;
     /**
      * 列表加载帮助类
      */
-    protected RecyclerViewViewHelper<T> recyclerViewHelper;
+    protected RecyclerViewViewHelper<T> mRecyclerViewViewHelper;
     /**
      * 列表数据源
      */
-    protected IDataSource<T> listViewDataSource;
+    protected IDataSource<T> mListViewDataSource;
     /**
      * 列表数据
      */
-    protected ArrayList<T> listViewData;
+    protected ArrayList<T> mListViewData;
     /**
      * 原始数据
      */
-    protected ArrayList<T> originData;
+    protected ArrayList<T> mOriginData;
     /**
      * 列表适配器
      */
-    protected BaseListAdapter<T> listViewAdapter;
-    private ListScrollHelper listScrollHelper;
+    protected BaseListAdapter<T> mListViewAdapter;
+    /**
+     * 滚动帮助类
+     */
+    private ListScrollHelper mListScrollHelper;
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onLazyCreateView(inflater, container, savedInstanceState);
-        refreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fast_refresh_layout);
-        refreshLayout.setId(MethodCompat.generateViewId());
+        mRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fast_refresh_layout);
+        mRefreshLayout.setId(MethodCompat.generateViewId());
         //初始化rv
-        recyclerView = (RecyclerView) root.findViewById(R.id.base_list_view);
-        recyclerView.setLayoutManager(getListLayoutManager());
-        if (listViewDataSource == null) {
-            listViewDataSource = onListDataSourceReady();
+        mRecyclerView = (RecyclerView) root.findViewById(R.id.base_list_view);
+        mRecyclerView.setLayoutManager(getListLayoutManager());
+        if (mListViewDataSource == null) {
+            mListViewDataSource = onListDataSourceReady();
         }
-        if (listViewData == null) {
-            listViewData = listViewDataSource.getOriginListViewData();
-            originData = listViewDataSource.getOriginListViewData();
+        if (mListViewData == null) {
+            mListViewData = mListViewDataSource.getOriginListViewData();
+            mOriginData = mListViewDataSource.getOriginListViewData();
         }
-        if (listViewAdapter == null) {
-            listViewAdapter = (BaseListAdapter<T>) onListAdapterReady();
+        if (mListViewAdapter == null) {
+            mListViewAdapter = (BaseListAdapter<T>) onListAdapterReady();
         }
-        listViewAdapter.addOnItemClickListener(this);
-        listViewAdapter.addOnItemLongClickListener(this);
-        if (recyclerViewHelper == null) {
-            recyclerViewHelper = new RecyclerViewViewHelper<T>(refreshLayout, recyclerView);
-            recyclerViewHelper.setAdapter(listViewAdapter);
+        mListViewAdapter.addOnItemClickListener(this);
+        mListViewAdapter.addOnItemLongClickListener(this);
+        if (mRecyclerViewViewHelper == null) {
+            mRecyclerViewViewHelper = new RecyclerViewViewHelper<T>(mRefreshLayout, mRecyclerView);
+            mRecyclerViewViewHelper.setAdapter(mListViewAdapter);
         }
-        recyclerViewHelper.init(onLoadViewFactoryReady());
-        recyclerViewHelper.setDataSource(this.listViewDataSource);
-        recyclerViewHelper.setOnStateChangeListener(this);
-        listViewAdapter.setRecyclerViewHelper(recyclerViewHelper);
+        mRecyclerViewViewHelper.init(onLoadViewFactoryReady());
+        mRecyclerViewViewHelper.setDataSource(this.mListViewDataSource);
+        mRecyclerViewViewHelper.setOnStateChangeListener(this);
+        mListViewAdapter.setRecyclerViewHelper(mRecyclerViewViewHelper);
         onListReady();
         return root;
     }
@@ -91,8 +94,8 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (recyclerViewHelper != null) {
-            recyclerViewHelper.destroy();
+        if (mRecyclerViewViewHelper != null) {
+            mRecyclerViewViewHelper.destroy();
         }
     }
 
@@ -100,29 +103,29 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onLazyViewCreated(view, savedInstanceState);
         //加入滚动监听
-        listScrollHelper = onGetScrollHelper();
-        recyclerViewHelper.setupScrollHelper(listScrollHelper);
-        onListScrollHelperReady(listScrollHelper);
+        mListScrollHelper = onGetScrollHelper();
+        mRecyclerViewViewHelper.setupScrollHelper(mListScrollHelper);
+        onListScrollHelperReady(mListScrollHelper);
     }
 
     @Override
     public void onListReady() {
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         try {
-            recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
+            mRecyclerView.getLayoutManager().setItemPrefetchEnabled(false);
         } catch (Exception e) {
             //这里try-catch是因为如果使用者使用排除进行替换低版本的rv时，调用该方法会可能找不到方法抛出异常
             e.printStackTrace();
         }
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
         //自动测量
         layoutManager.setAutoMeasureEnabled(true);
         //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
         //一开始先加一个尾部加载更多条目，然后刷新
-        if (listViewData.size() == 0) {
-            listViewAdapter.getLoadMoreHelper().addLoadMoreTpl();
-            recyclerViewHelper.refresh();
+        if (mListViewData.size() == 0) {
+            mListViewAdapter.getLoadMoreHelper().addLoadMoreTpl();
+            mRecyclerViewViewHelper.refresh();
         }
     }
 
@@ -133,7 +136,7 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, mActivity, listViewDataSource, onListTypeClassesReady(), recyclerViewHelper, onGetStickyTplViewType());
+        return new BaseListAdapter<T>(mRecyclerView, mActivity, mListViewDataSource, onListTypeClassesReady(), mRecyclerViewViewHelper, onGetStickyTplViewType());
     }
 
     protected void onListScrollHelperReady(ListScrollHelper listScrollHelper) {
@@ -141,11 +144,11 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     }
 
     public BaseListAdapter<T> getRecyclerViewAdapter() {
-        return (BaseListAdapter<T>) recyclerView.getAdapter();
+        return (BaseListAdapter<T>) mRecyclerView.getAdapter();
     }
 
     public RecyclerView getRecyclerView() {
-        return recyclerView;
+        return mRecyclerView;
     }
 
     @Override
@@ -193,20 +196,20 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
      */
     public void compatNestedScroll() {
         //放弃滚动，将滚动交给上层的NestedScrollView
-        recyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setNestedScrollingEnabled(false);
     }
 
     /**
      * 反转列表布局，实现类似QQ聊天时使用
      */
     public void reverseListLayout() {
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
     }
 
     public ListScrollHelper getListScrollHelper() {
-        return listScrollHelper;
+        return mListScrollHelper;
     }
 
     public void smoothMoveToTop() {

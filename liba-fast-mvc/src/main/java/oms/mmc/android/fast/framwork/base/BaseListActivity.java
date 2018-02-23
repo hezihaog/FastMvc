@@ -24,76 +24,76 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
     /**
      * 下来刷新控件
      */
-    protected SwipeRefreshLayout refreshLayout;
+    protected SwipeRefreshLayout mRefreshLayout;
     /**
      * 列表
      */
-    protected RecyclerView recyclerView;
+    protected RecyclerView mRecyclerView;
     /**
      * 列表加载帮助类
      */
-    protected RecyclerViewViewHelper<T> recyclerViewHelper;
+    protected RecyclerViewViewHelper<T> mRecyclerViewHelper;
     /**
      * 列表数据源
      */
-    protected IDataSource<T> listDataSource;
+    protected IDataSource<T> mListViewDataSource;
     /**
      * 列表数据
      */
-    protected ArrayList<T> listViewData;
+    protected ArrayList<T> mListViewData;
     /**
      * 原始数据
      */
-    protected ArrayList<T> originData;
+    protected ArrayList<T> mOriginData;
     /**
      * 列表适配器
      */
-    protected BaseListAdapter<T> listAdapter;
+    protected BaseListAdapter<T> mListAdapter;
     /**
      * 滚动帮助类
      */
-    private ListScrollHelper listScrollHelper;
+    private ListScrollHelper mListScrollHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        refreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.fast_refresh_layout);
-        refreshLayout.setId(MethodCompat.generateViewId());
+        mRefreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.fast_refresh_layout);
+        mRefreshLayout.setId(MethodCompat.generateViewId());
         //初始化rv
-        recyclerView = (RecyclerView) this.findViewById(R.id.base_list_view);
-        recyclerView.setLayoutManager(getListLayoutManager());
-        if (listDataSource == null) {
-            listDataSource = onListDataSourceReady();
+        mRecyclerView = (RecyclerView) this.findViewById(R.id.base_list_view);
+        mRecyclerView.setLayoutManager(getListLayoutManager());
+        if (mListViewDataSource == null) {
+            mListViewDataSource = onListDataSourceReady();
         }
-        if (listViewData == null) {
-            listViewData = listDataSource.getOriginListViewData();
-            originData = listDataSource.getOriginListViewData();
+        if (mListViewData == null) {
+            mListViewData = mListViewDataSource.getOriginListViewData();
+            mOriginData = mListViewDataSource.getOriginListViewData();
         }
-        if (listAdapter == null) {
-            listAdapter = (BaseListAdapter<T>) onListAdapterReady();
+        if (mListAdapter == null) {
+            mListAdapter = (BaseListAdapter<T>) onListAdapterReady();
         }
-        listAdapter.addOnItemClickListener(this);
-        listAdapter.addOnItemLongClickListener(this);
-        if (recyclerViewHelper == null) {
-            recyclerViewHelper = new RecyclerViewViewHelper<T>(refreshLayout, recyclerView);
-            recyclerViewHelper.setAdapter(listAdapter);
+        mListAdapter.addOnItemClickListener(this);
+        mListAdapter.addOnItemLongClickListener(this);
+        if (mRecyclerViewHelper == null) {
+            mRecyclerViewHelper = new RecyclerViewViewHelper<T>(mRefreshLayout, mRecyclerView);
+            mRecyclerViewHelper.setAdapter(mListAdapter);
         }
-        recyclerViewHelper.init(onLoadViewFactoryReady());
-        recyclerViewHelper.setDataSource(this.listDataSource);
-        recyclerViewHelper.setOnStateChangeListener(this);
-        listAdapter.setRecyclerViewHelper(recyclerViewHelper);
+        mRecyclerViewHelper.init(onLoadViewFactoryReady());
+        mRecyclerViewHelper.setDataSource(this.mListViewDataSource);
+        mRecyclerViewHelper.setOnStateChangeListener(this);
+        mListAdapter.setRecyclerViewHelper(mRecyclerViewHelper);
         //加入滚动监听
         ListScrollHelper scrollHelper = onGetScrollHelper();
-        recyclerViewHelper.setupScrollHelper(scrollHelper);
-        onListScrollHelperReady(listScrollHelper);
+        mRecyclerViewHelper.setupScrollHelper(scrollHelper);
+        onListScrollHelperReady(mListScrollHelper);
         onListReady();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (recyclerViewHelper != null) {
-            recyclerViewHelper.destroy();
+        if (mRecyclerViewHelper != null) {
+            mRecyclerViewHelper.destroy();
         }
     }
 
@@ -101,20 +101,20 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
     public void onListReady() {
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         try {
-            recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
+            mRecyclerView.getLayoutManager().setItemPrefetchEnabled(false);
         } catch (Exception e) {
             //这里try-catch是因为如果使用者使用排除进行替换低版本的rv时，调用该方法会可能找不到方法抛出异常
             e.printStackTrace();
         }
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
         //自动测量
         layoutManager.setAutoMeasureEnabled(true);
         //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
         //一开始先加一个尾部加载更多条目，然后刷新
-        if (listViewData.size() == 0) {
-            listAdapter.getLoadMoreHelper().addLoadMoreTpl();
-            recyclerViewHelper.refresh();
+        if (mListViewData.size() == 0) {
+            mListAdapter.getLoadMoreHelper().addLoadMoreTpl();
+            mRecyclerViewHelper.refresh();
         }
     }
 
@@ -125,8 +125,8 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
 
     @Override
     public IDataAdapter<ArrayList<T>> onListAdapterReady() {
-        return new BaseListAdapter<T>(recyclerView, getActivity(), listDataSource,
-                onListTypeClassesReady(), recyclerViewHelper, onGetStickyTplViewType());
+        return new BaseListAdapter<T>(mRecyclerView, getActivity(), mListViewDataSource,
+                onListTypeClassesReady(), mRecyclerViewHelper, onGetStickyTplViewType());
     }
 
     protected void onListScrollHelperReady(ListScrollHelper listScrollHelper) {
@@ -134,11 +134,11 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
     }
 
     public BaseListAdapter<T> getRecyclerViewAdapter() {
-        return (BaseListAdapter<T>) recyclerView.getAdapter();
+        return (BaseListAdapter<T>) mRecyclerView.getAdapter();
     }
 
     public RecyclerView getRecyclerView() {
-        return recyclerView;
+        return mRecyclerView;
     }
 
     @Override
@@ -186,20 +186,20 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
      */
     public void compatNestedScroll() {
         //放弃滚动，将滚动交给上层的NestedScrollView
-        recyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setNestedScrollingEnabled(false);
     }
 
     /**
      * 反转列表布局，实现类似QQ聊天时使用
      */
     public void reverseListLayout() {
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
     }
 
     public ListScrollHelper getListScrollHelper() {
-        return listScrollHelper;
+        return mListScrollHelper;
     }
 
     public void smoothMoveToTop() {

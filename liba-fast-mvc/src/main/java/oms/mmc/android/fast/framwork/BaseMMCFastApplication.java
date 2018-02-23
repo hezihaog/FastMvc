@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Handler;
 
@@ -16,13 +17,14 @@ import oms.mmc.android.fast.framwork.base.ManagerContext;
  */
 
 public class BaseMMCFastApplication extends ManagerContext {
-    private static BaseMMCFastApplication instance;
+    @SuppressLint("StaticFieldLeak")
+    private static BaseMMCFastApplication mInstance;
     private Handler mMainHandler;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
+        mInstance = this;
         mMainHandler = new Handler(getMainLooper());
     }
 
@@ -35,7 +37,7 @@ public class BaseMMCFastApplication extends ManagerContext {
     }
 
     public static BaseMMCFastApplication getInstance() {
-        return instance;
+        return mInstance;
     }
 
     public Handler getMainHandler() {

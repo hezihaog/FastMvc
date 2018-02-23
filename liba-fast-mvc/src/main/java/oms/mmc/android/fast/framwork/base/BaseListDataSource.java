@@ -4,28 +4,30 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 
 public abstract class BaseListDataSource<T> implements IDataSource<T> {
-    public final static int FIRST_PAGE_NUM = 1;
+    protected final static int FIRST_PAGE_NUM = 1;
 
-    protected BaseMMCFastApplication ac;
-    protected Activity _activity;
-
+    /**
+     * 当前页码
+     */
     protected int page = 0;
+    /**
+     * 是否有加载更多
+     */
     protected boolean hasMore = false;
 
-    protected ArrayList<T> orginListViewData = new ArrayList<T>();
+    protected Activity mActivity;
+    protected ArrayList<T> mOriginListViewData = new ArrayList<T>();
 
     public BaseListDataSource(Activity activity) {
-        this.ac = (BaseMMCFastApplication) activity.getApplicationContext();
-        this._activity = activity;
+        this.mActivity = activity;
     }
 
     @Override
     public ArrayList<T> getOriginListViewData() {
-        return orginListViewData;
+        return mOriginListViewData;
     }
 
     @Override

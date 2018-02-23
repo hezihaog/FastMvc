@@ -19,12 +19,12 @@ import android.widget.FrameLayout;
 
 public abstract class ExtendLazyFragment extends PagerVisibleFragment {
     //Fragment容器
-    protected FrameLayout rootContainer;
-    private LayoutInflater inflater;
-    private Bundle savedInstanceState;
+    protected FrameLayout mRootContainer;
+    private LayoutInflater mInflater;
+    private Bundle mSavedInstanceState;
     private boolean isLazyViewCreated = false;
     private boolean isVisible = false;
-    private View loadingView;
+    private View mLoadingView;
 
     /**
      * 已加final，该方法不要重写，请重写{@link #onLazyCreateView(LayoutInflater, ViewGroup, Bundle)} 来返回视图
@@ -32,18 +32,17 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
      * @param inflater           填充器
      * @param container          父容器
      * @param savedInstanceState bundle状态保存map
-     * @return
      */
     @Nullable
     @Override
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.inflater = inflater;
-        this.savedInstanceState = savedInstanceState;
-        rootContainer = new FrameLayout(getContext().getApplicationContext());
-        loadingView = onGetLazyLoadingView();
-        rootContainer.addView(loadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        rootContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        return rootContainer;
+        this.mInflater = inflater;
+        this.mSavedInstanceState = savedInstanceState;
+        mRootContainer = new FrameLayout(getContext().getApplicationContext());
+        mLoadingView = onGetLazyLoadingView();
+        mRootContainer.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mRootContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        return mRootContainer;
     }
 
     /**
@@ -69,7 +68,7 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         this.isVisible = isVisibleToUser;
-        if (isVisibleToUser && !isLazyViewCreated && inflater != null) {
+        if (isVisibleToUser && !isLazyViewCreated && mInflater != null) {
             startLazy();
         }
         if (getUserVisibleHint()) {
@@ -84,12 +83,12 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
      */
     private void startLazy() {
         //开始懒加载，并且将Fragment的View视图添加到容器
-        View view = onLazyCreateView(inflater, rootContainer, savedInstanceState);
-        rootContainer.removeView(loadingView);
-        rootContainer.addView(view);
+        View view = onLazyCreateView(mInflater, mRootContainer, mSavedInstanceState);
+        mRootContainer.removeView(mLoadingView);
+        mRootContainer.addView(view);
         isLazyViewCreated = true;
         //懒加载完毕
-        onLazyViewCreated(rootContainer, savedInstanceState);
+        onLazyViewCreated(mRootContainer, mSavedInstanceState);
     }
 
     /**
