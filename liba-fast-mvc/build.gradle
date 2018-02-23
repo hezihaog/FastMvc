@@ -28,7 +28,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile rootProject.ext.dependencies["appcompat-v7"]
-    compile rootProject.ext.dependencies["design"]
+    compile rootProject.ext.dependencies["recyclerview"]
     compile 'com.hzh:lifecycle-dispatch:1.0.3'
     compile 'com.hzh:liba-logger:1.0.0'
 }

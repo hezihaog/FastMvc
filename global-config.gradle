@@ -19,6 +19,7 @@ ext {
     dependencies = [
             "appcompat-v7"              : "com.android.support:appcompat-v7:${android["androidSupportVersion"]}",
             "design"                    : "com.android.support:design:${android["androidSupportVersion"]}",
+            "recyclerview"              : "com.android.support:recyclerview-v7:${android["androidSupportVersion"]}",
 
             "retrofit"                  : "com.squareup.retrofit2:retrofit:${android["retrofitVersion"]}",
             "retrofit-adapter-rxjava"   : "com.squareup.retrofit2:adapter-rxjava2:${android["retrofitVersion"]}",

@@ -108,7 +108,12 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     @Override
     public void onListReady() {
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
-        recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
+        try {
+            recyclerView.getLayoutManager().setItemPrefetchEnabled(false);
+        } catch (Exception e) {
+            //这里try-catch是因为如果使用者使用排除进行替换低版本的rv时，调用该方法会可能找不到方法抛出异常
+            e.printStackTrace();
+        }
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         //自动测量
         layoutManager.setAutoMeasureEnabled(true);

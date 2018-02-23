@@ -69,7 +69,6 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     protected void onRender(ItemDataWrapper itemData) {
-
     }
 
     private static class Adapter extends PagerAdapter {

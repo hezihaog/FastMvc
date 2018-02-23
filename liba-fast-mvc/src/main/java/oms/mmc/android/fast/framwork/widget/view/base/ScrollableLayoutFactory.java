@@ -23,7 +23,7 @@ import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
  */
 
 public class ScrollableLayoutFactory {
-    private Context mActivity;
+    private Activity mActivity;
 
     private ScrollableLayoutFactory(Activity activity) {
         mActivity = activity;
