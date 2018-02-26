@@ -96,7 +96,16 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
         if (stickySectionViewType == NOT_STICKY_SECTION) {
             return false;
         }
+        //越界处理
+        if (position >= getItemCount()) {
+            return false;
+        }
         return getItemViewType(position) == stickySectionViewType;
+    }
+
+    @Override
+    public boolean isStickyHeaderViewType(int viewType) {
+        return stickySectionViewType == viewType;
     }
 
     @Override

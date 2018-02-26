@@ -361,10 +361,17 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return false;
         }
         //过滤掉头部和尾部，他们不需要粘性
-        if (filterHeaderFooterViewType(position)) {
+        if (isHeader(position) || isFooter(position)) {
             return false;
+        } else {
+            int viewType = getItemViewType(position);
+            return isStickyHeaderViewType(viewType);
         }
-        return ((StickyHeaders) getAdapter()).isStickyHeader(position);
+    }
+
+    @Override
+    public boolean isStickyHeaderViewType(int viewType) {
+        return ((StickyHeaders) getAdapter()).isStickyHeaderViewType(viewType);
     }
 
     @Override
@@ -381,19 +388,6 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return;
         }
         ((BaseListAdapter) getAdapter()).teardownStickyHeaderView(stickyHeader);
-    }
-
-    /**
-     * 粘性条女过滤掉头部和尾部
-     *
-     * @param position 条目位置
-     */
-    public boolean filterHeaderFooterViewType(int position) {
-        int itemViewType = getItemViewType(position);
-        if (itemViewType == TYPE_HEADER_VIEW || itemViewType == TYPE_FOOTER_VIEW) {
-            return false;
-        }
-        return true;
     }
 
     public interface OnItemClickListener {

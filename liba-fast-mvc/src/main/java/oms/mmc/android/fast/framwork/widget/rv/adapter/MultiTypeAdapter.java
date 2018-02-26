@@ -145,7 +145,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public void onBindViewHolder(BaseTpl.ViewHolder holder, int position) {
-        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
+        BaseTpl<T> tpl = (BaseTpl<T>) holder.itemView.getTag(R.id.tag_tpl);
         tpl.setBeanPosition(mListViewData, getItem(position), position);
         try {
             tpl.render();
@@ -171,8 +171,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public int getItemViewType(int position) {
-        BaseItemData base = (BaseItemData) getItem(position);
-        return base.getViewType();
+        return getItem(position).getViewType();
     }
 
     @Override
