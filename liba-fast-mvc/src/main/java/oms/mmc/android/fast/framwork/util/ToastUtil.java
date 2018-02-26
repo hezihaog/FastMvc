@@ -3,10 +3,10 @@ package oms.mmc.android.fast.framwork.util;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.hzh.logger.L;
 
 /**
  * Created by Hezihao on 2017/7/6.
@@ -14,6 +14,7 @@ import com.hzh.logger.L;
  */
 
 public class ToastUtil {
+    public static final String TAG = ToastUtil.class.getSimpleName();
     private static String lastToast = "";
     private static long lastToastTime;
     private static Toast toast;
@@ -69,7 +70,7 @@ public class ToastUtil {
             @Override
             public void run() {
                 if (!TextUtils.isEmpty(message)) {
-                    L.d(message);
+                    Log.d(TAG, message);
                     long time = System.currentTimeMillis();
                     if (!message.equalsIgnoreCase(lastToast) || Math.abs(time - lastToastTime) > 2000) {
                         if (toast == null) {

@@ -27,6 +27,7 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile project(':liba-fast-mvc')
+    compile 'com.hzh:liba-logger:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.promeg:tinypinyin:2.0.3'
     //Glide图片加载框架

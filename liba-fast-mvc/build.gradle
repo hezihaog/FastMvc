@@ -28,7 +28,6 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["recyclerview"]
     compile 'com.hzh:lifecycle-dispatch:1.0.3'
-    compile 'com.hzh:liba-logger:1.0.0'
     //通用滚动监听库
     compile('oms.mmc:list-scroll-helper:1.0.0-SNAPSHOT@aar', {
         exclude group: 'com.android.support'
