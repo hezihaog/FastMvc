@@ -33,7 +33,7 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
      */
     private final HeaderFooterAdapter mHeaderFooterAdapter;
 
-    public BaseListAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource dataSource,
+    public BaseListAdapter(RecyclerView recyclerView, BaseFastActivity activity, IDataSource dataSource,
                            HashMap itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType) {
         super(recyclerView, activity, dataSource, itemViewClazzMap, recyclerViewHelper);
         this.stickySectionViewType = stickySectionViewType;

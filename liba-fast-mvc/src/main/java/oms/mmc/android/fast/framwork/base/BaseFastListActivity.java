@@ -1,12 +1,9 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -23,25 +20,20 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
-public abstract class BaseListFragment extends BaseFragment implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
+public abstract class BaseFastListActivity extends BaseFastActivity implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     private ListAbleDelegateHelper mDelegateHelper;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.fragment_base_list;
-    }
-
-    @Override
-    public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mDelegateHelper = new ListAbleDelegateHelper(this);
-        mDelegateHelper.startDelegate(rootLayout);
+        mDelegateHelper.startDelegate(getWindow().getDecorView());
         //初始化监听
         mDelegateHelper.getListAdapter().addOnItemClickListener(this);
         mDelegateHelper.getListAdapter().addOnItemLongClickListener(this);
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
         onListReady();
-        return rootLayout;
+        mDelegateHelper.setupScrollHelper();
     }
 
     @Override
@@ -51,19 +43,18 @@ public abstract class BaseListFragment extends BaseFragment implements ListLayou
     }
 
     @Override
-    protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onLazyViewCreated(view, savedInstanceState);
-        mDelegateHelper.setupScrollHelper();
-    }
-
-    @Override
     public void onListReady() {
         mDelegateHelper.setupRecyclerView();
     }
 
     @Override
+    public int onLayoutId() {
+        return R.layout.activity_base_fast_list;
+    }
+
+    @Override
     public IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> onListAdapterReady() {
-        return new BaseListAdapter<BaseItemData>(getRecyclerView(), mActivity, getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType());
+        return new BaseListAdapter<BaseItemData>(getRecyclerView(), this, getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType());
     }
 
     @Override

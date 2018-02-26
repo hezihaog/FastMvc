@@ -10,15 +10,15 @@ import android.view.View;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.adapter.SimpleFragmentPagerAdapter;
-import oms.mmc.android.fast.framwork.base.BaseActivity;
-import oms.mmc.android.fast.framwork.base.BaseFragment;
-import oms.mmc.android.fast.framwork.base.BaseListFragment;
+import oms.mmc.android.fast.framwork.base.BaseFastActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastFragment;
+import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.lazy.PagerVisibleFragment;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactFragment;
-import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationFragment;
+import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactListFragment;
+import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationListFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.FindFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
 
@@ -31,7 +31,7 @@ import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
  * Email: hezihao@linghit.com
  */
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseFastActivity implements View.OnClickListener {
     private Toolbar toolBar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -60,8 +60,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ArrayList<String> titles = new ArrayList<String>();
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         //组装fragment
-        Fragment conversationFragment = FragmentFactory.newInstance(getActivity(), ConversationFragment.class);
-        Fragment contactFragment = FragmentFactory.newInstance(getActivity(), ContactFragment.class);
+        Fragment conversationFragment = FragmentFactory.newInstance(getActivity(), ConversationListFragment.class);
+        Fragment contactFragment = FragmentFactory.newInstance(getActivity(), ContactListFragment.class);
         Fragment friendCircleFragment = FragmentFactory.newInstance(getActivity(), FindFragment.class);
         Fragment meFragment = FragmentFactory.newInstance(getActivity(), MeFragment.class);
         fragments.add(conversationFragment);
@@ -86,8 +86,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onPageSelected(int position) {
                 Fragment fragment = viewPagerAdapter.findByPagerIndex(position);
                 if (fragment != null) {
-                    if (SimpleFragmentPagerAdapter.isTargetFragment(fragment, ConversationFragment.class)
-                            || SimpleFragmentPagerAdapter.isTargetFragment(fragment, ContactFragment.class)) {
+                    if (SimpleFragmentPagerAdapter.isTargetFragment(fragment, ConversationListFragment.class)
+                            || SimpleFragmentPagerAdapter.isTargetFragment(fragment, ContactListFragment.class)) {
                         floatingActionButton.show();
                     } else {
                         floatingActionButton.hide();
@@ -102,8 +102,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         };
         for (Fragment fragment : fragments) {
-            if (fragment instanceof BaseFragment) {
-                ((BaseFragment) fragment).addVisibleChangeCallback(visibleCallback);
+            if (fragment instanceof BaseFastFragment) {
+                ((BaseFastFragment) fragment).addVisibleChangeCallback(visibleCallback);
             }
         }
     }
@@ -112,8 +112,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         int currentItem = viewPager.getCurrentItem();
         Fragment fragment = viewPagerAdapter.findByPagerIndex(currentItem);
-        if (fragment != null && (fragment instanceof ConversationFragment || fragment instanceof ContactFragment)) {
-            BaseListFragment listFragment = (BaseListFragment) fragment;
+        if (fragment != null && (fragment instanceof ConversationListFragment || fragment instanceof ContactListFragment)) {
+            BaseFastListFragment listFragment = (BaseFastListFragment) fragment;
             listFragment.smoothMoveToTop();
         }
     }

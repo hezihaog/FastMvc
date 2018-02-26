@@ -12,7 +12,7 @@ import java.util.Locale;
 
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
-import oms.mmc.android.fast.framwork.base.BaseListFragment;
+import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactRecommendTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
@@ -42,7 +42,7 @@ import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public class ContactFragment extends BaseListFragment {
+public class ContactListFragment extends BaseFastListFragment {
     //新的好友条目
     public static final int TPL_NEW_FRIEND = 0;
     //群聊条目

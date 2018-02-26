@@ -20,7 +20,7 @@ import oms.mmc.android.fast.framwork.widget.view.base.ScrollableLayoutFactory;
 /**
  * Activity基类
  */
-public abstract class BaseActivity extends LifecycleActivity implements LayoutCallback {
+public abstract class BaseFastActivity extends LifecycleActivity implements LayoutCallback {
     private ViewFinder mViewFinder;
     private WaitDialogController mWaitController;
 
@@ -164,7 +164,7 @@ public abstract class BaseActivity extends LifecycleActivity implements LayoutCa
         setResult(resultCode, intent);
     }
 
-    public BaseActivity getActivity() {
+    public BaseFastActivity getActivity() {
         return this;
     }
 

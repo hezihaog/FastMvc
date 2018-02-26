@@ -84,7 +84,7 @@ public class ListAbleDelegateHelper {
         mRefreshLayout = (SwipeRefreshLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
         mRefreshLayout.setId(MethodCompat.generateViewId());
         //初始化列表控件
-        mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.base_list_view);
+        mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.fast_recycler_view);
         mRecyclerView.setLayoutManager(mListAble.getListLayoutManager());
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {

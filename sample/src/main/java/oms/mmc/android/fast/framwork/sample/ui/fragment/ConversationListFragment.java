@@ -17,9 +17,9 @@ import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
-import oms.mmc.android.fast.framwork.base.BaseListFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.broadcast.ConversationEditStateChangeBroadcast;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
@@ -55,7 +55,7 @@ import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewW
  * Email: hezihao@linghit.com
  */
 
-public class ConversationFragment extends BaseListFragment {
+public class ConversationListFragment extends BaseFastListFragment {
     //搜索条目
     public static final int TPL_SEARCH = 1;
     //编辑条目
@@ -114,8 +114,8 @@ public class ConversationFragment extends BaseListFragment {
     }
 
     @Override
-    public IDataSource onListDataSourceReady() {
-        return new BaseListDataSource(getActivity()) {
+    public IDataSource<BaseItemData> onListDataSourceReady() {
+        return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
             protected ArrayList load(int page) throws Exception {
                 Thread.sleep(1500);
@@ -196,9 +196,9 @@ public class ConversationFragment extends BaseListFragment {
 
     @Override
     public void onItemClick(View view, BaseTpl clickTpl, int position) {
+        ToastUtil.showToast(getActivity(), String.valueOf(position));
         int itemViewType = clickTpl.getItemViewType();
         if (itemViewType == TPL_CHAT) {
-            ToastUtil.showToast(getActivity(), String.valueOf(position));
             MMCUIHelper.showConversationDetail(getActivity());
         }
     }

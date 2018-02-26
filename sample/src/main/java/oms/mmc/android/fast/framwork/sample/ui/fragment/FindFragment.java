@@ -1,6 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
-import oms.mmc.android.fast.framwork.base.BaseFragment;
+import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 
@@ -13,7 +13,7 @@ import oms.mmc.android.fast.framwork.sample.R;
  * Email: hezihao@linghit.com
  */
 
-public class FindFragment extends BaseFragment {
+public class FindFragment extends BaseFastFragment {
     @Override
     public int onLayoutId() {
         return R.layout.fragment_find;

@@ -9,7 +9,7 @@ import android.view.View;
 
 import java.util.List;
 
-import oms.mmc.android.fast.framwork.base.BaseActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.util.IDataSource;
@@ -20,7 +20,7 @@ import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
  * 列表条目基础模板，条目类
  */
 public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateChangeListener {
-    private BaseActivity mActivity;
+    private BaseFastActivity mActivity;
     private Intent mIntent;
     private Bundle mBundle;
     private RecyclerViewViewHelper mRecyclerViewHelper;
@@ -37,7 +37,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
 
     public void init(Context context, RecyclerView recyclerView, int itemViewType) {
         this.mItemViewType = itemViewType;
-        this.mActivity = (BaseActivity) context;
+        this.mActivity = (BaseFastActivity) context;
         this.mRecyclerView = recyclerView;
         this.mIntent = mActivity.getIntent();
         if (this.mIntent != null) {
@@ -85,7 +85,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
     public void onLayoutAfter() {
     }
 
-    public BaseActivity getActivity() {
+    public BaseFastActivity getActivity() {
         return mActivity;
     }
 

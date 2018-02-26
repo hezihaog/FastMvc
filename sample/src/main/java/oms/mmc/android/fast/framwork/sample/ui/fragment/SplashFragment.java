@@ -2,7 +2,7 @@ package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import android.widget.FrameLayout;
 
-import oms.mmc.android.fast.framwork.base.BaseFragment;
+import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
  * Email: hezihao@linghit.com
  */
 
-public class SplashFragment extends BaseFragment {
+public class SplashFragment extends BaseFastFragment {
     private FrameLayout animationLayout;
 
     @Override

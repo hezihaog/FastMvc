@@ -10,7 +10,7 @@ import java.util.List;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
-import oms.mmc.android.fast.framwork.base.BaseActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -27,7 +27,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
 public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRecyclerAdapter<BaseTpl.ViewHolder> implements IMultiTypeAdapter {
     private RecyclerView mRecyclerView;
-    private BaseActivity mActivity;
+    private BaseFastActivity mActivity;
     /**
      * 条目类的类型和条目类class的映射
      */
@@ -52,7 +52,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     private RecyclerViewViewHelper<T> recyclerViewHelper;
 
-    public MultiTypeAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource<T> dataSource
+    public MultiTypeAdapter(RecyclerView recyclerView, BaseFastActivity activity, IDataSource<T> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper) {
         this.mRecyclerView = recyclerView;
         this.mActivity = activity;

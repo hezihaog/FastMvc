@@ -17,9 +17,9 @@ import oms.mmc.android.fast.framwork.util.ViewFinder;
 /**
  * Fragment基类
  */
-public abstract class BaseFragment extends ExtendLazyFragment implements LayoutCallback {
+public abstract class BaseFastFragment extends ExtendLazyFragment implements LayoutCallback {
     protected FragmentManager mFm;
-    protected BaseActivity mActivity;
+    protected BaseFastActivity mActivity;
     protected Fragment mFragment;
     protected Bundle mArguments;
     private ViewFinder mViewFinder;
@@ -27,7 +27,7 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (BaseActivity) activity;
+        mActivity = (BaseFastActivity) activity;
         mFm = getChildFragmentManager();
         mFragment = this;
     }
@@ -100,7 +100,7 @@ public abstract class BaseFragment extends ExtendLazyFragment implements LayoutC
         getBaseActivity().hideWaitDialog();
     }
 
-    public BaseActivity getBaseActivity() {
-        return (BaseActivity) getActivity();
+    public BaseFastActivity getBaseActivity() {
+        return (BaseFastActivity) getActivity();
     }
 }

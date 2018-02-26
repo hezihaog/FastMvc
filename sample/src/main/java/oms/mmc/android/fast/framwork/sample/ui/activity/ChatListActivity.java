@@ -9,7 +9,7 @@ import com.hzh.logger.L;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
@@ -38,7 +38,7 @@ import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewW
  * Email: hezihao@linghit.com
  */
 
-public class ChatActivity extends BaseListActivity {
+public class ChatListActivity extends BaseFastListActivity {
     public static final int TPL_CHAT_DATE = 0;
     public static final int TPL_CHAT_TEXT_SENDER = 1;
     public static final int TPL_CHAT_TEXT_RECEIVER = 2;
@@ -47,7 +47,7 @@ public class ChatActivity extends BaseListActivity {
 
     @Override
     public int onLayoutId() {
-        return R.layout.activity_chat;
+        return R.layout.activity_chat_list;
     }
 
     @Override
