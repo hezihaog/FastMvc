@@ -38,11 +38,11 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     /**
      * 列表加载帮助类
      */
-    protected RecyclerViewViewHelper<T> mRecyclerViewViewHelper;
+    protected RecyclerViewViewHelper<T> mRecyclerViewHelper;
     /**
      * 列表数据源
      */
-    protected IDataSource<T> mListViewDataSource;
+    protected IDataSource<T> mListDataSource;
     /**
      * 列表数据
      */
@@ -54,51 +54,59 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     /**
      * 列表适配器
      */
-    protected BaseListAdapter<T> mListViewAdapter;
+    protected BaseListAdapter<T> mListAdapter;
     /**
      * 滚动帮助类
      */
     private ListScrollHelper mListScrollHelper;
+    /**
+     * 加载状态切换布局工厂
+     */
     private ILoadViewFactory mLoadViewFactory;
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = super.onLazyCreateView(inflater, container, savedInstanceState);
-        mRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.fast_refresh_layout);
+        //初始化布局控件
+        View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
+        mRefreshLayout = (SwipeRefreshLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
         mRefreshLayout.setId(MethodCompat.generateViewId());
-        //初始化rv
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.base_list_view);
+        //初始化列表控件
+        mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.base_list_view);
         mRecyclerView.setLayoutManager(getListLayoutManager());
-        if (mListViewDataSource == null) {
-            mListViewDataSource = onListDataSourceReady();
+        //初始化列表帮助类
+        if (mRecyclerViewHelper == null) {
+            mRecyclerViewHelper = new RecyclerViewViewHelper<T>(mRefreshLayout, mRecyclerView);
         }
+        //初始化数据源
+        if (mListDataSource == null) {
+            mListDataSource = onListDataSourceReady();
+        }
+        mRecyclerViewHelper.setDataSource(this.mListDataSource);
         if (mListViewData == null) {
-            mListViewData = mListViewDataSource.getOriginListViewData();
-            mOriginData = mListViewDataSource.getOriginListViewData();
+            mListViewData = mListDataSource.getOriginListViewData();
+            mOriginData = mListDataSource.getOriginListViewData();
         }
-        if (mListViewAdapter == null) {
-            mListViewAdapter = (BaseListAdapter<T>) onListAdapterReady();
+        //初始化列表适配器
+        if (mListAdapter == null) {
+            mListAdapter = (BaseListAdapter<T>) onListAdapterReady();
         }
-        mListViewAdapter.addOnItemClickListener(this);
-        mListViewAdapter.addOnItemLongClickListener(this);
-        if (mRecyclerViewViewHelper == null) {
-            mRecyclerViewViewHelper = new RecyclerViewViewHelper<T>(mRefreshLayout, mRecyclerView);
-            mRecyclerViewViewHelper.setAdapter(mListViewAdapter);
-        }
+        mRecyclerViewHelper.setAdapter(mListAdapter);
+        //初始化视图切换工厂
         mLoadViewFactory = onLoadViewFactoryReady();
-        mRecyclerViewViewHelper.init(mLoadViewFactory);
-        mRecyclerViewViewHelper.setDataSource(this.mListViewDataSource);
-        mRecyclerViewViewHelper.setOnStateChangeListener(this);
-        mListViewAdapter.setRecyclerViewHelper(mRecyclerViewViewHelper);
+        mRecyclerViewHelper.init(mLoadViewFactory);
+        //初始化监听
+        mListAdapter.addOnItemClickListener(this);
+        mListAdapter.addOnItemLongClickListener(this);
+        mRecyclerViewHelper.setOnStateChangeListener(this);
         onListReady();
-        return root;
+        return rootLayout;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mRecyclerViewViewHelper != null) {
-            mRecyclerViewViewHelper.destroy();
+        if (mRecyclerViewHelper != null) {
+            mRecyclerViewHelper.destroy();
         }
     }
 
@@ -107,7 +115,7 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
         super.onLazyViewCreated(view, savedInstanceState);
         //加入滚动监听
         mListScrollHelper = onGetScrollHelper();
-        mRecyclerViewViewHelper.setupScrollHelper(mListScrollHelper);
+        mRecyclerViewHelper.setupScrollHelper(mListScrollHelper);
         onListScrollHelperReady(mListScrollHelper);
     }
 
@@ -127,8 +135,8 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
         mRecyclerView.setHasFixedSize(true);
         //一开始先加一个尾部加载更多条目，然后刷新
         if (mListViewData.size() == 0) {
-            mListViewAdapter.addFooterView(mLoadViewFactory.madeLoadMoreView().getFootView());
-            mRecyclerViewViewHelper.refresh();
+            mListAdapter.addFooterView(mLoadViewFactory.madeLoadMoreView().getFootView());
+            mRecyclerViewHelper.refresh();
         }
     }
 
@@ -139,7 +147,7 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
 
     @Override
     public IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> onListAdapterReady() {
-        return new BaseListAdapter<T>(mRecyclerView, mActivity, mListViewDataSource, onListTypeClassesReady(), mRecyclerViewViewHelper, onGetStickyTplViewType());
+        return new BaseListAdapter<T>(mRecyclerView, mActivity, mListDataSource, onListTypeClassesReady(), mRecyclerViewHelper, onGetStickyTplViewType());
     }
 
     protected void onListScrollHelperReady(ListScrollHelper listScrollHelper) {

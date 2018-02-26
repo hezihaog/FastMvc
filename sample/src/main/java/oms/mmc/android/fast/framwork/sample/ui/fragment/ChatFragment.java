@@ -121,7 +121,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
             @Override
             public void onScrollTop() {
                 L.d("onScrollTop ::: ");
-                mRecyclerViewViewHelper.startRefresh();
+                mRecyclerViewHelper.startRefresh();
             }
 
             @Override
@@ -139,7 +139,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public void onListReady() {
         super.onListReady();
-        mRecyclerViewViewHelper.setReverse(true);
+        mRecyclerViewHelper.setReverse(true);
         reverseListLayout();
     }
 

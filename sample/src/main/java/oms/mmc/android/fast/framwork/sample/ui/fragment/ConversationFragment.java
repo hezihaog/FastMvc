@@ -81,14 +81,14 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
             public void onReceive(Context context, Intent intent) {
                 int mode = intent.getIntExtra(ConversationEditStateChangeBroadcast.KEY_MODE, ConversationEditStateChangeBroadcast.NOMAL_MODE);
                 if (ConversationEditStateChangeBroadcast.isEditMode(mode)) {
-                    mListViewAdapter.setMode(BaseListAdapter.MODE_EDIT);
+                    mListAdapter.setMode(BaseListAdapter.MODE_EDIT);
                     //编辑模式时不能下拉刷新
-                    mRecyclerViewViewHelper.setCanPullToRefresh(false);
+                    mRecyclerViewHelper.setCanPullToRefresh(false);
                 } else {
-                    mListViewAdapter.setMode(BaseListAdapter.MODE_NORMAL);
-                    mRecyclerViewViewHelper.setCanPullToRefresh(true);
+                    mListAdapter.setMode(BaseListAdapter.MODE_NORMAL);
+                    mRecyclerViewHelper.setCanPullToRefresh(true);
                 }
-                mListViewAdapter.notifyDataSetChanged();
+                mListAdapter.notifyDataSetChanged();
             }
         };
         BroadcastHelper.register(activity, ConversationEditStateChangeBroadcast.class.getName(), receiver);

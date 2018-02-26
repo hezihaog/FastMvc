@@ -145,6 +145,6 @@ public class ContactFragment extends BaseListFragment {
     @Override
     public void onListReady() {
         super.onListReady();
-        mRecyclerViewViewHelper.setCanPullToRefresh(false);
+        mRecyclerViewHelper.setCanPullToRefresh(false);
     }
 }
