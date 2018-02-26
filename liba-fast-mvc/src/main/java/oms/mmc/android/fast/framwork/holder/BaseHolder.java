@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -58,7 +59,7 @@ public abstract class BaseHolder implements LayoutCallback, Serializable, View.O
 
     private void initView() {
         onLayoutBefore();
-        root = View.inflate(_activity, onLayoutId(), null);
+        root = onLayoutView(_activity.getLayoutInflater(), null);
         root.addOnAttachStateChangeListener(this);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             addOnWindowFocusChangeListener();
@@ -167,7 +168,7 @@ public abstract class BaseHolder implements LayoutCallback, Serializable, View.O
     }
 
     @Override
-    public abstract int onLayoutId();
+    public abstract View onLayoutView(LayoutInflater inflater, ViewGroup container);
 
     @Override
     public void onLayoutBefore() {

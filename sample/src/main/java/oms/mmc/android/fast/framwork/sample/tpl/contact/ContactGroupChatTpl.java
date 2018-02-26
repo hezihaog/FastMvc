@@ -1,9 +1,13 @@
 package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
-import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.tpl.contact
@@ -15,9 +19,10 @@ import oms.mmc.android.fast.framwork.sample.R;
  */
 
 public class ContactGroupChatTpl extends BaseTpl<BaseItemData> {
+
     @Override
-    public int onLayoutId() {
-        return R.layout.item_contact_group_chat;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_contact_group_chat, container, false);
     }
 
     @Override

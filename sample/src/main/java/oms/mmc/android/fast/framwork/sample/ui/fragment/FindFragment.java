@@ -1,8 +1,12 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -15,8 +19,8 @@ import oms.mmc.android.fast.framwork.sample.R;
 
 public class FindFragment extends BaseFastFragment {
     @Override
-    public int onLayoutId() {
-        return R.layout.fragment_find;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_find, container, false);
     }
 
     @Override

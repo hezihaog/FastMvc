@@ -1,6 +1,9 @@
 package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
 import android.support.v4.view.ViewCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
@@ -23,8 +26,8 @@ public class ContactLetterTpl extends BaseStickyTpl<ItemDataWrapper> {
     private String data;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_contact_letter;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_contact_letter, container, false);
     }
 
     @Override

@@ -30,7 +30,7 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
-        mViewFinder = new ViewFinder(getLayoutInflater(), null, onLayoutId());
+        mViewFinder = new ViewFinder(onLayoutView(getLayoutInflater(), null));
         mWaitController = onGetWaitDialogController();
         setContentView(mViewFinder.getRootView());
         if (hasTranslucentStatusBar()) {

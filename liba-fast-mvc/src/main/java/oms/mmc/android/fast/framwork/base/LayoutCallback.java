@@ -1,5 +1,9 @@
 package oms.mmc.android.fast.framwork.base;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 /**
@@ -12,11 +16,11 @@ public interface LayoutCallback {
     void onLayoutBefore();
 
     /**
-     * 提供布局回调，子类复写返回当前页面使用的布局
+     * 提供布局回调，子类复写返回当前页面使用的布局View
      *
-     * @return 布局layoutId
+     * @return 布局layoutView
      */
-    int onLayoutId();
+    View onLayoutView(LayoutInflater inflater, ViewGroup container);
 
     /**
      * 开始查找控件

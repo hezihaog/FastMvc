@@ -1,5 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
@@ -20,8 +23,8 @@ public class SplashFragment extends BaseFastFragment {
     private FrameLayout animationLayout;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.fragment_splash;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_splash, container, false);
     }
 
     @Override

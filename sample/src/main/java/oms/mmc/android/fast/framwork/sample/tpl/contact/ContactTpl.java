@@ -1,5 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,8 +30,8 @@ public class ContactTpl extends BaseTpl<ItemDataWrapper> {
     private String name;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_contact;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_contact, container, false);
     }
 
     @Override

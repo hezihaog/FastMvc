@@ -1,5 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.tpl.chat;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -21,8 +24,8 @@ public class ChatDateTpl extends BaseTpl<ItemDataWrapper> {
     private TextView dateTV;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_chat_date;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_chat_date, container, false);
     }
 
     @Override

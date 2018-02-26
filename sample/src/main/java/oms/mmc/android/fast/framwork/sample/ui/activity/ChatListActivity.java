@@ -3,6 +3,9 @@ package oms.mmc.android.fast.framwork.sample.ui.activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.hzh.logger.L;
 
@@ -46,8 +49,8 @@ public class ChatListActivity extends BaseFastListActivity {
     private Toolbar mToolbar;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.activity_chat_list;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.activity_chat_list, container, false);
     }
 
     @Override

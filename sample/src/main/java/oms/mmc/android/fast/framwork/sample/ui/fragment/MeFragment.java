@@ -1,5 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -23,8 +26,8 @@ public class MeFragment extends BaseFastFragment {
     ImageView avatar;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.fragment_me;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_me, container, false);
     }
 
     @Override

@@ -3,7 +3,9 @@ package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 import android.content.DialogInterface;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,8 +29,8 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
     private TextView editTv;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_conversation_edit;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_conversation_edit, container, false);
     }
 
     @Override

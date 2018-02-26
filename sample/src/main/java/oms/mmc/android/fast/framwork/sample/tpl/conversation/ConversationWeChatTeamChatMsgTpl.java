@@ -1,5 +1,9 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import oms.mmc.android.fast.framwork.sample.R;
 
 /**
@@ -14,7 +18,7 @@ import oms.mmc.android.fast.framwork.sample.R;
 public class ConversationWeChatTeamChatMsgTpl extends ConversationEditableTpl {
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_conversation_we_chat_team_msg;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_conversation_we_chat_team_msg, container, false);
     }
 }

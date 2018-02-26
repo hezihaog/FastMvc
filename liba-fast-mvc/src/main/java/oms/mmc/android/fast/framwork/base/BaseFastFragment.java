@@ -53,7 +53,7 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mViewFinder = new ViewFinder(inflater, container, onLayoutId());
+        mViewFinder = new ViewFinder(onLayoutView(inflater, container));
         setRootView(mViewFinder.getRootView());
         return mViewFinder.getRootView();
     }

@@ -1,6 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,8 +28,8 @@ public class ConversationChatTpl extends ConversationEditableTpl {
     private TextView msgContent;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_conversation_chat_msg;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_conversation_chat_msg, container, false);
     }
 
     @Override

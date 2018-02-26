@@ -27,8 +27,8 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
     private ListAbleDelegateHelper mDelegateHelper;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.fragment_base_fast_list;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_base_fast_list, null);
     }
 
     @Override

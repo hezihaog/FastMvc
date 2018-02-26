@@ -1,5 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,8 +30,8 @@ public class ChatTextSenderTpl extends BaseTpl<ItemDataWrapper> {
     private TextView contentTv;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_chat_text_sender;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_chat_text_sender, container, false);
     }
 
     @Override

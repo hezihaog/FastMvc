@@ -32,8 +32,8 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
     private UltraViewPager mUltraViewPager;
 
     @Override
-    public int onLayoutId() {
-        return R.layout.item_contact_recomment;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.item_contact_recomment, container, false);
     }
 
     @Override

@@ -56,7 +56,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
 
     protected void initView() {
         onLayoutBefore();
-        mRoot = LayoutInflater.from(mActivity).inflate(onLayoutId(), mRecyclerView, false);
+        mRoot = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
         mRoot.addOnAttachStateChangeListener(this);
         mViewHolder = new ViewHolder(mRoot);
         mViewFinder = new ViewFinder(mRoot);

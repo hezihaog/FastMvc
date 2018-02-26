@@ -1,5 +1,9 @@
 package oms.mmc.android.fast.framwork.sample.ui.activity;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
@@ -9,8 +13,8 @@ import oms.mmc.android.fast.framwork.sample.ui.fragment.SplashFragment;
 public class SplashActivity extends BaseFastActivity {
 
     @Override
-    public int onLayoutId() {
-        return R.layout.activity_splash;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.activity_splash, container, false);
     }
 
     @Override

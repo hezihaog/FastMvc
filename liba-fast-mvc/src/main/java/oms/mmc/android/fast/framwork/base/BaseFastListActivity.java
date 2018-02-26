@@ -3,7 +3,9 @@ package oms.mmc.android.fast.framwork.base;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -48,8 +50,8 @@ public abstract class BaseFastListActivity extends BaseFastActivity implements L
     }
 
     @Override
-    public int onLayoutId() {
-        return R.layout.activity_base_fast_list;
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.activity_base_fast_list, container);
     }
 
     @Override
