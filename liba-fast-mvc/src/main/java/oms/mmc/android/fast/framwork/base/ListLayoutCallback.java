@@ -58,7 +58,12 @@ public interface ListLayoutCallback<T, VH extends RecyclerView.ViewHolder> {
     int onGetStickyTplViewType();
 
     /**
-     * 获取滚动刷新帮助类对象
+     * 获取滚动监听帮助类对象
      */
     ListScrollHelper onGetScrollHelper();
+
+    /**
+     * 滚动监听帮助类初始化完成
+     */
+    void onListScrollHelperReady(ListScrollHelper listScrollHelper);
 }

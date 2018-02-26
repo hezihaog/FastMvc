@@ -35,6 +35,8 @@ import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.util.BroadcastHelper;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -55,7 +57,7 @@ import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewW
 
 public class ConversationFragment extends BaseListFragment {
     //搜索条目
-    public static final int TPL_HEARCH = 1;
+    public static final int TPL_SEARCH = 1;
     //编辑条目
     public static final int TPL_EDIT = 2;
     //微信团队
@@ -79,16 +81,18 @@ public class ConversationFragment extends BaseListFragment {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                RecyclerViewViewHelper<BaseItemData> recyclerViewHelper = getRecyclerViewHelper();
+                BaseListAdapter<BaseItemData> listAdapter = getListAdapter();
                 int mode = intent.getIntExtra(ConversationEditStateChangeBroadcast.KEY_MODE, ConversationEditStateChangeBroadcast.NOMAL_MODE);
                 if (ConversationEditStateChangeBroadcast.isEditMode(mode)) {
-                    mListAdapter.setMode(BaseListAdapter.MODE_EDIT);
+                    getListAdapter().setMode(BaseListAdapter.MODE_EDIT);
                     //编辑模式时不能下拉刷新
-                    mRecyclerViewHelper.setCanPullToRefresh(false);
+                    recyclerViewHelper.setCanPullToRefresh(false);
                 } else {
-                    mListAdapter.setMode(BaseListAdapter.MODE_NORMAL);
-                    mRecyclerViewHelper.setCanPullToRefresh(true);
+                    listAdapter.setMode(BaseListAdapter.MODE_NORMAL);
+                    recyclerViewHelper.setCanPullToRefresh(true);
                 }
-                mListAdapter.notifyDataSetChanged();
+                listAdapter.notifyDataSetChanged();
             }
         };
         BroadcastHelper.register(activity, ConversationEditStateChangeBroadcast.class.getName(), receiver);
@@ -102,7 +106,7 @@ public class ConversationFragment extends BaseListFragment {
 
     @Override
     public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) mRecyclerView));
+        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 
     @Override
@@ -117,7 +121,7 @@ public class ConversationFragment extends BaseListFragment {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
-                    models.add(new ItemDataWrapper(TPL_HEARCH));
+                    models.add(new ItemDataWrapper(TPL_SEARCH));
                     models.add(new ItemDataWrapper(TPL_EDIT));
                     models.add(new ItemDataWrapper(TPL_SUBSCRIPTION));
                     models.add(new ItemDataWrapper(TPL_NEWS));
@@ -145,7 +149,7 @@ public class ConversationFragment extends BaseListFragment {
     @Override
     public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
-        tpls.put(TPL_HEARCH, ConversationSearchTpl.class);
+        tpls.put(TPL_SEARCH, ConversationSearchTpl.class);
         tpls.put(TPL_EDIT, ConversationEditTpl.class);
         tpls.put(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
         tpls.put(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
@@ -178,7 +182,7 @@ public class ConversationFragment extends BaseListFragment {
         getRecyclerViewAdapter().addHeaderView(headerView);
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
-                .type(TPL_HEARCH, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_SEARCH, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_EDIT, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_WE_CHAT_TEAM_MSG, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_SUBSCRIPTION, R.drawable.shape_conversation_item_decoration)
@@ -194,6 +198,7 @@ public class ConversationFragment extends BaseListFragment {
     public void onItemClick(View view, BaseTpl clickTpl, int position) {
         int itemViewType = clickTpl.getItemViewType();
         if (itemViewType == TPL_CHAT) {
+            ToastUtil.showToast(getActivity(), String.valueOf(position));
             MMCUIHelper.showConversationDetail(getActivity());
         }
     }

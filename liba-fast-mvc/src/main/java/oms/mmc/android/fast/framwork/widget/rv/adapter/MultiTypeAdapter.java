@@ -93,7 +93,9 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
                     RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
                     if (holder != null && holder.itemView != null) {
                         BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-                        tpl.onRecyclerViewDetachedFromWindow(v);
+                        if (tpl != null) {
+                            tpl.onRecyclerViewDetachedFromWindow(v);
+                        }
                     }
                 }
             }
