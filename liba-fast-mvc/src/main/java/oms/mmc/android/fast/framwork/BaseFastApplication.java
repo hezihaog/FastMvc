@@ -16,9 +16,9 @@ import oms.mmc.android.fast.framwork.base.ManagerContext;
  * Email: hezihao@linghit.com
  */
 
-public class BaseMMCFastApplication extends ManagerContext {
+public class BaseFastApplication extends ManagerContext {
     @SuppressLint("StaticFieldLeak")
-    private static BaseMMCFastApplication mInstance;
+    private static BaseFastApplication mInstance;
     private Handler mMainHandler;
 
     @Override
@@ -36,7 +36,7 @@ public class BaseMMCFastApplication extends ManagerContext {
         mMainHandler.post(runnable);
     }
 
-    public static BaseMMCFastApplication getInstance() {
+    public static BaseFastApplication getInstance() {
         return mInstance;
     }
 

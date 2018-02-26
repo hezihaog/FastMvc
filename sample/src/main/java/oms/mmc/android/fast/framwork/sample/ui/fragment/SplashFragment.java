@@ -6,9 +6,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment

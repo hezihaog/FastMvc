@@ -33,8 +33,8 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatT
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
-import oms.mmc.android.fast.framwork.util.IDataAdapter;
-import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.base.IDataAdapter;
+import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;

@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.manager.factory.ManagerFactory;
+import oms.mmc.android.fast.framwork.util.TDevice;
 
 /**
  * Created by Hezihao on 2017/7/13.

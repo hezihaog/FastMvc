@@ -16,7 +16,7 @@ import com.hzh.lifecycle.dispatch.listener.ActivityLifecycleListener;
 
 import java.io.Serializable;
 
-import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
+import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
@@ -28,7 +28,7 @@ public abstract class BaseHolder implements LayoutCallback, Serializable, View.O
     protected BaseFastActivity _activity;
     protected Intent _intent;
     protected Bundle _Bundle;
-    protected BaseMMCFastApplication ac;
+    protected BaseFastApplication ac;
     protected View root;
     private ViewFinder viewFinder;
 
@@ -38,7 +38,7 @@ public abstract class BaseHolder implements LayoutCallback, Serializable, View.O
         if (this._intent != null) {
             this._Bundle = _intent.getExtras();
         }
-        ac = (BaseMMCFastApplication) context.getApplicationContext();
+        ac = (BaseFastApplication) context.getApplicationContext();
         initView();
     }
 

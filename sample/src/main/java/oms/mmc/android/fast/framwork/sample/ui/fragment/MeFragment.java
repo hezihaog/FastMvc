@@ -9,9 +9,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment

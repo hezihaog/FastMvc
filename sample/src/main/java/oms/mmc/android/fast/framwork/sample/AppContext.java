@@ -2,7 +2,7 @@ package oms.mmc.android.fast.framwork.sample;
 
 import android.content.Context;
 
-import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
+import oms.mmc.android.fast.framwork.BaseFastApplication;
 
 /**
  * Package: PACKAGE_NAME
@@ -13,7 +13,7 @@ import oms.mmc.android.fast.framwork.BaseMMCFastApplication;
  * Email: hezihao@linghit.com
  */
 
-public class AppContext extends BaseMMCFastApplication {
+public class AppContext extends BaseFastApplication {
     @Override
     public void onCreate() {
         super.onCreate();

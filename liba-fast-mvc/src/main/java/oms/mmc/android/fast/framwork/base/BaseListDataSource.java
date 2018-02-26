@@ -4,8 +4,6 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.util.IDataSource;
-
 public abstract class BaseListDataSource<T> implements IDataSource<T> {
     protected final static int FIRST_PAGE_NUM = 1;
 

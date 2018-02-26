@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.util.IDataAdapter;
-import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.MultiTypeAdapter;

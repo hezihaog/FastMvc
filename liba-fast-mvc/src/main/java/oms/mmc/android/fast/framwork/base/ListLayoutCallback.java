@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
-import oms.mmc.android.fast.framwork.util.IDataAdapter;
-import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 

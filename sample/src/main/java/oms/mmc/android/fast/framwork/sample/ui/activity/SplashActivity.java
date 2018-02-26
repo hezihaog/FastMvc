@@ -5,10 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
-import oms.mmc.android.fast.framwork.util.FragmentFactory;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.SplashFragment;
+import oms.mmc.android.fast.framwork.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 public class SplashActivity extends BaseFastActivity {
 

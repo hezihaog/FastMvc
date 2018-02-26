@@ -1,6 +1,6 @@
-package oms.mmc.android.fast.framwork.util;
+package oms.mmc.android.fast.framwork.loadview;
 
-import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.util.BaseLoadMoreHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.util

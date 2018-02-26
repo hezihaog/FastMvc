@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
-import oms.mmc.android.fast.framwork.util.IDataAdapter;
+import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 
 /**

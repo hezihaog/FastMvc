@@ -20,8 +20,8 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextReceiverTpl
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.widget.IOSWaitDialogIml;
-import oms.mmc.android.fast.framwork.util.IDataAdapter;
-import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.base.IDataAdapter;
+import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;

@@ -16,13 +16,13 @@ import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.lazy.PagerVisibleFragment;
-import oms.mmc.android.fast.framwork.util.FragmentFactory;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactListFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationListFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.FindFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
+import oms.mmc.android.fast.framwork.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample

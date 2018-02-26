@@ -15,6 +15,7 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.util;
 
+import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
 /**

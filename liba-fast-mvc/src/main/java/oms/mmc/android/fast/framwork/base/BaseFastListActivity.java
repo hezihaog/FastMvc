@@ -11,9 +11,7 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
-import oms.mmc.android.fast.framwork.util.BaseLoadMoreViewFactory;
-import oms.mmc.android.fast.framwork.util.IDataAdapter;
-import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.loadview.BaseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;

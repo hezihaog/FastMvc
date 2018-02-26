@@ -100,6 +100,9 @@ public interface IAssistRecyclerAdapter {
      */
     void setMode(int mode);
 
+    /**
+     * 获取当前的模式
+     */
     int getMode();
 
     /**
