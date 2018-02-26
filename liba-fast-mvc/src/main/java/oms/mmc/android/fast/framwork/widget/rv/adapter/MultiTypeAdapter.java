@@ -11,10 +11,10 @@ import java.util.List;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.BaseActivity;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base

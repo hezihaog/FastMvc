@@ -11,8 +11,6 @@ import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
-import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextReceiverTpl;
@@ -20,6 +18,9 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
 import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
@@ -73,7 +74,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
                 for (int i = 0; i < 10; i++) {
                     if (page == FIRST_PAGE_NUM) {
                         String dateTime = FakeUtil.getRandomDate(i);
-                        model.add(new ItemDataWrapper(TPL_CHAT_TEXT_SENDER, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i),  "第" + i + "条" + "  --- page ::: " + page));
+                        model.add(new ItemDataWrapper(TPL_CHAT_TEXT_SENDER, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), "第" + i + "条" + "  --- page ::: " + page));
                         model.add(new ItemDataWrapper(TPL_CHAT_TEXT_RECEIVER, FakeUtil.getRandomAvatar(i), FakeUtil.getRandomName(i), "能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间能不能给我一首歌的时间"));
                         model.add(new ItemDataWrapper(TPL_CHAT_DATE, dateTime));
                     } else {
@@ -143,7 +144,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
         if (isFirst) {
             showWaitDialog();
@@ -151,7 +152,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>, BaseTpl.ViewHolder> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
         if (isFirst) {
             hideWaitDialog();

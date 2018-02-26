@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations;
 import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
@@ -16,11 +20,6 @@ import java.util.HashMap;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.BaseListFragment;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
-import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
-import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.broadcast.ConversationEditStateChangeBroadcast;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
@@ -36,6 +35,11 @@ import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.util.BroadcastHelper;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
 import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
@@ -50,8 +54,8 @@ import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewW
  */
 
 public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
-    //搜索条目，是一个header类型。
-    public static final int TPL_HEADER_SEARCH = 1;
+    //搜索条目
+    public static final int TPL_HEARCH = 1;
     //编辑条目
     public static final int TPL_EDIT = 2;
     //微信团队
@@ -113,6 +117,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {
+                    models.add(new ItemDataWrapper(TPL_HEARCH));
                     models.add(new ItemDataWrapper(TPL_EDIT));
                     models.add(new ItemDataWrapper(TPL_SUBSCRIPTION));
                     models.add(new ItemDataWrapper(TPL_NEWS));
@@ -140,6 +145,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
+        tpls.put(TPL_HEARCH, ConversationSearchTpl.class);
         tpls.put(TPL_EDIT, ConversationEditTpl.class);
         tpls.put(TPL_WE_CHAT_TEAM_MSG, ConversationWeChatTeamChatMsgTpl.class);
         tpls.put(TPL_SUBSCRIPTION, ConversationSubscriptionMsgTpl.class);
@@ -163,10 +169,16 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public void onListReady() {
         super.onListReady();
-        getRecyclerViewAdapter().registerHeader(TPL_HEADER_SEARCH, ConversationSearchTpl.class, new BaseItemData(TPL_HEADER_SEARCH));
+        //插入一个淡红色的View作为头部
+        TextView headerView = new TextView(this.getContext());
+        headerView.setText("我是添加的头部布局视图");
+        headerView.setGravity(Gravity.CENTER);
+        headerView.setBackgroundColor(Color.parseColor("#66FF0000"));
+        headerView.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, 150));
+        getRecyclerViewAdapter().addHeaderView(headerView);
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
-                .type(TPL_HEADER_SEARCH, R.drawable.shape_conversation_item_decoration)
+                .type(TPL_HEARCH, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_EDIT, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_WE_CHAT_TEAM_MSG, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_SUBSCRIPTION, R.drawable.shape_conversation_item_decoration)
@@ -187,7 +199,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
         if (isFirst) {
             showWaitDialog();
@@ -195,7 +207,7 @@ public class ConversationFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>, BaseTpl.ViewHolder> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
         if (isFirst) {
             hideWaitDialog();

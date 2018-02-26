@@ -12,18 +12,19 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.util.MethodCompat;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.util.BaseLoadViewFactory;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
+import oms.mmc.android.fast.framwork.util.MethodCompat;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
-public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragment implements ListLayoutCallback<T>,
+public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragment implements ListLayoutCallback<T, BaseTpl.ViewHolder>,
         OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener
         , BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
@@ -58,6 +59,7 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
      * 滚动帮助类
      */
     private ListScrollHelper mListScrollHelper;
+    private ILoadViewFactory mLoadViewFactory;
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +85,8 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
             mRecyclerViewViewHelper = new RecyclerViewViewHelper<T>(mRefreshLayout, mRecyclerView);
             mRecyclerViewViewHelper.setAdapter(mListViewAdapter);
         }
-        mRecyclerViewViewHelper.init(onLoadViewFactoryReady());
+        mLoadViewFactory = onLoadViewFactoryReady();
+        mRecyclerViewViewHelper.init(mLoadViewFactory);
         mRecyclerViewViewHelper.setDataSource(this.mListViewDataSource);
         mRecyclerViewViewHelper.setOnStateChangeListener(this);
         mListViewAdapter.setRecyclerViewHelper(mRecyclerViewViewHelper);
@@ -124,7 +127,7 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
         mRecyclerView.setHasFixedSize(true);
         //一开始先加一个尾部加载更多条目，然后刷新
         if (mListViewData.size() == 0) {
-            mListViewAdapter.getLoadMoreHelper().addLoadMoreTpl();
+            mListViewAdapter.addFooterView(mLoadViewFactory.madeLoadMoreView().getFootView());
             mRecyclerViewViewHelper.refresh();
         }
     }
@@ -135,7 +138,7 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     }
 
     @Override
-    public IDataAdapter<ArrayList<T>> onListAdapterReady() {
+    public IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> onListAdapterReady() {
         return new BaseListAdapter<T>(mRecyclerView, mActivity, mListViewDataSource, onListTypeClassesReady(), mRecyclerViewViewHelper, onGetStickyTplViewType());
     }
 
@@ -143,12 +146,12 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
 
     }
 
-    public BaseListAdapter<T> getRecyclerViewAdapter() {
-        return (BaseListAdapter<T>) mRecyclerView.getAdapter();
-    }
-
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
+    }
+
+    public HeaderFooterAdapter getRecyclerViewAdapter() {
+        return (HeaderFooterAdapter) mRecyclerView.getAdapter();
     }
 
     @Override
@@ -157,22 +160,22 @@ public abstract class BaseListFragment<T extends BaseItemData> extends BaseFragm
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<T>> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onStartLoadMore(IDataAdapter<ArrayList<T>> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartLoadMore(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onEndLoadMore(IDataAdapter<ArrayList<T>> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
+    public void onEndLoadMore(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
 
     }
 

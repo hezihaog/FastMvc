@@ -13,7 +13,7 @@ import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 /**
  * 列表页面布局回调接口
  */
-public interface ListLayoutCallback<T> {
+public interface ListLayoutCallback<T, VH extends RecyclerView.ViewHolder> {
     /**
      * 获取RecyclerView的LayoutManager
      */
@@ -29,7 +29,7 @@ public interface ListLayoutCallback<T> {
      *
      * @return 列表需要的适配器
      */
-    IDataAdapter<ArrayList<T>> onListAdapterReady();
+    IDataAdapter<ArrayList<T>, VH> onListAdapterReady();
 
     /**
      * 列表加载布局切换工厂初始化回调

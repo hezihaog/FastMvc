@@ -17,7 +17,8 @@ import android.widget.AbsListView.OnScrollListener;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
-import oms.mmc.android.fast.framwork.broadcast.LoadMoreBroadcast;
+import oms.mmc.android.fast.framwork.base.BaseListAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
 
@@ -25,7 +26,7 @@ import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter
  * ListView帮助类
  */
 public class RecyclerViewViewHelper<Model> implements IViewHelper {
-    private IDataAdapter<ArrayList<Model>> dataAdapter;
+    private IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> dataAdapter;
     private SwipeRefreshLayout refreshLayout;
     private IDataSource<Model> dataSource;
     private RecyclerView mRecyclerView;
@@ -60,6 +61,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private final int helperHashCode;
     private ListScrollHelper listScrollHelper;
     private final Handler mUiHandler;
+    private ILoadViewFactory.ILoadMoreView mLoadMoreView;
 
     public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView) {
         super();
@@ -127,23 +129,17 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     if (!isRefreshing()) {
                         //必须网络可用才能进行加载更多，没有网络直接显示失败了
                         if (RecyclerViewViewHelper.hasNetwork(context)) {
-                            sendLoadMoreState(LoadMoreBroadcast.LOADING);
+                            mLoadMoreView.showLoading();
                             loadMore();
                         } else {
                             if (!isLoading()) {
-                                sendLoadMoreState(LoadMoreBroadcast.FAIL);
+                                mLoadMoreView.showFail();
                             }
                         }
                     }
                 }
             }
         });
-    }
-
-    private void sendLoadMoreState(int state) {
-        new LoadMoreBroadcast().
-                put(LoadMoreBroadcast.BUNDLE_KEY_HELPER_HASH, helperHashCode)
-                .put(LoadMoreBroadcast.BUNDLE_KEY_STATE, state).send(context);
     }
 
     public int getScrollState() {
@@ -175,7 +171,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     public void init(ILoadViewFactory loadViewFactory) {
         this.mLoadView = loadViewFactory.madeLoadView();
+        mLoadMoreView = loadViewFactory.madeLoadMoreView();
         mLoadView.init(getRefreshLayout(), onClickRefreshListener);
+        mLoadMoreView.init(getRecyclerView(), onClickRefreshListener);
     }
 
     /**
@@ -288,7 +286,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 if (onStateChangeListener != null) {
                     onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoadMore, isReverse);
                 }
-                sendLoadMoreState(LoadMoreBroadcast.LOADING);
+                mLoadMoreView.showLoading();
             }
 
             @Override
@@ -305,7 +303,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
                     mLoadView.tipFail();
-                    sendLoadMoreState(LoadMoreBroadcast.FAIL);
+                    mLoadMoreView.showFail();
                 } else {
                     dataAdapter.setLoadMoreListViewData(result, isReverse, isFistLoadMore);
                     dataAdapter.notifyDataSetChanged();
@@ -316,9 +314,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                     hasMoreData = dataSource.hasMore();
                     if (hasMoreData) {
-                        sendLoadMoreState(LoadMoreBroadcast.NO_MORE);
+                        mLoadMoreView.showNoMore();
                     } else {
-                        sendLoadMoreState(LoadMoreBroadcast.NO_MORE);
+                        mLoadMoreView.showNoMore();
                     }
                 }
                 if (onStateChangeListener != null) {
@@ -392,7 +390,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         this.onStateChangeListener = onStateChangeListener;
     }
 
-    public IDataAdapter<ArrayList<Model>> getAdapter() {
+    public IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> getAdapter() {
         return dataAdapter;
     }
 
@@ -401,8 +399,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      *
      * @param adapter
      */
-    public void setAdapter(IDataAdapter<ArrayList<Model>> adapter) {
-        mRecyclerView.setAdapter((RecyclerView.Adapter) adapter);
+    public void setAdapter(IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> adapter) {
+        mRecyclerView.setAdapter(((BaseListAdapter) adapter).getHeaderFooterAdapter());
         this.dataAdapter = adapter;
     }
 

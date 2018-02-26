@@ -15,6 +15,8 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.util;
 
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+
 /**
  * 界面加载切换的的状态监听器，开始刷新、结束刷新、开始加载更多、结束更多
  */
@@ -25,7 +27,7 @@ public interface OnStateChangeListener<T> {
      * @param adapter 列表适配器
      * @param isFirst 是否是第一次刷新
      */
-    void onStartRefresh(IDataAdapter<T> adapter, boolean isFirst, boolean isReverse);
+    void onStartRefresh(IDataAdapter<T, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse);
 
     /**
      * 结束刷新
@@ -34,7 +36,7 @@ public interface OnStateChangeListener<T> {
      * @param result  结果集
      * @param isFirst 是否是第一次刷新
      */
-    void onEndRefresh(IDataAdapter<T> adapter, T result, boolean isFirst, boolean isReverse);
+    void onEndRefresh(IDataAdapter<T, BaseTpl.ViewHolder> adapter, T result, boolean isFirst, boolean isReverse);
 
     /**
      * 开始加载更多
@@ -42,7 +44,7 @@ public interface OnStateChangeListener<T> {
      * @param adapter 列表适配器
      * @param isFirst 是否是第一次加载更多
      */
-    void onStartLoadMore(IDataAdapter<T> adapter, boolean isFirst, boolean isReverse);
+    void onStartLoadMore(IDataAdapter<T, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse);
 
     /**
      * 结束加载更多
@@ -51,5 +53,5 @@ public interface OnStateChangeListener<T> {
      * @param result  结果集
      * @param isFirst 是否是第一次加载更多
      */
-    void onEndLoadMore(IDataAdapter<T> adapter, T result, boolean isFirst, boolean isReverse);
+    void onEndLoadMore(IDataAdapter<T, BaseTpl.ViewHolder> adapter, T result, boolean isFirst, boolean isReverse);
 }

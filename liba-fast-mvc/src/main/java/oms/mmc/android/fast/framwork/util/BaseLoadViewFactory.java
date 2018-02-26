@@ -24,4 +24,9 @@ public class BaseLoadViewFactory implements ILoadViewFactory {
     public ILoadView madeLoadView() {
         return new BaseLoadViewHelper();
     }
+
+    @Override
+    public ILoadMoreView madeLoadMoreView() {
+        return new BaseLoadMoreHelper();
+    }
 }
