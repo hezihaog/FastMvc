@@ -29,11 +29,14 @@ dependencies {
     compile rootProject.ext.dependencies["recyclerview"]
     compile 'com.hzh:lifecycle-dispatch:1.0.3'
     compile 'com.hzh:liba-logger:1.0.0'
-    //通用滚动库
+    //通用滚动监听库
     compile('oms.mmc:list-scroll-helper:1.0.0-SNAPSHOT@aar', {
         exclude group: 'com.android.support'
     })
+    //等待弹窗库
     compile 'oms.mmc:wait-view-factory:1.0.0-SNAPSHOT@aar'
+    //界面切换状态库
+    compile 'oms.mmc:load-view-factory:1.0.0-SNAPSHOT@aar'
 }
 
 //是否提交到仓库

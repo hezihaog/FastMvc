@@ -1,6 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
-import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
+import oms.mmc.factory.load.factory.ILoadViewFactory;
 
 /**
  * Rv帮助类的接口

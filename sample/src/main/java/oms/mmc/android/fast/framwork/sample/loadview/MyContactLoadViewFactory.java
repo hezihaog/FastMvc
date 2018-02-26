@@ -3,8 +3,8 @@ package oms.mmc.android.fast.framwork.sample.loadview;
 import android.view.View;
 
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.BaseLoadViewFactory;
-import oms.mmc.android.fast.framwork.util.BaseLoadViewHelper;
+import oms.mmc.factory.load.base.BaseLoadViewFactory;
+import oms.mmc.factory.load.base.BaseLoadViewHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.loadview
