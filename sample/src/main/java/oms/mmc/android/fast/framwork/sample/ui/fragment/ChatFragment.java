@@ -19,6 +19,7 @@ import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
@@ -35,12 +36,12 @@ import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewW
  * Email: hezihao@linghit.com
  */
 
-public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
+public class ChatFragment extends BaseListFragment {
     public static final int TPL_CHAT_DATE = 0;
     public static final int TPL_CHAT_TEXT_SENDER = 1;
     public static final int TPL_CHAT_TEXT_RECEIVER = 2;
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
 
     @Override
     public void onLayoutBefore() {
@@ -55,22 +56,22 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        toolbar.setTitle("会话详情");
-        toolbar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
+        mToolbar.setTitle("会话详情");
+        mToolbar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
     }
 
     @Override
     public void onFindView(ViewFinder finder) {
-        toolbar = finder.get(R.id.toolBar);
+        mToolbar = finder.get(R.id.toolBar);
     }
 
     @Override
-    public IDataSource<ItemDataWrapper> onListDataSourceReady() {
-        return new BaseListDataSource<ItemDataWrapper>(getActivity()) {
+    public IDataSource<BaseItemData> onListDataSourceReady() {
+        return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList<ItemDataWrapper> load(int page) throws Exception {
+            protected ArrayList<BaseItemData> load(int page) throws Exception {
                 Thread.sleep(1500);
-                ArrayList<ItemDataWrapper> model = new ArrayList<ItemDataWrapper>();
+                ArrayList<BaseItemData> model = new ArrayList<BaseItemData>();
                 for (int i = 0; i < 10; i++) {
                     if (page == FIRST_PAGE_NUM) {
                         String dateTime = FakeUtil.getRandomDate(i);
@@ -121,12 +122,13 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
             @Override
             public void onScrollTop() {
                 L.d("onScrollTop ::: ");
+                //滚动到底部，刷新聊天数据
                 mRecyclerViewHelper.startRefresh();
             }
 
             @Override
             public void onScrollBottom() {
-
+                L.d("onScrollBottom ::: ");
             }
         });
     }
@@ -144,7 +146,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<ItemDataWrapper>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
         if (isFirst) {
             showWaitDialog();
@@ -152,7 +154,7 @@ public class ChatFragment extends BaseListFragment<ItemDataWrapper> {
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<ItemDataWrapper>, BaseTpl.ViewHolder> adapter, ArrayList<ItemDataWrapper> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
         if (isFirst) {
             hideWaitDialog();

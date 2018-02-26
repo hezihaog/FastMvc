@@ -27,7 +27,10 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     /**
      * 粘性条目的类型，默认没有粘性头部
      */
-    protected int stickySectionViewType = NOT_STICKY_SECTION;
+    private int stickySectionViewType = NOT_STICKY_SECTION;
+    /**
+     * 支持头部尾部的适配器装饰类，最终设置给rv的是这个适配器，而不是BaseAdapter
+     */
     private final HeaderFooterAdapter mHeaderFooterAdapter;
 
     public BaseListAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource dataSource,
@@ -51,32 +54,30 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
 
     @Override
     public void setRefreshListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
-        ArrayList<T> listViewData = getListViewData();
+        ArrayList<T> listData = getListData();
         //第一次刷新
         if (isFirst) {
-            listViewData.addAll(0, data);
+            listData.addAll(0, data);
         } else {
             //不是第一次刷新
             if (!isReverse) {
-                listViewData.clear();
-                listViewData.addAll(data);
+                listData.clear();
+                listData.addAll(data);
             } else {
                 //如果是QQ聊天界面的在顶部下拉加载，直接将数据加上，rv设置布局反转即可
-                listViewData.addAll(data);
+                listData.addAll(data);
             }
         }
     }
 
     @Override
     public void setLoadMoreListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
-        ArrayList<T> listViewData = getListViewData();
-        //上拉加载更多，插入在尾部之前
-        listViewData.addAll(data);
+        getListData().addAll(data);
     }
 
     @Override
     public void setListViewData(ArrayList<T> data) {
-        ArrayList<T> listViewData = getListViewData();
+        ArrayList<T> listViewData = getListData();
         setListData(data);
     }
 

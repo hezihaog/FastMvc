@@ -21,7 +21,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
 
-public abstract class BaseListActivity<T extends BaseItemData> extends BaseActivity implements ListLayoutCallback<T, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<T>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
+public abstract class BaseListActivity extends BaseActivity implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     /**
      * 下来刷新控件
      */
@@ -33,23 +33,23 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
     /**
      * 列表加载帮助类
      */
-    protected RecyclerViewViewHelper<T> mRecyclerViewHelper;
+    protected RecyclerViewViewHelper<BaseItemData> mRecyclerViewHelper;
     /**
      * 列表数据源
      */
-    protected IDataSource<T> mListViewSource;
+    protected IDataSource<BaseItemData> mListViewSource;
     /**
      * 列表数据
      */
-    protected ArrayList<T> mListViewData;
+    protected ArrayList<BaseItemData> mListViewData;
     /**
      * 原始数据
      */
-    protected ArrayList<T> mOriginData;
+    protected ArrayList<BaseItemData> mOriginData;
     /**
      * 列表适配器
      */
-    protected BaseListAdapter<T> mListAdapter;
+    protected BaseListAdapter<BaseItemData> mListAdapter;
     /**
      * 滚动帮助类
      */
@@ -70,7 +70,7 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
         mRecyclerView.setLayoutManager(getListLayoutManager());
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {
-            mRecyclerViewHelper = new RecyclerViewViewHelper<T>(mRefreshLayout, mRecyclerView);
+            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshLayout, mRecyclerView);
         }
         //初始化数据源
         if (mListViewSource == null) {
@@ -83,7 +83,7 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
         }
         //初始化列表适配器
         if (mListAdapter == null) {
-            mListAdapter = (BaseListAdapter<T>) onListAdapterReady();
+            mListAdapter = (BaseListAdapter<BaseItemData>) onListAdapterReady();
         }
         mRecyclerViewHelper.setAdapter(mListAdapter);
         //初始化视图切换工厂
@@ -130,8 +130,8 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
     }
 
     @Override
-    public IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> onListAdapterReady() {
-        return new BaseListAdapter<T>(mRecyclerView, getActivity(), mListViewSource,
+    public IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> onListAdapterReady() {
+        return new BaseListAdapter<BaseItemData>(mRecyclerView, getActivity(), mListViewSource,
                 onListTypeClassesReady(), mRecyclerViewHelper, onGetStickyTplViewType());
     }
 
@@ -153,22 +153,22 @@ public abstract class BaseListActivity<T extends BaseItemData> extends BaseActiv
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onStartLoadMore(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
 
     }
 
     @Override
-    public void onEndLoadMore(IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder> adapter, ArrayList<T> result, boolean isFirst, boolean isReverse) {
+    public void onEndLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
 
     }
 

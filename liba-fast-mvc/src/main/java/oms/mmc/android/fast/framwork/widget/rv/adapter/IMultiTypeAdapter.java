@@ -38,7 +38,7 @@ public interface IMultiTypeAdapter<T> {
     /**
      * 获取列表数据
      */
-    ArrayList<T> getListViewData();
+    ArrayList<T> getListData();
 
     /**
      * 获取position对应的条目
@@ -62,13 +62,30 @@ public interface IMultiTypeAdapter<T> {
      */
     void addOnItemLongClickListener(OnRecyclerViewItemLongClickListener onItemLongClickListener);
 
+    /**
+     * 获取rv
+     */
     RecyclerView getRecyclerView();
 
+    /**
+     * 获取rv帮助类
+     */
     RecyclerViewViewHelper<T> getRecyclerViewHelper();
 
+    /**
+     * 获取类型映射Map
+     */
     HashMap<Integer, Class> getViewTypeClassMap();
 
-    void setListData(ArrayList<T> listViewData);
+    /**
+     * 设置列表数据
+     */
+    void setListData(ArrayList<T> listData);
 
+    /**
+     * 设置rv帮助类
+     *
+     * @param helper 帮助类实例
+     */
     void setRecyclerViewHelper(RecyclerViewViewHelper helper);
 }

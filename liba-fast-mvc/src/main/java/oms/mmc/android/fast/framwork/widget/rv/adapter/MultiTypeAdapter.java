@@ -26,8 +26,8 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
  */
 
 public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRecyclerAdapter<BaseTpl.ViewHolder> implements IMultiTypeAdapter {
-    private RecyclerView recyclerView;
-    private BaseActivity activity;
+    private RecyclerView mRecyclerView;
+    private BaseActivity mActivity;
     /**
      * 条目类的类型和条目类class的映射
      */
@@ -54,8 +54,8 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     public MultiTypeAdapter(RecyclerView recyclerView, BaseActivity activity, IDataSource<T> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper) {
-        this.recyclerView = recyclerView;
-        this.activity = activity;
+        this.mRecyclerView = recyclerView;
+        this.mActivity = activity;
         this.listViewDataSource = dataSource;
         this.mListViewData = dataSource.getOriginListViewData();
         this.originData = this.mListViewData;
@@ -85,12 +85,12 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
                 return true;
             }
         });
-        recyclerView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
+        mRecyclerView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
             @Override
             public void onViewDetachedFromWindow(View v) {
-                int allItemCount = recyclerView.getAdapter().getItemCount();
+                int allItemCount = mRecyclerView.getAdapter().getItemCount();
                 for (int i = 0; i < allItemCount; i++) {
-                    RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
+                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
                     if (holder != null && holder.itemView != null) {
                         BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
                         tpl.onRecyclerViewDetachedFromWindow(v);
@@ -106,7 +106,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
         try {
             //反射构造条目类
             BaseTpl tpl = (BaseTpl) viewTypeClassMap.get(viewType).getConstructor().newInstance();
-            tpl.init(activity, recyclerView, viewType);
+            tpl.init(mActivity, mRecyclerView, viewType);
             viewHolder = tpl.getViewHolder();
             viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
             tpl.config(this, mListViewData, listViewDataSource, recyclerViewHelper);
@@ -192,7 +192,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public RecyclerView getRecyclerView() {
-        return recyclerView;
+        return mRecyclerView;
     }
 
     @Override
@@ -211,12 +211,12 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     }
 
     @Override
-    public void setListData(ArrayList listViewData) {
-        this.mListViewData = listViewData;
+    public void setListData(ArrayList listData) {
+        this.mListViewData = listData;
     }
 
     @Override
-    public ArrayList<T> getListViewData() {
+    public ArrayList<T> getListData() {
         return mListViewData;
     }
 
