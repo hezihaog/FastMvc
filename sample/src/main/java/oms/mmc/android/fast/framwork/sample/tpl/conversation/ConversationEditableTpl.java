@@ -46,13 +46,14 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        Integer position = Integer.valueOf(getPosition());
         if (isChecked) {
-            if (!checkedItemPositions.contains(getPosition())) {
-                getListAdapter().getCheckedItemPositions().add(getPosition());
+            if (!checkedItemPositions.contains(position)) {
+                getListAdapter().getCheckedItemPositions().add(position);
             }
         } else {
-            if (checkedItemPositions.contains(getPosition())) {
-                checkedItemPositions.remove(getPosition());
+            if (checkedItemPositions.contains(position)) {
+                checkedItemPositions.remove(position);
             }
         }
     }

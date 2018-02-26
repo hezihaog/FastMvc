@@ -10,11 +10,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
+import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.sample.event.ConversationEditStateChangeEvent;
+import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
-import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.sample.broadcast.ConversationEditStateChangeBroadcast;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.tpl.conversation
@@ -55,11 +56,11 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
         final List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         boolean isEditMode = getListAdapter().isEditMode();
         if (!isEditMode) {
-            new ConversationEditStateChangeBroadcast().setEditMode().send(getActivity());
+            EventBusUtil.sendEvent(new ConversationEditStateChangeEvent().setEditMode());
             editTv.setText(R.string.main_tool_bar_complete_mode_text);
         } else {
             if (checkedItemPositions.size() == 0) {
-                new ConversationEditStateChangeBroadcast().setNomalMode().send(getActivity());
+                EventBusUtil.sendEvent(new ConversationEditStateChangeEvent().setNomalMode());
                 editTv.setText(R.string.main_tool_bar_edit_mode_text);
                 return;
             }
@@ -69,7 +70,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    new ConversationEditStateChangeBroadcast().setNomalMode().send(getActivity());
+                    EventBusUtil.sendEvent(new ConversationEditStateChangeEvent().setNomalMode());
                     editTv.setText(R.string.main_tool_bar_edit_mode_text);
                     //不是编辑模式，并且勾选了条目，则删除这些条目
                     if (checkedItemPositions.size() > 0) {

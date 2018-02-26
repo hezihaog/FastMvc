@@ -49,7 +49,9 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDelegateHelper.destroyRecyclerViewHelper();
+        if (mDelegateHelper != null) {
+            mDelegateHelper.destroyRecyclerViewHelper();
+        }
     }
 
     @Override

@@ -1,9 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -14,6 +11,9 @@ import android.widget.TextView;
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations;
 import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +21,7 @@ import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.sample.broadcast.ConversationEditStateChangeBroadcast;
+import oms.mmc.android.fast.framwork.sample.event.ConversationEditStateChangeEvent;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationEditTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationEmailTpl;
@@ -30,9 +30,9 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationSearchT
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationServerMsgTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationSubscriptionMsgTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatTeamChatMsgTpl;
+import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
-import oms.mmc.android.fast.framwork.util.BroadcastHelper;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
@@ -73,35 +73,17 @@ public class ConversationListFragment extends BaseFastListFragment {
     //具体聊天
     public static final int TPL_CHAT = 8;
 
-    private BroadcastReceiver receiver;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                RecyclerViewViewHelper<BaseItemData> recyclerViewHelper = getRecyclerViewHelper();
-                BaseListAdapter<BaseItemData> listAdapter = getListAdapter();
-                int mode = intent.getIntExtra(ConversationEditStateChangeBroadcast.KEY_MODE, ConversationEditStateChangeBroadcast.NOMAL_MODE);
-                if (ConversationEditStateChangeBroadcast.isEditMode(mode)) {
-                    getListAdapter().setMode(BaseListAdapter.MODE_EDIT);
-                    //编辑模式时不能下拉刷新
-                    recyclerViewHelper.setCanPullToRefresh(false);
-                } else {
-                    listAdapter.setMode(BaseListAdapter.MODE_NORMAL);
-                    recyclerViewHelper.setCanPullToRefresh(true);
-                }
-                listAdapter.notifyDataSetChanged();
-            }
-        };
-        BroadcastHelper.register(activity, ConversationEditStateChangeBroadcast.class.getName(), receiver);
+        EventBusUtil.register(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        BroadcastHelper.unRegister(getActivity(), receiver);
+        EventBusUtil.unregister(this);
     }
 
     @Override
@@ -217,5 +199,23 @@ public class ConversationListFragment extends BaseFastListFragment {
         if (isFirst) {
             hideWaitDialog();
         }
+    }
+
+    /**
+     * 会话编辑状态改变时回调
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(ConversationEditStateChangeEvent event) {
+        RecyclerViewViewHelper<BaseItemData> recyclerViewHelper = getRecyclerViewHelper();
+        BaseListAdapter<BaseItemData> listAdapter = getListAdapter();
+        if (event.isEditMode()) {
+            getListAdapter().setMode(BaseListAdapter.MODE_EDIT);
+            //编辑模式时不能下拉刷新
+            recyclerViewHelper.setCanPullToRefresh(false);
+        } else {
+            listAdapter.setMode(BaseListAdapter.MODE_NORMAL);
+            recyclerViewHelper.setCanPullToRefresh(true);
+        }
+        listAdapter.notifyDataSetChanged();
     }
 }
