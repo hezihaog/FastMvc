@@ -12,7 +12,7 @@ import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
+import oms.mmc.helper.ListScrollHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.util

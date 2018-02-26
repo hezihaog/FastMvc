@@ -42,9 +42,9 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
-import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
-import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
+import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
+import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment

@@ -21,7 +21,7 @@ import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
+import oms.mmc.helper.ListScrollHelper;
 
 public abstract class BaseFastListFragment extends BaseFastFragment implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     private ListAbleDelegateHelper mDelegateHelper;

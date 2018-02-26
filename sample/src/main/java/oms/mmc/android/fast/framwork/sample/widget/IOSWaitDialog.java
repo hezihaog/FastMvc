@@ -1,15 +1,13 @@
 package oms.mmc.android.fast.framwork.sample.widget;
 
-import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.sample.R;
@@ -24,7 +22,8 @@ public class IOSWaitDialog extends Dialog {
 
     public IOSWaitDialog(Context context, int layout, int style) {
         super(context, style);
-        setContentView(layout);
+        View rootLayout = LayoutInflater.from(context).inflate(layout, null);
+        setContentView(rootLayout);
         Window window = getWindow();
         LayoutParams params = window.getAttributes();
         params.gravity = Gravity.CENTER;
@@ -35,25 +34,6 @@ public class IOSWaitDialog extends Dialog {
         message = (TextView) findViewById(R.id.message);
         this.setCancelable(true);
         this.setCanceledOnTouchOutside(true);
-        showProgress();
-    }
-
-    private void showProgress() {
-        //进度加载动画开始
-        final ImageView progress = (ImageView) getWindow().findViewById(R.id.progress);
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 360);
-        animator.setDuration(1200);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Float cValue = (Float) animation.getAnimatedValue();
-                progress.setRotation(cValue);
-            }
-        });
-        animator.setInterpolator(new LinearInterpolator());
-        animator.setRepeatMode(ValueAnimator.RESTART);
-        animator.setRepeatCount(ValueAnimator.INFINITE);
-        animator.start();
     }
 
     public void setMessage(CharSequence msg) {

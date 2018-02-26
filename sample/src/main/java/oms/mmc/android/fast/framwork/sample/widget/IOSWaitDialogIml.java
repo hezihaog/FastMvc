@@ -3,7 +3,7 @@ package oms.mmc.android.fast.framwork.sample.widget;
 import android.app.Activity;
 import android.app.Dialog;
 
-import oms.mmc.android.fast.framwork.widget.wait.AbsWaitDialog;
+import oms.mmc.factory.wait.AbsWaitDialog;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.widget

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
-import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
+import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.adapter.SimpleListScrollAdapter;
 
 /**
  * ListView帮助类

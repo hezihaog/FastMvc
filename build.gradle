@@ -4,8 +4,16 @@ apply from : "global-config.gradle"
 buildscript {
     
     repositories {
-//        google()
+        google()
         jcenter()
+        //添加公司maven地址
+        maven {
+            url MAVEN_URL
+            credentials {
+                username MAVEN_USERNAME
+                password MAVEN_PASSWORD
+            }
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -13,8 +21,6 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 
@@ -22,6 +28,14 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //添加公司maven地址
+        maven {
+            url MAVEN_URL
+            credentials {
+                username MAVEN_USERNAME
+                password MAVEN_PASSWORD
+            }
+        }
     }
 
     tasks.withType(Javadoc) {

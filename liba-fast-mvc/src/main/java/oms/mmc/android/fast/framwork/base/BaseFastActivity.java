@@ -11,11 +11,12 @@ import android.view.WindowManager;
 import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
 
 import oms.mmc.android.fast.framwork.util.ActivityManager;
+import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.util.WaitDialogController;
-import oms.mmc.android.fast.framwork.widget.view.base.ScrollableLayoutFactory;
+import oms.mmc.factory.wait.WaitDialogController;
+import oms.mmc.helper.base.ScrollableViewFactory;
 
 /**
  * Activity基类
@@ -26,7 +27,7 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        installLayoutInflaterFactory();
+        ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).install();
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
@@ -94,13 +95,6 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
 
     protected WaitDialogController onGetWaitDialogController() {
         return new WaitDialogController(this);
-    }
-
-    /**
-     * 添加Scrollable控件替换工厂
-     */
-    private void installLayoutInflaterFactory() {
-        ScrollableLayoutFactory.create(getActivity()).install();
     }
 
     /**

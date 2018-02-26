@@ -23,14 +23,14 @@ import oms.mmc.android.fast.framwork.sample.widget.IOSWaitDialogIml;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.util.WaitDialogController;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
-import oms.mmc.android.fast.framwork.widget.view.ScrollableRecyclerView;
-import oms.mmc.android.fast.framwork.widget.view.adapter.SimpleListScrollAdapter;
-import oms.mmc.android.fast.framwork.widget.view.wrapper.ScrollableRecyclerViewWrapper;
+import oms.mmc.factory.wait.WaitDialogController;
+import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.adapter.SimpleListScrollAdapter;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
+import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.activity

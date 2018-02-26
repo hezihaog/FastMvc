@@ -8,7 +8,7 @@ import java.util.HashMap;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
 import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
-import oms.mmc.android.fast.framwork.widget.view.ListScrollHelper;
+import oms.mmc.helper.ListScrollHelper;
 
 /**
  * 列表页面布局回调接口
