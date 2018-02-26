@@ -8,10 +8,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 
 
-public class BaseLoadMoreHelper implements ILoadViewFactory.ILoadMoreView {
+public class BaseLoadMoreHelper implements ILoadMoreViewFactory.ILoadMoreView {
     private View mFootView;
     private TextView mTipText;
     private ProgressBar mProgressBar;

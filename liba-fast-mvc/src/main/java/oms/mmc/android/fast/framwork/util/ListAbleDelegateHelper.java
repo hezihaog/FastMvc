@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.helper.ListScrollHelper;
@@ -64,6 +66,7 @@ public class ListAbleDelegateHelper {
      * 滚动监听帮助类
      */
     private ListScrollHelper mScrollHelper;
+    private ILoadMoreViewFactory mLoadMoreViewFactory;
 
     public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble) {
         mListAble = listAble;
@@ -106,7 +109,9 @@ public class ListAbleDelegateHelper {
         mRecyclerViewHelper.setAdapter(mListAdapter);
         //初始化视图切换工厂
         mLoadViewFactory = mListAble.onLoadViewFactoryReady();
-        mRecyclerViewHelper.init(mLoadViewFactory);
+        //初始化列表加载更多视图工厂
+        mLoadMoreViewFactory = mListAble.onLoadMoreViewFactoryReady();
+        mRecyclerViewHelper.init(mLoadViewFactory, mLoadMoreViewFactory);
     }
 
     public SwipeRefreshLayout getRefreshLayout() {
@@ -141,6 +146,10 @@ public class ListAbleDelegateHelper {
         return mLoadViewFactory;
     }
 
+    public ILoadMoreViewFactory getLoadMoreViewFactory() {
+        return mLoadMoreViewFactory;
+    }
+
     public ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> getListAble() {
         return mListAble;
     }
@@ -168,7 +177,7 @@ public class ListAbleDelegateHelper {
         //一开始先加一个尾部加载更多条目，然后刷新
         ArrayList<BaseItemData> listViewData = getListViewData();
         if (listViewData.size() == 0) {
-            getListAdapter().addFooterView(getLoadViewFactory().madeLoadMoreView().getFootView());
+            getListAdapter().addFooterView(getLoadMoreViewFactory().madeLoadMoreView().getFootView());
             getRecyclerViewHelper().refresh();
         }
     }

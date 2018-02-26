@@ -24,7 +24,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.util.IDataSource;
-import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
+import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;

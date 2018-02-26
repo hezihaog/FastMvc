@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.SimpleListScrollAdapter;
@@ -48,6 +50,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private boolean isFirstRefresh = true;
     private boolean isFistLoadMore = true;
     private ILoadViewFactory.ILoadView mLoadView;
+    private ILoadMoreViewFactory.ILoadMoreView mLoadMoreView;
     private OnClickListener onClickRefreshListener = new OnClickListener() {
 
         @Override
@@ -61,7 +64,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private final int helperHashCode;
     private ListScrollHelper listScrollHelper;
     private final Handler mUiHandler;
-    private ILoadViewFactory.ILoadMoreView mLoadMoreView;
 
     public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView) {
         super();
@@ -169,11 +171,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return false;
     }
 
-    public void init(ILoadViewFactory loadViewFactory) {
+    public void init(ILoadViewFactory loadViewFactory, ILoadMoreViewFactory loadMoreViewFactory) {
         this.mLoadView = loadViewFactory.madeLoadView();
-        mLoadMoreView = loadViewFactory.madeLoadMoreView();
-        mLoadView.init(getRefreshLayout(), onClickRefreshListener);
-        mLoadMoreView.init(getRecyclerView(), onClickRefreshListener);
+        this.mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
+        this.mLoadView.init(getRefreshLayout(), onClickRefreshListener);
+        this.mLoadMoreView.init(getRecyclerView(), onClickRefreshListener);
     }
 
     /**

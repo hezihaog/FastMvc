@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.util.BaseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.BaseLoadViewFactory;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
-import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
+import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
@@ -66,6 +68,11 @@ public abstract class BaseFastListActivity extends BaseFastActivity implements L
     @Override
     public ILoadViewFactory onLoadViewFactoryReady() {
         return new BaseLoadViewFactory();
+    }
+
+    @Override
+    public ILoadMoreViewFactory onLoadMoreViewFactoryReady() {
+        return new BaseLoadMoreViewFactory();
     }
 
     @Override

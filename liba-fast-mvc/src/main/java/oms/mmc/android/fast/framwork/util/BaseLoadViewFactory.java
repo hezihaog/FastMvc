@@ -15,6 +15,8 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.util;
 
+import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
+
 /**
  * 界面加载切换工厂
  */
@@ -23,10 +25,5 @@ public class BaseLoadViewFactory implements ILoadViewFactory {
     @Override
     public ILoadView madeLoadView() {
         return new BaseLoadViewHelper();
-    }
-
-    @Override
-    public ILoadMoreView madeLoadMoreView() {
-        return new BaseLoadMoreHelper();
     }
 }

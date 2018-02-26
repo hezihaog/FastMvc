@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.IDataAdapter;
 import oms.mmc.android.fast.framwork.util.IDataSource;
-import oms.mmc.android.fast.framwork.util.ILoadViewFactory;
+import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 
 /**
@@ -37,6 +38,13 @@ public interface ListLayoutCallback<T, VH extends RecyclerView.ViewHolder> {
      * @return 列表加载布局切换工厂
      */
     ILoadViewFactory onLoadViewFactoryReady();
+
+    /**
+     * 列表接在更多布局切换工厂初始化回调
+     *
+     * @return 列表加载更多布局切换工厂
+     */
+    ILoadMoreViewFactory onLoadMoreViewFactoryReady();
 
     /**
      * 列表数据源初始化回调

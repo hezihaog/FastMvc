@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.loadview.ILoadViewFactory;
 
 /**
  * 基础的界面切换加载器，子类继承复写方法即可
