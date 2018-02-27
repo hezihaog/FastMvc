@@ -53,7 +53,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
     public void onFindView(ViewFinder finder) {
         super.onFindView(finder);
         mTextView = finder.get(R.id.textTv);
-        mMultipleCheck = finder.get(R.id.singleCheck);
+        mMultipleCheck = finder.get(R.id.multipleCheck);
     }
 
     @Override
