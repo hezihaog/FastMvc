@@ -60,6 +60,10 @@ public class ListAbleDelegateHelper {
      */
     private ILoadViewFactory mLoadViewFactory;
     /**
+     * 加载更多布局工厂
+     */
+    private ILoadMoreViewFactory mLoadMoreViewFactory;
+    /**
      * 列表界面，ListActivity或者ListFragment
      */
     private ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> mListAble;
@@ -67,7 +71,6 @@ public class ListAbleDelegateHelper {
      * 滚动监听帮助类
      */
     private ListScrollHelper mScrollHelper;
-    private ILoadMoreViewFactory mLoadMoreViewFactory;
 
     public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble) {
         mListAble = listAble;
@@ -199,6 +202,7 @@ public class ListAbleDelegateHelper {
         //加入滚动监听
         mScrollHelper = mListAble.onGetScrollHelper();
         mRecyclerViewHelper.setupScrollHelper(mScrollHelper);
+        mListAdapter.setListScrollHelper(mScrollHelper);
         mListAble.onListScrollHelperReady(mScrollHelper);
     }
 

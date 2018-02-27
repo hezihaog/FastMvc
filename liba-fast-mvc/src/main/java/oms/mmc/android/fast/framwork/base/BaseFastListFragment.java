@@ -65,7 +65,8 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
 
     @Override
     public IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> onListAdapterReady() {
-        return new BaseListAdapter<BaseItemData>(getRecyclerView(), mActivity, getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType());
+        return new BaseListAdapter<BaseItemData>(getRecyclerView(), mActivity, getListDataSource()
+                , onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType());
     }
 
     @Override

@@ -15,6 +15,7 @@ import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.helper.ListScrollHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -35,7 +36,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     /**
      * 数据集
      */
-    private IDataSource<T> listViewDataSource;
+    private IDataSource<T> mListViewDataSource;
     /**
      * 列表数据
      */
@@ -50,17 +51,18 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     private ArrayList<OnRecyclerViewItemClickListener> onItemClickListeners = new ArrayList<OnRecyclerViewItemClickListener>();
     private ArrayList<OnRecyclerViewItemLongClickListener> onItemLongClickListener = new ArrayList<OnRecyclerViewItemLongClickListener>();
 
-    private RecyclerViewViewHelper<T> recyclerViewHelper;
+    private RecyclerViewViewHelper<T> mRecyclerViewHelper;
+    private ListScrollHelper mListScrollHelper;
 
     public MultiTypeAdapter(RecyclerView recyclerView, BaseFastActivity activity, IDataSource<T> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper) {
         this.mRecyclerView = recyclerView;
         this.mActivity = activity;
-        this.listViewDataSource = dataSource;
+        this.mListViewDataSource = dataSource;
         this.mListViewData = dataSource.getOriginListViewData();
         this.originData = this.mListViewData;
         this.viewTypeClassMap = itemViewClazzMap;
-        this.recyclerViewHelper = recyclerViewHelper;
+        this.mRecyclerViewHelper = recyclerViewHelper;
         initListener();
     }
 
@@ -111,7 +113,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
             tpl.init(mActivity, mRecyclerView, viewType);
             viewHolder = tpl.getViewHolder();
             viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
-            tpl.config(this, mListViewData, listViewDataSource, recyclerViewHelper);
+            tpl.config(this, mListViewData, mListViewDataSource, mRecyclerViewHelper, mListScrollHelper);
             if (onItemClickListeners.size() > 0) {
                 tpl.getRoot().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -198,12 +200,12 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public RecyclerViewViewHelper<T> getRecyclerViewHelper() {
-        return recyclerViewHelper;
+        return mRecyclerViewHelper;
     }
 
     @Override
     public IDataSource<T> getListViewDataSource() {
-        return listViewDataSource;
+        return mListViewDataSource;
     }
 
     @Override
@@ -223,6 +225,11 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public void setRecyclerViewHelper(RecyclerViewViewHelper helper) {
-        this.recyclerViewHelper = helper;
+        this.mRecyclerViewHelper = helper;
+    }
+
+    @Override
+    public void setListScrollHelper(ListScrollHelper listScrollHelper) {
+        mListScrollHelper = listScrollHelper;
     }
 }

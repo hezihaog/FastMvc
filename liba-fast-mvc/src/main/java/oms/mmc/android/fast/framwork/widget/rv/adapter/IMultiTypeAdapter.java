@@ -10,6 +10,7 @@ import java.util.List;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.helper.ListScrollHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -88,4 +89,11 @@ public interface IMultiTypeAdapter<T> {
      * @param helper 帮助类实例
      */
     void setRecyclerViewHelper(RecyclerViewViewHelper helper);
+
+    /**
+     * 设置滚动帮助类
+     *
+     * @param listScrollHelper 滚动帮助类实例
+     */
+    void setListScrollHelper(ListScrollHelper listScrollHelper);
 }

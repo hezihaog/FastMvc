@@ -14,6 +14,7 @@ import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
+import oms.mmc.helper.ListScrollHelper;
 
 /**
  * 列表条目基础模板，条目类
@@ -23,9 +24,10 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
     private Intent mIntent;
     private Bundle mBundle;
     private RecyclerViewViewHelper mRecyclerViewHelper;
+    private ListScrollHelper mListScrollHelper;
     private IAssistRecyclerAdapter mListAdapter;
     private IDataSource<? extends BaseItemData> mListDataSource;
-    private List<? extends BaseItemData> mListViewData;
+    private List<? extends BaseItemData> mListData;
     private RecyclerView mRecyclerView;
     private int mItemViewType = -1;
     private View mRoot;
@@ -46,11 +48,12 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
     }
 
     public void config(IAssistRecyclerAdapter adapter, List<? extends BaseItemData> data
-            , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper) {
+            , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper, ListScrollHelper listScrollHelper) {
         this.mListAdapter = adapter;
         this.mListDataSource = dataSource;
-        this.mListViewData = data;
+        this.mListData = data;
         this.mRecyclerViewHelper = recyclerViewHelper;
+        this.mListScrollHelper = listScrollHelper;
     }
 
     protected void initView() {
@@ -105,7 +108,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
         }
     }
 
-    public T getBean() {
+    public T getItemDataBean() {
         return mBean;
     }
 
@@ -121,12 +124,16 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
         return mRecyclerViewHelper;
     }
 
+    public ListScrollHelper getListScrollHelper() {
+        return mListScrollHelper;
+    }
+
     public IAssistRecyclerAdapter getListAdapter() {
         return mListAdapter;
     }
 
     public void setBeanPosition(List<? extends BaseItemData> listViewData, T item, int position) {
-        this.mListViewData = listViewData;
+        this.mListData = listViewData;
         this.mBean = item;
         this.mPosition = position;
     }
@@ -135,7 +142,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
      * 每次条目onBindView时，重新设置数据
      */
     public final void render() {
-        T bean = getBean();
+        T bean = getItemDataBean();
         onRender(bean);
     }
 
@@ -151,18 +158,36 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
 
     }
 
+    /**
+     * 渲染函数，rv的onBindView时会调用
+     *
+     * @param itemData 条目类上使用的数据
+     */
     protected abstract void onRender(T itemData);
 
     public String intentStr(String key) {
         return mIntent.getStringExtra(key);
     }
 
+    /**
+     * 获取条目的类型
+     */
     public int getItemViewType() {
         return mItemViewType;
     }
 
-    public List<? extends BaseItemData> getListViewData() {
-        return mListViewData;
+    /**
+     * 获取当前列表的数据集对象
+     */
+    public IDataSource<? extends BaseItemData> getListDataSource() {
+        return mListDataSource;
+    }
+
+    /**
+     * 获取当前列表的数据集合
+     */
+    public List<? extends BaseItemData> getListData() {
+        return mListData;
     }
 
     @Override

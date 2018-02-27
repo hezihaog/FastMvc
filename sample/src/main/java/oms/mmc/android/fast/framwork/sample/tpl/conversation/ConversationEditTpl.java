@@ -75,7 +75,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
                     //不是编辑模式，并且勾选了条目，则删除这些条目
                     if (checkedItemPositions.size() > 0) {
                         for (Integer itemPosition : checkedItemPositions) {
-                            getListViewData().remove(itemPosition.intValue());
+                            getListData().remove(itemPosition.intValue());
                         }
                         //清除完条目后，记得将保存选择的位置的集合清空
                         checkedItemPositions.clear();
