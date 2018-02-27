@@ -20,6 +20,8 @@ import java.util.HashMap;
 import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
+import oms.mmc.android.fast.framwork.base.IDataAdapter;
+import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ConversationEditStateChangeEvent;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationChatTpl;
@@ -33,8 +35,6 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatT
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
-import oms.mmc.android.fast.framwork.base.IDataAdapter;
-import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
@@ -42,9 +42,6 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
-import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
-import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -84,11 +81,6 @@ public class ConversationListFragment extends BaseFastListFragment {
     public void onDetach() {
         super.onDetach();
         EventBusUtil.unregister(this);
-    }
-
-    @Override
-    public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 
     @Override

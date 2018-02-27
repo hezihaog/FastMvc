@@ -178,10 +178,9 @@ public class ListAbleDelegateHelper {
         layoutManager.setAutoMeasureEnabled(true);
         //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
         mRecyclerView.setHasFixedSize(true);
-        //一开始先加一个尾部加载更多条目，然后刷新
+        //设置结束，开始刷新
         ArrayList<BaseItemData> listViewData = getListViewData();
         if (listViewData.size() == 0) {
-            getListAdapter().addFooterView(getLoadMoreViewFactory().madeLoadMoreView().getFootView());
             getRecyclerViewHelper().refresh();
         }
     }

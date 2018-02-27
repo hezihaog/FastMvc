@@ -39,4 +39,5 @@ dependencies {
     }
     //MMC SDK
     compile 'oms.mmc.mmcsdk:core:2.0.0.0-SNAPSHOT@aar'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

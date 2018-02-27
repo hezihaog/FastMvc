@@ -13,6 +13,7 @@ import java.util.Locale;
 import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
+import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.loadview.MyContactLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactGroupChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLabelTpl;
@@ -23,15 +24,11 @@ import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactSumCountTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
-import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
-import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
-import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -135,11 +132,6 @@ public class ContactListFragment extends BaseFastListFragment {
     @Override
     public ILoadViewFactory onLoadViewFactoryReady() {
         return new MyContactLoadViewFactory();
-    }
-
-    @Override
-    public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 
     @Override

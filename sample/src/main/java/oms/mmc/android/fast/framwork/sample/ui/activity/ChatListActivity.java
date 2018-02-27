@@ -14,14 +14,14 @@ import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
+import oms.mmc.android.fast.framwork.base.IDataAdapter;
+import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextReceiverTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.widget.IOSWaitDialogIml;
-import oms.mmc.android.fast.framwork.base.IDataAdapter;
-import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -29,8 +29,6 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.SimpleListScrollAdapter;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
-import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.activity
@@ -103,11 +101,6 @@ public class ChatListActivity extends BaseFastListActivity {
     @Override
     public RecyclerView.LayoutManager onGetListLayoutManager() {
         return new LinearLayoutManager(getActivity());
-    }
-
-    @Override
-    public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 
     @Override

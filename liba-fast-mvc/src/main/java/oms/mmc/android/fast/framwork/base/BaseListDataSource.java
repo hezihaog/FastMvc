@@ -30,11 +30,15 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
 
     @Override
     public ArrayList<T> refresh(boolean isReverse) throws Exception {
+        int curPage;
         if (!isReverse) {
-            return load(FIRST_PAGE_NUM);
+            //正常不是反转布局，每次刷新都是拿第一页
+            curPage = FIRST_PAGE_NUM;
         } else {
-            return load(page + 1);
+            //如果是反转布局，则下拉刷新是下一页
+            curPage = page + 1;
         }
+        return load(curPage);
     }
 
     @Override

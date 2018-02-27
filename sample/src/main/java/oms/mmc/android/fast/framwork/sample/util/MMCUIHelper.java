@@ -3,8 +3,11 @@ package oms.mmc.android.fast.framwork.sample.util;
 import android.app.Activity;
 import android.content.Intent;
 
+import oms.mmc.android.fast.framwork.sample.ui.activity.ActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ChatListActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.SampleChooseActivity;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.util
@@ -21,6 +24,40 @@ public class MMCUIHelper {
      */
     public static void showMain(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 跳转到例子选择界面
+     */
+    public static void showSampleChoose(Activity activity) {
+        activity.startActivity(new Intent(activity, SampleChooseActivity.class));
+    }
+
+    /**
+     * 跳转到BaseFastActivity使用
+     */
+    public static void showBaseActivitySample(Activity activity, String userId) {
+        Intent intent = new Intent(activity, ActivitySampleActivity.class);
+        intent.putExtra(ActivitySampleActivity.BUNDLE_KEY_USER_ID, userId);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 跳转到基础BaseFastListActivity使用
+     */
+    public static void showBaseListActivitySample(Activity activity) {
+        Intent intent = new Intent(activity, ListActivitySampleActivity.class);
+        intent.putExtra(ListActivitySampleActivity.BUNDLE_KEY_HAS_STICKY, false);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 带粘性的列表
+     */
+    public static void showListActivitySampleWithSticky(Activity activity) {
+        Intent intent = new Intent(activity, ListActivitySampleActivity.class);
+        intent.putExtra(ListActivitySampleActivity.BUNDLE_KEY_HAS_STICKY, true);
         activity.startActivity(intent);
     }
 

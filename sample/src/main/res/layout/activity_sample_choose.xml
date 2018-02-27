@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_tool_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/groupUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="综合运用" />
+
+        <Button
+            android:id="@+id/baseActivityUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BaseFastActivity使用" />
+
+        <Button
+            android:id="@+id/baseListActivityUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BaseFastListActivity使用" />
+
+        <Button
+            android:id="@+id/baseListActivityStickyUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BaseFastListActivity带粘性" />
+    </LinearLayout>
+</LinearLayout>

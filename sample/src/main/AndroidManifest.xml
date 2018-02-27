@@ -15,9 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name="oms.mmc.android.fast.framwork.sample.ui.activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -26,19 +25,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:configChanges="locale"
             android:label="主界面"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="oms.mmc.android.fast.framwork.sample.ui.activity.ChatListActivity"
+            android:name=".ui.activity.ChatListActivity"
             android:configChanges="locale"
             android:label="会话详情"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SampleChooseActivity"
+            android:configChanges="locale"
+            android:label="例子选择"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ActivitySampleActivity" />
+
+        <activity android:name=".ui.activity.ListActivitySampleActivity" />
     </application>
+
 </manifest>

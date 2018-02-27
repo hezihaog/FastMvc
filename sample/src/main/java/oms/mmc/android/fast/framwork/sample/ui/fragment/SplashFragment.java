@@ -34,12 +34,11 @@ public class SplashFragment extends BaseFastFragment {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        goMain();
+        jumpNext();
     }
 
-    private void goMain() {
-        MMCUIHelper.showMain(getActivity());
-//        startActivity(new Intent(getActivity(), TestListActivity.class));
+    private void jumpNext() {
+        MMCUIHelper.showSampleChoose(getActivity());
         getActivity().finish();
     }
 }

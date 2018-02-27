@@ -24,9 +24,7 @@ public class BaseLoadMoreHelper implements ILoadMoreViewFactory.ILoadMoreView {
         mFootView = LayoutInflater.from(list.getContext()).inflate(R.layout.item_load_more_footer, list, false);
         mTipText = (TextView) mFootView.findViewById(R.id.base_list_error_tip);
         mProgressBar = (ProgressBar) mFootView.findViewById(R.id.progressBar);
-        if (list instanceof RecyclerView) {
-            ((HeaderFooterAdapter) list.getAdapter()).addFooterView(mFootView);
-        }
+        ((HeaderFooterAdapter) list.getAdapter()).addFooterView(mFootView);
         this.onClickRefreshListener = onClickRefreshListener;
         showNormal();
     }

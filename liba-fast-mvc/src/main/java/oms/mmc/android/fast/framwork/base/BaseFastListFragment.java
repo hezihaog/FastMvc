@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.loadview.BaseLoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
@@ -22,6 +22,8 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
+import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 public abstract class BaseFastListFragment extends BaseFastFragment implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
     private ListAbleDelegateHelper mDelegateHelper;
@@ -67,6 +69,12 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
     public IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> onListAdapterReady() {
         return new BaseListAdapter<BaseItemData>(getRecyclerView(), mActivity, getListDataSource()
                 , onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType());
+    }
+
+    @Override
+    public ListScrollHelper onGetScrollHelper() {
+        //默认都是rv，这里默认使用rv的，如果是使用其他的，复写该方法，返回对应的包裹类和控件
+        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 
     @Override
