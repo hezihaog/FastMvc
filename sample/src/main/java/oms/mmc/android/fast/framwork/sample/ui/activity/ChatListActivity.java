@@ -101,8 +101,13 @@ public class ChatListActivity extends BaseFastListActivity {
     }
 
     @Override
-    public RecyclerView.LayoutManager getListLayoutManager() {
+    public RecyclerView.LayoutManager onGetListLayoutManager() {
         return new LinearLayoutManager(getActivity());
+    }
+
+    @Override
+    public ListScrollHelper onGetScrollHelper() {
+        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 
     @Override
@@ -131,11 +136,6 @@ public class ChatListActivity extends BaseFastListActivity {
                 L.d("onScrollBottom ::: ");
             }
         });
-    }
-
-    @Override
-    public ListScrollHelper onGetScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 
     @Override

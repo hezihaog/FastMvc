@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.widget.rv.base;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +9,8 @@ import android.view.View;
 import java.util.List;
 
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
-import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
@@ -35,9 +34,9 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
     private BaseTpl.ViewHolder mViewHolder;
     private ViewFinder mViewFinder;
 
-    public void init(Context context, RecyclerView recyclerView, int itemViewType) {
+    public void init(BaseFastActivity activity, RecyclerView recyclerView, int itemViewType) {
         this.mItemViewType = itemViewType;
-        this.mActivity = (BaseFastActivity) context;
+        this.mActivity = activity;
         this.mRecyclerView = recyclerView;
         this.mIntent = mActivity.getIntent();
         if (this.mIntent != null) {

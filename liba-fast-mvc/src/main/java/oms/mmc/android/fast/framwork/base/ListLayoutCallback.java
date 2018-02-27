@@ -14,9 +14,16 @@ import oms.mmc.helper.ListScrollHelper;
  */
 public interface ListLayoutCallback<T, VH extends RecyclerView.ViewHolder> {
     /**
+     * 列表数据源初始化回调
+     *
+     * @return 列表数据源
+     */
+    IDataSource<T> onListDataSourceReady();
+
+    /**
      * 获取RecyclerView的LayoutManager
      */
-    RecyclerView.LayoutManager getListLayoutManager();
+    RecyclerView.LayoutManager onGetListLayoutManager();
 
     /**
      * 列表初始化完成回调
@@ -43,13 +50,6 @@ public interface ListLayoutCallback<T, VH extends RecyclerView.ViewHolder> {
      * @return 列表加载更多布局切换工厂
      */
     ILoadMoreViewFactory onLoadMoreViewFactoryReady();
-
-    /**
-     * 列表数据源初始化回调
-     *
-     * @return 列表数据源
-     */
-    IDataSource<T> onListDataSourceReady();
 
     /**
      * 列表条目模板初花回调

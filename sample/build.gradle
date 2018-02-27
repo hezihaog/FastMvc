@@ -37,4 +37,6 @@ dependencies {
     compile('com.alibaba.android:ultraviewpager:1.0.6.1@aar') {
         transitive = true
     }
+    //MMC SDK
+    compile 'oms.mmc.mmcsdk:core:2.0.0.0-SNAPSHOT@aar'
 }

@@ -143,7 +143,7 @@ public class ConversationListFragment extends BaseFastListFragment {
     }
 
     @Override
-    public RecyclerView.LayoutManager getListLayoutManager() {
+    public RecyclerView.LayoutManager onGetListLayoutManager() {
         return new StickyHeadersLinearLayoutManager(getActivity());
     }
 

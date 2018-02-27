@@ -128,7 +128,7 @@ public class ContactListFragment extends BaseFastListFragment {
     }
 
     @Override
-    public RecyclerView.LayoutManager getListLayoutManager() {
+    public RecyclerView.LayoutManager onGetListLayoutManager() {
         return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
     }
 
