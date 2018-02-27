@@ -145,21 +145,24 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     /**
      * 移除Header View
      *
-     * @param footerView Header View
+     * @param headerView Header View
+     */
+    public void removeHeaderView(View headerView) {
+        mHeaderFooterAdapter.removeHeader(headerView);
+    }
+
+    /**
+     * 移除Footer View
+     *
+     * @param footerView Footer View
      */
     public void removeFooterView(View footerView) {
         mHeaderFooterAdapter.removeFooter(footerView);
     }
 
     /**
-     * 移除Footer View
-     *
-     * @param headerView Footer View
+     * 获取装饰的适配器
      */
-    public void removeHeaderView(View headerView) {
-        mHeaderFooterAdapter.removeHeader(headerView);
-    }
-
     public HeaderFooterAdapter getHeaderFooterAdapter() {
         return mHeaderFooterAdapter;
     }
