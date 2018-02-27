@@ -41,5 +41,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BaseFastListActivity单选" />
+
+        <Button
+            android:id="@+id/baseListActivityMultipleCheckUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BaseFastListActivity多选" />
     </LinearLayout>
 </LinearLayout>

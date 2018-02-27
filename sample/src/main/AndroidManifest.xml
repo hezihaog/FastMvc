@@ -45,7 +45,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.ActivitySampleActivity" />
         <activity android:name=".ui.activity.ListActivitySampleActivity" />
-        <activity android:name=".ui.activity.ListActivitySingleCheckSampleActivity"></activity>
+        <activity android:name=".ui.activity.ListActivitySingleCheckSampleActivity" />
+        <activity android:name=".ui.activity.ListActivityMultipleCheckSampleActivity"></activity>
     </application>
 
 </manifest>
