@@ -35,5 +35,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BaseFastListActivity带粘性" />
+
+        <Button
+            android:id="@+id/baseListActivitySingleCheckUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BaseFastListActivity单选" />
     </LinearLayout>
 </LinearLayout>

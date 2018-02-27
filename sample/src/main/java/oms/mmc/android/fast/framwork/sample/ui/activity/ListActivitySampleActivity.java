@@ -17,8 +17,8 @@ import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.sample.tpl.sample.BaseListImageTplSample;
-import oms.mmc.android.fast.framwork.sample.tpl.sample.BaseListTextTplSample;
+import oms.mmc.android.fast.framwork.sample.tpl.sample.ListImageSampleTpl;
+import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
 import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -110,8 +110,8 @@ public class ListActivitySampleActivity extends BaseFastListActivity {
     @Override
     public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
-        tpls.put(TPL_TEXT, BaseListTextTplSample.class);
-        tpls.put(TPL_IMAGE, BaseListImageTplSample.class);
+        tpls.put(TPL_TEXT, ListTextSampleTpl.class);
+        tpls.put(TPL_IMAGE, ListImageSampleTpl.class);
         return tpls;
     }
 

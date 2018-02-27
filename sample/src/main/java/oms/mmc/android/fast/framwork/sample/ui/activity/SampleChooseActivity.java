@@ -15,6 +15,7 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
     private Button mBaseActivityUse;
     private Button mBaseListActivityUse;
     private Button mBaseListActivityStickyUse;
+    private Button mBaseListActivitySingleCheckUse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
         mBaseActivityUse = (Button) findViewById(R.id.baseActivityUse);
         mBaseListActivityUse = (Button) findViewById(R.id.baseListActivityUse);
         mBaseListActivityStickyUse = (Button) findViewById(R.id.baseListActivityStickyUse);
+        mBaseListActivitySingleCheckUse = (Button) findViewById(R.id.baseListActivitySingleCheckUse);
     }
 
     public void bindViewContent() {
@@ -39,6 +41,7 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
         mBaseActivityUse.setOnClickListener(this);
         mBaseListActivityUse.setOnClickListener(this);
         mBaseListActivityStickyUse.setOnClickListener(this);
+        mBaseListActivitySingleCheckUse.setOnClickListener(this);
     }
 
     @Override
@@ -50,13 +53,16 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.baseActivityUse:
                 //简单界面使用
-                MMCUIHelper.showBaseActivitySample(this, "10086");
+                MMCUIHelper.showActivitySample(this, "10086");
                 break;
             case R.id.baseListActivityUse:
-                MMCUIHelper.showBaseListActivitySample(this);
+                MMCUIHelper.showListActivitySample(this);
                 break;
             case R.id.baseListActivityStickyUse:
                 MMCUIHelper.showListActivitySampleWithSticky(this);
+                break;
+            case R.id.baseListActivitySingleCheckUse:
+                MMCUIHelper.showListActivitySingleCheckSample(this);
                 break;
         }
     }

@@ -24,7 +24,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class BaseListTextTplSample extends BaseStickyTpl<ItemDataWrapper> {
+public class ListTextSampleTpl extends BaseStickyTpl<ItemDataWrapper> {
     private TextView mSampleTextTv;
 
     @Override

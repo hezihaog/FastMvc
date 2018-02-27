@@ -17,7 +17,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class BaseListImageTplSample extends BaseTpl<ItemDataWrapper> {
+public class ListImageSampleTpl extends BaseTpl<ItemDataWrapper> {
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.layout_base_list_image_sample, container, false);

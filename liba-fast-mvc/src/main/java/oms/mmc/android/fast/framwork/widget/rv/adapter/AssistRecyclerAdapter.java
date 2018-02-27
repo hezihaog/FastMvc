@@ -126,8 +126,18 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     }
 
     @Override
+    public void clearCheckedItemPosition() {
+        this.checkedItemPosition = NOT_CHECK;
+    }
+
+    @Override
     public void setCheckedItemPositions(List<Integer> checkedItemPositions) {
         this.checkedItemPositions = checkedItemPositions;
+    }
+
+    @Override
+    public void clearCheckedItemPositions() {
+        this.checkedItemPositions.clear();
     }
 
     @Override

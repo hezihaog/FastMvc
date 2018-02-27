@@ -86,6 +86,11 @@ public interface IAssistRecyclerAdapter {
     void setCheckedItemPosition(int checkedItemPosition);
 
     /**
+     * 清除单选选中条目位置
+     */
+    void clearCheckedItemPosition();
+
+    /**
      * 设置一个多选集合
      */
     void setCheckedItemPositions(List<Integer> checkedItemPositions);
@@ -94,6 +99,8 @@ public interface IAssistRecyclerAdapter {
      * 获取多选集合
      */
     List<Integer> getCheckedItemPositions();
+
+    void clearCheckedItemPositions();
 
     /**
      * 设置一个模式
