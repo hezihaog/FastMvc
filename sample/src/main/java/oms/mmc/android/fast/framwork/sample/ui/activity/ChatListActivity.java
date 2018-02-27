@@ -146,7 +146,6 @@ public class ChatListActivity extends BaseFastListActivity {
     @Override
     public void onListReady() {
         super.onListReady();
-        getRecyclerViewHelper().setReverse(true);
         getListAbleDelegateHelper().reverseListLayout();
     }
 

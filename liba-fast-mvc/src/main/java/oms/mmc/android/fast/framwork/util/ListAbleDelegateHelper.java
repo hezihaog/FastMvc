@@ -218,15 +218,24 @@ public class ListAbleDelegateHelper {
      * 反转列表布局，实现类似QQ聊天时使用
      */
     public void reverseListLayout() {
+        //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确
+        getRecyclerViewHelper().setReverse(true);
+        //设置rv为倒转布局
         LinearLayoutManager layoutManager = (LinearLayoutManager) getRecyclerView().getLayoutManager();
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
     }
 
+    /**
+     * 缓慢滚动到顶部
+     */
     public void smoothMoveToTop() {
         getScrollHelper().smoothMoveToTop();
     }
 
+    /**
+     * 顺时滚动到顶部
+     */
     public void moveToTop() {
         getScrollHelper().moveToTop();
     }
