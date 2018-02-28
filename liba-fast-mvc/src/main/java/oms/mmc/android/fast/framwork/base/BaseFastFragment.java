@@ -19,7 +19,6 @@ import oms.mmc.android.fast.framwork.util.ViewFinder;
  */
 public abstract class BaseFastFragment extends ExtendLazyFragment implements LayoutCallback {
     protected FragmentManager mFm;
-    protected BaseFastActivity mActivity;
     protected Fragment mFragment;
     protected Bundle mArguments;
     private ViewFinder mViewFinder;
@@ -27,7 +26,6 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (BaseFastActivity) activity;
         mFm = getChildFragmentManager();
         mFragment = this;
     }

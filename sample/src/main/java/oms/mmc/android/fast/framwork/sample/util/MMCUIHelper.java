@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import oms.mmc.android.fast.framwork.sample.ui.activity.ActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseFragmentSampleActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.BaseListFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ChatListActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
@@ -90,11 +91,19 @@ public class MMCUIHelper {
     }
 
     /**
-     * fragment使用
+     * base fragment使用
      */
     public static void showBaseFragmentSample(Activity activity, String age) {
         Intent intent = new Intent(activity, BaseFragmentSampleActivity.class);
         intent.putExtra(BaseFragmentSampleActivity.BUNDLE_KEY_AGE, age);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * base list fragment使用
+     */
+    public static void showBaseListFragmentSample(Activity activity) {
+        Intent intent = new Intent(activity, BaseListFragmentSampleActivity.class);
         activity.startActivity(intent);
     }
 

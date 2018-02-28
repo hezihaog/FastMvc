@@ -48,7 +48,8 @@
         <activity android:name=".ui.activity.ListActivitySingleCheckSampleActivity" />
         <activity android:name=".ui.activity.ListActivityMultipleCheckSampleActivity" />
         <activity android:name=".ui.activity.ListActivityModeSampleActivity" />
-        <activity android:name=".ui.activity.BaseFragmentSampleActivity"></activity>
+        <activity android:name=".ui.activity.BaseFragmentSampleActivity" />
+        <activity android:name=".ui.activity.BaseListFragmentSampleActivity"></activity>
     </application>
 
 </manifest>
