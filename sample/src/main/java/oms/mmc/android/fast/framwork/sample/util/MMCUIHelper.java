@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import oms.mmc.android.fast.framwork.sample.ui.activity.ActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ChatListActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySingleCheckSampleActivity;
@@ -76,6 +77,14 @@ public class MMCUIHelper {
      */
     public static void showListActivityMultipleCheckSample(Activity activity) {
         Intent intent = new Intent(activity, ListActivityMultipleCheckSampleActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 编辑模式、普通模式
+     */
+    public static void showListActivityModeSample(Activity activity) {
+        Intent intent = new Intent(activity, ListActivityModeSampleActivity.class);
         activity.startActivity(intent);
     }
 

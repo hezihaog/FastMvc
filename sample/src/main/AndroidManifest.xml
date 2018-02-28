@@ -46,7 +46,8 @@
         <activity android:name=".ui.activity.ActivitySampleActivity" />
         <activity android:name=".ui.activity.ListActivitySampleActivity" />
         <activity android:name=".ui.activity.ListActivitySingleCheckSampleActivity" />
-        <activity android:name=".ui.activity.ListActivityMultipleCheckSampleActivity"></activity>
+        <activity android:name=".ui.activity.ListActivityMultipleCheckSampleActivity" />
+        <activity android:name=".ui.activity.ListActivityModeSampleActivity"></activity>
     </application>
 
 </manifest>

@@ -142,7 +142,7 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
     }
 
     public ArrayList<BaseItemData> getListViewData() {
-        return mDelegateHelper.getListViewData();
+        return mDelegateHelper.getListData();
     }
 
     public ArrayList<BaseItemData> getOriginData() {

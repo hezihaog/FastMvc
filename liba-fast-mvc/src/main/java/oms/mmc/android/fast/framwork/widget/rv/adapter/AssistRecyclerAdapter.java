@@ -151,6 +151,16 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     }
 
     @Override
+    public void setEditMode() {
+        setMode(MODE_EDIT);
+    }
+
+    @Override
+    public void setNormalMode() {
+        setMode(MODE_NORMAL);
+    }
+
+    @Override
     public int getMode() {
         return mode;
     }

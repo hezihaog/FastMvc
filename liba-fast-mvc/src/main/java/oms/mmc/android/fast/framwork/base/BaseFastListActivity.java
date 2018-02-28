@@ -131,8 +131,8 @@ public abstract class BaseFastListActivity extends BaseFastActivity implements L
         return mDelegateHelper.getListDataSource();
     }
 
-    public ArrayList<BaseItemData> getListViewData() {
-        return mDelegateHelper.getListViewData();
+    public ArrayList<BaseItemData> getListData() {
+        return mDelegateHelper.getListData();
     }
 
     public ArrayList<BaseItemData> getOriginData() {

@@ -47,5 +47,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BaseFastListActivity多选" />
+
+        <Button
+            android:id="@+id/baseListActivityModeUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BaseFastListActivity多模式" />
     </LinearLayout>
 </LinearLayout>

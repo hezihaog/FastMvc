@@ -112,6 +112,10 @@ public interface IAssistRecyclerAdapter {
      */
     int getMode();
 
+    void setEditMode();
+
+    void setNormalMode();
+
     /**
      * 是否是编辑模式
      */

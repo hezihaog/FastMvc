@@ -46,7 +46,7 @@ public class ListAbleDelegateHelper {
     /**
      * 列表数据
      */
-    protected ArrayList<BaseItemData> mListViewData;
+    protected ArrayList<BaseItemData> mListData;
     /**
      * 原始数据
      */
@@ -102,8 +102,8 @@ public class ListAbleDelegateHelper {
             mListDataSource = mListAble.onListDataSourceReady();
         }
         mRecyclerViewHelper.setDataSource(this.mListDataSource);
-        if (mListViewData == null) {
-            mListViewData = mListDataSource.getOriginListViewData();
+        if (mListData == null) {
+            mListData = mListDataSource.getOriginListViewData();
             mOriginData = mListDataSource.getOriginListViewData();
         }
         //初始化列表适配器
@@ -134,8 +134,8 @@ public class ListAbleDelegateHelper {
         return mListDataSource;
     }
 
-    public ArrayList<BaseItemData> getListViewData() {
-        return mListViewData;
+    public ArrayList<BaseItemData> getListData() {
+        return mListData;
     }
 
     public ArrayList<BaseItemData> getOriginData() {
@@ -179,7 +179,7 @@ public class ListAbleDelegateHelper {
         //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
         mRecyclerView.setHasFixedSize(true);
         //设置结束，开始刷新
-        ArrayList<BaseItemData> listViewData = getListViewData();
+        ArrayList<BaseItemData> listViewData = getListData();
         if (listViewData.size() == 0) {
             getRecyclerViewHelper().refresh();
         }
