@@ -11,15 +11,14 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 
-import com.hzh.lifecycle.dispatch.lifecycle.ActivityLifecycle;
-import com.hzh.lifecycle.dispatch.listener.ActivityLifecycleListener;
-
 import java.io.Serializable;
 
 import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.lifecycle.dispatch.lifecycle.ActivityLifecycle;
+import oms.mmc.lifecycle.dispatch.listener.ActivityLifecycleListener;
 
 /**
  * View容器

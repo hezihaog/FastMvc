@@ -26,7 +26,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
-    compile project(':liba-fast-mvc')
+//    compile project(':liba-fast-mvc')
+    compile 'oms.mmc:fast-mvc:1.0.1-SNAPSHOT@aar'
+
     compile 'com.hzh:liba-logger:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.promeg:tinypinyin:2.0.3'
@@ -44,4 +46,16 @@ dependencies {
     compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
     //尾部加载loading控件
     compile 'com.pnikosis:materialish-progress:1.7'
+
+    //-------------------------- fast mvc 依赖的库 ----------------------------
+    //生命周期监听库
+    compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
+    //通用滚动监听库
+    compile('oms.mmc:list-scroll-helper:1.0.0-SNAPSHOT@aar', {
+        exclude group: 'com.android.support'
+    })
+    //等待弹窗库
+    compile 'oms.mmc:wait-view-factory:1.0.0-SNAPSHOT@aar'
+    //界面切换状态库
+    compile 'oms.mmc:load-view-factory:1.0.2-SNAPSHOT@aar'
 }

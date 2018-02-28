@@ -8,8 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.hzh.lifecycle.dispatch.base.LifecycleActivity;
-
 import oms.mmc.android.fast.framwork.util.ActivityManager;
 import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
@@ -17,6 +15,7 @@ import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.helper.base.ScrollableViewFactory;
+import oms.mmc.lifecycle.dispatch.base.LifecycleActivity;
 
 /**
  * Activity基类

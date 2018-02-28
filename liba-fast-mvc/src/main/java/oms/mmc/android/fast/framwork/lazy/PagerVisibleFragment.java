@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.hzh.lifecycle.dispatch.base.LifecycleFragment;
-
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import oms.mmc.lifecycle.dispatch.base.LifecycleFragment;
 
 
 /**
