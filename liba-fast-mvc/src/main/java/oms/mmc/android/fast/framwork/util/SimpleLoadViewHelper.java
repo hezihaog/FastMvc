@@ -87,7 +87,7 @@ public class SimpleLoadViewHelper {
         }
     }
 
-    public void showFail() {
+    public void showError() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -95,7 +95,7 @@ public class SimpleLoadViewHelper {
                 layout.findViewById(R.id.base_list_error_refresh).setOnClickListener(onClickRefreshListener);
                 helper.showLayout(layout);
                 if (listener != null) {
-                    listener.onShowFail();
+                    listener.onShowError();
                 }
             }
         };
@@ -113,7 +113,7 @@ public class SimpleLoadViewHelper {
     public interface OnStateUpdateListener {
         void onShowLoading();
 
-        void onShowFail();
+        void onShowError();
 
         void onShowEmpty();
 
@@ -128,7 +128,7 @@ public class SimpleLoadViewHelper {
         }
 
         @Override
-        public void onShowFail() {
+        public void onShowError() {
 
         }
 

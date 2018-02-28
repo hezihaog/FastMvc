@@ -65,5 +65,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BaseFastListFragment使用" />
+
+        <Button
+            android:id="@+id/simpleLoadViewUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SimpleLoadView使用，手动控制切换布局" />
     </LinearLayout>
 </LinearLayout>
