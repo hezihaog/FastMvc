@@ -153,9 +153,7 @@ public class LoadViewFactorySampleActivity extends BaseFastListActivity implemen
         //这里可以增加一个分隔线
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
-                .first(R.drawable.shape_conversation_item_decoration)
                 .type(TPL_TEXT, R.drawable.shape_conversation_item_decoration)
-                .last(R.drawable.shape_conversation_item_decoration)
                 .create();
         getRecyclerView().addItemDecoration(decoration);
     }

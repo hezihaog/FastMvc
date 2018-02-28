@@ -50,9 +50,7 @@ public class ListActivitySingleCheckSampleActivity extends BaseFastListActivity 
         super.onListReady();
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
-                .first(R.drawable.shape_conversation_item_decoration)
                 .type(TPL_SINGLE_CHECK, R.drawable.shape_conversation_item_decoration)
-                .last(R.drawable.shape_conversation_item_decoration)
                 .create();
     }
 }

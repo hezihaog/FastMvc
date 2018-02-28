@@ -50,9 +50,7 @@ public class ListActivityMultipleCheckSampleActivity extends BaseFastListActivit
         super.onListReady();
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
-                .first(R.drawable.shape_conversation_item_decoration)
                 .type(TPL_MULTIPLE_CHECK, R.drawable.shape_conversation_item_decoration)
-                .last(R.drawable.shape_conversation_item_decoration)
                 .create();
     }
 }
