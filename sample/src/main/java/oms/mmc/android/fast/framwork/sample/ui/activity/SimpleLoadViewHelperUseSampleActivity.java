@@ -10,31 +10,23 @@ import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.sample.util.LoadStatus;
 import oms.mmc.android.fast.framwork.util.SimpleLoadViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 public class SimpleLoadViewHelperUseSampleActivity extends BaseFastActivity implements View.OnClickListener {
+    private LinearLayout mContainerLayout;
+    private TextView mContentTv;
     private Button mShowLoadingBtn;
     private Button mShowErrorBtn;
     private Button mShowEmptyBtn;
     private Button mShowSuccessBtn;
+
+    private Handler mUiHandler;
+
     private SimpleLoadViewHelper mLoadViewHelper;
 
-    /**
-     * 加载状态
-     */
-    private enum LoadStatus {
-        LOADING(),
-        ERROR(),
-        EMPTY(),
-        SUCCESS
-    }
-
     private LoadStatus mLoadStatus = LoadStatus.LOADING;
-
-    private LinearLayout mContainerLayout;
-    private Handler mUiHandler;
-    private TextView mContentTv;
 
     @Override
     public void onLayoutBefore() {

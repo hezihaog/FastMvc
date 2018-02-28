@@ -1,0 +1,78 @@
+package oms.mmc.android.fast.framwork.sample.loadview;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
+import com.pnikosis.materialishprogress.ProgressWheel;
+
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.util.AbsLoadMoreHelper;
+
+/**
+ * Package: oms.mmc.android.fast.framwork.sample.loadview
+ * FileName: SampleLoadMoreViewFactory
+ * Date: on 2018/2/28  下午6:26
+ * Auther: zihe
+ * Descirbe:
+ * Email: hezihao@linghit.com
+ */
+
+public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
+    private TextView mTipText;
+    private ProgressWheel mProgressWheel;
+
+    @Override
+    public ILoadMoreView madeLoadMoreView() {
+        return new AbsLoadMoreHelper() {
+            @Override
+            protected View onInflateFooterView(LayoutInflater inflater, RecyclerView list, View.OnClickListener onClickLoadMoreListener) {
+                return inflater.inflate(R.layout.layout_sample_load_more_footer, list, false);
+            }
+
+            @Override
+            protected void onInflateFooterViewAfter(View footerView) {
+                mProgressWheel = (ProgressWheel) footerView.findViewById(R.id.progressBar);
+                mTipText = (TextView) footerView.findViewById(R.id.base_list_error_tip);
+            }
+
+            @Override
+            protected void onShowNormal(View footerView) {
+                footerView.setVisibility(View.VISIBLE);
+                mProgressWheel.setVisibility(View.GONE);
+                mTipText.setVisibility(View.VISIBLE);
+                mTipText.setText("");
+                footerView.setOnClickListener(null);
+            }
+
+            @Override
+            protected void onShowNoMore(View footerView) {
+                footerView.setVisibility(View.GONE);
+                mProgressWheel.setVisibility(View.GONE);
+                mTipText.setVisibility(View.VISIBLE);
+                mTipText.setText("");
+                footerView.setOnClickListener(null);
+            }
+
+            @Override
+            protected void onShowLoading(View footerView) {
+                footerView.setVisibility(View.VISIBLE);
+                mProgressWheel.setVisibility(View.VISIBLE);
+                mTipText.setVisibility(View.VISIBLE);
+                mTipText.setText(oms.mmc.android.fast.framwork.R.string.base_list_load_more_loading_tip_text);
+                footerView.setOnClickListener(null);
+            }
+
+            @Override
+            protected void onShowError(View footerView) {
+                footerView.setVisibility(View.VISIBLE);
+                mProgressWheel.setVisibility(View.GONE);
+                mTipText.setVisibility(View.VISIBLE);
+                mTipText.setText(oms.mmc.android.fast.framwork.R.string.base_list_load_more_load_error);
+                footerView.setOnClickListener(getOnClickRefreshListener());
+            }
+        };
+    }
+}

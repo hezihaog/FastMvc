@@ -16,7 +16,6 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
@@ -83,12 +82,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 refresh();
             }
         });
-        mRecyclerView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-
-            }
-        });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -137,7 +130,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                             loadMore();
                         } else {
                             if (!isLoading()) {
-                                mLoadMoreView.showFail();
+                                mLoadMoreView.showError();
                             }
                         }
                     }
@@ -226,7 +219,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                         if (hasNetwork(context)) {
                             mLoadView.showEmpty();
                         } else {
-                            mLoadView.showFail();
+                            mLoadView.showError();
                         }
                     } else {
                         mLoadView.tipFail();
@@ -307,7 +300,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
                     mLoadView.tipFail();
-                    mLoadMoreView.showFail();
+                    mLoadMoreView.showError();
                 } else {
                     dataAdapter.setLoadMoreListViewData(result, isReverse, isFistLoadMore);
                     dataAdapter.notifyDataSetChanged();

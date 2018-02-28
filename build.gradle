@@ -14,6 +14,9 @@ buildscript {
                 password MAVEN_PASSWORD
             }
         }
+        maven {
+            url "https://jitpack.io"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -35,6 +38,9 @@ allprojects {
                 username MAVEN_USERNAME
                 password MAVEN_PASSWORD
             }
+        }
+        maven {
+            url "https://jitpack.io"
         }
     }
 

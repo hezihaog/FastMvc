@@ -114,7 +114,7 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity {
     public IDataSource<BaseItemData> onListDataSourceReady() {
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList<BaseItemData> load(int page) throws Exception {
+            protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 ArrayList<BaseItemData> models = new ArrayList<>();
                 ArrayList<String> datas = getDatas();
                 for (String data : datas) {

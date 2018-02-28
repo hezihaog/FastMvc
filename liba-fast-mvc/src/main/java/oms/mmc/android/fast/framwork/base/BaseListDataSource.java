@@ -5,6 +5,9 @@ import android.app.Activity;
 import java.util.ArrayList;
 
 public abstract class BaseListDataSource<T> implements IDataSource<T> {
+    /**
+     * 第一页
+     */
     protected final static int FIRST_PAGE_NUM = 1;
 
     /**
@@ -38,15 +41,21 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
             //如果是反转布局，则下拉刷新是下一页
             curPage = page + 1;
         }
-        return load(curPage);
+        return load(curPage, true);
     }
 
     @Override
     public ArrayList<T> loadMore() throws Exception {
-        return load(page + 1);
+        return load(page + 1, false);
     }
 
-    protected abstract ArrayList<T> load(int page) throws Exception;
+    /**
+     * 调用数据集中的加载数据，就是onListDataSourceReady()方法
+     *
+     * @param page      页码
+     * @param isRefresh 是否是下拉刷新调用
+     */
+    protected abstract ArrayList<T> load(int page, boolean isRefresh) throws Exception;
 
     @Override
     public boolean hasMore() {

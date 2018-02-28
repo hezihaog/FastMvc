@@ -6,70 +6,82 @@
 
     <include layout="@layout/layout_tool_bar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
-        <Button
-            android:id="@+id/groupUse"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="综合运用" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/baseActivityUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastActivity使用" />
+            <Button
+                android:id="@+id/groupUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="综合运用" />
 
-        <Button
-            android:id="@+id/baseListActivityUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastListActivity使用" />
+            <Button
+                android:id="@+id/baseActivityUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastActivity使用" />
 
-        <Button
-            android:id="@+id/baseListActivityStickyUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastListActivity带粘性" />
+            <Button
+                android:id="@+id/baseListActivityUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastListActivity使用" />
 
-        <Button
-            android:id="@+id/baseListActivitySingleCheckUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastListActivity单选" />
+            <Button
+                android:id="@+id/baseListActivityStickyUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastListActivity带粘性" />
 
-        <Button
-            android:id="@+id/baseListActivityMultipleCheckUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastListActivity多选" />
+            <Button
+                android:id="@+id/baseListActivitySingleCheckUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastListActivity单选" />
 
-        <Button
-            android:id="@+id/baseListActivityModeUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastListActivity多模式" />
+            <Button
+                android:id="@+id/baseListActivityMultipleCheckUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastListActivity多选" />
 
-        <Button
-            android:id="@+id/baseFragmentUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastFragment使用" />
+            <Button
+                android:id="@+id/baseListActivityModeUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastListActivity多模式" />
 
-        <Button
-            android:id="@+id/baseListFragmentUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BaseFastListFragment使用" />
+            <Button
+                android:id="@+id/baseFragmentUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastFragment使用" />
 
-        <Button
-            android:id="@+id/simpleLoadViewUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SimpleLoadView使用，手动控制切换布局" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/baseListFragmentUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BaseFastListFragment使用" />
+
+            <Button
+                android:id="@+id/simpleLoadViewUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SimpleLoadView使用，手动控制切换布局" />
+
+            <Button
+                android:id="@+id/loadViewFactoryUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="列表LoadViewFactory，更换切换布局" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

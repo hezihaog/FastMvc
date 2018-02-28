@@ -65,7 +65,7 @@ public class ContactListFragment extends BaseFastListFragment {
     public IDataSource onListDataSourceReady() {
         return new BaseListDataSource(getActivity()) {
             @Override
-            protected ArrayList load(int page) throws Exception {
+            protected ArrayList load(int page, boolean isRefresh) throws Exception {
                 //模拟后台数据
                 Thread.sleep(1000);
                 //拼装需要的数据集

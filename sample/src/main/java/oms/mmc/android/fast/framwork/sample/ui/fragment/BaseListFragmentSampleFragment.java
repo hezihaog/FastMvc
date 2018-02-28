@@ -34,7 +34,7 @@ public class BaseListFragmentSampleFragment extends BaseFastListFragment {
     public IDataSource<BaseItemData> onListDataSourceReady() {
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList<BaseItemData> load(int page) throws Exception {
+            protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 for (int i = 0; i < 15; i++) {
                     models.add(new ItemDataWrapper(TPL_TEXT, "item " + i));

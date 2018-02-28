@@ -1,6 +1,6 @@
 package oms.mmc.android.fast.framwork.loadview;
 
-import oms.mmc.android.fast.framwork.util.BaseLoadMoreHelper;
+import oms.mmc.android.fast.framwork.util.DefaultLoadMoreHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.util
@@ -14,6 +14,6 @@ import oms.mmc.android.fast.framwork.util.BaseLoadMoreHelper;
 public class BaseLoadMoreViewFactory implements ILoadMoreViewFactory {
     @Override
     public ILoadMoreView madeLoadMoreView() {
-        return new BaseLoadMoreHelper();
+        return new DefaultLoadMoreHelper();
     }
 }

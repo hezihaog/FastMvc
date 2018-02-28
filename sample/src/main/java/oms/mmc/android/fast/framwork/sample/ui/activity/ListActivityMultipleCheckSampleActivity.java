@@ -23,7 +23,7 @@ public class ListActivityMultipleCheckSampleActivity extends BaseFastListActivit
     public IDataSource<BaseItemData> onListDataSourceReady() {
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList<BaseItemData> load(int page) throws Exception {
+            protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 ArrayList<BaseItemData> models = new ArrayList<>();
                 for (int i = 0; i < 30; i++) {
                     models.add(new BaseItemData(TPL_MULTIPLE_CHECK));

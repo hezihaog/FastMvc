@@ -67,7 +67,7 @@ public class ChatListActivity extends BaseFastListActivity {
     public IDataSource<BaseItemData> onListDataSourceReady() {
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList<BaseItemData> load(int page) throws Exception {
+            protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> model = new ArrayList<BaseItemData>();
                 for (int i = 0; i < 10; i++) {

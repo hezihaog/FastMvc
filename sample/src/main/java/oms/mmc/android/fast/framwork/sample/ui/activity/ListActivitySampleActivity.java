@@ -68,7 +68,7 @@ public class ListActivitySampleActivity extends BaseFastListActivity {
     public IDataSource<BaseItemData> onListDataSourceReady() {
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList<BaseItemData> load(int page) throws Exception {
+            protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 ArrayList<BaseItemData> models = new ArrayList<>();
                 //模拟请求数据
                 ArrayList<String> datas = getData();

@@ -35,7 +35,7 @@ dependencies {
     //等待弹窗库
     compile 'oms.mmc:wait-view-factory:1.0.0-SNAPSHOT@aar'
     //界面切换状态库
-    compile 'oms.mmc:load-view-factory:1.0.0-SNAPSHOT@aar'
+    compile 'oms.mmc:load-view-factory:1.0.2-SNAPSHOT@aar'
 }
 
 //是否提交到仓库

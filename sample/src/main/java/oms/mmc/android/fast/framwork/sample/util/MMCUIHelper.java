@@ -11,6 +11,7 @@ import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleAc
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySingleCheckSampleActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.LoadViewFactorySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SimpleLoadViewHelperUseSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SampleChooseActivity;
@@ -113,6 +114,14 @@ public class MMCUIHelper {
      */
     public static void showSimpleLoadViewHelperSample(Activity activity) {
         Intent intent = new Intent(activity, SimpleLoadViewHelperUseSampleActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 列表界面带切换工厂
+     */
+    public static void showLoadViewFactorySample(Activity activity) {
+        Intent intent = new Intent(activity, LoadViewFactorySampleActivity.class);
         activity.startActivity(intent);
     }
 

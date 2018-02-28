@@ -91,7 +91,7 @@ public class ConversationListFragment extends BaseFastListFragment {
     public IDataSource<BaseItemData> onListDataSourceReady() {
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList<BaseItemData> load(int page) throws Exception {
+            protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 if (page == FIRST_PAGE_NUM) {

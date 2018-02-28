@@ -36,11 +36,6 @@ public interface ILoadMoreViewFactory {
         void showNormal();
 
         /**
-         * 显示已经加载完成，没有更多数据的布局
-         */
-        void showNoMore();
-
-        /**
          * 显示正在加载中的布局
          */
         void showLoading();
@@ -48,7 +43,12 @@ public interface ILoadMoreViewFactory {
         /**
          * 显示加载失败的布局
          */
-        void showFail();
+        void showError();
+
+        /**
+         * 显示已经加载完成，没有更多数据的布局
+         */
+        void showNoMore();
 
         /**
          * 获取加载更多尾部视图
