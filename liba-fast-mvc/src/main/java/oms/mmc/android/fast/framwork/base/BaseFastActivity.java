@@ -40,7 +40,7 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         }
         onFindView(mViewFinder);
         onLayoutAfter();
-        setupFragment(onGetFragmentInfo());
+        setupFragment(onSetupFragment());
     }
 
     @Override
@@ -168,7 +168,7 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         TDevice.hideSoftKeyboard(getWindow().getDecorView());
     }
 
-    protected FragmentFactory.FragmentInfoWrapper onGetFragmentInfo() {
+    protected FragmentFactory.FragmentInfoWrapper onSetupFragment() {
         return null;
     }
 

@@ -22,7 +22,7 @@ public class SplashActivity extends BaseFastActivity {
     }
 
     @Override
-    protected FragmentFactory.FragmentInfoWrapper onGetFragmentInfo() {
+    protected FragmentFactory.FragmentInfoWrapper onSetupFragment() {
         return new FragmentFactory.FragmentInfoWrapper(SplashFragment.class, null);
     }
 }

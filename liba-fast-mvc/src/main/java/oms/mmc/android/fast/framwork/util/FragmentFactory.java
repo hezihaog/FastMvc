@@ -59,6 +59,10 @@ public class FragmentFactory {
         private Class clazz;
         private Bundle args;
 
+        public FragmentInfoWrapper(Class clazz) {
+            this.clazz = clazz;
+        }
+
         public FragmentInfoWrapper(Class clazz, Bundle args) {
             this.clazz = clazz;
             this.args = args;

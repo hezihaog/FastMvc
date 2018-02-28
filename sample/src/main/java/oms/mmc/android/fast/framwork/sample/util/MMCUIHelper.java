@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import oms.mmc.android.fast.framwork.sample.ui.activity.ActivitySampleActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.BaseFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ChatListActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
@@ -81,10 +82,19 @@ public class MMCUIHelper {
     }
 
     /**
-     * 编辑模式、普通模式
+     * 编辑模式、普通模式例子
      */
     public static void showListActivityModeSample(Activity activity) {
         Intent intent = new Intent(activity, ListActivityModeSampleActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * fragment使用
+     */
+    public static void showBaseFragmentSample(Activity activity, String age) {
+        Intent intent = new Intent(activity, BaseFragmentSampleActivity.class);
+        intent.putExtra(BaseFragmentSampleActivity.BUNDLE_KEY_AGE, age);
         activity.startActivity(intent);
     }
 

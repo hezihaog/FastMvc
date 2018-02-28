@@ -53,5 +53,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="BaseFastListActivity多模式" />
+
+        <Button
+            android:id="@+id/baseFragmentUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BaseFastFragment使用" />
     </LinearLayout>
 </LinearLayout>

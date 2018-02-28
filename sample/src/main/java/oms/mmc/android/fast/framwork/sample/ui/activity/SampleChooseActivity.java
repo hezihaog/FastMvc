@@ -18,6 +18,7 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
     private Button mBaseListActivitySingleCheckUse;
     private Button mBaseListActivityMultipleCheckUse;
     private Button mBaseListActivityModeUse;
+    private Button mBaseFragmentUse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
         mBaseListActivitySingleCheckUse = (Button) findViewById(R.id.baseListActivitySingleCheckUse);
         mBaseListActivityMultipleCheckUse = (Button) findViewById(R.id.baseListActivityMultipleCheckUse);
         mBaseListActivityModeUse = (Button) findViewById(R.id.baseListActivityModeUse);
+        mBaseFragmentUse = (Button) findViewById(R.id.baseFragmentUse);
     }
 
     public void bindViewContent() {
@@ -48,6 +50,7 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
         mBaseListActivitySingleCheckUse.setOnClickListener(this);
         mBaseListActivityMultipleCheckUse.setOnClickListener(this);
         mBaseListActivityModeUse.setOnClickListener(this);
+        mBaseFragmentUse.setOnClickListener(this);
     }
 
     @Override
@@ -75,6 +78,9 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.baseListActivityModeUse:
                 MMCUIHelper.showListActivityModeSample(this);
+                break;
+            case R.id.baseFragmentUse:
+                MMCUIHelper.showBaseFragmentSample(this, "18");
                 break;
         }
     }
