@@ -39,8 +39,10 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
         this.mInflater = inflater;
         this.mSavedInstanceState = savedInstanceState;
         mRootContainer = new FrameLayout(getContext().getApplicationContext());
-        mLoadingView = onGetLazyLoadingView();
-        mRootContainer.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        this.mLoadingView = onGetLazyLoadingView(inflater);
+        if (mLoadingView != null) {
+            mRootContainer.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
         mRootContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return mRootContainer;
     }
@@ -84,7 +86,9 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
     private void startLazy() {
         //开始懒加载，并且将Fragment的View视图添加到容器
         View view = onLazyCreateView(mInflater, mRootContainer, mSavedInstanceState);
-        mRootContainer.removeView(mLoadingView);
+        if (mLoadingView != null) {
+            mRootContainer.removeView(mLoadingView);
+        }
         mRootContainer.addView(view);
         isLazyViewCreated = true;
         //懒加载完毕
@@ -129,7 +133,12 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
      */
     protected abstract void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState);
 
-    protected abstract View onGetLazyLoadingView();
+    /**
+     * 获取懒加载显示之前的布局
+     *
+     * @param inflater 填充器
+     */
+    protected abstract View onGetLazyLoadingView(LayoutInflater inflater);
 
     /**
      * Fragment可见时回调，子类按需重写

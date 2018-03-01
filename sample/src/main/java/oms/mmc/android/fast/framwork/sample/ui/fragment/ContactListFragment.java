@@ -1,6 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 
@@ -14,6 +16,7 @@ import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.loadview.MyContactLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactGroupChatTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactLabelTpl;
@@ -103,6 +106,14 @@ public class ContactListFragment extends BaseFastListFragment {
                 return models;
             }
         };
+    }
+
+    /**
+     * 修改懒加载进场布局，用于替换懒加载在显示之前的空白瞬间
+     */
+    @Override
+    protected View onGetLazyLoadingView(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.layout_loading_view_sample_loading, null);
     }
 
     @Override

@@ -63,8 +63,8 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
     }
 
     @Override
-    protected View onGetLazyLoadingView() {
-        return LayoutInflater.from(getContext()).inflate(R.layout.base_list_loading, null);
+    protected View onGetLazyLoadingView(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.base_list_loading, null);
     }
 
     @Override

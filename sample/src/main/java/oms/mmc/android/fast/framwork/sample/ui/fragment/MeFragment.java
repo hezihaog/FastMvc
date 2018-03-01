@@ -41,4 +41,12 @@ public class MeFragment extends BaseFastFragment {
         Glide.with(getActivity()).load(FakeUtil.getRandomAvatar()).
                 diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
     }
+
+    /**
+     * 修改懒加载进场布局，用于替换懒加载在显示之前的空白瞬间
+     */
+    @Override
+    protected View onGetLazyLoadingView(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.layout_loading_view_sample_loading, null);
+    }
 }
