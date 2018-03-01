@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.util;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -214,28 +215,44 @@ public class ListAbleDelegateHelper {
     }
 
     /**
-     * 反转列表布局，实现类似QQ聊天时使用
+     * 反转列表布局，实现类似QQ聊天时使用，当时线性布局和网格时才可以使用
      */
     public void reverseListLayout() {
-        //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确
-        getRecyclerViewHelper().setReverse(true);
-        //设置rv为倒转布局
-        LinearLayoutManager layoutManager = (LinearLayoutManager) getRecyclerView().getLayoutManager();
-        layoutManager.setStackFromEnd(true);
-        layoutManager.setReverseLayout(true);
+        RecyclerView.LayoutManager manager = getRecyclerView().getLayoutManager();
+        if (manager instanceof LinearLayoutManager) {
+            LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
+            //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确
+            getRecyclerViewHelper().setReverse(true);
+            //设置rv为倒转布局
+            layoutManager.setReverseLayout(true);
+            //当不是网格时才能使用元素添加顺序倒转，就是说只有线性布局
+            if (!(manager instanceof GridLayoutManager)) {
+                layoutManager.setStackFromEnd(true);
+            }
+        }
     }
 
     /**
      * 缓慢滚动到顶部
      */
-    public void smoothMoveToTop() {
-        getScrollHelper().smoothMoveToTop();
+    public void smoothMoveToTop(boolean isReverse) {
+        if (!isReverse) {
+            getScrollHelper().smoothMoveToTop();
+        } else {
+            //由于是反转布局，顶部的position就是列表的总数
+            getRecyclerView().smoothScrollToPosition(getRecyclerView().getAdapter().getItemCount());
+        }
     }
 
     /**
      * 顺时滚动到顶部
      */
-    public void moveToTop() {
-        getScrollHelper().moveToTop();
+    public void moveToTop(boolean isReverse) {
+        if (!isReverse) {
+            getScrollHelper().moveToTop();
+        } else {
+            //由于是反转布局，顶部的position就是列表的总数
+            getRecyclerView().scrollToPosition(getRecyclerView().getAdapter().getItemCount());
+        }
     }
 }

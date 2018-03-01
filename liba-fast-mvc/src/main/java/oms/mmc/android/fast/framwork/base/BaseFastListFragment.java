@@ -161,11 +161,21 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
         return mDelegateHelper.getLoadViewFactory();
     }
 
-    public void smoothMoveToTop() {
-        mDelegateHelper.getScrollHelper().smoothMoveToTop();
+    /**
+     * 缓缓回到顶部
+     *
+     * @param isReverse 是否是反转布局
+     */
+    public void smoothMoveToTop(boolean isReverse) {
+        mDelegateHelper.smoothMoveToTop(isReverse);
     }
 
-    public void moveToTop() {
-        mDelegateHelper.getScrollHelper().moveToTop();
+    /**
+     * 瞬时回到顶部
+     *
+     * @param isReverse 是否是反转布局
+     */
+    public void moveToTop(boolean isReverse) {
+        mDelegateHelper.moveToTop(isReverse);
     }
 }

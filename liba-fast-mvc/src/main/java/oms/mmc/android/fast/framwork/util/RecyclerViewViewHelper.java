@@ -26,7 +26,7 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.SimpleListScrollAdapter;
 
 /**
- * ListView帮助类
+ * RecyclerView帮助类
  */
 public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> dataAdapter;
@@ -47,6 +47,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * 是否是反转布局，默认为false
      */
     private boolean isReverse = false;
+    //是否是需要网络的列表
+    private boolean isNeedNetworkLoad = true;
     /**
      * 是否启用加载更多尾部条目
      */
@@ -136,14 +138,21 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     if (!isRefreshing()) {
                         //正常的布局，滚动到底部自动加载更多，如果是反转布局，是到顶部自动刷新的，是反转布局到底部的时候不做处理
                         if (!isReverse) {
-                            //必须网络可用才能进行加载更多，没有网络直接显示失败了
-                            if (RecyclerViewViewHelper.hasNetwork(context)) {
+                            if (isNeedNetworkLoad) {
+                                //必须网络可用才能进行加载更多，没有网络直接显示失败了
+                                if (RecyclerViewViewHelper.hasNetwork(context)) {
+                                    mLoadMoreView.showLoading();
+                                    loadMore();
+                                } else {
+                                    //无网的情况下，不需要进行加载更多，直接显示错误
+                                    if (!isLoading()) {
+                                        mLoadMoreView.showError();
+                                    }
+                                }
+                            } else {
+                                //不需要网络的应用，直接显示加载更多
                                 mLoadMoreView.showLoading();
                                 loadMore();
-                            } else {
-                                if (!isLoading()) {
-                                    mLoadMoreView.showError();
-                                }
                             }
                         }
                     }
@@ -229,10 +238,16 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
                     if (dataAdapter.isEmpty()) {
-                        if (hasNetwork(context)) {
-                            mLoadView.showEmpty();
+                        //需要网络的应用，才判断网络是否良好，无网则提示空数据，有网，则提示错误
+                        if (isNeedNetworkLoad) {
+                            if (hasNetwork(context)) {
+                                mLoadView.showEmpty();
+                            } else {
+                                mLoadView.showError();
+                            }
                         } else {
-                            mLoadView.showError();
+                            //例如只是单机的应用，不需要读取网络，数据为空，则直接设置空数据
+                            mLoadView.showEmpty();
                         }
                     } else {
                         mLoadView.tipFail();
@@ -520,5 +535,19 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     public void setEnableLoadMoreFooter(boolean enableLoadMoreFooter) {
         this.enableLoadMoreFooter = enableLoadMoreFooter;
         mLoadMoreView.enableLoadMoreFooter(enableLoadMoreFooter);
+    }
+
+    /**
+     * 是否是需要网络加载
+     */
+    public boolean isNeedNetworkLoad() {
+        return isNeedNetworkLoad;
+    }
+
+    /**
+     * 设置是否需要网络加载
+     */
+    public void setNeedNetworkLoad(boolean needNetworkLoad) {
+        isNeedNetworkLoad = needNetworkLoad;
     }
 }

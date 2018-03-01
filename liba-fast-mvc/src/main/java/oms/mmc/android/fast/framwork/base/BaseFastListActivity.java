@@ -151,11 +151,25 @@ public abstract class BaseFastListActivity extends BaseFastActivity implements L
         return mDelegateHelper.getLoadViewFactory();
     }
 
-    public void smoothMoveToTop() {
-        mDelegateHelper.getScrollHelper().smoothMoveToTop();
+    public ListScrollHelper getScrollHelper() {
+        return mDelegateHelper.getScrollHelper();
     }
 
-    public void moveToTop() {
-        mDelegateHelper.getScrollHelper().moveToTop();
+    /**
+     * 缓缓回到顶部
+     *
+     * @param isReverse 是否是反转布局
+     */
+    public void smoothMoveToTop(boolean isReverse) {
+        mDelegateHelper.smoothMoveToTop(isReverse);
+    }
+
+    /**
+     * 瞬时回到顶部
+     *
+     * @param isReverse 是否是反转布局
+     */
+    public void moveToTop(boolean isReverse) {
+        mDelegateHelper.moveToTop(isReverse);
     }
 }

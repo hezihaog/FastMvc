@@ -116,7 +116,7 @@ public class MainActivity extends BaseFastActivity implements View.OnClickListen
         Fragment fragment = viewPagerAdapter.findByPagerIndex(currentItem);
         if (fragment != null && (fragment instanceof ConversationListFragment || fragment instanceof ContactListFragment)) {
             BaseFastListFragment listFragment = (BaseFastListFragment) fragment;
-            listFragment.smoothMoveToTop();
+            listFragment.smoothMoveToTop(listFragment.getRecyclerViewHelper().isReverse());
         }
     }
 }
