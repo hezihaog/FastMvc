@@ -18,16 +18,20 @@ import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 
 public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMoreView {
     private View mFooterView;
+    private RecyclerView mList;
 
     private View.OnClickListener onClickRefreshListener;
 
     @Override
-    public void init(RecyclerView list, View.OnClickListener onClickLoadMoreListener) {
+    public void init(RecyclerView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter) {
+        mList = list;
         this.onClickRefreshListener = onClickLoadMoreListener;
         mFooterView = onInflateFooterView(LayoutInflater.from(list.getContext()), list, onClickLoadMoreListener);
         onInflateFooterViewAfter(mFooterView);
-        //添加加载更多布局到尾部
-        ((HeaderFooterAdapter) list.getAdapter()).addFooterView(mFooterView);
+        if (enableLoadMoreFooter) {
+            //添加加载更多布局到尾部
+            ((HeaderFooterAdapter) list.getAdapter()).addFooterView(mFooterView);
+        }
         showNormal();
     }
 
@@ -52,8 +56,17 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
     }
 
     @Override
-    public View getFootView() {
+    public View getFooterView() {
         return mFooterView;
+    }
+
+    @Override
+    public void enableLoadMoreFooter(boolean enableLoadMoreFooter) {
+        if (enableLoadMoreFooter) {
+            ((HeaderFooterAdapter) mList.getAdapter()).addFooterView(mFooterView);
+        } else {
+            ((HeaderFooterAdapter) mList.getAdapter()).removeFooter(mFooterView);
+        }
     }
 
     /**
@@ -63,6 +76,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
 
     /**
      * 实例化尾部布局后回调，通常是查找控件
+     *
      * @param footerView
      */
     protected abstract void onInflateFooterViewAfter(View footerView);
@@ -94,10 +108,6 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
      * @param footerView 尾部布局
      */
     protected abstract void onShowError(View footerView);
-
-    public View getFooterView() {
-        return mFooterView;
-    }
 
     public View.OnClickListener getOnClickRefreshListener() {
         return onClickRefreshListener;

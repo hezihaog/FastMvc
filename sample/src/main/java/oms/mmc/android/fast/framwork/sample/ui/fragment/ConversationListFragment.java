@@ -203,10 +203,10 @@ public class ConversationListFragment extends BaseFastListFragment {
         if (event.isEditMode()) {
             getListAdapter().setMode(BaseListAdapter.MODE_EDIT);
             //编辑模式时不能下拉刷新
-            recyclerViewHelper.setCanPullToRefresh(false);
+            recyclerViewHelper.setEnablePullToRefresh(false);
         } else {
             listAdapter.setMode(BaseListAdapter.MODE_NORMAL);
-            recyclerViewHelper.setCanPullToRefresh(true);
+            recyclerViewHelper.setEnablePullToRefresh(true);
         }
         listAdapter.notifyDataSetChanged();
     }

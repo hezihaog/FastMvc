@@ -75,7 +75,6 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
 
     @Override
     public void setListViewData(ArrayList<T> data) {
-        ArrayList<T> listViewData = getListData();
         setListData(data);
     }
 

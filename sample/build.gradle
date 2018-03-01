@@ -31,9 +31,30 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile project(':liba-fast-mvc')
-//    compile ('oms.mmc:fast-mvc:1.0.1-SNAPSHOT@aar') {
+
+    //直接不加arr默认都下载依赖，不推荐该方法，会默认下载全部的依赖
+    //compile 'oms.mmc:fast-mvc:1.0.2-SNAPSHOT'
+
+    //也可以使用arr后加上依赖传递，不过也就意味着下载全部依赖
+//    compile('oms.mmc:fast-mvc:1.0.2-SNAPSHOT@aar') {
 //        transitive = true
 //    }
+
+//    //推荐该方法，只下载框架中的文件，再手动依赖框架中依赖的类库
+//    compile 'oms.mmc:fast-mvc:1.0.2-SNAPSHOT@aar'
+//    //-------------------------- fast mvc 依赖的库 start ----------------------------
+//    //生命周期监听库
+//    compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
+//    //通用滚动监听库
+//    compile('oms.mmc:list-scroll-helper:1.0.0-SNAPSHOT@aar', {
+//        exclude group: 'com.android.support'
+//    })
+//    //等待弹窗库
+//    compile 'oms.mmc:wait-view-factory:1.0.0-SNAPSHOT@aar'
+//    //界面切换状态库
+//    compile 'oms.mmc:load-view-factory:1.0.3-SNAPSHOT@aar'
+//    //-------------------------- fast mvc 依赖的库 end ----------------------------
+
 
     compile 'com.hzh:liba-logger:1.0.0'
     compile 'com.android.support:multidex:1.0.1'

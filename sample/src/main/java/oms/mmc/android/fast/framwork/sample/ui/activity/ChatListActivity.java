@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hzh.logger.L;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,8 +25,6 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.wait.WaitDialogController;
-import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.adapter.SimpleListScrollAdapter;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.activity
@@ -54,7 +50,7 @@ public class ChatListActivity extends BaseFastListActivity {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        mToolbar.setTitle("会话详情");
+        mToolbar.setTitle("会话内容");
         mToolbar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
     }
 
@@ -84,6 +80,7 @@ public class ChatListActivity extends BaseFastListActivity {
                     }
                 }
                 this.page = page;
+                this.hasMore = true;
                 return model;
             }
         };
@@ -104,34 +101,6 @@ public class ChatListActivity extends BaseFastListActivity {
     }
 
     @Override
-    public void onListScrollHelperReady(ListScrollHelper listScrollHelper) {
-        super.onListScrollHelperReady(listScrollHelper);
-        listScrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
-            @Override
-            public void onScrolledUp() {
-                L.d("onScrolledUp ::: ");
-            }
-
-            @Override
-            public void onScrolledDown() {
-                L.d("onScrolledDown ::: ");
-            }
-
-            @Override
-            public void onScrollTop() {
-                L.d("onScrollTop ::: ");
-                //滚动到顶部，刷新聊天数据
-                getRecyclerViewHelper().startRefresh();
-            }
-
-            @Override
-            public void onScrollBottom() {
-                L.d("onScrollBottom ::: ");
-            }
-        });
-    }
-
-    @Override
     protected WaitDialogController onGetWaitDialogController() {
         return new WaitDialogController(this, IOSWaitDialogIml.class);
     }
@@ -139,7 +108,12 @@ public class ChatListActivity extends BaseFastListActivity {
     @Override
     public void onListReady() {
         super.onListReady();
+        //开启反转布局
         getListAbleDelegateHelper().reverseListLayout();
+        //开启能下拉刷新，必须开启时，才能自动监听到顶，然后加载下一页（默认为true）
+        getRecyclerViewHelper().setEnablePullToRefresh(true);
+        //禁用调加载更多条目，这里可以不需要尾部，由于设置了反转，滚动到顶部时，监听到时会自动加载下一页
+        getRecyclerViewHelper().setEnableLoadMoreFooter(false);
     }
 
     @Override

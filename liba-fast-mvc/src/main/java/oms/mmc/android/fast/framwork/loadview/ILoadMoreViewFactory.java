@@ -28,7 +28,7 @@ public interface ILoadMoreViewFactory {
          * @param list
          * @param onClickLoadMoreListener 加载更多的点击事件，需要点击调用加载更多的按钮都可以设置这个监听
          */
-        void init(RecyclerView list, View.OnClickListener onClickLoadMoreListener);
+        void init(RecyclerView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter);
 
         /**
          * 显示普通布局，整个item是空白的
@@ -53,6 +53,8 @@ public interface ILoadMoreViewFactory {
         /**
          * 获取加载更多尾部视图
          */
-        View getFootView();
+        View getFooterView();
+
+        void enableLoadMoreFooter(boolean enableLoadMoreFooter);
     }
 }

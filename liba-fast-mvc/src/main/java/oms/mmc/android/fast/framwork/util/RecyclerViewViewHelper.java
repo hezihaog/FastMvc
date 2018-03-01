@@ -42,8 +42,15 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     /**
      * 是否可以下拉刷新
      */
-    private boolean isCanPullToRefresh = true;
-    private boolean isReverse;
+    private boolean isEnablePullToRefresh = true;
+    /**
+     * 是否是反转布局，默认为false
+     */
+    private boolean isReverse = false;
+    /**
+     * 是否启用加载更多尾部条目
+     */
+    private boolean enableLoadMoreFooter = true;
     /**
      * 是否还有更多数据。如果服务器返回的数据为空的话，就说明没有更多数据了，也就没必要自动加载更多数据
      */
@@ -61,14 +68,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     };
     //refreshLayout当前是否可用，用于监听rv的Scroll滚动时不重复调用swipe的setEnabled
     private boolean refreshLayoutIsEnabled = true;
-    //RecyclerViewViewHelper的哈希值，用于加载更多时发送广播的判断标志
-    private final int helperHashCode;
+    //滚动帮助类
     private ListScrollHelper listScrollHelper;
+    //主线程Handler
     private final Handler mUiHandler;
 
     public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView) {
         super();
-        helperHashCode = getRecyclerViewViewHelper().hashCode();
         this.context = refreshLayout.getContext().getApplicationContext();
         mUiHandler = new Handler(Looper.getMainLooper());
         //刷新布局
@@ -110,10 +116,14 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         listScrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
             @Override
             public void onScrollTop() {
-                if (isCanPullToRefresh) {
-                    if (!refreshLayoutIsEnabled) {
+                if (isEnablePullToRefresh) {
+                    if (refreshLayoutIsEnabled) {
                         //已经滚动到了顶部，可以下拉刷新
                         refreshLayout.setEnabled(true);
+                        //如果是反转的布局（例如是QQ聊天页面），则刷新下一页
+                        if (isReverse) {
+                            startRefresh();
+                        }
                     }
                 }
             }
@@ -124,13 +134,16 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 if (getDataSource().hasMore()) {
                     //必须不是刷新状态
                     if (!isRefreshing()) {
-                        //必须网络可用才能进行加载更多，没有网络直接显示失败了
-                        if (RecyclerViewViewHelper.hasNetwork(context)) {
-                            mLoadMoreView.showLoading();
-                            loadMore();
-                        } else {
-                            if (!isLoading()) {
-                                mLoadMoreView.showError();
+                        //正常的布局，滚动到底部自动加载更多，如果是反转布局，是到顶部自动刷新的，是反转布局到底部的时候不做处理
+                        if (!isReverse) {
+                            //必须网络可用才能进行加载更多，没有网络直接显示失败了
+                            if (RecyclerViewViewHelper.hasNetwork(context)) {
+                                mLoadMoreView.showLoading();
+                                loadMore();
+                            } else {
+                                if (!isLoading()) {
+                                    mLoadMoreView.showError();
+                                }
                             }
                         }
                     }
@@ -170,7 +183,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         this.mLoadView = loadViewFactory.madeLoadView();
         this.mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
         this.mLoadView.init(getRefreshLayout(), onClickRefreshListener);
-        this.mLoadMoreView.init(getRecyclerView(), onClickRefreshListener);
+        this.mLoadMoreView.init(getRecyclerView(), onClickRefreshListener, enableLoadMoreFooter);
     }
 
     /**
@@ -239,7 +252,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     onStateChangeListener.onEndRefresh(dataAdapter, result, isFirstRefresh, isReverse);
                 }
                 //刷新结束
-                if (isCanPullToRefresh) {
+                if (isEnablePullToRefresh) {
                     refreshLayout.setEnabled(true);
                 }
                 refreshLayout.setRefreshing(false);
@@ -459,9 +472,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     /**
      * 设置是否可以下拉刷新
      */
-    public void setCanPullToRefresh(boolean canPullToRefresh) {
-        isCanPullToRefresh = canPullToRefresh;
-        if (isCanPullToRefresh) {
+    public void setEnablePullToRefresh(boolean canPullToRefresh) {
+        isEnablePullToRefresh = canPullToRefresh;
+        if (isEnablePullToRefresh) {
             refreshLayoutIsEnabled = true;
             refreshLayout.setEnabled(true);
         } else {
@@ -471,11 +484,41 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         }
     }
 
+    /**
+     * 是否可以下拉刷新
+     */
+    public boolean isEnablePullToRefresh() {
+        return isEnablePullToRefresh;
+    }
+
+    /**
+     * 当前是否是反转布局
+     */
     public boolean isReverse() {
         return isReverse;
     }
 
+    /**
+     * 设置是否反转布局
+     */
     public void setReverse(boolean reverse) {
         isReverse = reverse;
+    }
+
+    /**
+     * 是否存在加载更多尾部
+     *
+     * @return
+     */
+    public boolean isEnableLoadMoreFooter() {
+        return enableLoadMoreFooter;
+    }
+
+    /**
+     * 设置是否启用加载更多尾部
+     */
+    public void setEnableLoadMoreFooter(boolean enableLoadMoreFooter) {
+        this.enableLoadMoreFooter = enableLoadMoreFooter;
+        mLoadMoreView.enableLoadMoreFooter(enableLoadMoreFooter);
     }
 }

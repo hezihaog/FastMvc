@@ -15,8 +15,7 @@ public class DefaultLoadMoreHelper extends AbsLoadMoreHelper {
 
     @Override
     protected View onInflateFooterView(LayoutInflater inflater, RecyclerView list, View.OnClickListener onClickLoadMoreListener) {
-        View footView = inflater.inflate(R.layout.layout_default_load_more_footer, list, false);
-        return footView;
+        return inflater.inflate(R.layout.layout_default_load_more_footer, list, false);
     }
 
     @Override
