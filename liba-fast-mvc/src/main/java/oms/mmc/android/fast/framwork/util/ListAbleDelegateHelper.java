@@ -170,7 +170,7 @@ public class ListAbleDelegateHelper {
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         try {
             mRecyclerView.getLayoutManager().setItemPrefetchEnabled(false);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             //这里try-catch是因为如果使用者使用排除进行替换低版本的rv时，调用该方法会可能找不到方法抛出异常
             e.printStackTrace();
         }
