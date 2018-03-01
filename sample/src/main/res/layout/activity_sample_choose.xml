@@ -57,7 +57,7 @@
                 android:id="@+id/baseListActivityModeUse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BaseFastListActivity多模式" />
+                android:text="BaseFastListActivity编辑、普通模式" />
 
             <Button
                 android:id="@+id/baseFragmentUse"

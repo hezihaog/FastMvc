@@ -70,6 +70,10 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
     @Override
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
+        //不是编辑模式直接返回
+        if (!getListAdapter().isEditMode()) {
+            return;
+        }
         boolean isCheck;
         List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         //已经选中，取消选中

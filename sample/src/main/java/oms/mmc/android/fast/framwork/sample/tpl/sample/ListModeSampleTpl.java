@@ -76,6 +76,10 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
     @Override
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
+        //不是编辑模式直接返回
+        if (!getListAdapter().isEditMode()) {
+            return;
+        }
         List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         boolean isCheck;
         //选中了，反选

@@ -52,5 +52,7 @@ public class ListActivityMultipleCheckSampleActivity extends BaseFastListActivit
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
                 .type(TPL_MULTIPLE_CHECK, R.drawable.shape_conversation_item_decoration)
                 .create();
+        //设置为编辑模式，才能多选
+        getListAdapter().setEditMode();
     }
 }
