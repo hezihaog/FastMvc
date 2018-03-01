@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.base;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -31,7 +32,7 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
      */
     private final HeaderFooterAdapter mHeaderFooterAdapter;
 
-    public BaseListAdapter(RecyclerView recyclerView, BaseFastActivity activity, IDataSource dataSource,
+    public BaseListAdapter(RecyclerView recyclerView, Activity activity, IDataSource dataSource,
                            HashMap itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType) {
         super(recyclerView, activity, dataSource, itemViewClazzMap, recyclerViewHelper);
         this.stickySectionViewType = stickySectionViewType;

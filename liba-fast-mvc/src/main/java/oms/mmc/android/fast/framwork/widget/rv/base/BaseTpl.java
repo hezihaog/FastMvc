@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.widget.rv.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import oms.mmc.helper.ListScrollHelper;
  * 列表条目基础模板，条目类
  */
 public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateChangeListener {
-    private BaseFastActivity mActivity;
+    private Activity mActivity;
     private Intent mIntent;
     private Bundle mBundle;
     private RecyclerViewViewHelper mRecyclerViewHelper;
@@ -36,7 +37,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
     private BaseTpl.ViewHolder mViewHolder;
     private ViewFinder mViewFinder;
 
-    public void init(BaseFastActivity activity, RecyclerView recyclerView, int itemViewType) {
+    public void init(Activity activity, RecyclerView recyclerView, int itemViewType) {
         this.mItemViewType = itemViewType;
         this.mActivity = activity;
         this.mRecyclerView = recyclerView;
@@ -87,8 +88,15 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
     public void onLayoutAfter() {
     }
 
-    public BaseFastActivity getActivity() {
+    public Activity getActivity() {
         return mActivity;
+    }
+
+    /**
+     * 当Activity是BaseFastActivity时，可以直接调用该方法拿到BaseFastActivity类型
+     */
+    public BaseFastActivity getBaseActivity() {
+        return (BaseFastActivity) mActivity;
     }
 
     public void onItemClick(View view, int position) {

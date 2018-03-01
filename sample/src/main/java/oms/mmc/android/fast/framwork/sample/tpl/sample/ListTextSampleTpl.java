@@ -48,12 +48,12 @@ public class ListTextSampleTpl extends BaseStickyTpl<ItemDataWrapper> {
     @Override
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
-        getActivity().showWaitDialog();
+        getBaseActivity().showWaitDialog();
         ToastUtil.showToast(getActivity(), "tpl -- onItemClick");
         BaseFastApplication.getInstance().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getActivity().hideWaitDialog();
+                getBaseActivity().hideWaitDialog();
             }
         }, 1500);
     }
