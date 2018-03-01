@@ -13,6 +13,7 @@ import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.WaitViewManager;
 import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.helper.base.ScrollableViewFactory;
 import oms.mmc.lifecycle.dispatch.base.LifecycleActivity;
@@ -32,6 +33,9 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         onLayoutBefore();
         mViewFinder = new ViewFinder(onLayoutView(getLayoutInflater(), null));
         mWaitController = onGetWaitDialogController();
+        if (mWaitController != null) {
+            WaitViewManager.getInstnace().add(this, mWaitController);
+        }
         setContentView(mViewFinder.getRootView());
         if (hasTranslucentStatusBar()) {
             onStatusBarSet();
@@ -45,6 +49,7 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        WaitViewManager.getInstnace().remove(this);
         ActivityManager.getActivityManager().removeActivity(this);
     }
 

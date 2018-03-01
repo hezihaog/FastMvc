@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.WaitViewManager;
+import oms.mmc.factory.wait.WaitDialogController;
 
 
 /**
@@ -23,11 +25,14 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
     protected Bundle mArguments;
     private ViewFinder mViewFinder;
 
+    private WaitDialogController mWaitController;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mFm = getChildFragmentManager();
         mFragment = this;
+        mWaitController = onGetWaitDialogController();
     }
 
     public static Bundle createArgs() {
@@ -77,25 +82,53 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
 
     }
 
+    protected WaitDialogController onGetWaitDialogController() {
+        return new WaitDialogController(getActivity());
+    }
+
     public ViewFinder getViewFinder() {
         return mViewFinder;
     }
 
-
     public void showWaitDialog() {
-        getBaseActivity().showWaitDialog("", false);
+        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
+            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().showWaitDialog(getActivity());
+        } else {
+            mWaitController.getWaitIml().showWaitDialog(getActivity(), "", false);
+        }
     }
 
     public void showWaitDialog(String msg) {
-        getBaseActivity().showWaitDialog(msg, false);
+        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
+            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().showWaitDialog(getActivity(), msg, false);
+        } else {
+            mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, false);
+        }
     }
 
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        getBaseActivity().showWaitDialog(msg, isTouchCancelable);
+        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
+            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        } else {
+            mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        }
     }
 
     public void hideWaitDialog() {
-        getBaseActivity().hideWaitDialog();
+        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
+            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().hideWaitDialog();
+        } else {
+            mWaitController.getWaitIml().hideWaitDialog();
+        }
+    }
+
+    protected WaitDialogController getWaitController() {
+        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
+            WaitViewManager.getInstnace().find(getActivity());
+        } else {
+            return mWaitController;
+        }
+        return mWaitController;
     }
 
     public BaseFastActivity getBaseActivity() {
