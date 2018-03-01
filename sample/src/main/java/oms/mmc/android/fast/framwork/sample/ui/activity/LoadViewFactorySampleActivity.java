@@ -102,13 +102,13 @@ public class LoadViewFactorySampleActivity extends BaseFastListActivity implemen
                 //这里写清除代码只是为了例子能显示出"加载异常"的界面，因为加载异常界面显示是列表都没有数据的情况下才出现的，否则就是提示Toast而已
                 //正常开发不会这样写的！
                 if (isRefresh) {
-                    mUiHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            getListData().clear();
-                            getListAdapter().notifyDataSetChanged();
-                        }
-                    });
+//                    mUiHandler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            getListData().clear();
+//                            getListAdapter().notifyDataSetChanged();
+//                        }
+//                    });
                 }
                 ArrayList<String> datas = getData();
                 for (int i = 0; i < datas.size(); i++) {
@@ -160,7 +160,7 @@ public class LoadViewFactorySampleActivity extends BaseFastListActivity implemen
 
     private ArrayList<String> getData() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

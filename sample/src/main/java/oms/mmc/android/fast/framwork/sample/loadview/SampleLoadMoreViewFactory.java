@@ -52,7 +52,7 @@ public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
                 footerView.setVisibility(View.GONE);
                 mProgressWheel.setVisibility(View.GONE);
                 mTipText.setVisibility(View.VISIBLE);
-                mTipText.setText("");
+                mTipText.setText("没有更多了呢");
                 footerView.setOnClickListener(null);
             }
 
@@ -61,7 +61,7 @@ public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
                 footerView.setVisibility(View.VISIBLE);
                 mProgressWheel.setVisibility(View.VISIBLE);
                 mTipText.setVisibility(View.VISIBLE);
-                mTipText.setText(oms.mmc.android.fast.framwork.R.string.base_list_load_more_loading_tip_text);
+                mTipText.setText("正在努力赶来喔...");
                 footerView.setOnClickListener(null);
             }
 
@@ -70,7 +70,7 @@ public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
                 footerView.setVisibility(View.VISIBLE);
                 mProgressWheel.setVisibility(View.GONE);
                 mTipText.setVisibility(View.VISIBLE);
-                mTipText.setText(oms.mmc.android.fast.framwork.R.string.base_list_load_more_load_error);
+                mTipText.setText("发生错误啦，刷新一下吧...");
                 footerView.setOnClickListener(getOnClickRefreshListener());
             }
         };

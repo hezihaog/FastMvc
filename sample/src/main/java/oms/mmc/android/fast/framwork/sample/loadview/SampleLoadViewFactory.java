@@ -1,10 +1,12 @@
 package oms.mmc.android.fast.framwork.sample.loadview;
 
 import android.view.View;
+import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.base.BaseLoadViewHelper;
+import oms.mmc.factory.load.base.VaryViewHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.loadview
@@ -20,18 +22,24 @@ public class SampleLoadViewFactory extends BaseLoadViewFactory {
     public ILoadView madeLoadView() {
         return new BaseLoadViewHelper() {
             @Override
-            protected View onInflateLoadingLayout() {
-                return getHelper().inflate(R.layout.layout_loading_view_sample_loading);
+            protected View onInflateLoadingLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                return helper.inflate(R.layout.layout_loading_view_sample_loading);
             }
 
             @Override
-            protected View onInflateErrorLayout() {
-                return super.onInflateErrorLayout();
+            protected View onInflateErrorLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                View layout = helper.inflate(R.layout.layout_sample_load_view_error);
+                TextView refreshTv = (TextView) layout.findViewById(R.id.base_list_error_refresh);
+                refreshTv.setOnClickListener(onClickRefreshListener);
+                return layout;
             }
 
             @Override
-            protected View onInflateEmptyLayout() {
-                return super.onInflateEmptyLayout();
+            protected View onInflateEmptyLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                View layout = helper.inflate(R.layout.layout_sample_load_view_empty);
+                TextView refreshTv = (TextView) layout.findViewById(R.id.base_list_empty_refresh);
+                refreshTv.setOnClickListener(onClickRefreshListener);
+                return layout;
             }
         };
     }

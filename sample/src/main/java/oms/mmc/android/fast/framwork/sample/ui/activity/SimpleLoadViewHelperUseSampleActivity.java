@@ -11,8 +11,9 @@ import android.widget.TextView;
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.LoadStatus;
-import oms.mmc.android.fast.framwork.util.SimpleLoadViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.factory.load.base.IVaryViewHelper;
+import oms.mmc.factory.load.base.SimpleLoadViewHelper;
 
 public class SimpleLoadViewHelperUseSampleActivity extends BaseFastActivity implements View.OnClickListener {
     private LinearLayout mContainerLayout;
@@ -58,8 +59,30 @@ public class SimpleLoadViewHelperUseSampleActivity extends BaseFastActivity impl
         mShowErrorBtn.setOnClickListener(this);
         mShowEmptyBtn.setOnClickListener(this);
         mShowSuccessBtn.setOnClickListener(this);
-        //创建一个视图切换帮助类
-        mLoadViewHelper = new SimpleLoadViewHelper();
+        //创建一个视图切换帮助类，默认会使用默认的加载动画，需要替换时，复写对应的填充方法返回对应的布局即可
+        //如果太多的控件操作，建议建一个子类文件，封装在里面，同时其他界面也使用相同的切换时，方便复用
+        mLoadViewHelper = new SimpleLoadViewHelper() {
+            @Override
+            protected View onInflateLoadingLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                return helper.inflate(R.layout.layout_loading_view_sample_loading);
+            }
+
+            @Override
+            protected View onInflateErrorLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                View layout = helper.inflate(R.layout.layout_sample_load_view_error);
+                TextView refreshTv = (TextView) layout.findViewById(R.id.base_list_error_refresh);
+                refreshTv.setOnClickListener(onClickRefreshListener);
+                return layout;
+            }
+
+            @Override
+            protected View onInflateEmptyLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                View layout = helper.inflate(R.layout.layout_sample_load_view_empty);
+                TextView refreshTv = (TextView) layout.findViewById(R.id.base_list_empty_refresh);
+                refreshTv.setOnClickListener(onClickRefreshListener);
+                return layout;
+            }
+        };
         mLoadViewHelper.init(mContainerLayout, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
