@@ -74,30 +74,39 @@ public class SampleChooseActivity extends AppCompatActivity implements View.OnCl
                 MMCUIHelper.showActivitySample(this, "10086");
                 break;
             case R.id.baseListActivityUse:
+                //ListActivity使用
                 MMCUIHelper.showListActivitySample(this);
                 break;
             case R.id.baseListActivityStickyUse:
+                //粘性ListActivity
                 MMCUIHelper.showListActivitySampleWithSticky(this);
                 break;
             case R.id.baseListActivitySingleCheckUse:
+                //列表实现单选
                 MMCUIHelper.showListActivitySingleCheckSample(this);
                 break;
             case R.id.baseListActivityMultipleCheckUse:
+                //列表实现多选
                 MMCUIHelper.showListActivityMultipleCheckSample(this);
                 break;
             case R.id.baseListActivityModeUse:
+                //列表实现编辑模式、普通模式
                 MMCUIHelper.showListActivityModeSample(this);
                 break;
             case R.id.baseFragmentUse:
+                //BaseFragment使用
                 MMCUIHelper.showBaseFragmentSample(this, "18");
                 break;
             case R.id.baseListFragmentUse:
+                //BaseListFragment使用
                 MMCUIHelper.showBaseListFragmentSample(this);
                 break;
             case R.id.simpleLoadViewUse:
+                //普通界面使用手动进行视图切换工厂使用
                 MMCUIHelper.showSimpleLoadViewHelperSample(this);
                 break;
             case R.id.loadViewFactoryUse:
+                //列表界面视图切换工厂使用
                 MMCUIHelper.showLoadViewFactorySample(this);
                 break;
         }
