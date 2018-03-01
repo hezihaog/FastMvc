@@ -2,9 +2,11 @@ package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +29,9 @@ import oms.mmc.helper.ListScrollHelper;
  */
 
 public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRecyclerAdapter<BaseTpl.ViewHolder> implements IMultiTypeAdapter {
-    private RecyclerView mRecyclerView;
+    private static final String TAG = MultiTypeAdapter.class.getSimpleName();
     private Activity mActivity;
+    private RecyclerView mRecyclerView;
     /**
      * 条目类的类型和条目类class的映射
      */
@@ -49,9 +52,17 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
      * 点击事件
      */
     private ArrayList<OnRecyclerViewItemClickListener> onItemClickListeners = new ArrayList<OnRecyclerViewItemClickListener>();
+    /**
+     * 长按事件
+     */
     private ArrayList<OnRecyclerViewItemLongClickListener> onItemLongClickListener = new ArrayList<OnRecyclerViewItemLongClickListener>();
-
+    /**
+     * rv帮助类
+     */
     private RecyclerViewViewHelper<T> mRecyclerViewHelper;
+    /**
+     * 列表滚动帮助类
+     */
     private ListScrollHelper mListScrollHelper;
 
     public MultiTypeAdapter(RecyclerView recyclerView, Activity activity, IDataSource<T> dataSource
@@ -106,43 +117,53 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public BaseTpl.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BaseTpl.ViewHolder viewHolder = null;
+        BaseTpl.ViewHolder viewHolder;
+        //反射构造条目类
+        Constructor constructor = null;
         try {
-            //反射构造条目类
-            BaseTpl tpl = (BaseTpl) viewTypeClassMap.get(viewType).getConstructor().newInstance();
-            tpl.init(mActivity, mRecyclerView, viewType);
-            viewHolder = tpl.getViewHolder();
-            viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
-            tpl.config(this, mListViewData, mListViewDataSource, mRecyclerViewHelper, mListScrollHelper);
-            if (onItemClickListeners.size() > 0) {
-                tpl.getRoot().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (onItemClickListeners != null) {
-                            for (OnRecyclerViewItemClickListener clickListener : onItemClickListeners) {
-                                BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                                clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
-                            }
-                        }
-                    }
-                });
-            }
-            if (onItemLongClickListener.size() > 0) {
-                tpl.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        if (onItemLongClickListener != null) {
-                            BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                            for (OnRecyclerViewItemLongClickListener longClickListener : onItemLongClickListener) {
-                                longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
-                            }
-                        }
-                        return true;
-                    }
-                });
-            }
+            constructor = viewTypeClassMap.get(viewType).getConstructor();
+            constructor.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            Log.e(TAG, "无法获取Tpl构造方法，请注意不能修改省略无参构造方法");
+        }
+        BaseTpl tpl = null;
+        try {
+            tpl = (BaseTpl) constructor.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(TAG, "实例化TPL出错，请查看TPL构造方法是否是无参");
+        }
+        tpl.init(mActivity, mRecyclerView, viewType);
+        viewHolder = tpl.getViewHolder();
+        viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
+        tpl.config(this, mListViewData, mListViewDataSource, mRecyclerViewHelper, mListScrollHelper);
+        if (onItemClickListeners.size() > 0) {
+            tpl.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListeners != null) {
+                        for (OnRecyclerViewItemClickListener clickListener : onItemClickListeners) {
+                            BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                            clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
+                        }
+                    }
+                }
+            });
+        }
+        if (onItemLongClickListener.size() > 0) {
+            tpl.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (onItemLongClickListener != null) {
+                        BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                        for (OnRecyclerViewItemLongClickListener longClickListener : onItemLongClickListener) {
+                            longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
+                        }
+                    }
+                    return true;
+                }
+            });
         }
         return viewHolder;
     }

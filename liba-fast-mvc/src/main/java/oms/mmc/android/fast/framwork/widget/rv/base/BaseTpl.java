@@ -37,6 +37,9 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
     private BaseTpl.ViewHolder mViewHolder;
     private ViewFinder mViewFinder;
 
+    public BaseTpl() {
+    }
+
     public void init(Activity activity, RecyclerView recyclerView, int itemViewType) {
         this.mItemViewType = itemViewType;
         this.mActivity = activity;
