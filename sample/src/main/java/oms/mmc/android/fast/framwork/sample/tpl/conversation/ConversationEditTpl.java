@@ -8,11 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ConversationEditStateChangeEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
+import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
@@ -53,7 +52,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     public void onClick(View v) {
-        final List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        final EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         boolean isEditMode = getListAdapter().isEditMode();
         if (!isEditMode) {
             EventBusUtil.sendEvent(new ConversationEditStateChangeEvent().setEditMode());
@@ -74,8 +73,8 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
                     editTv.setText(R.string.main_tool_bar_edit_mode_text);
                     //不是编辑模式，并且勾选了条目，则删除这些条目
                     if (checkedItemPositions.size() > 0) {
-                        for (Integer itemPosition : checkedItemPositions) {
-                            getListData().remove(itemPosition.intValue());
+                        for (int i = 0; i < checkedItemPositions.size(); i++) {
+                            getListData().remove(checkedItemPositions.keyAt(i));
                         }
                         //清除完条目后，记得将保存选择的位置的集合清空
                         checkedItemPositions.clear();

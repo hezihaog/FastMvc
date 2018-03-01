@@ -2,8 +2,9 @@ package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.support.v7.widget.RecyclerView;
 
-import java.util.List;
 import java.util.Map;
+
+import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -93,12 +94,12 @@ public interface IAssistRecyclerAdapter {
     /**
      * 设置一个多选集合
      */
-    void setCheckedItemPositions(List<Integer> checkedItemPositions);
+    void setCheckedItemPositions(EasySparseArrayCompat<Object> checkedItemPositions);
 
     /**
      * 获取多选集合
      */
-    List<Integer> getCheckedItemPositions();
+    EasySparseArrayCompat<Object> getCheckedItemPositions();
 
     void clearCheckedItemPositions();
 

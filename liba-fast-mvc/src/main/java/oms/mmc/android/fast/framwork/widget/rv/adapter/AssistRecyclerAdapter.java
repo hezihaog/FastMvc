@@ -4,8 +4,9 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -21,7 +22,7 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     /**
      * 多选时使用
      */
-    private List<Integer> checkedItemPositions = new ArrayList<Integer>();
+    private EasySparseArrayCompat<Object> checkedItemPositions = new EasySparseArrayCompat<Object>();
     /**
      * 单选时使用
      */
@@ -131,7 +132,7 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     }
 
     @Override
-    public void setCheckedItemPositions(List<Integer> checkedItemPositions) {
+    public void setCheckedItemPositions(EasySparseArrayCompat<Object> checkedItemPositions) {
         this.checkedItemPositions = checkedItemPositions;
     }
 
@@ -141,7 +142,7 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     }
 
     @Override
-    public List<Integer> getCheckedItemPositions() {
+    public EasySparseArrayCompat<Object> getCheckedItemPositions() {
         return checkedItemPositions;
     }
 

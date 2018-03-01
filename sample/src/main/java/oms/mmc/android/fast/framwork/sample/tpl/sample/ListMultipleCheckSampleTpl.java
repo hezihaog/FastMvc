@@ -9,11 +9,10 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.MultipleCheckEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
+import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -59,8 +58,8 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
     @Override
     protected void onRender(BaseItemData itemData) {
         mTextView.setText("item position " + getPosition());
-        List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
-        if (checkedItemPositions.contains(getPosition())) {
+        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        if (checkedItemPositions.containsKey(getPosition())) {
             toggleCheckImage(true);
         } else {
             toggleCheckImage(false);
@@ -75,18 +74,18 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
             return;
         }
         boolean isCheck;
-        List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         //已经选中，取消选中
-        if (checkedItemPositions.contains(getPosition())) {
-            getListAdapter().getCheckedItemPositions().remove(Integer.valueOf(getPosition()));
+        if (checkedItemPositions.containsKey(getPosition())) {
+            getListAdapter().getCheckedItemPositions().remove(getPosition());
             isCheck = false;
         } else {
             //未选中，选中
-            getListAdapter().getCheckedItemPositions().add(getPosition());
+            getListAdapter().getCheckedItemPositions().put(getPosition(), getItemDataBean());
             isCheck = true;
         }
         EventBusUtil.sendEvent(new MultipleCheckEvent(getPosition(), isCheck));
-        ToastUtil.showToast(getActivity(), "当前选中的position是 ::: " + getListAdapter().getCheckedItemPositions().toString());
+        ToastUtil.showToast(getActivity(), "当前选中的position是 ::: " + getListAdapter().getCheckedItemPositions().keyList().toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

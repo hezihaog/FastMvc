@@ -3,9 +3,8 @@ package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import java.util.List;
-
 import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -36,7 +35,7 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
         } else {
             getViewFinder().setGone(R.id.checkBox);
         }
-        if (getListAdapter().getCheckedItemPositions().contains(getPosition())) {
+        if (getListAdapter().getCheckedItemPositions().containsKey(getPosition())) {
             checkBox.setChecked(true);
         } else {
             checkBox.setChecked(false);
@@ -45,14 +44,14 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
-        Integer position = Integer.valueOf(getPosition());
+        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        Integer position = getPosition();
         if (isChecked) {
-            if (!checkedItemPositions.contains(position)) {
-                getListAdapter().getCheckedItemPositions().add(position);
+            if (!checkedItemPositions.containsKey(position)) {
+                getListAdapter().getCheckedItemPositions().put(position, getItemDataBean());
             }
         } else {
-            if (checkedItemPositions.contains(position)) {
+            if (checkedItemPositions.containsKey(position)) {
                 checkedItemPositions.remove(position);
             }
         }

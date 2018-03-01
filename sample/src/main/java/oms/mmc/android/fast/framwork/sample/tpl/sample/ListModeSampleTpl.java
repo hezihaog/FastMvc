@@ -9,11 +9,10 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ToggleModeEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
+import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -64,8 +63,8 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
             toggleCheck(false);
         } else {
             mCheckIv.setVisibility(View.VISIBLE);
-            List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
-            if (checkedItemPositions.contains(getPosition())) {
+            EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+            if (checkedItemPositions.containsKey(getPosition())) {
                 toggleCheck(true);
             } else {
                 toggleCheck(false);
@@ -80,19 +79,18 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
         if (!getListAdapter().isEditMode()) {
             return;
         }
-        List<Integer> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         boolean isCheck;
         //选中了，反选
-        if (checkedItemPositions.contains(getPosition())) {
+        if (checkedItemPositions.containsKey(getPosition())) {
             getListAdapter().getCheckedItemPositions().remove(Integer.valueOf(getPosition()));
             isCheck = false;
         } else {
             //没有选中，选中
-            getListAdapter().getCheckedItemPositions().add(getPosition());
+            getListAdapter().getCheckedItemPositions().put(getPosition(), getItemDataBean());
             isCheck = true;
         }
         toggleCheck(isCheck);
-        //EventBusUtil.sendEvent(new DeleteEvent(getPosition(), isCheck));
     }
 
     private void toggleCheck(boolean isCheck) {
