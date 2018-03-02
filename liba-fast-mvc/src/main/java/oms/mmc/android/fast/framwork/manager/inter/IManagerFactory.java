@@ -8,15 +8,37 @@ import android.content.Context;
  */
 
 public interface IManagerFactory {
+    /**
+     * 初始化
+     *
+     * @param app application
+     */
     IManagerFactory init(Application app);
 
+    /**
+     * 初始化manager
+     */
     void dispatchInit();
 
+    /**
+     * 初始化完成
+     */
     void onReady();
 
+    /**
+     * 获取application
+     */
     Application getApplication();
 
+    /**
+     * 获取Context
+     */
     Context getContext();
 
-    IManager getManager(int flag);
+    /**
+     * 根据uuid获取到manger实例
+     *
+     * @param uuid manager的uuid
+     */
+    IManager getManager(int uuid);
 }

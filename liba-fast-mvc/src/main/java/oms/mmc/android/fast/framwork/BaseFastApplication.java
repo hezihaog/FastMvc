@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Handler;
 
-import oms.mmc.android.fast.framwork.base.ManagerContext;
+import oms.mmc.android.fast.framwork.base.BaseApplication;
 
 
 /**
@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.base.ManagerContext;
  * Email: hezihao@linghit.com
  */
 
-public class BaseFastApplication extends ManagerContext {
+public class BaseFastApplication extends BaseApplication {
     @SuppressLint("StaticFieldLeak")
     private static BaseFastApplication mInstance;
     private Handler mMainHandler;
