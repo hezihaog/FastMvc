@@ -73,4 +73,7 @@ dependencies {
     compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
     //尾部加载loading控件
     compile 'com.pnikosis:materialish-progress:1.7'
+    //内存泄露监控
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }

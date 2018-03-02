@@ -27,7 +27,7 @@ public class ToastUtil {
      * 获取资源id对应的字符串
      */
     public static String getString(Context context, int id) {
-        return context.getResources().getString(id);
+        return context.getApplicationContext().getResources().getString(id);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ToastUtil {
         if (TextUtils.isEmpty(message)) {
             return;
         }
-        Handler uiHandler = new Handler(context.getMainLooper());
+        Handler uiHandler = new Handler(context.getApplicationContext().getMainLooper());
         uiHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -74,7 +74,7 @@ public class ToastUtil {
                     long time = System.currentTimeMillis();
                     if (!message.equalsIgnoreCase(lastToast) || Math.abs(time - lastToastTime) > 2000) {
                         if (toast == null) {
-                            toast = Toast.makeText(context, "", showTime);
+                            toast = Toast.makeText(context.getApplicationContext(), "", showTime);
                             toast.setGravity(Gravity.BOTTOM, 0, 100);
                             toast.setDuration(Toast.LENGTH_SHORT);
                         }

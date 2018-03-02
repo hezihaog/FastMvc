@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.util.HashMap;
 
+import oms.mmc.factory.wait.adapter.SimpleWaitDialogAdapter;
 import oms.mmc.factory.wait.inter.IWaitViewController;
 
 /**
@@ -39,8 +40,17 @@ public class WaitViewManager {
     /**
      * 添加
      */
-    public void add(Activity activity, IWaitViewController controller) {
+    public void add(final Activity activity, final IWaitViewController controller) {
         ensureList();
+        //添加监听，双重保证，如果activity异常退出，remove方法未调用时，这个弹窗窗口监听也能回调去移除
+        controller.getWaitIml().addListener(new SimpleWaitDialogAdapter() {
+            @Override
+            public void onDestroyDialog() {
+                super.onDestroyDialog();
+                mWaitViewList.remove(activity.hashCode());
+                controller.getWaitIml().removeListener(this);
+            }
+        });
         mWaitViewList.put(activity.hashCode(), controller);
     }
 

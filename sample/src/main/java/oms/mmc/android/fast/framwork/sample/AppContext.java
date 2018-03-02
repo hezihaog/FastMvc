@@ -2,6 +2,8 @@ package oms.mmc.android.fast.framwork.sample;
 
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import oms.mmc.android.fast.framwork.BaseFastApplication;
 
 /**
@@ -17,6 +19,10 @@ public class AppContext extends BaseFastApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     @Override
