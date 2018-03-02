@@ -172,7 +172,7 @@ public class ListAbleDelegateHelper {
             mRecyclerView.getLayoutManager().setItemPrefetchEnabled(false);
         } catch (Throwable e) {
             //这里try-catch是因为如果使用者使用排除进行替换低版本的rv时，调用该方法会可能找不到方法抛出异常
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
         //自动测量
