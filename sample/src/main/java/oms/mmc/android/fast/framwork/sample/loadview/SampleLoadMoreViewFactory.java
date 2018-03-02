@@ -55,6 +55,7 @@ public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
                 mTipText.setVisibility(View.VISIBLE);
                 mTipText.setText("没有更多了呢");
                 footerView.setOnClickListener(null);
+                //这里返回不压缩高度，让尾部item显示，并且显示一条"没有更多了呢"的提示
                 return AfterAction.RESTORE_HEIGHT;
             }
 
