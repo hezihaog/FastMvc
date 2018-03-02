@@ -39,39 +39,43 @@ public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
             }
 
             @Override
-            protected void onShowNormal(View footerView) {
+            protected AfterAction onShowNormal(View footerView) {
                 footerView.setVisibility(View.VISIBLE);
                 mProgressWheel.setVisibility(View.GONE);
                 mTipText.setVisibility(View.VISIBLE);
                 mTipText.setText("");
                 footerView.setOnClickListener(null);
+                return AfterAction.RESTORE_HEIGHT;
             }
 
             @Override
-            protected void onShowNoMore(View footerView) {
-                footerView.setVisibility(View.GONE);
+            protected AfterAction onShowNoMore(View footerView) {
+                footerView.setVisibility(View.VISIBLE);
                 mProgressWheel.setVisibility(View.GONE);
                 mTipText.setVisibility(View.VISIBLE);
                 mTipText.setText("没有更多了呢");
                 footerView.setOnClickListener(null);
+                return AfterAction.RESTORE_HEIGHT;
             }
 
             @Override
-            protected void onShowLoading(View footerView) {
+            protected AfterAction onShowLoading(View footerView) {
                 footerView.setVisibility(View.VISIBLE);
                 mProgressWheel.setVisibility(View.VISIBLE);
                 mTipText.setVisibility(View.VISIBLE);
                 mTipText.setText("正在努力赶来喔...");
                 footerView.setOnClickListener(null);
+                return AfterAction.RESTORE_HEIGHT;
             }
 
             @Override
-            protected void onShowError(View footerView) {
+            protected AfterAction onShowError(View footerView) {
                 footerView.setVisibility(View.VISIBLE);
                 mProgressWheel.setVisibility(View.GONE);
                 mTipText.setVisibility(View.VISIBLE);
                 mTipText.setText("发生错误啦，刷新一下吧...");
                 footerView.setOnClickListener(getOnClickRefreshListener());
+                return AfterAction.RESTORE_HEIGHT;
             }
         };
     }

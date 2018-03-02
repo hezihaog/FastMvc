@@ -70,6 +70,7 @@ public class ConversationListFragment extends BaseFastListFragment {
     //具体聊天
     public static final int TPL_CHAT = 8;
 
+    public boolean hasNextPage = true;
 
     @Override
     public void onAttach(Activity activity) {
@@ -113,8 +114,18 @@ public class ConversationListFragment extends BaseFastListFragment {
                 //分页，需要和后台协商，一页返回大于多少条时可以有下一页
 //                this.page = page;
 //                this.hasMore = datas.size() >= Const.Config.pageSize;
-                this.page = page;
-                this.hasMore = true;
+                if (hasNextPage) {
+                    this.page = page;
+                    this.hasMore = true;
+                    //这里测试第二页没有更多
+                    hasNextPage = false;
+                } else {
+                    this.page = page;
+                    this.hasMore = false;
+                }
+
+//                this.page = page;
+//                this.hasMore = true;
                 return models;
             }
         };

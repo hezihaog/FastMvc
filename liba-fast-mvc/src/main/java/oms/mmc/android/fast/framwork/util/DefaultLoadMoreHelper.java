@@ -25,38 +25,43 @@ public class DefaultLoadMoreHelper extends AbsLoadMoreHelper {
     }
 
     @Override
-    protected void onShowNormal(View footerView) {
+    protected AfterAction onShowNormal(View footerView) {
         footerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mTipText.setVisibility(View.VISIBLE);
         mTipText.setText("");
         footerView.setOnClickListener(null);
+        return AfterAction.RESTORE_HEIGHT;
     }
 
     @Override
-    protected void onShowNoMore(View footerView) {
+    protected AfterAction onShowNoMore(View footerView) {
+        //没有更多直接隐藏布局
         footerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mTipText.setVisibility(View.VISIBLE);
-        mTipText.setText("");
+        mTipText.setText(R.string.base_list_load_more_no_more_tip_text);
         footerView.setOnClickListener(null);
+        return AfterAction.COMPRESS_HEIGHT;
     }
 
     @Override
-    protected void onShowLoading(View footerView) {
+    protected AfterAction onShowLoading(View footerView) {
         footerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
         mTipText.setVisibility(View.VISIBLE);
         mTipText.setText(R.string.base_list_load_more_loading_tip_text);
         footerView.setOnClickListener(null);
+        return AfterAction.RESTORE_HEIGHT;
     }
 
     @Override
-    protected void onShowError(View footerView) {
+    protected AfterAction onShowError(View footerView) {
         footerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mTipText.setVisibility(View.VISIBLE);
         mTipText.setText(R.string.base_list_load_more_load_error);
         footerView.setOnClickListener(getOnClickRefreshListener());
+        return AfterAction.RESTORE_HEIGHT;
     }
 }

@@ -40,6 +40,8 @@ public class LoadViewFactorySampleActivity extends BaseFastListActivity implemen
 
     private LoadStatus mLoadStatus = LoadStatus.LOADING;
 
+    public boolean hasNextPage = true;
+
     @Override
     public void onLayoutBefore() {
         super.onLayoutBefore();
@@ -116,8 +118,18 @@ public class LoadViewFactorySampleActivity extends BaseFastListActivity implemen
                     models.add(new ItemDataWrapper(TPL_TEXT, data));
                 }
                 //强制显示加载更多，显示我们设置LoadMoreViewFactory定义的加载更多尾部布局
-                this.page = page;
-                this.hasMore = true;
+//                this.page = page;
+//                this.hasMore = true;
+
+                if (hasNextPage) {
+                    this.page = page;
+                    this.hasMore = true;
+                    //这里测试第二页没有更多
+                    hasNextPage = false;
+                } else {
+                    this.page = page;
+                    this.hasMore = false;
+                }
                 return models;
             }
         };

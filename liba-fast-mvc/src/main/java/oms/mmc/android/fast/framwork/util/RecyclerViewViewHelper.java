@@ -262,6 +262,12 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                         mLoadView.restore();
                     }
                     hasMoreData = dataSource.hasMore();
+                    if (hasMoreData) {
+                        mLoadMoreView.showNormal();
+                    } else {
+                        //一开始刷新，就没有更多了，直接显示没有更多布局，正常应该是隐藏布局
+                        mLoadMoreView.showNoMore();
+                    }
                 }
                 if (onStateChangeListener != null) {
                     onStateChangeListener.onEndRefresh(dataAdapter, result, isFirstRefresh, isReverse);
@@ -339,7 +345,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                     hasMoreData = dataSource.hasMore();
                     if (hasMoreData) {
-                        mLoadMoreView.showNoMore();
+                        mLoadMoreView.showNormal();
                     } else {
                         mLoadMoreView.showNoMore();
                     }
