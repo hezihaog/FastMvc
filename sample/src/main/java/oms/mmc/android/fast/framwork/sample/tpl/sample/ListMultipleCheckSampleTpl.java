@@ -90,7 +90,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(MultipleCheckEvent event) {
-        //当时自己的时候，才根据状态去切换
+        //当是自己的时候，才根据状态去切换
         if (event.getPosition() == getPosition()) {
             toggleCheckImage(event.isCheck());
         }

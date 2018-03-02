@@ -255,4 +255,14 @@ public class ListAbleDelegateHelper {
             getRecyclerView().scrollToPosition(getRecyclerView().getAdapter().getItemCount());
         }
     }
+
+    /**
+     * 按position查找tpl
+     *
+     * @param position 条目的position
+     */
+    public BaseTpl findTplByPosition(int position) {
+        RecyclerView.ViewHolder viewHolder = getRecyclerView().findViewHolderForAdapterPosition(position);
+        return (BaseTpl) viewHolder.itemView.getTag(R.id.tag_tpl);
+    }
 }
