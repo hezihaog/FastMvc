@@ -9,10 +9,11 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
+
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ToggleModeEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -63,7 +64,7 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
             toggleCheck(false);
         } else {
             mCheckIv.setVisibility(View.VISIBLE);
-            EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+            HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
             if (checkedItemPositions.containsKey(getPosition())) {
                 toggleCheck(true);
             } else {
@@ -79,7 +80,7 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
         if (!getListAdapter().isEditMode()) {
             return;
         }
-        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         boolean isCheck;
         //选中了，反选
         if (checkedItemPositions.containsKey(getPosition())) {

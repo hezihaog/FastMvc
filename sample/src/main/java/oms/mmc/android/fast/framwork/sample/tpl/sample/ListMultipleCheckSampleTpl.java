@@ -9,10 +9,12 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
+import java.util.Set;
+
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.MultipleCheckEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -58,7 +60,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
     @Override
     protected void onRender(BaseItemData itemData) {
         mTextView.setText("item position " + getPosition());
-        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         if (checkedItemPositions.containsKey(getPosition())) {
             toggleCheckImage(true);
         } else {
@@ -74,7 +76,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
             return;
         }
         boolean isCheck;
-        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         //已经选中，取消选中
         if (checkedItemPositions.containsKey(getPosition())) {
             getListAdapter().getCheckedItemPositions().remove(getPosition());
@@ -85,7 +87,8 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
             isCheck = true;
         }
         EventBusUtil.sendEvent(new MultipleCheckEvent(getPosition(), isCheck));
-        ToastUtil.showToast(getActivity(), "当前选中的position是 ::: " + getListAdapter().getCheckedItemPositions().keyList().toString());
+        Set<Integer> integers = getListAdapter().getCheckedItemPositions().keySet();
+        ToastUtil.showToast(getActivity(), "当前选中的position是 ::: " + integers.toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

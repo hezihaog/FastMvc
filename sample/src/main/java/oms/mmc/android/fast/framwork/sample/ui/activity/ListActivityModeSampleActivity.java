@@ -15,6 +15,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
@@ -24,7 +25,6 @@ import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ToggleModeEvent;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListModeSampleTpl;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -67,7 +67,7 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity {
                     getRecyclerView().getAdapter().notifyDataSetChanged();
                 } else {
                     //之前是编辑状态，如果勾选了，则提示是否删除，否则切换回普通状态
-                    final EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+                    final HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
                     if (!checkedItemPositions.isEmpty()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("提示");
@@ -79,8 +79,8 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity {
                                 BaseListAdapter<BaseItemData> listAdapter = getListAdapter();
                                 //用选择的位置，找出需要删除的条目
                                 ArrayList<BaseItemData> needDeleteItemData = new ArrayList<BaseItemData>();
-                                for (int i = 0; i < checkedItemPositions.size(); i++) {
-                                    needDeleteItemData.add(getListData().get(checkedItemPositions.keyAt(i)));
+                                for (Map.Entry<Integer, Object> entry : checkedItemPositions.entrySet()) {
+                                    needDeleteItemData.add(getListData().get(entry.getKey()));
                                 }
                                 //批量删除条目
                                 getListData().removeAll(needDeleteItemData);

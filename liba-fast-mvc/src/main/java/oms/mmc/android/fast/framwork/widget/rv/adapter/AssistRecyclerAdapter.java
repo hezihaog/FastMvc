@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
-
 /**
  * Package: oms.mmc.android.fast.framwork.base
  * FileName: AssistRecyclerAdapter
@@ -22,7 +20,7 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     /**
      * 多选时使用
      */
-    private EasySparseArrayCompat<Object> checkedItemPositions = new EasySparseArrayCompat<Object>();
+    private HashMap<Integer, Object> checkedItemPositions = new HashMap<Integer, Object>();
     /**
      * 单选时使用
      */
@@ -132,7 +130,7 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     }
 
     @Override
-    public void setCheckedItemPositions(EasySparseArrayCompat<Object> checkedItemPositions) {
+    public void setCheckedItemPositions(HashMap<Integer, Object> checkedItemPositions) {
         this.checkedItemPositions = checkedItemPositions;
     }
 
@@ -142,7 +140,7 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
     }
 
     @Override
-    public EasySparseArrayCompat<Object> getCheckedItemPositions() {
+    public HashMap<Integer, Object> getCheckedItemPositions() {
         return checkedItemPositions;
     }
 

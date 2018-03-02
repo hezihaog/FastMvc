@@ -425,6 +425,9 @@ public class EasySparseArrayCompat<E> implements Cloneable {
     public List<E> valueList() {
         ArrayList<E> list = new ArrayList<E>();
         for (Object value : mValues) {
+            if (value == null) {
+                continue;
+            }
             list.add((E) value);
         }
         return list;

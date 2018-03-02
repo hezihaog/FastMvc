@@ -3,8 +3,9 @@ package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import java.util.HashMap;
+
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.EasySparseArrayCompat;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -44,7 +45,7 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        EasySparseArrayCompat<Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         Integer position = getPosition();
         if (isChecked) {
             if (!checkedItemPositions.containsKey(position)) {

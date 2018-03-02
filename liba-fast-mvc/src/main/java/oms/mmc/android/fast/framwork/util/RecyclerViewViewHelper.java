@@ -124,7 +124,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                         refreshLayout.setEnabled(true);
                         //如果是反转的布局（例如是QQ聊天页面），则刷新下一页
                         if (isReverse) {
-                            startRefresh();
+                            startRefreshWithRefreshLoading();
                         }
                     }
                 }
@@ -450,7 +450,10 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return refreshLayout;
     }
 
-    public void startRefresh() {
+    /**
+     * 开始刷新，同时让SwipeRefreshLayout显示刷新
+     */
+    public void startRefreshWithRefreshLoading() {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
