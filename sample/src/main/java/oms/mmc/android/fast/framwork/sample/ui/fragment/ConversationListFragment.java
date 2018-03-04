@@ -164,6 +164,12 @@ public class ConversationListFragment extends BaseFastListFragment {
         headerView.setGravity(Gravity.CENTER);
         headerView.setBackgroundColor(Color.parseColor("#66FF0000"));
         headerView.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, 150));
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(getActivity(), "headerView onClick()");
+            }
+        });
         getRecyclerViewAdapter().addHeaderView(headerView);
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())

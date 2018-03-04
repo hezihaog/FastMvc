@@ -50,13 +50,20 @@ public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
 
             @Override
             protected AfterAction onShowNoMore(View footerView) {
-                footerView.setVisibility(View.VISIBLE);
-                mProgressWheel.setVisibility(View.GONE);
-                mTipText.setVisibility(View.VISIBLE);
-                mTipText.setText("没有更多了呢");
-                footerView.setOnClickListener(null);
+                //当时统一的尾部视图时，直接对返回的footerView做控件操作，如果是单独一个布局，则不需要做操作了，重写onSwitchNoMoreLayout()方法返回特定的布局即可
+
+//                footerView.setVisibility(View.VISIBLE);
+//                mProgressWheel.setVisibility(View.GONE);
+//                mTipText.setVisibility(View.VISIBLE);
+//                mTipText.setText("没有更多了呢");
+//                footerView.setOnClickListener(null);
                 //这里返回不压缩高度，让尾部item显示，并且显示一条"没有更多了呢"的提示
                 return AfterAction.RESTORE_HEIGHT;
+            }
+
+            @Override
+            protected View onSwitchNoMoreLayout(LayoutInflater inflater) {
+                return inflater.inflate(R.layout.layout_sample_load_more_footer_no_more, null);
             }
 
             @Override
