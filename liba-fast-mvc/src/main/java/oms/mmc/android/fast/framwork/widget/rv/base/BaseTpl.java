@@ -9,18 +9,20 @@ import android.view.View;
 
 import java.util.List;
 
-import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.base.IWaitViewHandler;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.WaitViewManager;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
+import oms.mmc.factory.wait.inter.IWaitViewController;
 import oms.mmc.helper.ListScrollHelper;
 
 /**
  * 列表条目基础模板，条目类
  */
-public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateChangeListener {
+public abstract class BaseTpl<T> implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
     private Activity mActivity;
     private Intent mIntent;
     private Bundle mBundle;
@@ -93,13 +95,6 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
 
     public Activity getActivity() {
         return mActivity;
-    }
-
-    /**
-     * 当Activity是BaseFastActivity时，可以直接调用该方法拿到BaseFastActivity类型
-     */
-    public BaseFastActivity getBaseActivity() {
-        return (BaseFastActivity) mActivity;
     }
 
     public void onItemClick(View view, int position) {
@@ -175,6 +170,31 @@ public abstract class BaseTpl<T> implements LayoutCallback, View.OnAttachStateCh
      * @param itemData 条目类上使用的数据
      */
     protected abstract void onRender(T itemData);
+
+    @Override
+    public void showWaitDialog() {
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), "", false);
+    }
+
+    @Override
+    public void showWaitDialog(String msg) {
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, false);
+    }
+
+    @Override
+    public void showWaitDialog(String msg, final boolean isTouchCancelable) {
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, isTouchCancelable);
+    }
+
+    @Override
+    public void hideWaitDialog() {
+        WaitViewManager.getInstnace().hideWaitDialog(getActivity());
+    }
+
+    @Override
+    public IWaitViewController getWaitController() {
+        return WaitViewManager.getInstnace().find(getActivity());
+    }
 
     public String intentStr(String key) {
         return mIntent.getStringExtra(key);

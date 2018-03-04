@@ -11,9 +11,10 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.factory.wait.inter.IEditableDialog;
 
 
-public class IOSWaitDialog extends Dialog {
+public class IOSWaitDialog extends Dialog implements IEditableDialog {
     private TextView message;
 
     public IOSWaitDialog(Context context) {
@@ -43,6 +44,11 @@ public class IOSWaitDialog extends Dialog {
             message.setVisibility(View.VISIBLE);
             message.setText(msg);
         }
+    }
+
+    @Override
+    public void setMessage(int messageResId) {
+        setMessage(getContext().getResources().getString(messageResId));
     }
 
     public void showMessage(CharSequence msg) {

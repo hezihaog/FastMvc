@@ -22,13 +22,13 @@ import oms.mmc.android.fast.framwork.sample.tpl.chat.ChatDateTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextReceiverTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
-import oms.mmc.android.fast.framwork.sample.widget.IOSWaitDialogIml;
+import oms.mmc.android.fast.framwork.sample.wait.IOSWaitDialogFactory;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.factory.wait.WaitDialogController;
+import oms.mmc.factory.wait.factory.IWaitViewFactory;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.activity
@@ -119,8 +119,8 @@ public class ChatListActivity extends BaseFastListActivity {
     }
 
     @Override
-    protected WaitDialogController onGetWaitDialogController() {
-        return new WaitDialogController(this, IOSWaitDialogIml.class);
+    protected IWaitViewFactory onGetWaitDialogFactory() {
+        return new IOSWaitDialogFactory();
     }
 
     @Override
@@ -144,7 +144,7 @@ public class ChatListActivity extends BaseFastListActivity {
     public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
         if (isFirst) {
-            showWaitDialog();
+            showWaitDialog("正在加载..");
         }
     }
 

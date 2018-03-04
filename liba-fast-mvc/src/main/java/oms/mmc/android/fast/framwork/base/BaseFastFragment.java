@@ -13,26 +13,36 @@ import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.util.WaitViewManager;
-import oms.mmc.factory.wait.WaitDialogController;
+import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
+import oms.mmc.factory.wait.factory.IWaitViewFactory;
+import oms.mmc.factory.wait.inter.IWaitViewController;
 
 
 /**
  * Fragment基类
  */
-public abstract class BaseFastFragment extends ExtendLazyFragment implements LayoutCallback {
+public abstract class BaseFastFragment extends ExtendLazyFragment implements LayoutCallback, IWaitViewHandler {
     protected FragmentManager mFm;
     protected Fragment mFragment;
     protected Bundle mArguments;
     private ViewFinder mViewFinder;
-
-    private WaitDialogController mWaitController;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mFm = getChildFragmentManager();
         mFragment = this;
-        mWaitController = onGetWaitDialogController();
+        //这里的操作是，当activity不是BaseFastActivity或者宿主activity的onGetWaitDialogController()方法返回null时，使用fragment上定义的waitView
+        IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
+        if (controller == null) {
+            IWaitViewFactory waitViewFactory = onGetWaitDialogController();
+            if (waitViewFactory != null && waitViewFactory.getWaitDialogController(activity) != null) {
+                controller = waitViewFactory.getWaitDialogController(activity);
+                if (controller != null) {
+                    WaitViewManager.getInstnace().add(activity, controller);
+                }
+            }
+        }
     }
 
     public static Bundle createArgs() {
@@ -82,56 +92,36 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
 
     }
 
-    protected WaitDialogController onGetWaitDialogController() {
-        return new WaitDialogController(getActivity());
+    protected IWaitViewFactory onGetWaitDialogController() {
+        return new BaseWaitDialogFactory();
     }
 
     public ViewFinder getViewFinder() {
         return mViewFinder;
     }
 
+    @Override
     public void showWaitDialog() {
-        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
-            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().showWaitDialog(getActivity());
-        } else {
-            mWaitController.getWaitIml().showWaitDialog(getActivity(), "", false);
-        }
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), "", false);
     }
 
+    @Override
     public void showWaitDialog(String msg) {
-        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
-            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().showWaitDialog(getActivity(), msg, false);
-        } else {
-            mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, false);
-        }
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, false);
     }
 
+    @Override
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
-            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
-        } else {
-            mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
-        }
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, isTouchCancelable);
     }
 
+    @Override
     public void hideWaitDialog() {
-        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
-            WaitViewManager.getInstnace().find(getActivity()).getWaitIml().hideWaitDialog();
-        } else {
-            mWaitController.getWaitIml().hideWaitDialog();
-        }
+        WaitViewManager.getInstnace().hideWaitDialog(getActivity());
     }
 
-    protected WaitDialogController getWaitController() {
-        if (WaitViewManager.getInstnace().find(getActivity()) != null) {
-            WaitViewManager.getInstnace().find(getActivity());
-        } else {
-            return mWaitController;
-        }
-        return mWaitController;
-    }
-
-    public BaseFastActivity getBaseActivity() {
-        return (BaseFastActivity) getActivity();
+    @Override
+    public IWaitViewController getWaitController() {
+        return WaitViewManager.getInstnace().find(getActivity());
     }
 }

@@ -14,16 +14,17 @@ import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.util.WaitViewManager;
-import oms.mmc.factory.wait.WaitDialogController;
+import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
+import oms.mmc.factory.wait.factory.IWaitViewFactory;
+import oms.mmc.factory.wait.inter.IWaitViewController;
 import oms.mmc.helper.base.ScrollableViewFactory;
 import oms.mmc.lifecycle.dispatch.base.LifecycleActivity;
 
 /**
  * Activity基类
  */
-public abstract class BaseFastActivity extends LifecycleActivity implements LayoutCallback {
+public abstract class BaseFastActivity extends LifecycleActivity implements LayoutCallback, IWaitViewHandler {
     private ViewFinder mViewFinder;
-    private WaitDialogController mWaitController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +33,9 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
         mViewFinder = new ViewFinder(onLayoutView(getLayoutInflater(), null));
-        mWaitController = onGetWaitDialogController();
-        if (mWaitController != null) {
-            WaitViewManager.getInstnace().add(this, mWaitController);
+        IWaitViewFactory waitViewFactory = onGetWaitDialogFactory();
+        if (waitViewFactory != null && waitViewFactory.getWaitDialogController(getActivity()) != null) {
+            WaitViewManager.getInstnace().add(this, waitViewFactory.getWaitDialogController(getActivity()));
         }
         setContentView(mViewFinder.getRootView());
         if (hasTranslucentStatusBar()) {
@@ -97,8 +98,8 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         }
     }
 
-    protected WaitDialogController onGetWaitDialogController() {
-        return new WaitDialogController(this);
+    protected IWaitViewFactory onGetWaitDialogFactory() {
+        return new BaseWaitDialogFactory();
     }
 
     /**
@@ -136,24 +137,29 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         return mViewFinder;
     }
 
+    @Override
     public void showWaitDialog() {
-        mWaitController.getWaitIml().showWaitDialog(getActivity(), "", false);
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), "", false);
     }
 
+    @Override
     public void showWaitDialog(String msg) {
-        mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, false);
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, false);
     }
 
+    @Override
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        mWaitController.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, isTouchCancelable);
     }
 
+    @Override
     public void hideWaitDialog() {
-        mWaitController.getWaitIml().hideWaitDialog();
+        WaitViewManager.getInstnace().hideWaitDialog(this);
     }
 
-    protected WaitDialogController getWaitController() {
-        return mWaitController;
+    @Override
+    public IWaitViewController getWaitController() {
+        return WaitViewManager.getInstnace().find(this);
     }
 
     protected void setResult(int resultCode, Bundle bundle) {

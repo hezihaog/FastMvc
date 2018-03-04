@@ -40,6 +40,12 @@ public class MeFragment extends BaseFastFragment {
         super.onLayoutAfter();
         Glide.with(getActivity()).load(FakeUtil.getRandomAvatar()).
                 diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showWaitDialog("头像被点击啦", true);
+            }
+        });
     }
 
     /**

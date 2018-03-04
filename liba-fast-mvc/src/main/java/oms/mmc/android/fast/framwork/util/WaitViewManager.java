@@ -69,4 +69,32 @@ public class WaitViewManager {
         ensureList();
         return mWaitViewList.get(activity.hashCode());
     }
+
+    public void showWaitDialog(Activity activity) {
+        IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
+        if (controller != null && controller.getWaitIml() != null) {
+            controller.getWaitIml().showWaitDialog(activity, "", false);
+        }
+    }
+
+    public void showWaitDialog(Activity activity, String msg) {
+        IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
+        if (controller != null && controller.getWaitIml() != null) {
+            controller.getWaitIml().showWaitDialog(activity, msg, false);
+        }
+    }
+
+    public void showWaitDialog(Activity activity, String msg, final boolean isTouchCancelable) {
+        IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
+        if (controller != null && controller.getWaitIml() != null) {
+            controller.getWaitIml().showWaitDialog(activity, msg, isTouchCancelable);
+        }
+    }
+
+    public void hideWaitDialog(Activity activity) {
+        IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
+        if (controller != null && controller.getWaitIml() != null) {
+            controller.getWaitIml().hideWaitDialog();
+        }
+    }
 }

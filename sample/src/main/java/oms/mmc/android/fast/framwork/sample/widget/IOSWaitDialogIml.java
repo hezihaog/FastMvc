@@ -1,9 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.widget;
 
 import android.app.Activity;
-import android.app.Dialog;
 
-import oms.mmc.factory.wait.AbsWaitDialog;
+import oms.mmc.factory.wait.AbsWaitDialogIml;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.widget
@@ -14,10 +13,10 @@ import oms.mmc.factory.wait.AbsWaitDialog;
  * Email: hezihao@linghit.com
  */
 
-public class IOSWaitDialogIml extends AbsWaitDialog {
+public class IOSWaitDialogIml extends AbsWaitDialogIml<IOSWaitDialog> {
 
     @Override
-    public Dialog onCreateDialog(Activity activity, CharSequence msg) {
+    public IOSWaitDialog onCreateDialog(Activity activity, CharSequence msg) {
         IOSWaitDialog dialog = new IOSWaitDialog(activity);
         dialog.setMessage(msg);
         return dialog;
