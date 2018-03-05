@@ -11,7 +11,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
+import oms.mmc.android.fast.framwork.sample.wait.IOSWaitDialogFactory;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.factory.wait.factory.IWaitViewFactory;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -54,5 +56,11 @@ public class MeFragment extends BaseFastFragment {
     @Override
     protected View onGetLazyLoadingView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.layout_loading_view_sample_loading, null);
+    }
+
+    //fragment重写该方法，如果activity已经复写了，则无效。一般项目都会加一个项目基类继承BaseFastActivity，也不会一套UI多种风格
+    @Override
+    protected IWaitViewFactory onGetWaitDialogFactory() {
+        return new IOSWaitDialogFactory();
     }
 }

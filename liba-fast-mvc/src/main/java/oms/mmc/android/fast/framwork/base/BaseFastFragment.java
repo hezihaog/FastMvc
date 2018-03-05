@@ -32,10 +32,10 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
         super.onAttach(activity);
         mFm = getChildFragmentManager();
         mFragment = this;
-        //这里的操作是，当activity不是BaseFastActivity或者宿主activity的onGetWaitDialogController()方法返回null时，使用fragment上定义的waitView
+        //这里的操作是，当activity不是BaseFastActivity或者宿主activity的onGetWaitDialogFactory()方法返回null时，使用fragment上定义的waitView
         IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
         if (controller == null) {
-            IWaitViewFactory waitViewFactory = onGetWaitDialogController();
+            IWaitViewFactory waitViewFactory = onGetWaitDialogFactory();
             if (waitViewFactory != null && waitViewFactory.getWaitDialogController(activity) != null) {
                 controller = waitViewFactory.getWaitDialogController(activity);
                 if (controller != null) {
@@ -92,7 +92,7 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
 
     }
 
-    protected IWaitViewFactory onGetWaitDialogController() {
+    protected IWaitViewFactory onGetWaitDialogFactory() {
         return new BaseWaitDialogFactory();
     }
 
