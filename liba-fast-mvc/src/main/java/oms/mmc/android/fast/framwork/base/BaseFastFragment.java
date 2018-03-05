@@ -2,6 +2,8 @@ package oms.mmc.android.fast.framwork.base;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.util.WaitViewManager;
 import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
@@ -21,11 +22,11 @@ import oms.mmc.factory.wait.inter.IWaitViewController;
 /**
  * Fragment基类
  */
-public abstract class BaseFastFragment extends ExtendLazyFragment implements LayoutCallback, IWaitViewHandler {
+public abstract class BaseFastFragment extends ArgumentsDelegateFragment implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
     protected FragmentManager mFm;
     protected Fragment mFragment;
-    protected Bundle mArguments;
     private ViewFinder mViewFinder;
+    private Handler mMainHandler;
 
     @Override
     public void onAttach(Activity activity) {
@@ -45,22 +46,10 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
         }
     }
 
-    public static Bundle createArgs() {
-        return new Bundle();
-    }
-
-    public String intentStr(String key) {
-        Bundle args = mArguments;
-        if (args != null) {
-            return args.getString(key);
-        }
-        return "";
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mArguments = getArguments();
+        mMainHandler = initHandler();
         onLayoutBefore();
     }
 
@@ -84,12 +73,10 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
 
     @Override
     public void onLayoutBefore() {
-
     }
 
     @Override
     public void onLayoutAfter() {
-
     }
 
     protected IWaitViewFactory onGetWaitDialogFactory() {
@@ -123,5 +110,24 @@ public abstract class BaseFastFragment extends ExtendLazyFragment implements Lay
     @Override
     public IWaitViewController getWaitController() {
         return WaitViewManager.getInstnace().find(getActivity());
+    }
+
+    @Override
+    public Handler initHandler() {
+        return new Handler(Looper.getMainLooper());
+    }
+
+    @Override
+    public void post(Runnable runnable) {
+        mMainHandler.post(runnable);
+    }
+
+    @Override
+    public void postDelayed(Runnable runnable, long duration) {
+        mMainHandler.postDelayed(runnable, duration);
+    }
+
+    public static Bundle createArgs() {
+        return new Bundle();
     }
 }

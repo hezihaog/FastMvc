@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Handler;
 
 import oms.mmc.android.fast.framwork.base.BaseApplication;
+import oms.mmc.android.fast.framwork.base.IHandlerDispatcher;
 
 
 /**
@@ -16,7 +17,7 @@ import oms.mmc.android.fast.framwork.base.BaseApplication;
  * Email: hezihao@linghit.com
  */
 
-public class BaseFastApplication extends BaseApplication {
+public class BaseFastApplication extends BaseApplication implements IHandlerDispatcher {
     @SuppressLint("StaticFieldLeak")
     private static BaseFastApplication mInstance;
     private Handler mMainHandler;
@@ -25,19 +26,24 @@ public class BaseFastApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        mMainHandler = new Handler(getMainLooper());
+        mMainHandler = initHandler();
     }
 
-    public void postDelayed(Runnable runnable, long duration) {
-        mMainHandler.postDelayed(runnable, duration);
+    public static BaseFastApplication getInstance() {
+        return mInstance;
+    }
+
+    @Override
+    public Handler initHandler() {
+        return new Handler(getMainLooper());
     }
 
     public void post(Runnable runnable) {
         mMainHandler.post(runnable);
     }
 
-    public static BaseFastApplication getInstance() {
-        return mInstance;
+    public void postDelayed(Runnable runnable, long duration) {
+        mMainHandler.postDelayed(runnable, duration);
     }
 
     public Handler getMainHandler() {

@@ -22,7 +22,7 @@ import oms.mmc.helper.ListScrollHelper;
 /**
  * 列表条目基础模板，条目类
  */
-public abstract class BaseTpl<T> implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
+public abstract class BaseTpl<T> extends ArgumentsDelegateTpl implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
     private Activity mActivity;
     private Intent mIntent;
     private Bundle mBundle;
@@ -50,6 +50,7 @@ public abstract class BaseTpl<T> implements LayoutCallback, IWaitViewHandler, Vi
         if (this.mIntent != null) {
             this.mBundle = mIntent.getExtras();
         }
+        setBundle(mBundle);
         initView();
     }
 
@@ -194,10 +195,6 @@ public abstract class BaseTpl<T> implements LayoutCallback, IWaitViewHandler, Vi
     @Override
     public IWaitViewController getWaitController() {
         return WaitViewManager.getInstnace().find(getActivity());
-    }
-
-    public String intentStr(String key) {
-        return mIntent.getStringExtra(key);
     }
 
     /**

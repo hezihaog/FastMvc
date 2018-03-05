@@ -3,6 +3,10 @@ package oms.mmc.android.fast.framwork.sample.ui.fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -19,6 +23,9 @@ import oms.mmc.android.fast.framwork.util.ViewFinder;
  */
 
 public class SplashFragment extends BaseFastFragment {
+    private TextView mCountDownTv;
+    private int count = 4;
+    private Timer mTimer;
 
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
@@ -27,12 +34,35 @@ public class SplashFragment extends BaseFastFragment {
 
     @Override
     public void onFindView(ViewFinder finder) {
+        mCountDownTv = finder.get(R.id.countDown);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mTimer.cancel();
     }
 
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        jumpNext();
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                post(new Runnable() {
+                    @Override
+                    public void run() {
+                        count--;
+                        mCountDownTv.setText(String.valueOf(count));
+                        if (count == 1) {
+                            jumpNext();
+                            mTimer.cancel();
+                        }
+                    }
+                });
+            }
+        }, 300, 1000);
     }
 
     private void jumpNext() {

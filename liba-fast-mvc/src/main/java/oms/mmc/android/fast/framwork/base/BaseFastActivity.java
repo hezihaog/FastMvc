@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,19 +20,20 @@ import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 import oms.mmc.factory.wait.inter.IWaitViewController;
 import oms.mmc.helper.base.ScrollableViewFactory;
-import oms.mmc.lifecycle.dispatch.base.LifecycleActivity;
 
 /**
  * Activity基类
  */
-public abstract class BaseFastActivity extends LifecycleActivity implements LayoutCallback, IWaitViewHandler {
+public abstract class BaseFastActivity extends ArgumentsDelegateActivity implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
     private ViewFinder mViewFinder;
     private String bindFragmentTag;
+    private Handler mMainHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).install();
         super.onCreate(savedInstanceState);
+        mMainHandler = initHandler();
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
         mViewFinder = new ViewFinder(onLayoutView(getLayoutInflater(), null));
@@ -117,21 +119,14 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
 
     @Override
     public void onLayoutBefore() {
-
     }
 
     @Override
     public void onLayoutAfter() {
-
     }
 
     @Override
     public void onFindView(ViewFinder finder) {
-
-    }
-
-    public String intentStr(String key) {
-        return getIntent().getStringExtra(key);
     }
 
     public final <E extends View> E findView(int id) {
@@ -233,5 +228,20 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         } else {
             return true;
         }
+    }
+
+    @Override
+    public Handler initHandler() {
+        return new Handler(getMainLooper());
+    }
+
+    @Override
+    public void post(Runnable runnable) {
+        mMainHandler.post(runnable);
+    }
+
+    @Override
+    public void postDelayed(Runnable runnable, long duration) {
+        mMainHandler.postDelayed(runnable, duration);
     }
 }
