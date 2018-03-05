@@ -23,7 +23,6 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextReceiverTpl
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.wait.IOSWaitDialogFactory;
-import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -132,12 +131,6 @@ public class ChatListActivity extends BaseFastListActivity {
         getRecyclerViewHelper().setEnablePullToRefresh(true);
         //禁用调加载更多条目，这里可以不需要尾部，由于设置了反转，滚动到顶部时，监听到时会自动加载下一页
         getRecyclerViewHelper().setEnableLoadMoreFooter(false);
-        //设置是否需要网络请求情况，如果设置是网络请求的列表，工厂切换会根据网络来进行切换相应的布局，默认是需要的
-        if (RecyclerViewViewHelper.hasNetwork(getApplicationContext())) {
-            getRecyclerViewHelper().setNeedNetworkLoad(true);
-        } else {
-            getRecyclerViewHelper().setNeedNetworkLoad(false);
-        }
     }
 
     @Override
