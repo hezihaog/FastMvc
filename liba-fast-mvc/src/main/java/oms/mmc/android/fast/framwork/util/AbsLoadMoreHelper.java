@@ -23,8 +23,6 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
     private RecyclerView mList;
 
     private View.OnClickListener onClickRefreshListener;
-    //原始尾部的高度
-    private int mOriginHeight;
     //一开始设置的尾部布局，用于后续如果子类切换了部分尾部视图，剩余默认视图切换回来的作用
     private View mOriginLoadMoreView;
     private LayoutInflater mInflater;
@@ -52,21 +50,12 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
         //获取要使用的尾部布局
         mOriginLoadMoreView = onInflateFooterView(mInflater, list, onClickLoadMoreListener);
         mFooterView.addView(mOriginLoadMoreView, new ViewGroup.LayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
-        inflateFooterViewAfter();
         onInflateFooterViewAfter(mFooterView);
         if (enableLoadMoreFooter) {
             //添加加载更多布局到尾部
             ((HeaderFooterAdapter) list.getAdapter()).addFooterView(mFooterView);
         }
         showNormal();
-    }
-
-    private void inflateFooterViewAfter() {
-        //马上测量高度
-        int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        mFooterView.measure(width, height);
-        mOriginHeight = mFooterView.getMeasuredHeight();
     }
 
     /**
@@ -81,11 +70,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
      * 恢复尾部View原来的高度
      */
     private void restoreFooterViewHeight() {
-        //如果已经是恢复高度了，则无需处理了
-        if (mFooterView.getLayoutParams().height == mOriginHeight) {
-            return;
-        }
-        mFooterView.getLayoutParams().height = mOriginHeight;
+        mFooterView.getLayoutParams().height = ViewGroup.MarginLayoutParams.WRAP_CONTENT;
         mFooterView.requestLayout();
     }
 
@@ -133,6 +118,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
 
     /**
      * 当切换到Nomal状态视图时，默认返回原来的视图，当视图需要不同时，子类重写对应状态的切换方法
+     *
      * @param inflater
      */
     protected View onSwitchNormalLayout(LayoutInflater inflater) {
@@ -141,6 +127,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
 
     /**
      * 当切换到Loading状态视图时
+     *
      * @param inflater
      */
     protected View onSwitchLoadingLayout(LayoutInflater inflater) {
@@ -149,6 +136,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
 
     /**
      * 当切换到Error状态视图时
+     *
      * @param inflater
      */
     protected View onSwitchErrorLayout(LayoutInflater inflater) {
@@ -157,6 +145,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
 
     /**
      * 当切换到NoMore状态视图时
+     *
      * @param inflater
      */
     protected View onSwitchNoMoreLayout(LayoutInflater inflater) {
