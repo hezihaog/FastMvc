@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -25,6 +26,7 @@ import oms.mmc.lifecycle.dispatch.base.LifecycleActivity;
  */
 public abstract class BaseFastActivity extends LifecycleActivity implements LayoutCallback, IWaitViewHandler {
     private ViewFinder mViewFinder;
+    private String bindFragmentTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,10 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         }
         onFindView(mViewFinder);
         onLayoutAfter();
-        setupFragment(onSetupFragment());
+        //没有绑定fragment时，才调用
+        if (!hasBindFragment()) {
+            setupFragment(onSetupFragment());
+        }
     }
 
     @Override
@@ -196,9 +201,10 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
         }
         Fragment fragment = FragmentFactory.newInstance(getActivity(), infoWrapper.getClazz()
                 , infoWrapper.getArgs());
+        bindFragmentTag = fragment.getClass().getName();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(android.R.id.content, fragment, fragment.getClass().getName())
+                .add(android.R.id.content, fragment, bindFragmentTag)
                 .commit();
     }
 
@@ -212,5 +218,20 @@ public abstract class BaseFastActivity extends LifecycleActivity implements Layo
             bundle.putAll(intent.getExtras());
         }
         return bundle;
+    }
+
+    /**
+     * 查找是否已经有绑定的fragment，用于内存重启时，会自动恢复fragment的实例，不重复添加fragment
+     */
+    private boolean hasBindFragment() {
+        if (TextUtils.isEmpty(bindFragmentTag)) {
+            return false;
+        }
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(bindFragmentTag);
+        if (fragment == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
