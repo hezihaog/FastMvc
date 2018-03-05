@@ -17,9 +17,9 @@
 
 ### 所以？
 
-- 要改变这样的现状。让项目迭代组员沟通量小，代码风格统一，BUG量减少。所以，我定义了这样的一套开发框架。
+- 要改变这样的现状。让项目迭代组员沟通量小，代码风格统一，BUG量减少。所以，我定义了这样的一套开发框架，规定好共有的逻辑和回调方法，统一开发书写样式。
 
-- 由于面对的都是一套Api，Activity切换到Fragment只需要改继承的基类，从BaseFastActivity改为BaseFastFragment即可，切换基本无成本。
+- 由于面对的都是一套Api，Activity切换到Fragment只需要改继承的基类，从BaseFastActivity改为BaseFastFragment即可，无报错，切换基本无成本。
 
 ------
 
@@ -27,19 +27,19 @@
 1. gradle 引用
 
 ```java
-	compile 'oms.mmc:fast-mvc:1.0.2-SNAPSHOT@aar'
-    //-------------------------- fast mvc 依赖的库 start ----------------------------
-    //生命周期监听库
-    compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
-    //通用滚动监听库
-    compile('oms.mmc:list-scroll-helper:1.0.0-SNAPSHOT@aar', {
-        exclude group: 'com.android.support'
-    })
-    //等待弹窗库
-    compile 'oms.mmc:wait-view-factory:1.0.0-SNAPSHOT@aar'
-    //界面切换状态库
-    compile 'oms.mmc:load-view-factory:1.0.3-SNAPSHOT@aar'
-    //-------------------------- fast mvc 依赖的库 end ----------------------------
+        compile 'oms.mmc:fast-mvc:1.0.2-SNAPSHOT@aar'
+        //-------------------------- fast mvc 依赖的库 start ----------------------------
+        //生命周期监听库
+        compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
+        //通用滚动监听库
+        compile('oms.mmc:list-scroll-helper:1.0.1-SNAPSHOT@aar', {
+            exclude group: 'com.android.support'
+        })
+        //等待弹窗库
+        compile 'oms.mmc:wait-view-factory:1.0.1-SNAPSHOT@aar'
+        //界面切换状态库
+        compile 'oms.mmc:load-view-factory:1.0.3-SNAPSHOT@aar'
+        //-------------------------- fast mvc 依赖的库 end ----------------------------
 ```
 
 2. 由于使用ListScrollHelper，如果使用BaseFastFragment时不是使用BaseFastActivity为宿主，则需要在Activity的onCreate()方法的第一行调用以下代码：
@@ -125,6 +125,12 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 |onEndRefresh()|当下拉刷新结束后回调，同样也有isFirst代表是否是第一次|这里可以处理下拉刷新结束|
 |onStartLoadMore()|当加载更多开始时回调，会返回isFirst标志，代表是否是第一次|这里可以处理加载更多开始后的处理|
 |onEndLoadMore()|当加载更多结束时回调，同样返回isFirst标志|这里可以处理加载更多结束后的处理|
+
+- **注意** onListDataSourceReady()方法，在复写时，调用请求方法或者数据库查询方法时，要分情况返回：
+    1. 如果没有数据，也要返回一个List，它的size为0，
+    2. 如果是异常，返回null
+    3. 有数据就是返回一个List，里面是带数据的
+    4. 开发中注意上面的返回即可，状态布局会根据这个结果去切换布局，例如返回null是显示错误布局，返回的List的size为0时，显示为空布局。这个也是合情合理的。
 
 > * BaseFastFragment，不带列表的Fragment，函数回调和BaseFastActivity是一致的，这里不再列出。
 > * BaseFastListFragment，带列表的Fragment，函数回调和BaseFastListActivity一致。
