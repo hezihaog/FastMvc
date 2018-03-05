@@ -2,6 +2,10 @@
 
 ------
 
+| 更新内容        | 更新时间   |  作者  |
+| --------   | -----:  | :----:  |
+|文档初始化编写|2018.03.05|子和
+
 ### 以前的框架，我们是怎样进行开发的？
 
  - 以前的都是在MMCSDK上的基类Activity、Fragment上进行子类开发，但是例如 **查找控件** ，**给控件进行相关设置**，没有一个明确的地方进行设置，大家都是自己起函数或者直接在查找控件后，直接就写上了。
@@ -535,8 +539,24 @@ getRecyclerViewHelper().refresh();
 getRecyclerViewHelper().startRefreshWithRefreshLoading();
 ```
 
-- 加载更多（一般很少用）
+- 加载更多（一般很少手动去调用，都是由滚动监听调用）
 
 ```java
 getRecyclerViewHelper().loadMore()
+```
+
+# 跳转参数传递读取
+
+- 平时带参跳转，读取参数，在fragment、activity上直接调用intentXxx类方法拿取，已支持String、Int、Float、Boolean、Serializable、Parcelable。详情见基类。
+
+```java
+		//获取传递过来的用户id
+       String userId = intentStr(ActivitySampleActivity.BUNDLE_KEY_USER_ID);
+       //也可以带默认参数
+       String userId = intentStr(ActivitySampleActivity.BUNDLE_KEY_USER_ID, "-1");
+       //常用的int
+       int userIdInt = intentInt(ActivitySampleActivity.BUNDLE_KEY_USER_ID);
+       int userIdInt = intentInt(ActivitySampleActivity.BUNDLE_KEY_USER_ID, -1);
+       //序列化用户信息
+       Serialzable userInfo = intentSerializable(ActivitySampleActivity.BUNDLE_KEY_USER_Info);
 ```
