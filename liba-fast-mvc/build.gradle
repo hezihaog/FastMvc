@@ -30,7 +30,7 @@ dependencies {
     //生命周期监听库
     compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
     //通用滚动监听库
-    compile('oms.mmc:list-scroll-helper:1.0.0-SNAPSHOT@aar', {
+    compile('oms.mmc:list-scroll-helper:1.0.1-SNAPSHOT@aar', {
         exclude group: 'com.android.support'
     })
     //等待弹窗库

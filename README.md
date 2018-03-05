@@ -209,7 +209,6 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 
 - ListAbleDelegateHelper，继承BaseFastActivity或者BaseFastFragment时，调用getListAbleDelegateHelper()获取，对rv的一些辅助方法会放在这里。
 
-
 | 函数名        | 函数解释   |  功用  |
 | --------   | -----:  | :----:  |
 |compatNestedScroll()|当界面是NestedScrollView嵌套rv时，调用该方法解决滚动粘结问题|如果出现这样的嵌套情况，在对应界面的onListReady()时调用该方法。
@@ -414,8 +413,237 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
         ...
     }
 ```
+# 更换等待弹窗布局样式
 
-# Activity只是Fragment的简单使用
+- 等待弹窗样式修改，复写fragment或者activity的onWaitDialogFactoryReady()，返回一个实现IWaitViewFactory接口的工厂类。默认是BaseWaitDialogFactory，是弹出ProgreesDialog作为弹窗样式，当需要选择其他样式时，新建一个弹窗控件类，一个弹窗控制类iml，新建一个工厂类即可。例如我需要显示一个IOS菊花旋转的样式。下面例子显示修改。
+
+1. 弹窗控件类，新建控件类，IOSWaitDialog，继承Dialog，必须实现IEditableDialog接口，复写设置文字方法。
+
+```java
+public class IOSWaitDialog extends Dialog implements IEditableDialog {
+    private TextView message;
+
+    public IOSWaitDialog(Context context) {
+        this(context, R.layout.view_ios_wait_dialog, R.style.ios_dialog_wait);
+    }
+
+    public IOSWaitDialog(Context context, int layout, int style) {
+        super(context, style);
+        View rootLayout = LayoutInflater.from(context).inflate(layout, null);
+        setContentView(rootLayout);
+		 ...
+    }
+
+    public void setMessage(CharSequence msg) {
+        if (TextUtils.isEmpty(msg)) {
+            message.setVisibility(View.GONE);
+        } else {
+            message.setVisibility(View.VISIBLE);
+            message.setText(msg);
+        }
+    }
+
+    @Override
+    public void setMessage(int messageResId) {
+        setMessage(getContext().getResources().getString(messageResId));
+    }
+}
+```
+
+2. 新建一个IOSWaitDialogIml，继承AbsWaitDialogIml，这里有个泛型，声明为该类控制弹出的Dialog，例如这里是IOSWaitDialog。
+
+```java
+public class IOSWaitDialogIml extends AbsWaitDialogIml<IOSWaitDialog> {
+
+    @Override
+    public IOSWaitDialog onCreateDialog(Activity activity, CharSequence msg) {
+        IOSWaitDialog dialog = new IOSWaitDialog(activity);
+        dialog.setMessage(msg);
+        return dialog;
+    }
+}
+```
+
+3. 最后，新建一个IOSWaitDialogFactory工厂类返回
+
+```java
+public class IOSWaitDialogFactory extends BaseWaitDialogFactory {
+    @Override
+    public WaitDialogController getWaitDialogController(Activity activity) {
+        return new WaitDialogController(activity, IOSWaitDialogIml.class);
+    }
+}
+```
+
+# 更换界面切换布局样式
+
+- 重写fragment或activity的onLoadViewFactoryReady()方法，返回一个实现了ILoadViewFactory接口的工厂类，默认是BaseLoadViewFactory，需要修改时，新建一个类，继承BaseLoadViewFactory，复写madeLoadView()方法，返回一个ILoadView接口实例，推荐继承BaseLoadViewHelper，复写对应的状态方法，返回对应的View视图即可。
+
+- **注意** 当activity的onLoadViewFactoryReady()有复写时，fragment的复写则无效。只有当宿主Activity不是BaseFastActivity或者手动复写Activity的onLoadViewFactoryReady()返回成null时，才有效。
+
+> 相关函数
+
+| 函数名        | 函数解释   |  功用  |
+| --------   | -----:  | :----:  |
+|onInflateLoadingLayout()|当填充加载状态的布局时回调|返回对应的View对象即可
+|onInflateErrorLayout()|当填充错误装填的布局时回调|返回对应的View对象即可
+|onInflateEmptyLayout()|当填充数据为空的布局时回调|返回对应的View对象即可
+
+1. 新建工厂类
+
+```java
+public class SampleLoadViewFactory extends BaseLoadViewFactory {
+    @Override
+    public ILoadView madeLoadView() {
+        return new BaseLoadViewHelper() {
+            @Override
+            protected View onInflateLoadingLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                return helper.inflate(R.layout.layout_loading_view_sample_loading);
+            }
+
+            @Override
+            protected View onInflateErrorLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                View layout = helper.inflate(R.layout.layout_sample_load_view_error);
+                TextView refreshTv = (TextView) layout.findViewById(R.id.base_list_error_refresh);
+                refreshTv.setOnClickListener(onClickRefreshListener);
+                return layout;
+            }
+
+            @Override
+            protected View onInflateEmptyLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                View layout = helper.inflate(R.layout.layout_sample_load_view_empty);
+                TextView refreshTv = (TextView) layout.findViewById(R.id.base_list_empty_refresh);
+                refreshTv.setOnClickListener(onClickRefreshListener);
+                return layout;
+            }
+        };
+    }
+}
+```
+
+2. 最后将新的工厂类添加到方法上
+
+```java
+//重写该函数，切换页面切换时的样式（加载中、异常、空）
+    @Override
+    public ILoadViewFactory onLoadViewFactoryReady() {
+        return new SampleLoadViewFactory();
+    }
+```
+
+# 更换尾部加载更多样式
+
+> 具体函数
+
+| 函数名        | 函数解释   |  功用  |
+| --------   | -----:  | :----:  |
+|onInflateFooterView()|返回尾部布局View|就是加载更多尾部布局的视图
+|onInflateFooterViewAfter()|返回了布局后的操作|返回布局后的操作，通常来查找控件
+|onShowNormal()|当显示普通布局，一开始默认显示的样式|一开始显示的样式，在显示加载中之前显示，该方法做该状态需要修改的事情，例如控件设置显示隐藏，修改提示文字
+|onShowLoading()|显示加载布局时回调|切换加载时要显示的控件
+|onShowError()|显示错误布局时的回调|切换错误时要显示的控件
+|onShowNoMore()|显示没有更多时的回调|切换没有更多时要显示的控件
+
+- 如果样式只是在一个布局上做样式切换，来完成相似的样式上做切换，基本上上面的方法是够用的。但是如果几个状态样式相差很大时，就不能这么使用了，所以有了一下onSwitch开头的函数，可以在对应状态时，返回对应布局来达到切换。
+
+| 函数名        | 函数解释   |  功用  |
+| --------   | -----:  | :----:  |
+|onSwitchNormalLayout()|当显示普通布局前回调，返回普通状态下的布局|该方法返回一个View布局即可
+|onSwitchLoadingLayout()|当显示加载布局前回调|返回加载状态下的布局
+|onSwitchErrorLayout()|当显示错误布局前回调|返回错误状态下的布局
+|onSwitchNoMoreLayout()|当显示没有更多布局前回调|返回没有更多状态下的布局
+
+- on开头的方法需要返回一个AfterAction的枚举实例，代表了状态布局的附加处理，这个类型的作用是用来，隐藏布局和显示布局的，还可以做一些样式需求。这个加载更多的尾部布局，其实最后是作为rv的item来处理的，例如我想没有更多时，隐藏这个item，如果直接将viewHolder的itemLayout去gone掉，还是会占一个条目的高度的，这个标志就用来去将item的布局的高度去压缩到0，这样就隐藏掉这个布局了。当我需要加载更多不隐藏，而是显示出来，并且设置一段文字，这样就可以实现例如支付宝的列表界面，没有更多时，显示一段文字“我是有底线的”，这样的一个效果。
+
+| 状态类型名        | 类型解释   |  功用  |
+| --------   | -----:  | :----:  |
+|NO_ACTION|无操作，当不需要压缩高度或者恢复高度时可用|项目中没有用到这个类型，因为上一个状态是否压缩和恢复状态无法知道，所以一般不使用
+|COMPRESS_HEIGHT|压缩高度，当前状态是隐藏布局时使用|例如没有更多时，加载更多条目是要隐藏时，返回该标志。
+|RESTORE_HEIGHT|恢复高度|当前状态需要显示出来时，返回该标志
+
+- 直接复写fragment和activity的，onLoadMoreViewFactoryReady()，返回一个实现了ILoadMoreViewFactory接口的工厂类，复写创建加载视图方法，madeLoadMoreView()，传入一个实现了ILoadMoreView的实例，默认是DefaultLoadMoreHelper，推荐创建该类实例后，匿名对象复写需要复写的对应撞他的方法即可，也可以完全继承DefaultLoadMoreHelper的父类，AbsLoadMoreHelper来复写所有方法。
+
+```java
+public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
+    private TextView mTipText;
+    private ProgressWheel mProgressWheel;
+
+    @Override
+    public ILoadMoreView madeLoadMoreView() {
+        return new AbsLoadMoreHelper() {
+            @Override
+            protected View onInflateFooterView(LayoutInflater inflater, RecyclerView list, View.OnClickListener onClickLoadMoreListener) {
+                return inflater.inflate(R.layout.layout_sample_load_more_footer, list, false);
+            }
+
+            @Override
+            protected void onInflateFooterViewAfter(View footerView) {
+                mProgressWheel = (ProgressWheel) footerView.findViewById(R.id.progressBar);
+                mTipText = (TextView) footerView.findViewById(R.id.base_list_error_tip);
+            }
+
+            @Override
+            protected AfterAction onShowNormal(View footerView) {
+                footerView.setVisibility(View.VISIBLE);
+                mProgressWheel.setVisibility(View.GONE);
+                mTipText.setVisibility(View.VISIBLE);
+                mTipText.setText("");
+                footerView.setOnClickListener(null);
+                return AfterAction.RESTORE_HEIGHT;
+            }
+
+            @Override
+            protected AfterAction onShowNoMore(View footerView) {
+                //当时统一的尾部视图时，直接对返回的footerView做控件操作，如果是单独一个布局，则不需要做操作了，重写onSwitchNoMoreLayout()方法返回特定的布局即可
+
+//                footerView.setVisibility(View.VISIBLE);
+//                mProgressWheel.setVisibility(View.GONE);
+//                mTipText.setVisibility(View.VISIBLE);
+//                mTipText.setText("没有更多了呢");
+//                footerView.setOnClickListener(null);
+                //这里返回不压缩高度，让尾部item显示，并且显示一条"没有更多了呢"的提示
+                return AfterAction.RESTORE_HEIGHT;
+            }
+
+            @Override
+            protected View onSwitchNoMoreLayout(LayoutInflater inflater) {
+                return inflater.inflate(R.layout.layout_sample_load_more_footer_no_more, null);
+            }
+
+            @Override
+            protected AfterAction onShowLoading(View footerView) {
+                footerView.setVisibility(View.VISIBLE);
+                mProgressWheel.setVisibility(View.VISIBLE);
+                mTipText.setVisibility(View.VISIBLE);
+                mTipText.setText("正在努力赶来喔...");
+                footerView.setOnClickListener(null);
+                return AfterAction.RESTORE_HEIGHT;
+            }
+
+            @Override
+            protected AfterAction onShowError(View footerView) {
+                footerView.setVisibility(View.VISIBLE);
+                mProgressWheel.setVisibility(View.GONE);
+                mTipText.setVisibility(View.VISIBLE);
+                mTipText.setText("发生错误啦，刷新一下吧...");
+                footerView.setOnClickListener(getOnClickRefreshListener());
+                return AfterAction.RESTORE_HEIGHT;
+            }
+        };
+    }
+}
+```
+- 最后设置新的工厂类给对应的界面即可
+
+```java
+//重写该函数，切换加载更多更换的样式（正在加载、无数据、异常）
+    @Override
+    public ILoadMoreViewFactory onLoadMoreViewFactoryReady() {
+        return new SampleLoadMoreViewFactory();
+    }
+```
+
+# Activity单是作为容器Fragment的简单使用
 
 - ***注意*** 该方法只在BaseFastActivity上存在！直接复写**onSetupFragment()**
 
