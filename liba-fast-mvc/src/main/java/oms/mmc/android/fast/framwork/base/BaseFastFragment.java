@@ -36,7 +36,7 @@ public abstract class BaseFastFragment extends ArgumentsDelegateFragment impleme
         //这里的操作是，当activity不是BaseFastActivity或者宿主activity的onGetWaitDialogFactory()方法返回null时，使用fragment上定义的waitView
         IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
         if (controller == null) {
-            IWaitViewFactory waitViewFactory = onGetWaitDialogFactory();
+            IWaitViewFactory waitViewFactory = onWaitDialogFactoryReady();
             if (waitViewFactory != null && waitViewFactory.getWaitDialogController(activity) != null) {
                 controller = waitViewFactory.getWaitDialogController(activity);
                 if (controller != null) {
@@ -79,7 +79,10 @@ public abstract class BaseFastFragment extends ArgumentsDelegateFragment impleme
     public void onLayoutAfter() {
     }
 
-    protected IWaitViewFactory onGetWaitDialogFactory() {
+    /**
+     * 返回等待弹窗样式工厂
+     */
+    protected IWaitViewFactory onWaitDialogFactoryReady() {
         return new BaseWaitDialogFactory();
     }
 

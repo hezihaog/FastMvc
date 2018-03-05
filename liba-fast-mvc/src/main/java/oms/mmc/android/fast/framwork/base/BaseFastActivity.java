@@ -37,7 +37,7 @@ public abstract class BaseFastActivity extends ArgumentsDelegateActivity impleme
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
         mViewFinder = new ViewFinder(onLayoutView(getLayoutInflater(), null));
-        IWaitViewFactory waitViewFactory = onGetWaitDialogFactory();
+        IWaitViewFactory waitViewFactory = onWaitDialogFactoryReady();
         if (waitViewFactory != null && waitViewFactory.getWaitDialogController(getActivity()) != null) {
             WaitViewManager.getInstnace().add(this, waitViewFactory.getWaitDialogController(getActivity()));
         }
@@ -105,7 +105,10 @@ public abstract class BaseFastActivity extends ArgumentsDelegateActivity impleme
         }
     }
 
-    protected IWaitViewFactory onGetWaitDialogFactory() {
+    /**
+     * 返回等待弹窗样式工厂
+     */
+    protected IWaitViewFactory onWaitDialogFactoryReady() {
         return new BaseWaitDialogFactory();
     }
 

@@ -118,7 +118,7 @@ public class ChatListActivity extends BaseFastListActivity {
     }
 
     @Override
-    protected IWaitViewFactory onGetWaitDialogFactory() {
+    protected IWaitViewFactory onWaitDialogFactoryReady() {
         return new IOSWaitDialogFactory();
     }
 

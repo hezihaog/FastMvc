@@ -60,7 +60,7 @@ public class MeFragment extends BaseFastFragment {
 
     //fragment重写该方法，如果activity已经复写了，则无效。一般项目都会加一个项目基类继承BaseFastActivity，也不会一套UI多种风格
     @Override
-    protected IWaitViewFactory onGetWaitDialogFactory() {
+    protected IWaitViewFactory onWaitDialogFactoryReady() {
         return new IOSWaitDialogFactory();
     }
 }
