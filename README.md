@@ -21,6 +21,8 @@
 
 - 由于面对的都是一套Api，Activity切换到Fragment只需要改继承的基类，从BaseFastActivity改为BaseFastFragment即可，无报错，切换基本无成本。
 
+- 使用时，如果是已经更新了mmcsdk到2.0.0，则依赖此库，Activity使用BaseFastActivity进行开发。如果还是旧版本，由于以前都需要继承MMC开头的Activity不能继承本库的BaseFastActivity，所以要兼容旧版本，使用继承BaseFastFragment进行嵌入到之前的Activity进行开发。
+
 ------
 
 # 使用
@@ -95,7 +97,7 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 - 自带列表的Fragment基类：BaseFastListFragment
 - 列表条目类：BaseTpl、BaseStickyTpl
 
-# 约定俗称的函数（函数顺序按表格顺序）
+# 约定俗称的函数
 
 > 不带列表的Activity，继承BaseFastActivity
 
