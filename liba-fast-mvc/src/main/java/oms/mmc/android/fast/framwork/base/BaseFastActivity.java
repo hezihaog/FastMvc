@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import oms.mmc.android.fast.framwork.util.ActivityManager;
+import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
@@ -18,6 +19,7 @@ import oms.mmc.android.fast.framwork.util.WaitViewManager;
 import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 import oms.mmc.factory.wait.inter.IWaitViewController;
+import oms.mmc.helper.base.ScrollableViewFactory;
 
 /**
  * Activity基类
@@ -29,7 +31,7 @@ public abstract class BaseFastActivity extends ArgumentsDelegateActivity impleme
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).install();
+        ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).install();
         super.onCreate(savedInstanceState);
         mMainHandler = initHandler();
         ActivityManager.getActivityManager().addActivity(this);
