@@ -30,18 +30,18 @@
 
 ```java
         compile 'oms.mmc:fast-mvc:1.0.2-SNAPSHOT@aar'
-        //-------------------------- fast mvc 依赖的库 start ----------------------------
-        //生命周期监听库
-        compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
-        //通用滚动监听库
-        compile('oms.mmc:list-scroll-helper:1.0.1-SNAPSHOT@aar', {
-            exclude group: 'com.android.support'
-        })
-        //等待弹窗库
-        compile 'oms.mmc:wait-view-factory:1.0.1-SNAPSHOT@aar'
-        //界面切换状态库
-        compile 'oms.mmc:load-view-factory:1.0.3-SNAPSHOT@aar'
-        //-------------------------- fast mvc 依赖的库 end ----------------------------
+    //-------------------------- fast mvc 依赖的库 start ----------------------------
+    //生命周期监听库
+    compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
+    //通用滚动监听库
+    compile('oms.mmc:list-scroll-helper:1.0.2-SNAPSHOT@aar', {
+        exclude group: 'com.android.support'
+    })
+    //等待弹窗库
+    compile 'oms.mmc:wait-view-factory:1.0.1-SNAPSHOT@aar'
+    //界面切换状态库
+    compile 'oms.mmc:load-view-factory:1.0.3-SNAPSHOT@aar'
+    //-------------------------- fast mvc 依赖的库 end
 ```
 
 2. 由于使用ListScrollHelper，如果使用BaseFastFragment时不是使用BaseFastActivity为宿主，则需要在Activity的onCreate()方法的第一行调用以下代码：
@@ -119,7 +119,7 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 | onLoadMoreViewFactoryReady() |加载更多布局切换工厂|如需要修改加载更多的样式，复写该方法
 |onListTypeClassesReady|返回一个HashMap，定义列表条目类Tpl和对应的ViewType映射|这里匹配条目的映射关系|
 |onGetListLayoutManager()|返回RecyclerView的LayoutManager|返回rv的LayoutManager|
-|onGetStickyTplViewType()|返回需要粘性的条目的ViewType|需要时复写，需要时不需要复写，该方法依赖于StickyHeadersManager，必须设置为粘性的LayoutManager时，才有效|
+|onGetStickyTplViewType()|返回需要粘性的条目的ViewType|需要时复写，默认返回一个-1，代表不需要，该方法依赖于StickyHeadersManager，必须设置为粘性的LayoutManager时，才有效|
 |onGetScrollHelper()|返回滚动帮助类实例|返回对应使用的滚动类帮助类实例|
 |onListScrollHelperReady|当滚动帮助类初始化完成时回调|帮助类初始化完成，可以对帮助类进行添加监听等操作|
 |onListReady()|RecyclerView已经初始化完成时回调|rv初始化完成，这时候可以对rv进行操作，例如设置ItemDecoration条目分割线|
@@ -200,7 +200,7 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 
 # 界面加载切换样式
 
-> 列表界面加载时，默认有5种状态。
+> 列表界面加载时，默认有4种状态。
 
 1. loading加载
 2. 加载失败
