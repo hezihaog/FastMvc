@@ -113,7 +113,7 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 
 | 函数名        | 函数解释   |  功用  |
 | --------   | -----:  | :----:  |
-|onListDataSourceReady()|请求接口，拿列表接口数据| 返回数据集实例，一般是BaseListDataSource，复写load方法，在上面写请求，该函数会在子线程调用  |
+|onListDataSourceReady()|请求接口，拿列表接口数据| 返回数据集实例，一般是BaseListDataSource，复写load方法，在上面写请求，该函数会在子线程调用，因为该方法已经在子线程回调，所以请求方法要是同步阻塞的，而不是异步，否则会直接返回数据集，造成数据不正确或者为空  |
 |onListAdapterReady()|初始化rv的adapter，并返回|一般不需要重写，都统一返回支持多类型的BaseListAdapter。rv最终使用的adapter并不是该BaseAdapter，而是内部的HeadeFooterAdapter，来支持添加头部和尾部。
 |onLoadViewFactoryReady()|界面加载状态切换布局工厂|如需修改对应界面的加载样式，复写该方法
 | onLoadMoreViewFactoryReady() |加载更多布局切换工厂|如需要修改加载更多的样式，复写该方法
