@@ -13,9 +13,18 @@ import oms.mmc.android.fast.framwork.sample.event.Event;
  */
 
 public class EventBusUtil {
+    private static boolean isInited = false;
+
     public static EventBus init() {
         return EventBus.builder().logNoSubscriberMessages(false).sendNoSubscriberEvent(false)
                 .executorService(Executors.newCachedThreadPool()).installDefaultEventBus();
+    }
+
+    static {
+        if (!isInited) {
+            init();
+            isInited = true;
+        }
     }
 
     private static EventBus getInstance() {
