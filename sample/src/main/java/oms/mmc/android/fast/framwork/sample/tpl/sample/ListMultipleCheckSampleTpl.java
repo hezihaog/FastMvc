@@ -101,9 +101,9 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
 
     private void toggleCheckImage(boolean isCheck) {
         if (isCheck) {
-            mMultipleCheck.setImageResource(R.drawable.ic_checkbox_checked);
+            loadDrawableResId(mMultipleCheck, R.drawable.ic_checkbox_checked);
         } else {
-            mMultipleCheck.setImageResource(R.drawable.ic_checkbox_normal);
+            loadDrawableResId(mMultipleCheck, R.drawable.ic_checkbox_normal);
         }
     }
 }

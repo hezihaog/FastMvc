@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.util;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +39,18 @@ public interface IViewFinder {
      * @return 布局View
      */
     View getRootView();
+
+    /**
+     * 字符串是否是空的
+     *
+     * @param str 要判断的文字
+     */
+    boolean isEmpty(CharSequence str);
+
+    /**
+     * 字符串是否不是空的
+     */
+    boolean isNotEmpty(CharSequence str);
 
     //-------------------------------- 设置文字 --------------------------------
 
@@ -110,6 +121,20 @@ public interface IViewFinder {
      * @param defaultText 默认文字
      */
     CharSequence getTextWithDefault(TextView textView, CharSequence defaultText);
+
+    /**
+     * 获取View上的文字，并且toString和trim去掉前后空格
+     *
+     * @param viewId View的id
+     */
+    CharSequence getViewTextWithTrim(int viewId);
+
+    /**
+     * 获取View上的文字，并且toString和trim去掉前后空格
+     *
+     * @param view View对象
+     */
+    CharSequence getViewTextWithTrim(TextView view);
 
     //-------------------------------- 单次设置监听器 --------------------------------
 
@@ -196,30 +221,40 @@ public interface IViewFinder {
     /**
      * 加载网络图片
      */
-    void loadUrlImage(Activity activity, String url, ImageView imageView, int defaultImage);
+    void loadUrlImage(String url, ImageView imageView, int defaultImage);
 
     /**
      * 加载网络圆形图片
      */
-    void loadUrlImageToRound(Activity activity, String url, ImageView imageView, int defaultImage);
+    void loadUrlImageToRound(String url, ImageView imageView, int defaultImage);
 
     /**
      * 加载网络圆角图片
      */
-    void loadUrlImageToCorner(Activity activity, String url, ImageView imageView, int defaultImage);
+    void loadUrlImageToCorner(String url, ImageView imageView, int defaultImage);
 
     /**
      * 加载内存卡图片
      */
-    void loadFileImage(Activity activity, String filePath, ImageView imageView, int defaultImage);
+    void loadFileImage(String filePath, ImageView imageView, int defaultImage);
 
     /**
      * 加载图片bitmap
      */
-    void loadImageToBitmap(Activity activity, String url, LoadImageCallback loadImageCallback);
+    void loadImageToBitmap(String url, LoadImageCallback loadImageCallback);
+
+    /**
+     * 加载本地Res图片
+     */
+    void loadDrawableResId(int imageViewId, int resId);
+
+    /**
+     * 加载本地Res图片
+     */
+    void loadDrawableResId(ImageView imageView, int resId);
 
     /**
      * 清除图片缓存
      */
-    void clearMemoryCache(Activity activity);
+    void clearMemoryCache();
 }

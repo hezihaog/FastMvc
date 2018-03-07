@@ -5,9 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
@@ -40,8 +37,7 @@ public class MeFragment extends BaseFastFragment {
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
-        Glide.with(getActivity()).load(FakeUtil.getRandomAvatar()).
-                diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
+        loadUrlImage(FakeUtil.getRandomAvatar(), avatar, -1);
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -96,9 +96,9 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
 
     private void toggleCheck(boolean isCheck) {
         if (!isCheck) {
-            mCheckIv.setImageResource(R.drawable.ic_checkbox_normal);
+            loadDrawableResId(mCheckIv, R.drawable.ic_checkbox_normal);
         } else {
-            mCheckIv.setImageResource(R.drawable.ic_checkbox_checked);
+            loadDrawableResId(mCheckIv, R.drawable.ic_checkbox_checked);
         }
     }
 

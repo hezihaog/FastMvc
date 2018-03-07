@@ -38,7 +38,7 @@ dependencies {
     //界面切换状态库
     compile 'oms.mmc:load-view-factory:1.0.4-SNAPSHOT@aar'
     //图片加载
-    compile 'oms.mmc:imageLoader:1.0-SNAPSHOT@aar'
+    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
 }
 
 //是否提交到仓库

@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -22,7 +21,7 @@ import oms.mmc.android.fast.framwork.util.IViewFinder;
  * FileName: ArgumentsDelegateFragment
  * Date: on 2018/3/5  上午11:40
  * Auther: zihe
- * Descirbe:参数代理
+ * Descirbe:常用的参数代理和控件设置
  * Email: hezihao@linghit.com
  */
 
@@ -153,6 +152,16 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
         return getViewFinder().getRootView();
     }
 
+    @Override
+    public boolean isEmpty(CharSequence str) {
+        return getViewFinder().isEmpty(str);
+    }
+
+    @Override
+    public boolean isNotEmpty(CharSequence str) {
+        return getViewFinder().isNotEmpty(str);
+    }
+
     //-------------------------------- 设置文字 --------------------------------
 
     /**
@@ -238,6 +247,16 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
     @Override
     public CharSequence getTextWithDefault(TextView textView, CharSequence defaultText) {
         return getViewFinder().getTextWithDefault(textView, defaultText);
+    }
+
+    @Override
+    public CharSequence getViewTextWithTrim(int viewId) {
+        return getViewFinder().getViewText(viewId).toString().trim();
+    }
+
+    @Override
+    public CharSequence getViewTextWithTrim(TextView view) {
+        return getViewFinder().getViewText(view).toString().trim();
     }
 
     //-------------------------------- 单次设置监听器 --------------------------------
@@ -355,51 +374,62 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
         return getViewFinder().getImageLoader();
     }
 
+
     /**
      * 加载网络图片
      */
     @Override
-    public void loadUrlImage(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getViewFinder().loadUrlImage(activity, url, imageView, defaultImage);
+    public void loadUrlImage(String url, ImageView imageView, int defaultImage) {
+        getViewFinder().loadUrlImage(url, imageView, defaultImage);
     }
 
     /**
      * 加载网络圆形图片
      */
     @Override
-    public void loadUrlImageToRound(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getViewFinder().loadUrlImageToRound(activity, url, imageView, defaultImage);
+    public void loadUrlImageToRound(String url, ImageView imageView, int defaultImage) {
+        getViewFinder().loadUrlImageToRound(url, imageView, defaultImage);
     }
 
     /**
      * 加载网络圆角图片
      */
     @Override
-    public void loadUrlImageToCorner(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getViewFinder().loadUrlImageToCorner(activity, url, imageView, defaultImage);
+    public void loadUrlImageToCorner(String url, ImageView imageView, int defaultImage) {
+        getViewFinder().loadUrlImageToCorner(url, imageView, defaultImage);
     }
 
     /**
      * 加载内存卡图片
      */
     @Override
-    public void loadFileImage(Activity activity, String filePath, ImageView imageView, int defaultImage) {
-        getViewFinder().loadFileImage(activity, filePath, imageView, defaultImage);
+    public void loadFileImage(String filePath, ImageView imageView, int defaultImage) {
+        getViewFinder().loadFileImage(filePath, imageView, defaultImage);
     }
 
     /**
      * 加载图片bitmap
      */
     @Override
-    public void loadImageToBitmap(Activity activity, String url, LoadImageCallback loadImageCallback) {
-        getViewFinder().loadImageToBitmap(activity, url, loadImageCallback);
+    public void loadImageToBitmap(String url, LoadImageCallback loadImageCallback) {
+        getViewFinder().loadImageToBitmap(url, loadImageCallback);
+    }
+
+    @Override
+    public void loadDrawableResId(int imageViewId, int resId) {
+        getViewFinder().loadDrawableResId(imageViewId, resId);
+    }
+
+    @Override
+    public void loadDrawableResId(ImageView imageView, int resId) {
+        getViewFinder().loadDrawableResId(imageView, resId);
     }
 
     /**
      * 清除图片缓存
      */
     @Override
-    public void clearMemoryCache(Activity activity) {
-        getViewFinder().clearMemoryCache(activity);
+    public void clearMemoryCache() {
+        getViewFinder().clearMemoryCache();
     }
 }

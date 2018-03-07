@@ -43,20 +43,30 @@ import mmc.image.MMCImageLoader;
 public class ViewFinder implements IViewFinder {
     private HashMap<Integer, View> mViews;
     private View mRootView;
+    private Activity mActivity;
 
-    public ViewFinder(LayoutInflater inflater, ViewGroup parent, int layoutId) {
+    public ViewFinder(Activity activity, LayoutInflater inflater, ViewGroup parent, int layoutId) {
+        this.mActivity = activity;
         this.mViews = new HashMap<Integer, View>();
-        mRootView = inflater.inflate(layoutId, parent, false);
+        this.mRootView = inflater.inflate(layoutId, parent, false);
     }
 
-    public ViewFinder(View rootLayout) {
+    public ViewFinder(Activity activity, View rootLayout) {
+        this.mActivity = activity;
         this.mViews = new HashMap<Integer, View>();
-        mRootView = rootLayout;
+        this.mRootView = rootLayout;
     }
 
     @Override
     public ViewFinder getViewFinder() {
         return this;
+    }
+
+    /**
+     * 获取Activity
+     */
+    public Activity getActivity() {
+        return mActivity;
     }
 
     /**
@@ -85,6 +95,30 @@ public class ViewFinder implements IViewFinder {
     @Override
     public View getRootView() {
         return mRootView;
+    }
+
+    /**
+     * 判断字符串是否为空
+     *
+     * @param str 要判断的字符串
+     */
+    @Override
+    public boolean isEmpty(CharSequence str) {
+        if (str == null || str.length() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 判断字符串是否不为空
+     *
+     * @param str 要判断的字符串
+     */
+    @Override
+    public boolean isNotEmpty(CharSequence str) {
+        return !isEmpty(str);
     }
 
     //-------------------------------- 设置文字 --------------------------------
@@ -193,6 +227,16 @@ public class ViewFinder implements IViewFinder {
         } else {
             return text;
         }
+    }
+
+    @Override
+    public CharSequence getViewTextWithTrim(int viewId) {
+        return null;
+    }
+
+    @Override
+    public CharSequence getViewTextWithTrim(TextView view) {
+        return null;
     }
 
     //-------------------------------- 单次设置监听器 --------------------------------
@@ -365,47 +409,60 @@ public class ViewFinder implements IViewFinder {
      * 加载网络图片
      */
     @Override
-    public void loadUrlImage(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getImageLoader().loadUrlImage(activity, imageView, url, defaultImage);
+    public void loadUrlImage(String url, ImageView imageView, int defaultImage) {
+        getImageLoader().loadUrlImage(getActivity(), imageView, url, defaultImage);
     }
 
     /**
      * 加载网络圆形图片
      */
     @Override
-    public void loadUrlImageToRound(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getImageLoader().loadUrlImageToRound(activity, imageView, url, defaultImage);
+    public void loadUrlImageToRound(String url, ImageView imageView, int defaultImage) {
+        getImageLoader().loadUrlImageToRound(getActivity(), imageView, url, defaultImage);
     }
 
     /**
      * 加载网络圆角图片
      */
     @Override
-    public void loadUrlImageToCorner(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getImageLoader().loadUrlImageToCorner(activity, imageView, url, defaultImage);
+    public void loadUrlImageToCorner(String url, ImageView imageView, int defaultImage) {
+        getImageLoader().loadUrlImageToCorner(getActivity(), imageView, url, defaultImage);
     }
 
     /**
      * 加载内存卡图片
      */
     @Override
-    public void loadFileImage(Activity activity, String filePath, ImageView imageView, int defaultImage) {
-        getImageLoader().loadFileImage(activity, imageView, filePath, defaultImage);
+    public void loadFileImage(String filePath, ImageView imageView, int defaultImage) {
+        getImageLoader().loadFileImage(getActivity(), imageView, filePath, defaultImage);
     }
 
     /**
      * 加载图片bitmap
      */
     @Override
-    public void loadImageToBitmap(Activity activity, String url, LoadImageCallback loadImageCallback) {
-        getImageLoader().loadImageToBitmap(activity, url, loadImageCallback);
+    public void loadImageToBitmap(String url, LoadImageCallback loadImageCallback) {
+        getImageLoader().loadImageToBitmap(getActivity(), url, loadImageCallback);
+    }
+
+    @Override
+    public void loadDrawableResId(int imageViewId, int resId) {
+        View view = get(imageViewId);
+        if (view instanceof ImageView) {
+            loadDrawableResId((ImageView) view, resId);
+        }
+    }
+
+    @Override
+    public void loadDrawableResId(ImageView imageView, int resId) {
+        getImageLoader().loadDrawableResId(getActivity(), imageView, resId);
     }
 
     /**
      * 清除图片缓存
      */
     @Override
-    public void clearMemoryCache(Activity activity) {
-        getImageLoader().clearMemoryCache(activity);
+    public void clearMemoryCache() {
+        getImageLoader().clearMemoryCache(getActivity());
     }
 }

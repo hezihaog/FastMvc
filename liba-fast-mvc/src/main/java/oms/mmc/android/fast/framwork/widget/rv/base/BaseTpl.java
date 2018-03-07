@@ -68,7 +68,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         mRoot = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
         mRoot.addOnAttachStateChangeListener(this);
         mViewHolder = new ViewHolder(mRoot);
-        mViewFinder = new ViewFinder(mRoot);
+        mViewFinder = new ViewFinder(getActivity(), mRoot);
         onFindView(mViewFinder);
         onBindContent();
         onLayoutAfter();
@@ -95,6 +95,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     public void onLayoutAfter() {
     }
 
+    @Override
     public Activity getActivity() {
         return mActivity;
     }

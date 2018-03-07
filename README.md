@@ -42,7 +42,7 @@
     //界面切换状态库
     compile 'oms.mmc:load-view-factory:1.0.4-SNAPSHOT@aar'
     //图片加载
-    compile 'oms.mmc:imageLoader:1.0-SNAPSHOT@aar'
+    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
     //-------------------------- fast mvc 依赖的库 end
 ```
 

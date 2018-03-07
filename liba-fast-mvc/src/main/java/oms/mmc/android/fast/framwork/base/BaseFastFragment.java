@@ -55,7 +55,7 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mViewFinder = new ViewFinder(onLayoutView(inflater, container));
+        mViewFinder = new ViewFinder(getActivity(), onLayoutView(inflater, container));
         setRootView(mViewFinder.getRootView());
         return mViewFinder.getRootView();
     }

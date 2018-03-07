@@ -46,6 +46,7 @@ public class ChatTextSenderTpl extends BaseTpl<ItemDataWrapper> {
         String avatarUrl = (String) itemData.getDatas().get(0);
         String name = (String) itemData.getDatas().get(1);
         String content = (String) itemData.getDatas().get(2);
+        loadUrlImage(avatarUrl, avatarIv, -1);
         Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatarIv);
         ViewUtil.setText(name, nameTv);
         ViewUtil.setText(content, contentTv);

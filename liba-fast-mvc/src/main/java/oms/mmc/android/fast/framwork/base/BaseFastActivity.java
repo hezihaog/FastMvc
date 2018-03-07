@@ -36,7 +36,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         mMainHandler = initHandler();
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
-        mViewFinder = new ViewFinder(onLayoutView(getLayoutInflater(), null));
+        mViewFinder = new ViewFinder(getActivity(), onLayoutView(getLayoutInflater(), null));
         IWaitViewFactory waitViewFactory = onWaitDialogFactoryReady();
         if (waitViewFactory != null && waitViewFactory.getWaitDialogController(getActivity()) != null) {
             WaitViewManager.getInstnace().add(this, waitViewFactory.getWaitDialogController(getActivity()));
@@ -172,6 +172,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         setResult(resultCode, intent);
     }
 
+    @Override
     public BaseFastActivity getActivity() {
         return this;
     }

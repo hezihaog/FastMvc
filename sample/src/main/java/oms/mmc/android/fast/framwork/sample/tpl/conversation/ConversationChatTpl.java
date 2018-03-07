@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -46,8 +43,8 @@ public class ConversationChatTpl extends ConversationEditableTpl {
         String avatarUrl = (String) itemData.getDatas().get(0);
         String nameText = (String) itemData.getDatas().get(1);
         String content = (java.lang.String) itemData.getDatas().get(2);
-        Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
-        name.setText(nameText);
+        loadUrlImage(avatarUrl, avatar, -1);
+        setViewText(nameText, name);
         msgContent.setText(content);
     }
 

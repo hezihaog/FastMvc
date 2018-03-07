@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -45,7 +42,7 @@ public class ContactTpl extends BaseTpl<ItemDataWrapper> {
     protected void onRender(ItemDataWrapper itemData) {
         String avatarUrl = (String) itemData.getDatas().get(0);
         name = (String) itemData.getDatas().get(1);
-        Glide.with(getActivity()).load(avatarUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(avatar);
+        loadUrlImage(avatarUrl, avatar, -1);
         contactName.setText(name);
     }
 }
