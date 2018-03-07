@@ -41,7 +41,6 @@ import mmc.image.MMCImageLoader;
  * @author 子和
  */
 public class ViewFinder implements IViewFinder {
-    private static final int MAX_SIZE = 4 * 1024 * 1024;
     private EasySparseArrayCompat<View> mViews;
     private View mRootView;
     private Activity mActivity;
