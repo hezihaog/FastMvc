@@ -32,15 +32,17 @@
         compile 'oms.mmc:fast-mvc:1.0.2-SNAPSHOT@aar'
     //-------------------------- fast mvc 依赖的库 start ----------------------------
     //生命周期监听库
-    compile 'oms.mmc:lifecycle-dispatch:1.0.0-SNAPSHOT@aar'
+    compile 'oms.mmc:lifecycle-dispatch:1.0.1-SNAPSHOT@aar'
     //通用滚动监听库
-    compile('oms.mmc:list-scroll-helper:1.0.2-SNAPSHOT@aar', {
+    compile('oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar', {
         exclude group: 'com.android.support'
     })
     //等待弹窗库
-    compile 'oms.mmc:wait-view-factory:1.0.1-SNAPSHOT@aar'
+    compile 'oms.mmc:wait-view-factory:1.0.2-SNAPSHOT@aar'
     //界面切换状态库
-    compile 'oms.mmc:load-view-factory:1.0.3-SNAPSHOT@aar'
+    compile 'oms.mmc:load-view-factory:1.0.4-SNAPSHOT@aar'
+    //图片加载
+    compile 'oms.mmc:imageLoader:1.0-SNAPSHOT@aar'
     //-------------------------- fast mvc 依赖的库 end
 ```
 
