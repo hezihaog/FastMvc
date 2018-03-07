@@ -1,10 +1,10 @@
 package oms.mmc.android.fast.framwork;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.res.Configuration;
 import android.os.Handler;
 
-import oms.mmc.android.fast.framwork.base.BaseApplication;
 import oms.mmc.android.fast.framwork.base.IHandlerDispatcher;
 
 
@@ -17,7 +17,7 @@ import oms.mmc.android.fast.framwork.base.IHandlerDispatcher;
  * Email: hezihao@linghit.com
  */
 
-public class BaseFastApplication extends BaseApplication implements IHandlerDispatcher {
+public class BaseFastApplication extends Application implements IHandlerDispatcher {
     @SuppressLint("StaticFieldLeak")
     private static BaseFastApplication mInstance;
     private Handler mMainHandler;

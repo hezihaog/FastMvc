@@ -35,14 +35,12 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.base.BaseApplication;
 
 
 /**
  * 设备相关工具类
  */
 public class TDevice {
-
     // 手机网络类型
     public static final int NETTYPE_WIFI = 0x01;
     public static final int NETTYPE_CMWAP = 0x02;
@@ -67,41 +65,42 @@ public class TDevice {
     public TDevice() {
     }
 
-    public static float dpToPixel(float dp) {
-        return dp * (getDisplayMetrics().densityDpi / 160F);
+    public static float dpToPixel(Context context, float dp) {
+        return dp * (getDisplayMetrics(context).densityDpi / 160F);
     }
 
-    public static int spToPixel(float spValue) {
-        final float fontScale = getDisplayMetrics().scaledDensity;
+    public static int spToPixel(Context context, float spValue) {
+        final float fontScale = getDisplayMetrics(context).scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
 
-    public static int getDefaultLoadFactor() {
+    public static int getDefaultLoadFactor(Context context) {
         if (_loadFactor == null) {
-            Integer integer = 0xf & BaseApplication.context().getResources().getConfiguration().screenLayout;
+            Integer integer = 0xf & context.getResources().getConfiguration().screenLayout;
             _loadFactor = integer;
             _loadFactor = Math.max(integer, 1);
         }
         return _loadFactor;
     }
 
-    public static float getDensity() {
-        if (displayDensity == 0.0)
-            displayDensity = getDisplayMetrics().density;
+    public static float getDensity(Context context) {
+        if (displayDensity == 0.0) {
+            displayDensity = getDisplayMetrics(context).density;
+        }
         return displayDensity;
     }
 
-    public static DisplayMetrics getDisplayMetrics() {
-        DisplayMetrics displaymetrics = BaseApplication.context().getResources().getDisplayMetrics();
+    public static DisplayMetrics getDisplayMetrics(Context context) {
+        DisplayMetrics displaymetrics = context.getResources().getDisplayMetrics();
         return displaymetrics;
     }
 
-    public static float getScreenHeight() {
-        return getDisplayMetrics().heightPixels;
+    public static float getScreenHeight(Context context) {
+        return getDisplayMetrics(context).heightPixels;
     }
 
-    public static float getScreenWidth() {
-        return getDisplayMetrics().widthPixels;
+    public static float getScreenWidth(Context context) {
+        return getDisplayMetrics(context).widthPixels;
     }
 
     public static int[] getRealScreenSize(Activity activity) {
@@ -135,15 +134,15 @@ public class TDevice {
         return size;
     }
 
-    public static boolean hasBigScreen() {
+    public static boolean hasBigScreen(Context context) {
         boolean flag = true;
         if (_hasBigScreen == null) {
             boolean flag1;
-            flag1 = (0xf & BaseApplication.context().getResources().getConfiguration().screenLayout) >= 3;
+            flag1 = (0xf & context.getResources().getConfiguration().screenLayout) >= 3;
             Boolean boolean1 = flag1;
             _hasBigScreen = boolean1;
             if (!boolean1) {
-                if (getDensity() <= 1.5F)
+                if (getDensity(context) <= 1.5F)
                     flag = false;
                 _hasBigScreen = flag;
             }
@@ -151,9 +150,9 @@ public class TDevice {
         return _hasBigScreen;
     }
 
-    public static boolean hasCamera() {
+    public static boolean hasCamera(Context context) {
         if (_hasCamera == null) {
-            PackageManager pckMgr = BaseApplication.context().getPackageManager();
+            PackageManager pckMgr = context.getPackageManager();
             boolean flag = pckMgr.hasSystemFeature("android.hardware.camera.front");
             boolean flag1 = pckMgr.hasSystemFeature("android.hardware.camera");
             boolean flag2;
@@ -184,9 +183,10 @@ public class TDevice {
     }
 
     public static void hideSoftKeyboard(View view) {
-        if (view == null)
+        if (view == null) {
             return;
-        ((InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        ((InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static void copyInClipboard(@NonNull Context context, String target) {
@@ -199,35 +199,14 @@ public class TDevice {
         return clm.getText().toString();
     }
 
-    public static boolean isLandscape() {
-        boolean flag;
-        flag = BaseApplication.context().getResources().getConfiguration().orientation == 2;
-        return flag;
-    }
-
-    public static boolean isPortrait() {
-        boolean flag = true;
-        if (BaseApplication.context().getResources().getConfiguration().orientation != 1)
-            flag = false;
-        return flag;
-    }
-
-    public static boolean isTablet() {
-        if (_isTablet == null) {
-            boolean flag;
-            flag = (0xf & BaseApplication.context().getResources().getConfiguration().screenLayout) >= 3;
-            _isTablet = flag;
-        }
-        return _isTablet;
-    }
-
-    public static float pixelsToDp(float f) {
-        return f / (getDisplayMetrics().densityDpi / 160F);
+    public static float pixelsToDp(Context context, float f) {
+        return f / (getDisplayMetrics(context).densityDpi / 160F);
     }
 
     public static void showAnimatedView(View view) {
-        if (PRE_HC && view != null)
+        if (PRE_HC && view != null) {
             view.setPadding(0, 0, 0, 0);
+        }
     }
 
     public static void showSoftKeyboard(Dialog dialog) {
@@ -235,23 +214,25 @@ public class TDevice {
     }
 
     public static void showSoftKeyboard(View view) {
-        ((InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(view, 0);
+        if (view == null) {
+            return;
+        }
+        ((InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(view, 0);
     }
 
     public static void toogleSoftKeyboard(View view) {
-        ((InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (view == null) {
+            return;
+        }
+        ((InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public static boolean isSdcardReady() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
-    public static String getCurCountryLan() {
-        return BaseApplication.context().getResources().getConfiguration().locale.getLanguage() + "-" + BaseApplication.context().getResources().getConfiguration().locale.getCountry();
-    }
-
-    public static boolean isZhCN() {
-        String lang = BaseApplication.context().getResources().getConfiguration().locale.getCountry();
+    public static boolean isZhCN(Context context) {
+        String lang = context.getResources().getConfiguration().locale.getCountry();
         return lang.equalsIgnoreCase("CN");
     }
 
@@ -287,38 +268,38 @@ public class TDevice {
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
-    public static int getVersionCode() {
+    public static int getVersionCode(Context context) {
         int versionCode;
         try {
-            versionCode = BaseApplication.context().getPackageManager().getPackageInfo(BaseApplication.context().getPackageName(), 0).versionCode;
+            versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (NameNotFoundException ex) {
             versionCode = 0;
         }
         return versionCode;
     }
 
-    public static int getVersionCode(String packageName) {
+    public static int getVersionCode(Context context, String packageName) {
         int versionCode;
         try {
-            versionCode = BaseApplication.context().getPackageManager().getPackageInfo(packageName, 0).versionCode;
+            versionCode = context.getPackageManager().getPackageInfo(packageName, 0).versionCode;
         } catch (NameNotFoundException ex) {
             versionCode = 0;
         }
         return versionCode;
     }
 
-    public static String getVersionName() {
+    public static String getVersionName(Context context) {
         String name;
         try {
-            name = BaseApplication.context().getPackageManager().getPackageInfo(BaseApplication.context().getPackageName(), 0).versionName;
+            name = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (NameNotFoundException ex) {
             name = "";
         }
         return name;
     }
 
-    public static boolean isScreenOn() {
-        PowerManager pm = (PowerManager) BaseApplication.context().getSystemService(Context.POWER_SERVICE);
+    public static boolean isScreenOn(Context context) {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         return pm.isScreenOn();
     }
 
@@ -396,7 +377,7 @@ public class TDevice {
         }
     }
 
-    public static int getStatusBarHeight() {
+    public static int getStatusBarHeight(Context context) {
         Class<?> c;
         Object obj;
         Field field;
@@ -406,7 +387,7 @@ public class TDevice {
             obj = c.newInstance();
             field = c.getField("status_bar_height");
             x = Integer.parseInt(field.get(obj).toString());
-            sbar = BaseApplication.context().getResources().getDimensionPixelSize(x);
+            sbar = context.getResources().getDimensionPixelSize(x);
 
         } catch (Exception e1) {
             e1.printStackTrace();
