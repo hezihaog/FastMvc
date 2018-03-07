@@ -15,7 +15,6 @@ import java.util.Set;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.MultipleCheckEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -88,7 +87,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
         }
         EventBusUtil.sendEvent(new MultipleCheckEvent(getPosition(), isCheck));
         Set<Integer> integers = getListAdapter().getCheckedItemPositions().keySet();
-        ToastUtil.showToast(getActivity(), "当前选中的position是 ::: " + integers.toString());
+        showToast("当前选中的position是 ::: " + integers.toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

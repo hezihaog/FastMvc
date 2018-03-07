@@ -23,14 +23,13 @@
 package oms.mmc.android.fast.framwork.util;
 
 import android.app.Activity;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.HashMap;
 
 import mmc.image.ImageLoader;
 import mmc.image.LoadImageCallback;
@@ -42,20 +41,25 @@ import mmc.image.MMCImageLoader;
  * @author 子和
  */
 public class ViewFinder implements IViewFinder {
-    private HashMap<Integer, View> mViews;
+    private static final int MAX_SIZE = 4 * 1024 * 1024;
+    private EasySparseArrayCompat<View> mViews;
     private View mRootView;
     private Activity mActivity;
 
     public ViewFinder(Activity activity, LayoutInflater inflater, ViewGroup parent, int layoutId) {
         this.mActivity = activity;
-        this.mViews = new HashMap<Integer, View>();
+        this.mViews = createCacheMap();
         this.mRootView = inflater.inflate(layoutId, parent, false);
     }
 
     public ViewFinder(Activity activity, View rootLayout) {
         this.mActivity = activity;
-        this.mViews = new HashMap<Integer, View>();
+        this.mViews = createCacheMap();
         this.mRootView = rootLayout;
+    }
+
+    private EasySparseArrayCompat<View> createCacheMap() {
+        return new EasySparseArrayCompat(5);
     }
 
     @Override
@@ -447,7 +451,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     @Override
-    public void loadDrawableResId(@IdRes int imageViewId, @IdRes int resId) {
+    public void loadDrawableResId(@IdRes int imageViewId, @DrawableRes int resId) {
         View view = get(imageViewId);
         if (view instanceof ImageView) {
             loadDrawableResId((ImageView) view, resId);
@@ -455,7 +459,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     @Override
-    public void loadDrawableResId(ImageView imageView, @IdRes int resId) {
+    public void loadDrawableResId(ImageView imageView, @DrawableRes int resId) {
         getImageLoader().loadDrawableResId(getActivity(), imageView, resId);
     }
 

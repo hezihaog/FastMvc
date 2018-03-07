@@ -10,9 +10,6 @@ package oms.mmc.android.fast.framwork.util;
  * Email: hezihao@linghit.com
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A copy of the current platform (currently {@link android.os.Build.VERSION_CODES#KITKAT}
  * version of {@link android.util.SparseArray}; provides a removeAt() method and other things.
@@ -406,30 +403,5 @@ public class EasySparseArrayCompat<E> implements Cloneable {
      */
     public boolean isEmpty() {
         return size() == 0;
-    }
-
-    /**
-     * 获取key的集合
-     */
-    public List<Integer> keyList() {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int key : mKeys) {
-            list.add(key);
-        }
-        return list;
-    }
-
-    /**
-     * 获取value的集合
-     */
-    public List<E> valueList() {
-        ArrayList<E> list = new ArrayList<E>();
-        for (Object value : mValues) {
-            if (value == null) {
-                continue;
-            }
-            list.add((E) value);
-        }
-        return list;
     }
 }

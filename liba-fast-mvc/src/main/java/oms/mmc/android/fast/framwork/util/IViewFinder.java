@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.ImageView;
@@ -247,12 +248,12 @@ public interface IViewFinder {
     /**
      * 加载本地Res图片
      */
-    void loadDrawableResId(@IdRes int imageViewId, @IdRes int resId);
+    void loadDrawableResId(@IdRes int imageViewId, @DrawableRes int resId);
 
     /**
      * 加载本地Res图片
      */
-    void loadDrawableResId(ImageView imageView, @IdRes int resId);
+    void loadDrawableResId(ImageView imageView, @DrawableRes int resId);
 
     /**
      * 清除图片缓存

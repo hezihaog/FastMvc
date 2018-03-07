@@ -8,7 +8,6 @@ import android.widget.TextView;
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseFragmentSampleActivity;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 /**
@@ -28,7 +27,7 @@ public class BaseFragmentSampleFragment extends BaseFastFragment {
     public void onLayoutBefore() {
         super.onLayoutBefore();
         mAge = getArguments().getString(BaseFragmentSampleActivity.BUNDLE_KEY_AGE, "-1");
-        ToastUtil.showToast(getActivity(), "收到跳转参数 :--> " + mAge);
+        showToast("收到跳转参数 :--> " + mAge);
     }
 
     @Override

@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.widget.rv.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -471,12 +472,12 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
     }
 
     @Override
-    public void loadDrawableResId(int imageViewId, int resId) {
+    public void loadDrawableResId(int imageViewId, @DrawableRes int resId) {
         getViewFinder().loadDrawableResId(imageViewId, resId);
     }
 
     @Override
-    public void loadDrawableResId(ImageView imageView, int resId) {
+    public void loadDrawableResId(ImageView imageView, @DrawableRes int resId) {
         getViewFinder().loadDrawableResId(imageView, resId);
     }
 

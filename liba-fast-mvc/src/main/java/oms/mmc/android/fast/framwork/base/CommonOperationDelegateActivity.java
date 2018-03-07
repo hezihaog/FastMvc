@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -473,12 +474,12 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     @Override
-    public void loadDrawableResId(int imageViewId, @IdRes int resId) {
+    public void loadDrawableResId(int imageViewId, @DrawableRes int resId) {
         getViewFinder().loadDrawableResId(imageViewId, resId);
     }
 
     @Override
-    public void loadDrawableResId(ImageView imageView, @IdRes int resId) {
+    public void loadDrawableResId(ImageView imageView, @DrawableRes int resId) {
         getViewFinder().loadDrawableResId(imageView, resId);
     }
 

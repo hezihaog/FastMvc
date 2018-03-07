@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
  */
 
 public abstract class ExtendLazyFragment extends PagerVisibleFragment {
-    //Fragment容器
     protected FrameLayout mRootContainer;
     private LayoutInflater mInflater;
     private Bundle mSavedInstanceState;
@@ -72,11 +71,6 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
         this.isVisible = isVisibleToUser;
         if (isVisibleToUser && !isLazyViewCreated && mInflater != null) {
             startLazy();
-        }
-        if (getUserVisibleHint()) {
-            onFragmentVisible();
-        } else {
-            onFragmentInvisible();
         }
     }
 
@@ -139,18 +133,6 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
      * @param inflater 填充器
      */
     protected abstract View onGetLazyLoadingView(LayoutInflater inflater);
-
-    /**
-     * Fragment可见时回调，子类按需重写
-     */
-    protected void onFragmentVisible() {
-    }
-
-    /**
-     * Fragment不可见时回调，子类按需重写
-     */
-    protected void onFragmentInvisible() {
-    }
 
     /**
      * 获取Fragment是否可见

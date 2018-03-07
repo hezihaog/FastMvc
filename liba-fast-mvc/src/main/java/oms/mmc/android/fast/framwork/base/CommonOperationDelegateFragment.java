@@ -2,6 +2,7 @@ package oms.mmc.android.fast.framwork.base;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -461,12 +462,12 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
     }
 
     @Override
-    public void loadDrawableResId(@IdRes int imageViewId, @IdRes int resId) {
+    public void loadDrawableResId(@IdRes int imageViewId, @DrawableRes int resId) {
         getViewFinder().loadDrawableResId(imageViewId, resId);
     }
 
     @Override
-    public void loadDrawableResId(ImageView imageView, @IdRes int resId) {
+    public void loadDrawableResId(ImageView imageView, @DrawableRes int resId) {
         getViewFinder().loadDrawableResId(imageView, resId);
     }
 

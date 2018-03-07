@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 
 public class ActivitySampleActivity extends BaseFastActivity {
@@ -21,7 +20,7 @@ public class ActivitySampleActivity extends BaseFastActivity {
         super.onLayoutBefore();
         //获取传递过来的用户id
         mUserId = intentStr(ActivitySampleActivity.BUNDLE_KEY_USER_ID);
-        ToastUtil.showToast(getActivity(), "收到前面传递过来的userId -> " + mUserId);
+        showToast("收到前面传递过来的userId -> " + mUserId);
     }
 
     /**

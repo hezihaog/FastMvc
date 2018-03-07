@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -49,7 +48,7 @@ public class ListTextSampleTpl extends BaseStickyTpl<ItemDataWrapper> {
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
         showWaitDialog();
-        ToastUtil.showToast(getActivity(), "tpl -- onItemClick");
+        showToast("tpl -- onItemClick");
         BaseFastApplication.getInstance().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -61,7 +60,7 @@ public class ListTextSampleTpl extends BaseStickyTpl<ItemDataWrapper> {
     @Override
     public void onItemLongClick(View view, int position) {
         super.onItemLongClick(view, position);
-        ToastUtil.showToast(getActivity(), "tpl -- onItemLongClick");
+        showToast("tpl -- onItemLongClick");
         getListScrollHelper().smoothMoveToTop();
     }
 

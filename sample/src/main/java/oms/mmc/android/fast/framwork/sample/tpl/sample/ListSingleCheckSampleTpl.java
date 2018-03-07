@@ -12,7 +12,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.SingleCheckEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -80,7 +79,7 @@ public class ListSingleCheckSampleTpl extends BaseTpl<BaseItemData> {
             isCheck = true;
         }
         EventBusUtil.sendEvent(new SingleCheckEvent(getPosition(), isCheck));
-        ToastUtil.showToast(getActivity(), "当前选中的position是 ::: " + getListAdapter().getCheckedItemPosition());
+        showToast("当前选中的position是 ::: " + getListAdapter().getCheckedItemPosition());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -19,7 +19,6 @@ import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListImageSampleTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -138,25 +137,25 @@ public class ListActivitySampleActivity extends BaseFastListActivity {
     @Override
     public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
-        ToastUtil.showToast(getActivity(), "刷新开始...");
+        showToast("刷新开始...");
     }
 
     @Override
     public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
-        ToastUtil.showToast(getActivity(), "刷新结束...");
+        showToast("刷新结束...");
     }
 
     @Override
     public void onStartLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartLoadMore(adapter, isFirst, isReverse);
-        ToastUtil.showToast(getActivity(), "上拉加载开始...");
+        showToast("上拉加载开始...");
     }
 
     @Override
     public void onEndLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndLoadMore(adapter, result, isFirst, isReverse);
-        ToastUtil.showToast(getActivity(), "上拉加载结束...");
+        showToast("上拉加载结束...");
     }
 
     /**

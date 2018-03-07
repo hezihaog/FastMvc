@@ -36,7 +36,6 @@ import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
-import oms.mmc.android.fast.framwork.util.ToastUtil;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -167,7 +166,7 @@ public class ConversationListFragment extends BaseFastListFragment {
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(getActivity(), "headerView onClick()");
+                showToast("headerView onClick()");
             }
         });
         getRecyclerViewAdapter().addHeaderView(headerView);
@@ -187,7 +186,7 @@ public class ConversationListFragment extends BaseFastListFragment {
 
     @Override
     public void onItemClick(View view, BaseTpl clickTpl, int position) {
-        ToastUtil.showToast(getActivity(), String.valueOf(position));
+        showToast(String.valueOf(position));
         int itemViewType = clickTpl.getItemViewType();
         if (itemViewType == TPL_CHAT) {
             MMCUIHelper.showConversationDetail(getActivity());
