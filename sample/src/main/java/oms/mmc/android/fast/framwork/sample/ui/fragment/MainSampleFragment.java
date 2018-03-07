@@ -25,6 +25,5 @@ public class MainSampleFragment extends BaseFastFragment {
 
     @Override
     public void onFindView(ViewFinder finder) {
-
     }
 }

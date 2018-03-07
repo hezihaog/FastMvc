@@ -90,9 +90,9 @@ public abstract class PagerVisibleFragment extends LifecycleFragment {
      */
     protected void onFragmentVisibleChange(boolean isVisible) {
         if (isVisible) {
-            onFragmentVisible();
+            onPagerFragmentVisible();
         } else {
-            onFragmentInvisible();
+            onPagerFragmentInvisible();
         }
         for (OnFragmentVisibleChangeCallback callback : visibleCallbacks) {
             callback.onFragmentVisibleChange(getClass().getName(), isVisible);
@@ -100,16 +100,16 @@ public abstract class PagerVisibleFragment extends LifecycleFragment {
     }
 
     /**
-     * 当fragment显示时回调
+     * 当fragment显示时回调，在ViewPager的Fragment才有效
      */
-    protected void onFragmentVisible() {
+    protected void onPagerFragmentVisible() {
 
     }
 
     /**
-     * 当fragment隐藏时回调
+     * 当fragment隐藏时回调，在ViewPager的Fragment才有效
      */
-    protected void onFragmentInvisible() {
+    protected void onPagerFragmentInvisible() {
 
     }
 

@@ -210,6 +210,38 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
         return getViewFinder().isNotEmpty(str);
     }
 
+    /**
+     * 判断View显示的文字是否为空
+     */
+    @Override
+    public boolean viewTextIsEmpty(int viewId) {
+        return getViewFinder().viewTextIsEmpty(viewId);
+    }
+
+    /**
+     * 判断View显示的文字是否为空
+     */
+    @Override
+    public boolean viewTextIsEmpty(TextView view) {
+        return getViewFinder().viewTextIsEmpty(view);
+    }
+
+    /**
+     * 判断View显示的文字是否不为空
+     */
+    @Override
+    public boolean viewTextIsNotEmpty(int viewId) {
+        return getViewFinder().viewTextIsNotEmpty(viewId);
+    }
+
+    /**
+     * 判断View显示的文字是否不为空
+     */
+    @Override
+    public boolean viewTextIsNotEmpty(TextView view) {
+        return getViewFinder().viewTextIsNotEmpty(view);
+    }
+
     //-------------------------------- 设置文字 --------------------------------
 
     /**

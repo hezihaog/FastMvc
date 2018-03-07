@@ -125,6 +125,38 @@ public class ViewFinder implements IViewFinder {
         return !isEmpty(str);
     }
 
+    /**
+     * 判断View显示的文字是否为空
+     */
+    @Override
+    public boolean viewTextIsEmpty(int viewId) {
+        return isEmpty(getViewTextWithTrim(viewId));
+    }
+
+    /**
+     * 判断View显示的文字是否为空
+     */
+    @Override
+    public boolean viewTextIsEmpty(TextView view) {
+        return isEmpty(getViewTextWithTrim(view));
+    }
+
+    /**
+     * 判断View显示的文字是否不为空
+     */
+    @Override
+    public boolean viewTextIsNotEmpty(int viewId) {
+        return isNotEmpty(getViewTextWithTrim(viewId));
+    }
+
+    /**
+     * 判断View显示的文字是否不为空
+     */
+    @Override
+    public boolean viewTextIsNotEmpty(TextView view) {
+        return isNotEmpty(getViewTextWithTrim(view));
+    }
+
     //-------------------------------- 设置文字 --------------------------------
 
     /**

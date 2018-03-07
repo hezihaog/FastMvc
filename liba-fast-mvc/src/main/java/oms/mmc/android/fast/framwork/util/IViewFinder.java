@@ -54,6 +54,26 @@ public interface IViewFinder {
      */
     boolean isNotEmpty(CharSequence str);
 
+    /**
+     * 判断View显示的文字是否为空
+     */
+    boolean viewTextIsEmpty(@IdRes int viewId);
+
+    /**
+     * 判断View显示的文字是否为空
+     */
+    boolean viewTextIsEmpty(TextView view);
+
+    /**
+     * 判断View显示的文字是否不为空
+     */
+    boolean viewTextIsNotEmpty(@IdRes int viewId);
+
+    /**
+     * 判断View显示的文字是否不为空
+     */
+    boolean viewTextIsNotEmpty(TextView view);
+
     //-------------------------------- 设置文字 --------------------------------
 
     /**
