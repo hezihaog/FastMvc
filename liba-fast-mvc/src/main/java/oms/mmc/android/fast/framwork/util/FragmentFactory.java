@@ -56,11 +56,23 @@ public class FragmentFactory {
     }
 
     public static class FragmentInfoWrapper {
+        private int containerViewId;
         private Class clazz;
         private Bundle args;
 
         public FragmentInfoWrapper(Class clazz) {
             this.clazz = clazz;
+        }
+
+        public FragmentInfoWrapper(int containerViewId, Class clazz) {
+            this.containerViewId = containerViewId;
+            this.clazz = clazz;
+        }
+
+        public FragmentInfoWrapper(int containerViewId, Class clazz, Bundle args) {
+            this.containerViewId = containerViewId;
+            this.clazz = clazz;
+            this.args = args;
         }
 
         public FragmentInfoWrapper(Class clazz, Bundle args) {
@@ -82,6 +94,14 @@ public class FragmentFactory {
 
         public void setArgs(Bundle args) {
             this.args = args;
+        }
+
+        public int getContainerViewId() {
+            return containerViewId;
+        }
+
+        public void setContainerViewId(int containerViewId) {
+            this.containerViewId = containerViewId;
         }
     }
 }

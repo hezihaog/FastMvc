@@ -18,6 +18,7 @@ public class BaseListFragmentSampleActivity extends BaseFastActivity {
 
     @Override
     protected FragmentFactory.FragmentInfoWrapper onSetupFragment() {
-        return new FragmentFactory.FragmentInfoWrapper(BaseListFragmentSampleFragment.class);
+        //可以指定fragment添加到哪个容器，如果不传，则默认为android.R.id.content
+        return new FragmentFactory.FragmentInfoWrapper(R.id.fragmentContainer, BaseListFragmentSampleFragment.class);
     }
 }

@@ -198,12 +198,15 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         if (infoWrapper.getClazz() == null) {
             return;
         }
+        if (infoWrapper.getContainerViewId() == 0) {
+            infoWrapper.setContainerViewId(android.R.id.content);
+        }
         Fragment fragment = FragmentFactory.newInstance(getActivity(), infoWrapper.getClazz()
                 , infoWrapper.getArgs());
         bindFragmentTag = fragment.getClass().getName();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(android.R.id.content, fragment, bindFragmentTag)
+                .add(infoWrapper.getContainerViewId(), fragment, bindFragmentTag)
                 .commit();
     }
 
