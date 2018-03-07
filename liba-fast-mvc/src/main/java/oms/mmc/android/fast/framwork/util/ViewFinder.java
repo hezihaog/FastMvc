@@ -23,6 +23,7 @@
 package oms.mmc.android.fast.framwork.util;
 
 import android.app.Activity;
+import android.support.annotation.IdRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class ViewFinder implements IViewFinder {
      * @return View
      */
     @Override
-    public <T extends View> T get(int resId) {
+    public <T extends View> T get(@IdRes int resId) {
         View view = mViews.get(resId);
         //如果该View没有缓存过，则查找View并缓存
         if (view == null) {
@@ -130,7 +131,7 @@ public class ViewFinder implements IViewFinder {
      * @param viewId 控件id，必须是TextView以及子类
      */
     @Override
-    public void setViewText(CharSequence text, int viewId) {
+    public void setViewText(CharSequence text, @IdRes int viewId) {
         View view = get(viewId);
         if (view instanceof TextView) {
             setViewText(text, (TextView) view);
@@ -145,7 +146,7 @@ public class ViewFinder implements IViewFinder {
      * @param viewId      控件id，必须是TextView以及子类
      */
     @Override
-    public void setTextWithDefault(CharSequence text, CharSequence defaultText, int viewId) {
+    public void setTextWithDefault(CharSequence text, CharSequence defaultText, @IdRes int viewId) {
         View view = get(viewId);
         if (view instanceof TextView) {
             setTextWithDefault(text, defaultText, (TextView) view);
@@ -191,7 +192,7 @@ public class ViewFinder implements IViewFinder {
      * @return View上的文字
      */
     @Override
-    public CharSequence getViewText(int viewId) {
+    public CharSequence getViewText(@IdRes int viewId) {
         return getTextWithDefault(viewId, "");
     }
 
@@ -202,7 +203,7 @@ public class ViewFinder implements IViewFinder {
      * @param defaultText 默认文字
      */
     @Override
-    public CharSequence getTextWithDefault(int viewId, CharSequence defaultText) {
+    public CharSequence getTextWithDefault(@IdRes int viewId, CharSequence defaultText) {
         View view = get(viewId);
         if (view instanceof TextView) {
             return getTextWithDefault((TextView) view, defaultText);
@@ -230,7 +231,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     @Override
-    public CharSequence getViewTextWithTrim(int viewId) {
+    public CharSequence getViewTextWithTrim(@IdRes int viewId) {
         return null;
     }
 
@@ -248,7 +249,7 @@ public class ViewFinder implements IViewFinder {
      * @param id       view 的 id
      */
     @Override
-    public View findAndSetOnClick(int id, View.OnClickListener listener) {
+    public View findAndSetOnClick(@IdRes int id, View.OnClickListener listener) {
         if (id <= 0) {
             return null;
         }
@@ -263,7 +264,7 @@ public class ViewFinder implements IViewFinder {
      * @param listener 监听器
      */
     @Override
-    public View findAndSetOnLongClick(int id, View.OnLongClickListener listener) {
+    public View findAndSetOnLongClick(@IdRes int id, View.OnLongClickListener listener) {
         if (id <= 0) {
             return null;
         }
@@ -280,7 +281,7 @@ public class ViewFinder implements IViewFinder {
      * @param ids      view 的 id
      */
     @Override
-    public void setOnClickListener(View.OnClickListener listener, int... ids) {
+    public void setOnClickListener(View.OnClickListener listener, @IdRes int... ids) {
         if (ids == null) {
             return;
         }
@@ -315,7 +316,7 @@ public class ViewFinder implements IViewFinder {
      * @param ids      View 的id
      */
     @Override
-    public void setOnLongClickListener(View.OnLongClickListener listener, int... ids) {
+    public void setOnLongClickListener(View.OnLongClickListener listener, @IdRes int... ids) {
         if (ids == null) {
             return;
         }
@@ -354,7 +355,7 @@ public class ViewFinder implements IViewFinder {
      * @param ids 多个View的id
      */
     @Override
-    public void setVisible(int... ids) {
+    public void setVisible(@IdRes int... ids) {
         for (int id : ids) {
             if (id <= 0) {
                 continue;
@@ -369,7 +370,7 @@ public class ViewFinder implements IViewFinder {
      * @param ids 多个View的id
      */
     @Override
-    public void setGone(int... ids) {
+    public void setGone(@IdRes int... ids) {
         for (int id : ids) {
             if (id <= 0) {
                 continue;
@@ -409,7 +410,7 @@ public class ViewFinder implements IViewFinder {
      * 加载网络图片
      */
     @Override
-    public void loadUrlImage(String url, ImageView imageView, int defaultImage) {
+    public void loadUrlImage(String url, ImageView imageView, @IdRes int defaultImage) {
         getImageLoader().loadUrlImage(getActivity(), imageView, url, defaultImage);
     }
 
@@ -417,7 +418,7 @@ public class ViewFinder implements IViewFinder {
      * 加载网络圆形图片
      */
     @Override
-    public void loadUrlImageToRound(String url, ImageView imageView, int defaultImage) {
+    public void loadUrlImageToRound(String url, ImageView imageView, @IdRes int defaultImage) {
         getImageLoader().loadUrlImageToRound(getActivity(), imageView, url, defaultImage);
     }
 
@@ -425,7 +426,7 @@ public class ViewFinder implements IViewFinder {
      * 加载网络圆角图片
      */
     @Override
-    public void loadUrlImageToCorner(String url, ImageView imageView, int defaultImage) {
+    public void loadUrlImageToCorner(String url, ImageView imageView, @IdRes int defaultImage) {
         getImageLoader().loadUrlImageToCorner(getActivity(), imageView, url, defaultImage);
     }
 
@@ -433,7 +434,7 @@ public class ViewFinder implements IViewFinder {
      * 加载内存卡图片
      */
     @Override
-    public void loadFileImage(String filePath, ImageView imageView, int defaultImage) {
+    public void loadFileImage(String filePath, ImageView imageView, @IdRes int defaultImage) {
         getImageLoader().loadFileImage(getActivity(), imageView, filePath, defaultImage);
     }
 
@@ -446,7 +447,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     @Override
-    public void loadDrawableResId(int imageViewId, int resId) {
+    public void loadDrawableResId(@IdRes int imageViewId, @IdRes int resId) {
         View view = get(imageViewId);
         if (view instanceof ImageView) {
             loadDrawableResId((ImageView) view, resId);
@@ -454,7 +455,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     @Override
-    public void loadDrawableResId(ImageView imageView, int resId) {
+    public void loadDrawableResId(ImageView imageView, @IdRes int resId) {
         getImageLoader().loadDrawableResId(getActivity(), imageView, resId);
     }
 

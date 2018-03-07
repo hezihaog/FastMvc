@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
+import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public interface IViewFinder {
      * @param <T>   泛型
      * @return View
      */
-    <T extends View> T get(int resId);
+    <T extends View> T get(@IdRes int resId);
 
     /**
      * 获取布局View
@@ -60,7 +61,7 @@ public interface IViewFinder {
      * @param text   文字
      * @param viewId 控件id，必须是TextView以及子类
      */
-    void setViewText(CharSequence text, int viewId);
+    void setViewText(CharSequence text, @IdRes int viewId);
 
     /**
      * 直接控件id设置文字
@@ -69,7 +70,7 @@ public interface IViewFinder {
      * @param defaultText 如果传入文字的值为null，设置的默认文字
      * @param viewId      控件id，必须是TextView以及子类
      */
-    void setTextWithDefault(CharSequence text, CharSequence defaultText, int viewId);
+    void setTextWithDefault(CharSequence text, CharSequence defaultText, @IdRes int viewId);
 
     /**
      * 为TextView设置文字，如果传入的Text为null，则设置为空字符串
@@ -104,7 +105,7 @@ public interface IViewFinder {
      * @param viewId TextView的id
      * @return View上的文字
      */
-    CharSequence getViewText(int viewId);
+    CharSequence getViewText(@IdRes int viewId);
 
     /**
      * 使用View Id，获取文字，当获取为null是，可指定返回默认文字
@@ -112,7 +113,7 @@ public interface IViewFinder {
      * @param viewId      View id
      * @param defaultText 默认文字
      */
-    CharSequence getTextWithDefault(int viewId, CharSequence defaultText);
+    CharSequence getTextWithDefault(@IdRes int viewId, CharSequence defaultText);
 
     /**
      * 使用View，获取文字，当获取为null是，可指定返回默认文字
@@ -127,7 +128,7 @@ public interface IViewFinder {
      *
      * @param viewId View的id
      */
-    CharSequence getViewTextWithTrim(int viewId);
+    CharSequence getViewTextWithTrim(@IdRes int viewId);
 
     /**
      * 获取View上的文字，并且toString和trim去掉前后空格
@@ -144,7 +145,7 @@ public interface IViewFinder {
      * @param listener 监听器
      * @param id       view 的 id
      */
-    View findAndSetOnClick(int id, View.OnClickListener listener);
+    View findAndSetOnClick(@IdRes int id, View.OnClickListener listener);
 
     /**
      * 查找并设置长按监听器
@@ -152,7 +153,7 @@ public interface IViewFinder {
      * @param id       View的id
      * @param listener 监听器
      */
-    View findAndSetOnLongClick(int id, View.OnLongClickListener listener);
+    View findAndSetOnLongClick(@IdRes int id, View.OnLongClickListener listener);
 
     //-------------------------------- 批量设置监听器 --------------------------------
 
@@ -162,7 +163,7 @@ public interface IViewFinder {
      * @param listener 点击监听器
      * @param ids      view 的 id
      */
-    void setOnClickListener(View.OnClickListener listener, int... ids);
+    void setOnClickListener(View.OnClickListener listener, @IdRes int... ids);
 
     /**
      * 批量View，设置同一个点击监听器
@@ -178,7 +179,7 @@ public interface IViewFinder {
      * @param listener 长按监听器
      * @param ids      View 的id
      */
-    void setOnLongClickListener(View.OnLongClickListener listener, int... ids);
+    void setOnLongClickListener(View.OnLongClickListener listener, @IdRes int... ids);
 
     /**
      * 批量View，设置同一个长按监听器
@@ -195,14 +196,14 @@ public interface IViewFinder {
      *
      * @param ids 多个View的id
      */
-    void setVisible(int... ids);
+    void setVisible(@IdRes int... ids);
 
     /**
      * 以多个id的方式，批量设置View为隐藏
      *
      * @param ids 多个View的id
      */
-    void setGone(int... ids);
+    void setGone(@IdRes int... ids);
 
     /**
      * 设置多个View显示
@@ -221,22 +222,22 @@ public interface IViewFinder {
     /**
      * 加载网络图片
      */
-    void loadUrlImage(String url, ImageView imageView, int defaultImage);
+    void loadUrlImage(String url, ImageView imageView, @IdRes int defaultImage);
 
     /**
      * 加载网络圆形图片
      */
-    void loadUrlImageToRound(String url, ImageView imageView, int defaultImage);
+    void loadUrlImageToRound(String url, ImageView imageView, @IdRes int defaultImage);
 
     /**
      * 加载网络圆角图片
      */
-    void loadUrlImageToCorner(String url, ImageView imageView, int defaultImage);
+    void loadUrlImageToCorner(String url, ImageView imageView, @IdRes int defaultImage);
 
     /**
      * 加载内存卡图片
      */
-    void loadFileImage(String filePath, ImageView imageView, int defaultImage);
+    void loadFileImage(String filePath, ImageView imageView, @IdRes int defaultImage);
 
     /**
      * 加载图片bitmap
@@ -246,12 +247,12 @@ public interface IViewFinder {
     /**
      * 加载本地Res图片
      */
-    void loadDrawableResId(int imageViewId, int resId);
+    void loadDrawableResId(@IdRes int imageViewId, @IdRes int resId);
 
     /**
      * 加载本地Res图片
      */
-    void loadDrawableResId(ImageView imageView, int resId);
+    void loadDrawableResId(ImageView imageView, @IdRes int resId);
 
     /**
      * 清除图片缓存

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -151,7 +152,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @return View
      */
     @Override
-    public <T extends View> T get(int resId) {
+    public <T extends View> T get(@IdRes int resId) {
         return getViewFinder().get(resId);
     }
 
@@ -184,7 +185,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param viewId 控件id，必须是TextView以及子类
      */
     @Override
-    public void setViewText(CharSequence text, int viewId) {
+    public void setViewText(CharSequence text, @IdRes int viewId) {
         getViewFinder().setViewText(text, viewId);
     }
 
@@ -196,7 +197,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param viewId      控件id，必须是TextView以及子类
      */
     @Override
-    public void setTextWithDefault(CharSequence text, CharSequence defaultText, int viewId) {
+    public void setTextWithDefault(CharSequence text, CharSequence defaultText, @IdRes int viewId) {
         getViewFinder().setTextWithDefault(text, defaultText, viewId);
     }
 
@@ -236,7 +237,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @return View上的文字
      */
     @Override
-    public CharSequence getViewText(int viewId) {
+    public CharSequence getViewText(@IdRes int viewId) {
         return getViewFinder().getViewText(viewId);
     }
 
@@ -247,7 +248,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param defaultText 默认文字
      */
     @Override
-    public CharSequence getTextWithDefault(int viewId, CharSequence defaultText) {
+    public CharSequence getTextWithDefault(@IdRes int viewId, CharSequence defaultText) {
         return getViewFinder().getTextWithDefault(viewId, defaultText);
     }
 
@@ -263,7 +264,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     @Override
-    public CharSequence getViewTextWithTrim(int viewId) {
+    public CharSequence getViewTextWithTrim(@IdRes int viewId) {
         return getViewFinder().getViewTextWithTrim(viewId);
     }
 
@@ -281,7 +282,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param id       view 的 id
      */
     @Override
-    public View findAndSetOnClick(int id, View.OnClickListener listener) {
+    public View findAndSetOnClick(@IdRes int id, View.OnClickListener listener) {
         return getViewFinder().findAndSetOnClick(id, listener);
     }
 
@@ -292,7 +293,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param listener 监听器
      */
     @Override
-    public View findAndSetOnLongClick(int id, View.OnLongClickListener listener) {
+    public View findAndSetOnLongClick(@IdRes int id, View.OnLongClickListener listener) {
         return findAndSetOnLongClick(id, listener);
     }
 
@@ -305,7 +306,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param ids      view 的 id
      */
     @Override
-    public void setOnClickListener(View.OnClickListener listener, int... ids) {
+    public void setOnClickListener(View.OnClickListener listener, @IdRes int... ids) {
         getViewFinder().setOnClickListener(listener, ids);
     }
 
@@ -327,7 +328,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param ids      View 的id
      */
     @Override
-    public void setOnLongClickListener(View.OnLongClickListener listener, int... ids) {
+    public void setOnLongClickListener(View.OnLongClickListener listener, @IdRes int... ids) {
         getViewFinder().setOnLongClickListener(listener, ids);
     }
 
@@ -350,7 +351,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param ids 多个View的id
      */
     @Override
-    public void setVisible(int... ids) {
+    public void setVisible(@IdRes int... ids) {
         getViewFinder().setVisible(ids);
     }
 
@@ -360,7 +361,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param ids 多个View的id
      */
     @Override
-    public void setGone(int... ids) {
+    public void setGone(@IdRes int... ids) {
         getViewFinder().setGone(ids);
     }
 
@@ -391,7 +392,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * 加载网络图片
      */
     @Override
-    public void loadUrlImage(String url, ImageView imageView, int defaultImage) {
+    public void loadUrlImage(String url, ImageView imageView, @IdRes int defaultImage) {
         getViewFinder().loadUrlImage(url, imageView, defaultImage);
     }
 
@@ -399,7 +400,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * 加载网络圆形图片
      */
     @Override
-    public void loadUrlImageToRound(String url, ImageView imageView, int defaultImage) {
+    public void loadUrlImageToRound(String url, ImageView imageView, @IdRes int defaultImage) {
         getViewFinder().loadUrlImageToRound(url, imageView, defaultImage);
     }
 
@@ -407,7 +408,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * 加载网络圆角图片
      */
     @Override
-    public void loadUrlImageToCorner(String url, ImageView imageView, int defaultImage) {
+    public void loadUrlImageToCorner(String url, ImageView imageView, @IdRes int defaultImage) {
         getViewFinder().loadUrlImageToCorner(url, imageView, defaultImage);
     }
 
@@ -415,7 +416,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * 加载内存卡图片
      */
     @Override
-    public void loadFileImage(String filePath, ImageView imageView, int defaultImage) {
+    public void loadFileImage(String filePath, ImageView imageView, @IdRes int defaultImage) {
         getViewFinder().loadFileImage(filePath, imageView, defaultImage);
     }
 
@@ -428,12 +429,12 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     @Override
-    public void loadDrawableResId(int imageViewId, int resId) {
+    public void loadDrawableResId(int imageViewId, @IdRes int resId) {
         getViewFinder().loadDrawableResId(imageViewId, resId);
     }
 
     @Override
-    public void loadDrawableResId(ImageView imageView, int resId) {
+    public void loadDrawableResId(ImageView imageView, @IdRes int resId) {
         getViewFinder().loadDrawableResId(imageView, resId);
     }
 
