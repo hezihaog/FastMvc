@@ -22,7 +22,7 @@ import oms.mmc.factory.wait.inter.IWaitViewController;
 /**
  * Fragment基类
  */
-public abstract class BaseFastFragment extends ArgumentsDelegateFragment implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
+public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
     protected FragmentManager mFm;
     protected Fragment mFragment;
     private ViewFinder mViewFinder;
@@ -86,6 +86,7 @@ public abstract class BaseFastFragment extends ArgumentsDelegateFragment impleme
         return new BaseWaitDialogFactory();
     }
 
+    @Override
     public ViewFinder getViewFinder() {
         return mViewFinder;
     }

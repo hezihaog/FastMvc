@@ -59,7 +59,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
 
     @Override
     protected void onRender(BaseItemData itemData) {
-        mTextView.setText("item position " + getPosition());
+        setViewText("item position " + getPosition(), mTextView);
         HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
         if (checkedItemPositions.containsKey(getPosition())) {
             toggleCheckImage(true);

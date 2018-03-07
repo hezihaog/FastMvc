@@ -24,7 +24,7 @@ import oms.mmc.helper.base.ScrollableViewFactory;
 /**
  * Activity基类
  */
-public abstract class BaseFastActivity extends ArgumentsDelegateActivity implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
+public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
     private ViewFinder mViewFinder;
     private String bindFragmentTag;
     private Handler mMainHandler;
@@ -136,6 +136,7 @@ public abstract class BaseFastActivity extends ArgumentsDelegateActivity impleme
         return (E) findViewById(id);
     }
 
+    @Override
     public ViewFinder getViewFinder() {
         return mViewFinder;
     }

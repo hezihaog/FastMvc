@@ -22,7 +22,7 @@ import oms.mmc.helper.ListScrollHelper;
 /**
  * 列表条目基础模板，条目类
  */
-public abstract class BaseTpl<T> extends ArgumentsDelegateTpl implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
+public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
     private Activity mActivity;
     private Intent mIntent;
     private Bundle mBundle;
@@ -82,7 +82,8 @@ public abstract class BaseTpl<T> extends ArgumentsDelegateTpl implements LayoutC
         return mRoot;
     }
 
-    protected ViewFinder getViewFinder() {
+    @Override
+    public ViewFinder getViewFinder() {
         return mViewFinder;
     }
 

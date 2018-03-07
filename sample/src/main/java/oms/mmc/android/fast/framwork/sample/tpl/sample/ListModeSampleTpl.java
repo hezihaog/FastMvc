@@ -57,13 +57,13 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
 
     @Override
     protected void onRender(ItemDataWrapper itemData) {
-        mTextTv.setText((String) itemData.getDatas().get(0));
+        setViewText((String) itemData.getDatas().get(0), mTextTv);
         boolean isEditMode = getListAdapter().isEditMode();
         if (!isEditMode) {
-            mCheckIv.setVisibility(View.GONE);
+            setGone(mCheckIv);
             toggleCheck(false);
         } else {
-            mCheckIv.setVisibility(View.VISIBLE);
+            setVisible(mCheckIv);
             HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
             if (checkedItemPositions.containsKey(getPosition())) {
                 toggleCheck(true);

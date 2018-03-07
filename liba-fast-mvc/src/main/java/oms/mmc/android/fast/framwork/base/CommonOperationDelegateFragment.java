@@ -1,63 +1,135 @@
-/*
- * Copyright 2017 GcsSloop
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Last modified 2017-03-11 22:24:54
- *
- * GitHub:  https://github.com/GcsSloop
- * Website: http://www.gcssloop.com
- * Weibo:   http://weibo.com/GcsSloop
- */
-
-package oms.mmc.android.fast.framwork.util;
+package oms.mmc.android.fast.framwork.base;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.HashMap;
+import java.io.Serializable;
 
 import mmc.image.ImageLoader;
 import mmc.image.LoadImageCallback;
-import mmc.image.MMCImageLoader;
+import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
+import oms.mmc.android.fast.framwork.util.ArgumentsDelegateHelper;
+import oms.mmc.android.fast.framwork.util.IArgumentsDelegate;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 
 /**
- * View查找器，封装一些常用方法
- *
- * @author 子和
+ * Package: oms.mmc.android.fast.framwork.base
+ * FileName: ArgumentsDelegateFragment
+ * Date: on 2018/3/5  上午11:40
+ * Auther: zihe
+ * Descirbe:参数代理
+ * Email: hezihao@linghit.com
  */
-public class ViewFinder implements IViewFinder {
-    private HashMap<Integer, View> mViews;
-    private View mRootView;
 
-    public ViewFinder(LayoutInflater inflater, ViewGroup parent, int layoutId) {
-        this.mViews = new HashMap<Integer, View>();
-        mRootView = inflater.inflate(layoutId, parent, false);
+public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment implements IArgumentsDelegate, IWaitViewHandler, IViewFinder {
+    private ArgumentsDelegateHelper mArgumentsDelegateHelper;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mArgumentsDelegateHelper = ensureInit();
     }
 
-    public ViewFinder(View rootLayout) {
-        this.mViews = new HashMap<Integer, View>();
-        mRootView = rootLayout;
+    /**
+     * 确保初始化
+     */
+    public ArgumentsDelegateHelper ensureInit() {
+        if (mArgumentsDelegateHelper == null) {
+            mArgumentsDelegateHelper = ArgumentsDelegateHelper.newInstance(getArguments());
+        }
+        return mArgumentsDelegateHelper;
     }
 
     @Override
-    public ViewFinder getViewFinder() {
-        return this;
+    public void setExtras(Bundle extras) {
+        ensureInit();
+        mArgumentsDelegateHelper.setExtras(extras);
     }
+
+    @Override
+    public Bundle getExtras() {
+        ensureInit();
+        return mArgumentsDelegateHelper.getExtras();
+    }
+
+    @Override
+    public String intentStr(String key) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentStr(key);
+    }
+
+    @Override
+    public String intentStr(String key, String defaultValue) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentStr(key, defaultValue);
+    }
+
+    @Override
+    public int intentInt(String key) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentInt(key);
+    }
+
+    @Override
+    public int intentInt(String key, int defaultValue) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentInt(key, defaultValue);
+    }
+
+    @Override
+    public boolean intentBoolean(String key) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentBoolean(key);
+    }
+
+    @Override
+    public boolean intentBoolean(String key, boolean defaultValue) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentBoolean(key, defaultValue);
+    }
+
+    @Override
+    public Serializable intentSerializable(String key) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentSerializable(key);
+    }
+
+    @Override
+    public Serializable intentSerializable(String key, Serializable defaultValue) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentSerializable(key, defaultValue);
+    }
+
+    @Override
+    public float intentFloat(String key) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentFloat(key);
+    }
+
+    @Override
+    public float intentFloat(String key, float defaultValue) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentFloat(key, defaultValue);
+    }
+
+    @Override
+    public <T extends Parcelable> T intentParcelable(String key) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentParcelable(key);
+    }
+
+    @Override
+    public <T extends Parcelable> T intentParcelable(String key, Parcelable defaultValue) {
+        ensureInit();
+        return mArgumentsDelegateHelper.intentParcelable(key, defaultValue);
+    }
+
+    //------------------------ 控件操作 ------------------------
 
     /**
      * 通过View的id来获取子View
@@ -68,13 +140,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public <T extends View> T get(int resId) {
-        View view = mViews.get(resId);
-        //如果该View没有缓存过，则查找View并缓存
-        if (view == null) {
-            view = mRootView.findViewById(resId);
-            mViews.put(resId, view);
-        }
-        return (T) view;
+        return getViewFinder().get(resId);
     }
 
     /**
@@ -84,7 +150,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public View getRootView() {
-        return mRootView;
+        return getViewFinder().getRootView();
     }
 
     //-------------------------------- 设置文字 --------------------------------
@@ -97,10 +163,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setViewText(CharSequence text, int viewId) {
-        View view = get(viewId);
-        if (view instanceof TextView) {
-            setViewText(text, (TextView) view);
-        }
+        getViewFinder().setViewText(text, viewId);
     }
 
     /**
@@ -112,10 +175,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setTextWithDefault(CharSequence text, CharSequence defaultText, int viewId) {
-        View view = get(viewId);
-        if (view instanceof TextView) {
-            setTextWithDefault(text, defaultText, (TextView) view);
-        }
+        getViewFinder().setTextWithDefault(text, defaultText, viewId);
     }
 
     /**
@@ -123,7 +183,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setViewText(CharSequence text, TextView view) {
-        setTextWithDefault(text, "", view);
+        getViewFinder().setViewText(text, view);
     }
 
     /**
@@ -131,10 +191,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setTextWithDefault(CharSequence text, CharSequence defaultText, TextView view) {
-        if (view == null) {
-            return;
-        }
-        view.setText(null == text ? defaultText : text);
+        getViewFinder().setTextWithDefault(text, defaultText, view);
     }
 
     //-------------------------------- 获取TextView及其子类的文字 --------------------------------
@@ -147,7 +204,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public CharSequence getViewText(TextView view) {
-        return getTextWithDefault(view, "");
+        return getViewFinder().getViewText(view);
     }
 
     /**
@@ -158,7 +215,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public CharSequence getViewText(int viewId) {
-        return getTextWithDefault(viewId, "");
+        return getViewFinder().getViewText(viewId);
     }
 
     /**
@@ -169,11 +226,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public CharSequence getTextWithDefault(int viewId, CharSequence defaultText) {
-        View view = get(viewId);
-        if (view instanceof TextView) {
-            return getTextWithDefault((TextView) view, defaultText);
-        }
-        return defaultText;
+        return getViewFinder().getTextWithDefault(viewId, defaultText);
     }
 
     /**
@@ -184,15 +237,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public CharSequence getTextWithDefault(TextView textView, CharSequence defaultText) {
-        if (textView == null) {
-            return defaultText;
-        }
-        CharSequence text = textView.getText();
-        if (text == null) {
-            return defaultText;
-        } else {
-            return text;
-        }
+        return getViewFinder().getTextWithDefault(textView, defaultText);
     }
 
     //-------------------------------- 单次设置监听器 --------------------------------
@@ -205,11 +250,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public View findAndSetOnClick(int id, View.OnClickListener listener) {
-        if (id <= 0) {
-            return null;
-        }
-        get(id).setOnClickListener(listener);
-        return get(id);
+        return getViewFinder().findAndSetOnClick(id, listener);
     }
 
     /**
@@ -220,11 +261,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public View findAndSetOnLongClick(int id, View.OnLongClickListener listener) {
-        if (id <= 0) {
-            return null;
-        }
-        get(id).setOnLongClickListener(listener);
-        return get(id);
+        return findAndSetOnLongClick(id, listener);
     }
 
     //-------------------------------- 批量设置监听器 --------------------------------
@@ -237,15 +274,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setOnClickListener(View.OnClickListener listener, int... ids) {
-        if (ids == null) {
-            return;
-        }
-        if (ids.length == 0) {
-            return;
-        }
-        for (int id : ids) {
-            get(id).setOnClickListener(listener);
-        }
+        getViewFinder().setOnClickListener(listener, ids);
     }
 
     /**
@@ -256,12 +285,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setOnClickListener(View.OnClickListener listener, View... views) {
-        if (views == null) {
-            return;
-        }
-        for (View view : views) {
-            view.setOnClickListener(listener);
-        }
+        getViewFinder().setOnClickListener(listener, views);
     }
 
     /**
@@ -272,15 +296,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setOnLongClickListener(View.OnLongClickListener listener, int... ids) {
-        if (ids == null) {
-            return;
-        }
-        if (ids.length == 0) {
-            return;
-        }
-        for (int id : ids) {
-            get(id).setOnLongClickListener(listener);
-        }
+        getViewFinder().setOnLongClickListener(listener, ids);
     }
 
     /**
@@ -291,15 +307,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setOnLongClickListener(View.OnLongClickListener listener, View... views) {
-        if (views == null) {
-            return;
-        }
-        if (views.length == 0) {
-            return;
-        }
-        for (View view : views) {
-            view.setOnLongClickListener(listener);
-        }
+        getViewFinder().setOnLongClickListener(listener, views);
     }
 
     //-------------------------------- 设置View的显示隐藏 --------------------------------
@@ -311,12 +319,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setVisible(int... ids) {
-        for (int id : ids) {
-            if (id <= 0) {
-                continue;
-            }
-            get(id).setVisibility(View.VISIBLE);
-        }
+        getViewFinder().setVisible(ids);
     }
 
     /**
@@ -326,12 +329,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setGone(int... ids) {
-        for (int id : ids) {
-            if (id <= 0) {
-                continue;
-            }
-            get(id).setVisibility(View.GONE);
-        }
+        getViewFinder().setGone(ids);
     }
 
     /**
@@ -339,9 +337,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setVisible(View... views) {
-        for (View view : views) {
-            view.setVisibility(View.VISIBLE);
-        }
+        getViewFinder().setVisible(views);
     }
 
     /**
@@ -349,16 +345,14 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void setGone(View... views) {
-        for (View view : views) {
-            view.setVisibility(View.GONE);
-        }
+        getViewFinder().setGone(views);
     }
 
     //-------------------------------- 图片加载 --------------------------------
 
     @Override
     public ImageLoader getImageLoader() {
-        return MMCImageLoader.getInstance().getmImageLoader();
+        return getViewFinder().getImageLoader();
     }
 
     /**
@@ -366,7 +360,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void loadUrlImage(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getImageLoader().loadUrlImage(activity, imageView, url, defaultImage);
+        getViewFinder().loadUrlImage(activity, url, imageView, defaultImage);
     }
 
     /**
@@ -374,7 +368,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void loadUrlImageToRound(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getImageLoader().loadUrlImageToRound(activity, imageView, url, defaultImage);
+        getViewFinder().loadUrlImageToRound(activity, url, imageView, defaultImage);
     }
 
     /**
@@ -382,7 +376,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void loadUrlImageToCorner(Activity activity, String url, ImageView imageView, int defaultImage) {
-        getImageLoader().loadUrlImageToCorner(activity, imageView, url, defaultImage);
+        getViewFinder().loadUrlImageToCorner(activity, url, imageView, defaultImage);
     }
 
     /**
@@ -390,7 +384,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void loadFileImage(Activity activity, String filePath, ImageView imageView, int defaultImage) {
-        getImageLoader().loadFileImage(activity, imageView, filePath, defaultImage);
+        getViewFinder().loadFileImage(activity, filePath, imageView, defaultImage);
     }
 
     /**
@@ -398,7 +392,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void loadImageToBitmap(Activity activity, String url, LoadImageCallback loadImageCallback) {
-        getImageLoader().loadImageToBitmap(activity, url, loadImageCallback);
+        getViewFinder().loadImageToBitmap(activity, url, loadImageCallback);
     }
 
     /**
@@ -406,6 +400,6 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public void clearMemoryCache(Activity activity) {
-        getImageLoader().clearMemoryCache(activity);
+        getViewFinder().clearMemoryCache(activity);
     }
 }

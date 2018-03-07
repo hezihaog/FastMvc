@@ -56,7 +56,7 @@ public class ListSingleCheckSampleTpl extends BaseTpl<BaseItemData> {
 
     @Override
     protected void onRender(BaseItemData itemData) {
-        mTextView.setText("item position " + getPosition());
+        setViewText("item position " + getPosition(), mTextView);
         int checkedItemPosition = getListAdapter().getCheckedItemPosition();
         if (checkedItemPosition == getPosition()) {
             toggleCheckImage(true);

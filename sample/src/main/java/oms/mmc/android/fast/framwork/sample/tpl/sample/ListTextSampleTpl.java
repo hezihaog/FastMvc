@@ -42,7 +42,7 @@ public class ListTextSampleTpl extends BaseStickyTpl<ItemDataWrapper> {
     protected void onRender(ItemDataWrapper itemData) {
         //获取条目数据中的数据
         String data = (String) itemData.getDatas().get(0);
-        mSampleTextTv.setText(data);
+        setViewText(data, mSampleTextTv);
     }
 
     @Override

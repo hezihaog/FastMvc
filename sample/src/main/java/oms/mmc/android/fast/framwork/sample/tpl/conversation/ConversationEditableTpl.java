@@ -32,7 +32,7 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
     @Override
     protected void onRender(ItemDataWrapper itemData) {
         if (getListAdapter().isEditMode()) {
-            getViewFinder().setVisibility(R.id.checkBox);
+            getViewFinder().setVisible(R.id.checkBox);
         } else {
             getViewFinder().setGone(R.id.checkBox);
         }

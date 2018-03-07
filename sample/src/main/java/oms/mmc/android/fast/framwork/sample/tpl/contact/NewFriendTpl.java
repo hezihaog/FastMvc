@@ -25,6 +25,5 @@ public class NewFriendTpl extends BaseTpl<BaseItemData> {
 
     @Override
     protected void onRender(BaseItemData itemData) {
-
     }
 }
