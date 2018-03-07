@@ -38,10 +38,12 @@ public class BaseFastApplication extends BaseApplication implements IHandlerDisp
         return new Handler(getMainLooper());
     }
 
+    @Override
     public void post(Runnable runnable) {
         mMainHandler.post(runnable);
     }
 
+    @Override
     public void postDelayed(Runnable runnable, long duration) {
         mMainHandler.postDelayed(runnable, duration);
     }
