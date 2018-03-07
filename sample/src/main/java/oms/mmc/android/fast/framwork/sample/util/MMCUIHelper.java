@@ -7,14 +7,15 @@ import oms.mmc.android.fast.framwork.sample.ui.activity.ActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseListFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ChatListActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.FragmentOperateActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySingleCheckSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.LoadViewFactorySampleActivity;
-import oms.mmc.android.fast.framwork.sample.ui.activity.SimpleLoadViewHelperUseSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SampleChooseActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.SimpleLoadViewHelperUseSampleActivity;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.util
@@ -130,6 +131,14 @@ public class MMCUIHelper {
      */
     public static void showConversationDetail(Activity activity) {
         Intent intent = new Intent(activity, ChatListActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * Fragment操作例子
+     */
+    public static void showFragmentOperate(Activity activity) {
+        Intent intent = new Intent(activity, FragmentOperateActivity.class);
         activity.startActivity(intent);
     }
 }

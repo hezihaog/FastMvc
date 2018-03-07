@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -26,7 +25,6 @@ import oms.mmc.helper.base.ScrollableViewFactory;
  */
 public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
     private ViewFinder mViewFinder;
-    private String bindFragmentTag;
     private Handler mMainHandler;
 
     @Override
@@ -47,8 +45,10 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         }
         onFindView(mViewFinder);
         onLayoutAfter();
-        //没有绑定fragment时，才调用
-        if (!hasBindFragment()) {
+        //如果内存重启过，存在fragment，先移除掉
+        if (hasBindFragment()) {
+            removeAllFragment();
+        } else {
             setupFragment(onSetupFragment());
         }
     }
@@ -191,7 +191,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
      *
      * @param infoWrapper fragment和跳转数据的包装
      */
-    protected void setupFragment(FragmentFactory.FragmentInfoWrapper infoWrapper) {
+    private void setupFragment(FragmentFactory.FragmentInfoWrapper infoWrapper) {
         if (infoWrapper == null) {
             return;
         }
@@ -201,13 +201,11 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         if (infoWrapper.getContainerViewId() == 0) {
             infoWrapper.setContainerViewId(android.R.id.content);
         }
-        Fragment fragment = FragmentFactory.newInstance(getActivity(), infoWrapper.getClazz()
-                , infoWrapper.getArgs());
-        bindFragmentTag = fragment.getClass().getName();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(infoWrapper.getContainerViewId(), fragment, bindFragmentTag)
-                .commit();
+        Fragment fragment = createFragment(infoWrapper.getClazz(), infoWrapper.getArgs());
+        addFragment(fragment, infoWrapper.getContainerViewId());
+        if (!fragment.isVisible()) {
+            showFragment(fragment);
+        }
     }
 
     /**
@@ -220,21 +218,6 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
             bundle.putAll(intent.getExtras());
         }
         return bundle;
-    }
-
-    /**
-     * 查找是否已经有绑定的fragment，用于内存重启时，会自动恢复fragment的实例，不重复添加fragment
-     */
-    private boolean hasBindFragment() {
-        if (TextUtils.isEmpty(bindFragmentTag)) {
-            return false;
-        }
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(bindFragmentTag);
-        if (fragment == null) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     @Override

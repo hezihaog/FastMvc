@@ -82,6 +82,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="列表LoadViewFactory，更换切换布局" />
+
+            <Button
+                android:id="@+id/fragmentOperateUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fragment操作使用" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
