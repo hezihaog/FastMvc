@@ -15,7 +15,9 @@ import mmc.image.LoadImageCallback;
 import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.util.ArgumentsDelegateHelper;
 import oms.mmc.android.fast.framwork.util.IArgumentsDelegate;
+import oms.mmc.android.fast.framwork.util.IToast;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.util.ToastOperator;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -26,13 +28,15 @@ import oms.mmc.android.fast.framwork.util.IViewFinder;
  * Email: hezihao@linghit.com
  */
 
-public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment implements IArgumentsDelegate, IWaitViewHandler, IViewFinder {
+public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment implements IArgumentsDelegate, IWaitViewHandler, IViewFinder, IToast {
     private ArgumentsDelegateHelper mArgumentsDelegateHelper;
+    private ToastOperator mToastOperator;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mArgumentsDelegateHelper = ensureInit();
+        mToastOperator = new ToastOperator(getContext());
     }
 
     /**
@@ -43,6 +47,46 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
             mArgumentsDelegateHelper = ArgumentsDelegateHelper.newInstance(getArguments());
         }
         return mArgumentsDelegateHelper;
+    }
+
+    /**
+     * 以资源id显示短Toast信息
+     */
+    @Override
+    public void showToast(int message) {
+        mToastOperator.showToast(message);
+    }
+
+    /**
+     * 以直接字符串显示短Toast信息
+     */
+    @Override
+    public void showToast(String message) {
+        mToastOperator.showToast(message);
+    }
+
+    /**
+     * 以资源id显示长Toast信息
+     */
+    @Override
+    public void showLongToast(int message) {
+        mToastOperator.showLongToast(message);
+    }
+
+    /**
+     * 以直接字符串显示长Toast信息
+     */
+    @Override
+    public void showLongToast(String message) {
+        mToastOperator.showLongToast(message);
+    }
+
+    /**
+     * 显示toast信息
+     */
+    @Override
+    public void toast(final String message, final int duration) {
+        mToastOperator.toast(message, duration);
     }
 
     @Override

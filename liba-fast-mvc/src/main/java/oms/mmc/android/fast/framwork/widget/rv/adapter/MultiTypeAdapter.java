@@ -15,6 +15,7 @@ import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.helper.ListScrollHelper;
@@ -64,9 +65,14 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
      * 列表滚动帮助类
      */
     private ListScrollHelper mListScrollHelper;
+    /**
+     * Toast操作类
+     */
+    private final ToastOperator mToastOperator;
 
     public MultiTypeAdapter(RecyclerView recyclerView, Activity activity, IDataSource<T> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper) {
+        mToastOperator = new ToastOperator(activity);
         this.mRecyclerView = recyclerView;
         this.mActivity = activity;
         this.mListViewDataSource = dataSource;
@@ -134,7 +140,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
             e.printStackTrace();
             Log.e(TAG, "实例化TPL出错，请查看TPL构造方法是否是无参");
         }
-        tpl.init(mActivity, mRecyclerView, viewType);
+        tpl.init(mActivity, mRecyclerView, mToastOperator, viewType);
         viewHolder = tpl.getViewHolder();
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
         tpl.config(this, mListViewData, mListViewDataSource, mRecyclerViewHelper, mListScrollHelper);

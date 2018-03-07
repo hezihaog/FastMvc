@@ -13,6 +13,7 @@ import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IWaitViewHandler;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.util.WaitViewManager;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
@@ -32,6 +33,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     private IDataSource<? extends BaseItemData> mListDataSource;
     private List<? extends BaseItemData> mListData;
     private RecyclerView mRecyclerView;
+    private ToastOperator mToastOperator;
     private int mItemViewType = -1;
     private View mRoot;
     private int mPosition;
@@ -42,7 +44,8 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     public BaseTpl() {
     }
 
-    public void init(Activity activity, RecyclerView recyclerView, int itemViewType) {
+    public void init(Activity activity, RecyclerView recyclerView, ToastOperator toastOperator, int itemViewType) {
+        this.mToastOperator = toastOperator;
         this.mItemViewType = itemViewType;
         this.mActivity = activity;
         this.mRecyclerView = recyclerView;
@@ -50,6 +53,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         if (this.mIntent != null) {
             this.mBundle = mIntent.getExtras();
         }
+        setToastOperator(mToastOperator);
         setBundle(mBundle);
         initView();
     }
