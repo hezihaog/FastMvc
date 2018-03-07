@@ -32,10 +32,6 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
     private Bundle mBundle;
     private ToastOperator mToastOperator;
 
-    public CommonOperationDelegateTpl() {
-        mArgumentsDelegateHelper = ArgumentsDelegateHelper.newInstance(mBundle);
-    }
-
     protected void setToastOperator(ToastOperator toastOperator) {
         mToastOperator = toastOperator;
     }
@@ -55,9 +51,15 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
     /**
      * 确保初始化
      */
-    public void ensureInit() {
+    public void ensureInitArgumentsDelegate() {
         if (mArgumentsDelegateHelper == null) {
             mArgumentsDelegateHelper = ArgumentsDelegateHelper.newInstance(mBundle);
+        }
+    }
+
+    public void ensureInitToastOperator() {
+        if (mToastOperator == null) {
+            mToastOperator = new ToastOperator(getActivity());
         }
     }
 
@@ -66,6 +68,7 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
      */
     @Override
     public void showToast(int message) {
+        ensureInitToastOperator();
         mToastOperator.showToast(message);
     }
 
@@ -74,6 +77,7 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
      */
     @Override
     public void showToast(String message) {
+        ensureInitToastOperator();
         mToastOperator.showToast(message);
     }
 
@@ -82,6 +86,7 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
      */
     @Override
     public void showLongToast(int message) {
+        ensureInitToastOperator();
         mToastOperator.showLongToast(message);
     }
 
@@ -90,6 +95,7 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
      */
     @Override
     public void showLongToast(String message) {
+        ensureInitToastOperator();
         mToastOperator.showLongToast(message);
     }
 
@@ -98,90 +104,91 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
      */
     @Override
     public void toast(final String message, final int duration) {
+        ensureInitToastOperator();
         mToastOperator.toast(message, duration);
     }
 
     @Override
     public void setExtras(Bundle extras) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         mArgumentsDelegateHelper.setExtras(extras);
     }
 
     @Override
     public Bundle getExtras() {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.getExtras();
     }
 
     @Override
     public String intentStr(String key) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentStr(key);
     }
 
     @Override
     public String intentStr(String key, String defaultValue) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentStr(key, defaultValue);
     }
 
     @Override
     public int intentInt(String key) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentInt(key);
     }
 
     @Override
     public int intentInt(String key, int defaultValue) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentInt(key, defaultValue);
     }
 
     @Override
     public boolean intentBoolean(String key) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentBoolean(key);
     }
 
     @Override
     public boolean intentBoolean(String key, boolean defaultValue) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentBoolean(key, defaultValue);
     }
 
     @Override
     public Serializable intentSerializable(String key) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentSerializable(key);
     }
 
     @Override
     public Serializable intentSerializable(String key, Serializable defaultValue) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentSerializable(key, defaultValue);
     }
 
     @Override
     public float intentFloat(String key) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentFloat(key);
     }
 
     @Override
     public float intentFloat(String key, float defaultValue) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentFloat(key, defaultValue);
     }
 
     @Override
     public <T extends Parcelable> T intentParcelable(String key) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentParcelable(key);
     }
 
     @Override
     public <T extends Parcelable> T intentParcelable(String key, Parcelable defaultValue) {
-        ensureInit();
+        ensureInitArgumentsDelegate();
         return mArgumentsDelegateHelper.intentParcelable(key, defaultValue);
     }
 

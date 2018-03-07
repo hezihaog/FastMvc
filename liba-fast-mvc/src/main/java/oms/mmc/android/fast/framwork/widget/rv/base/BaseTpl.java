@@ -1,8 +1,6 @@
 package oms.mmc.android.fast.framwork.widget.rv.base;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +23,12 @@ import oms.mmc.helper.ListScrollHelper;
  */
 public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
     private Activity mActivity;
-    private Intent mIntent;
-    private Bundle mBundle;
     private RecyclerViewViewHelper mRecyclerViewHelper;
     private ListScrollHelper mListScrollHelper;
     private IAssistRecyclerAdapter mListAdapter;
     private IDataSource<? extends BaseItemData> mListDataSource;
     private List<? extends BaseItemData> mListData;
     private RecyclerView mRecyclerView;
-    private ToastOperator mToastOperator;
     private int mItemViewType = -1;
     private View mRoot;
     private int mPosition;
@@ -45,16 +40,11 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     }
 
     public void init(Activity activity, RecyclerView recyclerView, ToastOperator toastOperator, int itemViewType) {
-        this.mToastOperator = toastOperator;
         this.mItemViewType = itemViewType;
         this.mActivity = activity;
         this.mRecyclerView = recyclerView;
-        this.mIntent = mActivity.getIntent();
-        if (this.mIntent != null) {
-            this.mBundle = mIntent.getExtras();
-        }
-        setToastOperator(mToastOperator);
-        setBundle(mBundle);
+        setToastOperator(toastOperator);
+        setBundle(mActivity.getIntent().getExtras());
         initView();
     }
 

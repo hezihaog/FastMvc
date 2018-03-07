@@ -49,7 +49,6 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMainHandler = initHandler();
         onLayoutBefore();
     }
 
@@ -123,11 +122,17 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     @Override
     public void post(Runnable runnable) {
+        if (mMainHandler == null) {
+            mMainHandler = initHandler();
+        }
         mMainHandler.post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
+        if (mMainHandler == null) {
+            mMainHandler = initHandler();
+        }
         mMainHandler.postDelayed(runnable, duration);
     }
 

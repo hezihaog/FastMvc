@@ -33,7 +33,6 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     protected void onCreate(Bundle savedInstanceState) {
         ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).install();
         super.onCreate(savedInstanceState);
-        mMainHandler = initHandler();
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
         mViewFinder = new ViewFinder(getActivity(), onLayoutView(getLayoutInflater(), null));
@@ -245,11 +244,17 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
 
     @Override
     public void post(Runnable runnable) {
+        if (mMainHandler == null) {
+            mMainHandler = initHandler();
+        }
         mMainHandler.post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
+        if (mMainHandler == null) {
+            mMainHandler = initHandler();
+        }
         mMainHandler.postDelayed(runnable, duration);
     }
 }
