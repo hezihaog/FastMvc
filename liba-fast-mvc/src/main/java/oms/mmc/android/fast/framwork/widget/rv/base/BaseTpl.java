@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.widget.rv.base;
 
 import android.app.Activity;
+import android.support.annotation.CallSuper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import oms.mmc.helper.ListScrollHelper;
 
 /**
  * 列表条目基础模板，条目类
+ *
+ * @author 子和
  */
 public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
     private Activity mActivity;
@@ -57,11 +60,11 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         this.mListScrollHelper = listScrollHelper;
     }
 
-    protected void initView() {
+    private void initView() {
+        onCreate();
         onLayoutBefore();
         mRoot = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
         mRoot.addOnAttachStateChangeListener(this);
-        mViewHolder = new ViewHolder(mRoot);
         mViewFinder = new ViewFinder(getActivity(), mRoot);
         onFindView(mViewFinder);
         onBindContent();
@@ -69,16 +72,38 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     }
 
     public BaseTpl.ViewHolder getViewHolder() {
+        if (mViewHolder == null) {
+            mViewHolder = new ViewHolder(getRootView());
+        }
         return mViewHolder;
     }
 
     public View getRoot() {
+        if (mRoot == null) {
+            mRoot = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
+        }
         return mRoot;
     }
 
     @Override
     public ViewFinder getViewFinder() {
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(), getRoot());
+        }
         return mViewFinder;
+    }
+
+    /**
+     * 当创建时回调
+     */
+    protected void onCreate() {
+    }
+
+    /**
+     * 销毁时回调
+     */
+    protected void onDestroy() {
+
     }
 
     @Override
@@ -216,18 +241,57 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
 
     @Override
     public void onViewAttachedToWindow(View v) {
-
     }
 
     @Override
     public void onViewDetachedFromWindow(View v) {
-
     }
 
     /**
      * RecyclerView从窗口移除时回调
      */
+    @CallSuper
     public void onRecyclerViewDetachedFromWindow(View view) {
+        onDestroy();
+        if (getViewFinder() != null) {
+            getViewFinder().recycle();
+        }
+        recyclerTpl();
+    }
 
+    /**
+     * 回收Tpl中的引用
+     */
+    private void recyclerTpl() {
+        if (mActivity != null) {
+            mActivity = null;
+        }
+        if (mRecyclerViewHelper != null) {
+            mRecyclerViewHelper = null;
+        }
+        if (mListScrollHelper != null) {
+            mListScrollHelper = null;
+        }
+        if (mListAdapter != null) {
+            mListAdapter = null;
+        }
+        if (mListDataSource != null) {
+            mListDataSource = null;
+        }
+        if (mListData != null) {
+            mListData = null;
+        }
+        if (mRecyclerView != null) {
+            mRecyclerView = null;
+        }
+        if (mRoot != null) {
+            mRoot = null;
+        }
+        if (mBean != null) {
+            mBean = null;
+        }
+        if (mViewHolder != null) {
+            mViewHolder = null;
+        }
     }
 }

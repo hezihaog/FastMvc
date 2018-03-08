@@ -32,14 +32,14 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
     private ImageView mCheckIv;
 
     @Override
-    public void onLayoutBefore() {
-        super.onLayoutBefore();
+    protected void onCreate() {
+        super.onCreate();
         EventBusUtil.register(this);
     }
 
     @Override
-    public void onRecyclerViewDetachedFromWindow(View view) {
-        super.onRecyclerViewDetachedFromWindow(view);
+    protected void onDestroy() {
+        super.onDestroy();
         EventBusUtil.unregister(this);
     }
 

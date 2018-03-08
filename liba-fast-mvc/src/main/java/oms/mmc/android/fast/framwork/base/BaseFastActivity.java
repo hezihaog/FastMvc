@@ -57,6 +57,9 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     protected void onDestroy() {
         super.onDestroy();
         WaitViewManager.getInstnace().remove(this);
+        if (getViewFinder() != null) {
+            getViewFinder().recycle();
+        }
         ActivityManager.getActivityManager().removeActivity(this);
     }
 
@@ -137,6 +140,9 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
 
     @Override
     public ViewFinder getViewFinder() {
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(), onLayoutView(getLayoutInflater(), null));
+        }
         return mViewFinder;
     }
 

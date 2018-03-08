@@ -16,7 +16,7 @@ import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.util.ArgumentsDelegateHelper;
 import oms.mmc.android.fast.framwork.util.IArgumentsDelegate;
 import oms.mmc.android.fast.framwork.util.IToast;
-import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinderAction;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 
 /**
@@ -28,7 +28,7 @@ import oms.mmc.android.fast.framwork.util.ToastOperator;
  * Email: hezihao@linghit.com
  */
 
-public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment implements IArgumentsDelegate, IWaitViewHandler, IViewFinder, IToast {
+public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment implements IArgumentsDelegate, IWaitViewHandler, IViewFinderAction, IToast {
     private ArgumentsDelegateHelper mArgumentsDelegateHelper;
     private ToastOperator mToastOperator;
 
@@ -177,18 +177,6 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
     }
 
     //------------------------ 控件操作 ------------------------
-
-    /**
-     * 通过View的id来获取子View
-     *
-     * @param resId view的id
-     * @param <T>   泛型
-     * @return View
-     */
-    @Override
-    public <T extends View> T get(@IdRes int resId) {
-        return getViewFinder().get(resId);
-    }
 
     /**
      * 获取布局View
@@ -509,7 +497,7 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
      * 清除图片缓存
      */
     @Override
-    public void clearMemoryCache() {
-        getViewFinder().clearMemoryCache();
+    public void clearImageMemoryCache() {
+        getViewFinder().clearImageMemoryCache();
     }
 }

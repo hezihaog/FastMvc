@@ -30,14 +30,14 @@ public class ListSingleCheckSampleTpl extends BaseTpl<BaseItemData> {
     private ImageView mSingleCheck;
 
     @Override
-    public void onLayoutBefore() {
-        super.onLayoutBefore();
+    protected void onCreate() {
+        super.onCreate();
         EventBusUtil.register(this);
     }
 
     @Override
-    public void onRecyclerViewDetachedFromWindow(View view) {
-        super.onRecyclerViewDetachedFromWindow(view);
+    protected void onDestroy() {
+        super.onDestroy();
         EventBusUtil.unregister(this);
     }
 

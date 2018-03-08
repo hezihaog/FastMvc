@@ -18,10 +18,8 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
  */
 
 public class ConversationSearchTpl extends BaseTpl<BaseItemData> {
-
     @Override
     protected void onRender(BaseItemData itemData) {
-
     }
 
     @Override

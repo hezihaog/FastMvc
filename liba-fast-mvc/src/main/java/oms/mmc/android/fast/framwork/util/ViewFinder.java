@@ -67,6 +67,18 @@ public class ViewFinder implements IViewFinder {
     }
 
     /**
+     * 回收内存，在生命周期销毁时调用
+     */
+    @Override
+    public void recycle() {
+        if (mViews != null) {
+            mViews.clear();
+        }
+        mRootView = null;
+        mActivity = null;
+    }
+
+    /**
      * 获取Activity
      */
     public Activity getActivity() {
@@ -498,7 +510,7 @@ public class ViewFinder implements IViewFinder {
      * 清除图片缓存
      */
     @Override
-    public void clearMemoryCache() {
+    public void clearImageMemoryCache() {
         getImageLoader().clearMemoryCache(getActivity());
     }
 }

@@ -33,14 +33,14 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
     private ImageView mMultipleCheck;
 
     @Override
-    public void onLayoutBefore() {
-        super.onLayoutBefore();
+    protected void onCreate() {
+        super.onCreate();
         EventBusUtil.register(this);
     }
 
     @Override
-    public void onRecyclerViewDetachedFromWindow(View view) {
-        super.onRecyclerViewDetachedFromWindow(view);
+    protected void onDestroy() {
+        super.onDestroy();
         EventBusUtil.unregister(this);
     }
 

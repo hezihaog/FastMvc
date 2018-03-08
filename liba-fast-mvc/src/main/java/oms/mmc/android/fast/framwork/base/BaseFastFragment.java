@@ -53,6 +53,14 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getViewFinder() != null) {
+            getViewFinder().recycle();
+        }
+    }
+
+    @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewFinder = new ViewFinder(getActivity(), onLayoutView(inflater, container));
         setRootView(mViewFinder.getRootView());
@@ -87,6 +95,9 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     @Override
     public ViewFinder getViewFinder() {
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(), onLayoutView(LayoutInflater.from(getContext()), null));
+        }
         return mViewFinder;
     }
 
