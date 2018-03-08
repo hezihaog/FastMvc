@@ -5,12 +5,17 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import oms.mmc.android.fast.framwork.util.ActivityManager;
 import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
+import oms.mmc.android.fast.framwork.util.CollectionUtil;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
@@ -23,9 +28,11 @@ import oms.mmc.helper.base.ScrollableViewFactory;
 /**
  * Activity基类
  */
-public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
+public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements LayoutCallback
+        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch {
     private ViewFinder mViewFinder;
     private Handler mMainHandler;
+    private CopyOnWriteArrayList<InstanceStateCallback> stateCallbacks = new CopyOnWriteArrayList<InstanceStateCallback>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,12 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
         onLayoutBefore();
-        mViewFinder = new ViewFinder(getActivity(), onLayoutView(getLayoutInflater(), null));
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(), onLayoutView(getLayoutInflater(), null));
+        } else {
+            mViewFinder.setActivity(this);
+            mViewFinder.setRootView(getContentView());
+        }
         IWaitViewFactory waitViewFactory = onWaitDialogFactoryReady();
         if (waitViewFactory != null && waitViewFactory.getWaitDialogController(getActivity()) != null) {
             WaitViewManager.getInstnace().add(this, waitViewFactory.getWaitDialogController(getActivity()));
@@ -45,17 +57,13 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         }
         onFindView(mViewFinder);
         onLayoutAfter();
-        //如果内存重启过，存在fragment，先移除掉
-        if (hasBindFragment()) {
-            removeAllFragment();
-        } else {
-            setupFragment(onSetupFragment());
-        }
+        setupFragment(onSetupFragment());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        TDevice.hideSoftKeyboard(getContentView());
         WaitViewManager.getInstnace().remove(this);
         if (getViewFinder() != null) {
             getViewFinder().recycle();
@@ -245,5 +253,43 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
             mMainHandler = initHandler();
         }
         mMainHandler.postDelayed(runnable, duration);
+    }
+
+    @CallSuper
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        for (InstanceStateCallback callback : CollectionUtil.getSnapshot(stateCallbacks)) {
+            callback.onSaveInstanceState(outState);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        for (InstanceStateCallback callback : CollectionUtil.getSnapshot(stateCallbacks)) {
+            callback.onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+    @Override
+    public void addStateListener(InstanceStateCallback callback) {
+        if (callback != null) {
+            stateCallbacks.add(callback);
+        }
+    }
+
+    @Override
+    public void removeStateListener(InstanceStateCallback callback) {
+        if (callback != null) {
+            stateCallbacks.remove(callback);
+        }
+    }
+
+    /**
+     * 获取设置的ContentView
+     */
+    public View getContentView() {
+        return ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
     }
 }

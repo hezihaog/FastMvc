@@ -2,20 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="10dp">
+    android:orientation="horizontal">
 
-    <TextView
+    <EditText
+        android:id="@+id/searchEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#909090"
-        android:gravity="center"
+        android:gravity="left"
+        android:hint="请输入您要搜索的内容"
+        android:padding="15dp"
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
-        android:text="搜索"
-        android:textColor="@color/white"
+        android:textColor="#202020"
+        android:textColorHint="#909090"
         android:textSize="13sp" />
 </LinearLayout>

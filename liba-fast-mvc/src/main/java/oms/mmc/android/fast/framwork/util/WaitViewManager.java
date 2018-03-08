@@ -56,6 +56,9 @@ public class WaitViewManager {
      * 用Activity查找waitDialog
      */
     public IWaitViewController find(Activity activity) {
+        if (activity == null) {
+            return null;
+        }
         ensureList();
         return mWaitViewList.get(activity.hashCode());
     }

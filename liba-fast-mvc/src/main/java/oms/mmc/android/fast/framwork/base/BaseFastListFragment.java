@@ -36,7 +36,7 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper(this);
+        mDelegateHelper = new ListAbleDelegateHelper(this, this);
         mDelegateHelper.startDelegate(rootLayout);
         //初始化监听
         mDelegateHelper.getListAdapter().addOnItemClickListener(this);

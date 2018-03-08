@@ -30,7 +30,7 @@ public abstract class BaseFastListActivity extends BaseFastActivity implements L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper(this);
+        mDelegateHelper = new ListAbleDelegateHelper(this, this);
         mDelegateHelper.startDelegate(getWindow().getDecorView());
         //初始化监听
         mDelegateHelper.getListAdapter().addOnItemClickListener(this);

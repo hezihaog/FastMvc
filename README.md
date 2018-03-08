@@ -153,13 +153,15 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 
 | 函数名        | 函数解释   |  功用  |
 | --------   | -----:  | :----:  |
+|onCreate()|当Tpl被创建时调用，（视图还未初始化），做视图操作需要在onFindView()，onLayoutAfter()|做广播注册
+|onDestroy()|当Tpl被销毁是调用，是在RecyclerView从Window中移除时调用|做广播销毁工作
 |onLayoutBefore()| 在生成布局之前回调 |可以初始化一些对象预备着
 |onFindView()| 填充了布局后回调，用于查找控件 |用于查找布局中的控件|
 |onBindContent()| onFindView()后调用|给控件进行相关设置，例如给ViewPager设置Adapter|
 |onRender()|渲染函数，每次RecyclerView的onBindView调用时会回调|在该函数应该做条目数据设置操作，函数会传入该条目的itemData。
 |onViewAttachedToWindow()|当条目依附到RecyclerView时回调|可以按场景进行一些操作。
 |onViewDetachedFromWindow()|当条目从RecyclerView中移除时回调|可以做一些回收和暂停操作，条目滚动出屏幕时回调|
-|onRecyclerViewDetachedFromWindow()|当条目依附的RecyclerView从视图树中移除时回调|这里可以做EventBus或者广播注销操作
+|onRecyclerViewDetachedFromWindow()|当条目依附的RecyclerView从视图树中移除时回调|（这里可以做EventBus或者广播注销操作）该方法已经分拆成onDestroy()方法，推荐复写该方法
 |getPosition()|当前条目在rv上的位置|可以获取当前tpl实例在rv上的位置
 |getItemDataBean()|可以获取Tpl上存在的数据bean|当需要再onReader()以外的地方获取到itemData时回调
 |getItemViewType()|获取当前条目类的类型|当需要使用到条目类的类型时调用

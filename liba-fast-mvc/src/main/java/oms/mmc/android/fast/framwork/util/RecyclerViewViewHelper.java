@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,9 +17,12 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
+import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.base.IStateDispatch;
+import oms.mmc.android.fast.framwork.base.InstanceStateCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -29,13 +33,13 @@ import oms.mmc.helper.adapter.SimpleListScrollAdapter;
  * RecyclerView帮助类
  */
 public class RecyclerViewViewHelper<Model> implements IViewHelper {
-    private IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> dataAdapter;
-    private SwipeRefreshLayout refreshLayout;
-    private IDataSource<Model> dataSource;
+    private IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> mDataAdapter;
+    private SwipeRefreshLayout mRefreshLayout;
+    private IDataSource<Model> mDataSource;
     private RecyclerView mRecyclerView;
-    private Context context;
-    private OnStateChangeListener<ArrayList<Model>> onStateChangeListener;
-    private AsyncTask<Void, Void, ArrayList<Model>> asyncTask;
+    private Context mContext;
+    private OnStateChangeListener<ArrayList<Model>> mOnStateChangeListener;
+    private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
     private static final long NO_LOAD_DATA = -1;
     private long loadDataTime = NO_LOAD_DATA;
     private ArrayList<RecyclerView.OnScrollListener> mScrollListeners;
@@ -72,22 +76,26 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private ListScrollHelper listScrollHelper;
     //主线程Handler
     private final Handler mUiHandler;
+    //内存重启状态执行者
+    private IStateDispatch mStateDispatch;
+    //内存重启状态回调
+    private final InstanceStateCallback mStateCallback;
 
-    public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView) {
-        super();
-        this.context = refreshLayout.getContext().getApplicationContext();
-        mUiHandler = new Handler(Looper.getMainLooper());
-        //刷新布局
-        this.refreshLayout = refreshLayout;
+    public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView, IStateDispatch stateDispatch) {
+        this.mContext = refreshLayout.getContext().getApplicationContext();
+        mStateDispatch = stateDispatch;
+        this.mUiHandler = new Handler(Looper.getMainLooper());
+        this.mRefreshLayout = refreshLayout;
         this.mRecyclerView = recyclerView;
-        this.refreshLayout.setEnabled(false);
+        this.mRefreshLayout.setEnabled(false);
         this.mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        this.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refresh();
             }
         });
+        //添加给外部使用的滚动监听
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -109,17 +117,60 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 }
             }
         });
+        //添加内存重启分发监听
+        mStateCallback = new InstanceStateCallback() {
+            @Override
+            public void onSaveInstanceState(Bundle outState) {
+                int allItemCount = mRecyclerView.getAdapter().getItemCount();
+                for (int i = 0; i < allItemCount; i++) {
+                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                    if (holder != null && holder.itemView != null) {
+                        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
+                        if (tpl != null) {
+                            tpl.onSaveState(outState);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onRestoreInstanceState(Bundle savedInstanceState) {
+                int allItemCount = mRecyclerView.getAdapter().getItemCount();
+                for (int i = 0; i < allItemCount; i++) {
+                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                    if (holder != null && holder.itemView != null) {
+                        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
+                        if (tpl != null) {
+                            tpl.onRestoreState(savedInstanceState);
+                        }
+                    }
+                }
+            }
+        };
+        stateDispatch.addStateListener(mStateCallback);
     }
 
     public void setupScrollHelper(ListScrollHelper scrollHelper) {
         this.listScrollHelper = scrollHelper;
         listScrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
             @Override
+            public void onScrolledUp() {
+                super.onScrolledUp();
+                TDevice.hideSoftKeyboard(getRecyclerView());
+            }
+
+            @Override
+            public void onScrolledDown() {
+                super.onScrolledDown();
+                TDevice.hideSoftKeyboard(getRecyclerView());
+            }
+
+            @Override
             public void onScrollTop() {
                 if (isEnablePullToRefresh) {
                     if (refreshLayoutIsEnabled) {
                         //已经滚动到了顶部，可以下拉刷新
-                        refreshLayout.setEnabled(true);
+                        mRefreshLayout.setEnabled(true);
                         //如果是反转的布局（例如是QQ聊天页面），则刷新下一页
                         if (isReverse) {
                             startRefreshWithRefreshLoading();
@@ -184,34 +235,34 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      */
     @Override
     public void refresh() {
-        if (dataAdapter == null || dataSource == null) {
-            if (refreshLayout != null) {
-                refreshLayout.setRefreshing(false);
+        if (mDataAdapter == null || mDataSource == null) {
+            if (mRefreshLayout != null) {
+                mRefreshLayout.setRefreshing(false);
             }
             return;
         }
-        if (asyncTask != null && asyncTask.getStatus() != AsyncTask.Status.FINISHED) {
-            asyncTask.cancel(true);
+        if (mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mAsyncTask.cancel(true);
         }
-        asyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
+        mAsyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
 
             @Override
             protected void onPreExecute() {
-                if (dataAdapter.isEmpty()) {
+                if (mDataAdapter.isEmpty()) {
                     mLoadView.showLoading();
-                    refreshLayout.setRefreshing(false);
+                    mRefreshLayout.setRefreshing(false);
                 } else {
                     mLoadView.restore();
                 }
-                if (onStateChangeListener != null) {
-                    onStateChangeListener.onStartRefresh(dataAdapter, isFirstRefresh, isReverse);
+                if (mOnStateChangeListener != null) {
+                    mOnStateChangeListener.onStartRefresh(mDataAdapter, isFirstRefresh, isReverse);
                 }
             }
 
             @Override
             protected ArrayList<Model> doInBackground(Void... params) {
                 try {
-                    return dataSource.refresh(isReverse);
+                    return mDataSource.refresh(isReverse);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -223,7 +274,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 //返回的数据集为空，异常情况
                 if (result == null) {
                     //本次加载之前，列表也没有数据，则显示错误布局
-                    if (dataAdapter.isEmpty()) {
+                    if (mDataAdapter.isEmpty()) {
                         mLoadView.showError();
                     } else {
                         //之前有过数据，Toast提示错误
@@ -231,14 +282,14 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                 } else {
                     loadDataTime = System.currentTimeMillis();
-                    dataAdapter.setRefreshListViewData(result, isReverse, isFirstRefresh);
-                    dataAdapter.notifyDataSetChanged();
-                    if (dataAdapter.isEmpty()) {
+                    mDataAdapter.setRefreshListViewData(result, isReverse, isFirstRefresh);
+                    mDataAdapter.notifyDataSetChanged();
+                    if (mDataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
                     } else {
                         mLoadView.restore();
                     }
-                    hasMoreData = dataSource.hasMore();
+                    hasMoreData = mDataSource.hasMore();
                     if (hasMoreData) {
                         mLoadMoreView.showNormal();
                     } else {
@@ -246,14 +297,14 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                         mLoadMoreView.showNoMore();
                     }
                 }
-                if (onStateChangeListener != null) {
-                    onStateChangeListener.onEndRefresh(dataAdapter, result, isFirstRefresh, isReverse);
+                if (mOnStateChangeListener != null) {
+                    mOnStateChangeListener.onEndRefresh(mDataAdapter, result, isFirstRefresh, isReverse);
                 }
                 //刷新结束
                 if (isEnablePullToRefresh) {
-                    refreshLayout.setEnabled(true);
+                    mRefreshLayout.setEnabled(true);
                 }
-                refreshLayout.setRefreshing(false);
+                mRefreshLayout.setRefreshing(false);
                 if (isFirstRefresh) {
                     isFirstRefresh = false;
                 }
@@ -261,9 +312,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
         };
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            asyncTask.execute();
+            mAsyncTask.execute();
         }
     }
 
@@ -274,25 +325,25 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         if (isLoading()) {
             return;
         }
-        if (dataAdapter.isEmpty()) {
+        if (mDataAdapter.isEmpty()) {
             refresh();
             return;
         }
-        if (dataAdapter == null || dataSource == null) {
-            if (refreshLayout != null) {
-                refreshLayout.setRefreshing(false);
+        if (mDataAdapter == null || mDataSource == null) {
+            if (mRefreshLayout != null) {
+                mRefreshLayout.setRefreshing(false);
             }
             return;
         }
-        if (asyncTask != null && asyncTask.getStatus() != AsyncTask.Status.FINISHED) {
-            asyncTask.cancel(true);
+        if (mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mAsyncTask.cancel(true);
         }
-        asyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
+        mAsyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
 
             @Override
             protected void onPreExecute() {
-                if (onStateChangeListener != null) {
-                    onStateChangeListener.onStartLoadMore(dataAdapter, isFistLoadMore, isReverse);
+                if (mOnStateChangeListener != null) {
+                    mOnStateChangeListener.onStartLoadMore(mDataAdapter, isFistLoadMore, isReverse);
                 }
                 mLoadMoreView.showLoading();
             }
@@ -300,7 +351,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             @Override
             protected ArrayList<Model> doInBackground(Void... params) {
                 try {
-                    return dataSource.loadMore();
+                    return mDataSource.loadMore();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -313,22 +364,22 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     mLoadView.tipFail();
                     mLoadMoreView.showError();
                 } else {
-                    dataAdapter.setLoadMoreListViewData(result, isReverse, isFistLoadMore);
-                    dataAdapter.notifyDataSetChanged();
-                    if (dataAdapter.isEmpty()) {
+                    mDataAdapter.setLoadMoreListViewData(result, isReverse, isFistLoadMore);
+                    mDataAdapter.notifyDataSetChanged();
+                    if (mDataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
                     } else {
                         mLoadView.restore();
                     }
-                    hasMoreData = dataSource.hasMore();
+                    hasMoreData = mDataSource.hasMore();
                     if (hasMoreData) {
                         mLoadMoreView.showNormal();
                     } else {
                         mLoadMoreView.showNoMore();
                     }
                 }
-                if (onStateChangeListener != null) {
-                    onStateChangeListener.onEndLoadMore(dataAdapter, result, isFistLoadMore, isReverse);
+                if (mOnStateChangeListener != null) {
+                    mOnStateChangeListener.onEndLoadMore(mDataAdapter, result, isFistLoadMore, isReverse);
                 }
                 if (isFistLoadMore) {
                     isFistLoadMore = false;
@@ -337,9 +388,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         };
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            asyncTask.execute();
+            mAsyncTask.execute();
         }
     }
 
@@ -347,9 +398,12 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * 做销毁操作，比如关闭正在加载数据的异步线程等
      */
     public void destroy() {
-        if (asyncTask != null && asyncTask.getStatus() != AsyncTask.Status.FINISHED) {
-            asyncTask.cancel(true);
-            asyncTask = null;
+        if (mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mAsyncTask.cancel(true);
+            mAsyncTask = null;
+        }
+        if (mStateDispatch != null) {
+            mStateDispatch.removeStateListener(mStateCallback);
         }
     }
 
@@ -359,7 +413,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * @return
      */
     public boolean isLoading() {
-        return asyncTask != null && asyncTask.getStatus() != AsyncTask.Status.FINISHED;
+        return mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED;
     }
 
     public RecyclerView getRecyclerView() {
@@ -388,18 +442,18 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     }
 
     public OnStateChangeListener<ArrayList<Model>> getOnStateChangeListener() {
-        return onStateChangeListener;
+        return mOnStateChangeListener;
     }
 
     /**
      * 设置状态监听，监听开始刷新，刷新成功，开始加载更多，加载更多成功
      */
     public void setOnStateChangeListener(OnStateChangeListener<ArrayList<Model>> onStateChangeListener) {
-        this.onStateChangeListener = onStateChangeListener;
+        this.mOnStateChangeListener = onStateChangeListener;
     }
 
     public IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> getAdapter() {
-        return dataAdapter;
+        return mDataAdapter;
     }
 
     /**
@@ -409,11 +463,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      */
     public void setAdapter(IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> adapter) {
         mRecyclerView.setAdapter(((BaseListAdapter) adapter).getHeaderFooterAdapter());
-        this.dataAdapter = adapter;
+        this.mDataAdapter = adapter;
     }
 
     public IDataSource<Model> getDataSource() {
-        return dataSource;
+        return mDataSource;
     }
 
     public RecyclerViewViewHelper getRecyclerViewViewHelper() {
@@ -426,11 +480,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * @param dataSource
      */
     public void setDataSource(IDataSource<Model> dataSource) {
-        this.dataSource = dataSource;
+        this.mDataSource = dataSource;
     }
 
     public SwipeRefreshLayout getRefreshLayout() {
-        return refreshLayout;
+        return mRefreshLayout;
     }
 
     /**
@@ -447,7 +501,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     }
 
     public boolean isRefreshing() {
-        return refreshLayout.isRefreshing();
+        return mRefreshLayout.isRefreshing();
     }
 
     public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
@@ -470,6 +524,10 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return hasMoreData;
     }
 
+    public Context getContext() {
+        return mContext;
+    }
+
     /**
      * 设置是否可以下拉刷新
      */
@@ -477,11 +535,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         isEnablePullToRefresh = canPullToRefresh;
         if (isEnablePullToRefresh) {
             refreshLayoutIsEnabled = true;
-            refreshLayout.setEnabled(true);
+            mRefreshLayout.setEnabled(true);
         } else {
             refreshLayoutIsEnabled = false;
             //不允许下拉刷新，直接禁用
-            refreshLayout.setEnabled(false);
+            mRefreshLayout.setEnabled(false);
         }
     }
 

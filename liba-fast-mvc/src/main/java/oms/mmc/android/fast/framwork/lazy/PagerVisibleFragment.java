@@ -6,13 +6,13 @@ import android.view.View;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import oms.mmc.lifecycle.dispatch.base.LifecycleFragment;
+import oms.mmc.android.fast.framwork.base.StatedFragment;
 
 
 /**
  * 切换fragment可见回调的fragment
  */
-public abstract class PagerVisibleFragment extends LifecycleFragment {
+public abstract class PagerVisibleFragment extends StatedFragment {
     private CopyOnWriteArrayList<OnFragmentVisibleChangeCallback> visibleCallbacks = new
             CopyOnWriteArrayList<OnFragmentVisibleChangeCallback>();
     /**

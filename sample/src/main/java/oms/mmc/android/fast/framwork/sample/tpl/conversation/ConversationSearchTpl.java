@@ -1,10 +1,13 @@
 package oms.mmc.android.fast.framwork.sample.tpl.conversation;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
@@ -18,6 +21,31 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
  */
 
 public class ConversationSearchTpl extends BaseTpl<BaseItemData> {
+    private static final String KEY_EDIT = "key_edit_text_content";
+
+    private EditText mSearchEdit;
+
+    @Override
+    public void onFindView(ViewFinder finder) {
+        super.onFindView(finder);
+        mSearchEdit = finder.get(R.id.searchEdit);
+    }
+
+    @Override
+    public void onSaveState(Bundle savedBundle) {
+        super.onSaveState(savedBundle);
+        mSearchEdit = getViewFinder().get(R.id.searchEdit);
+        savedBundle.putString(KEY_EDIT, String.valueOf(getViewText(mSearchEdit)));
+    }
+
+    @Override
+    public void onRestoreState(Bundle restoreBundle) {
+        super.onRestoreState(restoreBundle);
+        mSearchEdit = getViewFinder().get(R.id.searchEdit);
+        String content = restoreBundle.getString(KEY_EDIT);
+        setViewText(content, mSearchEdit);
+    }
+
     @Override
     protected void onRender(BaseItemData itemData) {
     }

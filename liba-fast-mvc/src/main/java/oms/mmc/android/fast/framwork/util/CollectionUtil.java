@@ -2,6 +2,7 @@ package oms.mmc.android.fast.framwork.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,5 +37,16 @@ public class CollectionUtil {
         HashSet<E> set = new HashSet<E>();
         set.addAll(Arrays.asList(array));
         return set;
+    }
+
+    /**
+     * 用另外一个List来遍历，读写分离
+     */
+    public static <T> List<T> getSnapshot(Collection<T> other) {
+        List<T> result = new ArrayList<T>(other.size());
+        for (T item : other) {
+            result.add(item);
+        }
+        return result;
     }
 }

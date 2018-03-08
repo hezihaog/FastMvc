@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.util.WaitViewManager;
@@ -22,11 +24,13 @@ import oms.mmc.factory.wait.inter.IWaitViewController;
 /**
  * Fragment基类
  */
-public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements LayoutCallback, IWaitViewHandler, IHandlerDispatcher {
+public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements LayoutCallback
+        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch {
     protected FragmentManager mFm;
     protected Fragment mFragment;
     private ViewFinder mViewFinder;
     private Handler mMainHandler;
+    private CopyOnWriteArrayList<InstanceStateCallback> stateCallbacks = new CopyOnWriteArrayList<InstanceStateCallback>();
 
     @Override
     public void onAttach(Activity activity) {
@@ -60,9 +64,15 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
         }
     }
 
+
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mViewFinder = new ViewFinder(getActivity(), onLayoutView(inflater, container));
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(), onLayoutView(inflater, container));
+        } else {
+            mViewFinder.setActivity(getActivity());
+            mViewFinder.setRootView(onLayoutView(inflater, container));
+        }
         setRootView(mViewFinder.getRootView());
         return mViewFinder.getRootView();
     }
@@ -149,5 +159,41 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     public static Bundle createArgs() {
         return new Bundle();
+    }
+
+    @Override
+    protected void onSaveState(Bundle outState) {
+        super.onSaveState(outState);
+        for (InstanceStateCallback callback : stateCallbacks) {
+            callback.onSaveInstanceState(outState);
+        }
+    }
+
+    @Override
+    protected void onRestoreState(Bundle savedInstanceState) {
+        super.onRestoreState(savedInstanceState);
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(), onLayoutView(LayoutInflater.from(getContext()), null));
+        } else {
+            mViewFinder.setActivity(getActivity());
+            mViewFinder.setRootView(onLayoutView(LayoutInflater.from(getContext()), null));
+        }
+        for (InstanceStateCallback callback : stateCallbacks) {
+            callback.onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+    @Override
+    public void addStateListener(InstanceStateCallback callback) {
+        if (callback != null) {
+            stateCallbacks.add(callback);
+        }
+    }
+
+    @Override
+    public void removeStateListener(InstanceStateCallback callback) {
+        if (callback != null) {
+            stateCallbacks.remove(callback);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.widget.rv.base;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     private View mRoot;
     private int mPosition;
     private T mBean;
-    private BaseTpl.ViewHolder mViewHolder;
+    private BaseTpl.ViewHolder mInnerViewHolder;
     private ViewFinder mViewFinder;
 
     public BaseTpl() {
@@ -72,10 +73,10 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     }
 
     public BaseTpl.ViewHolder getViewHolder() {
-        if (mViewHolder == null) {
-            mViewHolder = new ViewHolder(getRootView());
+        if (mInnerViewHolder == null) {
+            mInnerViewHolder = new ViewHolder(getRootView());
         }
-        return mViewHolder;
+        return mInnerViewHolder;
     }
 
     public View getRoot() {
@@ -248,6 +249,35 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     }
 
     /**
+     * 当界面被强制内存回收前回调
+     *
+     * @param savedBundle 保存的信息的map
+     */
+    @CallSuper
+    public void onSaveState(Bundle savedBundle) {
+
+    }
+
+    /**
+     * 当用户重新打开app，界面已经被内存回收了，马上进行恢复时回调
+     *
+     * @param restoreBundle 马上进行恢复时，之前保存的信息的map
+     */
+    @CallSuper
+    public void onRestoreState(Bundle restoreBundle) {
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(), mRoot);
+        } else {
+            if (mViewFinder.getActivity() == null) {
+                mViewFinder.setActivity(getActivity());
+            }
+            if (mViewFinder.getRootView() == null) {
+                mViewFinder.setRootView(getRoot());
+            }
+        }
+    }
+
+    /**
      * RecyclerView从窗口移除时回调
      */
     @CallSuper
@@ -290,8 +320,8 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         if (mBean != null) {
             mBean = null;
         }
-        if (mViewHolder != null) {
-            mViewHolder = null;
+        if (mInnerViewHolder != null) {
+            mInnerViewHolder = null;
         }
     }
 }

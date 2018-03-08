@@ -66,6 +66,20 @@ public class ViewFinder implements IViewFinder {
         return this;
     }
 
+    public void setRootView(View rootView) {
+        mRootView = rootView;
+    }
+
+    public void setActivity(Activity activity) {
+        mActivity = activity;
+    }
+
+    private void ensureInit() {
+        if (mViews == null) {
+            mViews = createCacheMap();
+        }
+    }
+
     /**
      * 回收内存，在生命周期销毁时调用
      */
@@ -94,6 +108,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public <T extends View> T get(@IdRes int resId) {
+        ensureInit();
         View view = mViews.get(resId);
         //如果该View没有缓存过，则查找View并缓存
         if (view == null) {
