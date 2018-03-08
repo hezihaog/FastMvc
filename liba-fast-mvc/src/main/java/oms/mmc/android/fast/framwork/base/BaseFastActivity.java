@@ -15,7 +15,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import oms.mmc.android.fast.framwork.util.ActivityManager;
 import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
-import oms.mmc.android.fast.framwork.util.CollectionUtil;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
@@ -259,7 +258,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        for (InstanceStateCallback callback : CollectionUtil.getSnapshot(stateCallbacks)) {
+        for (InstanceStateCallback callback : stateCallbacks) {
             callback.onSaveInstanceState(outState);
         }
     }
@@ -267,7 +266,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        for (InstanceStateCallback callback : CollectionUtil.getSnapshot(stateCallbacks)) {
+        for (InstanceStateCallback callback : stateCallbacks) {
             callback.onRestoreInstanceState(savedInstanceState);
         }
     }
