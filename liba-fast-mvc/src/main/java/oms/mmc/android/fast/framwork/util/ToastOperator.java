@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 
 /**
@@ -54,7 +55,7 @@ public class ToastOperator implements IToast {
      */
     @Override
     public void showLongToast(int message) {
-        toast(getString(message), android.widget.Toast.LENGTH_SHORT);
+        toast(getString(message), Toast.LENGTH_LONG);
     }
 
     /**
@@ -62,7 +63,7 @@ public class ToastOperator implements IToast {
      */
     @Override
     public void showLongToast(String message) {
-        toast(message, android.widget.Toast.LENGTH_SHORT);
+        toast(message, Toast.LENGTH_LONG);
     }
 
     /**
