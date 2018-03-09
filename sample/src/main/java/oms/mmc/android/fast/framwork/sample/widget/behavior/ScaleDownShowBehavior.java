@@ -50,6 +50,7 @@ public class ScaleDownShowBehavior extends FloatingActionButton.Behavior {
     private boolean isAnimateIng = false;   // 是否正在动画
     private boolean isShow = true;  // 是否已经显示
 
+    @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child,
                                View target, int dxConsumed, int dyConsumed,
                                int dxUnconsumed, int dyUnconsumed) {

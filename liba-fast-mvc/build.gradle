@@ -28,15 +28,13 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["recyclerview"]
     //生命周期监听库
-    compile 'oms.mmc:lifecycle-dispatch:1.0.1-SNAPSHOT@aar'
+    compile project(':liba-lifecycle-dispatch')
     //通用滚动监听库
-    compile('oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar', {
-        exclude group: 'com.android.support'
-    })
+    compile project(':liba_list_scroll_helper')
     //等待弹窗库
-    compile 'oms.mmc:wait-view-factory:1.0.2-SNAPSHOT@aar'
-    //界面切换状态库
-    compile 'oms.mmc:load-view-factory:1.0.4-SNAPSHOT@aar'
+    compile project(':liba_wait_view_factory')
+    //界面状态切换状态库
+    compile project(':liba_load_view_factory')
     //图片加载
     compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
 }

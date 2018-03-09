@@ -35,12 +35,13 @@ public class ActivityManager {
      * 获取指定的Activity
      */
     public static Activity getActivity(Class<?> cls) {
-        if (activityStack != null)
+        if (activityStack != null) {
             for (Activity activity : activityStack) {
                 if (activity.getClass().equals(cls)) {
                     return activity;
                 }
             }
+        }
         return null;
     }
 

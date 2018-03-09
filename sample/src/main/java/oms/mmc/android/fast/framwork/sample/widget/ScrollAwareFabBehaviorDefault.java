@@ -47,14 +47,17 @@ public class ScrollAwareFabBehaviorDefault extends FloatingActionButton.Behavior
         if (Build.VERSION.SDK_INT >= 14) {
             ViewCompat.animate(button).translationY(button.getHeight() + getMarginBottom(button)).setInterpolator(INTERPOLATOR).withLayer()
                     .setListener(new ViewPropertyAnimatorListener() {
+                        @Override
                         public void onAnimationStart(View view) {
                             ScrollAwareFabBehaviorDefault.this.mIsAnimatingOut = true;
                         }
 
+                        @Override
                         public void onAnimationCancel(View view) {
                             ScrollAwareFabBehaviorDefault.this.mIsAnimatingOut = false;
                         }
 
+                        @Override
                         public void onAnimationEnd(View view) {
                             ScrollAwareFabBehaviorDefault.this.mIsAnimatingOut = false;
                             view.setVisibility(View.GONE);

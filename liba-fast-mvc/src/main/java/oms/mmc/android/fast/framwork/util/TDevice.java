@@ -114,14 +114,15 @@ public class TDevice {
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
         // includes window decorations (statusbar bar/menu bar)
-        if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17)
+        if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17) {
             try {
                 screenWidth = (Integer) Display.class.getMethod("getRawWidth").invoke(d);
                 screenHeight = (Integer) Display.class.getMethod("getRawHeight").invoke(d);
             } catch (Exception ignored) {
             }
+        }
         // includes window decorations (statusbar bar/menu bar)
-        if (Build.VERSION.SDK_INT >= 17)
+        if (Build.VERSION.SDK_INT >= 17) {
             try {
                 Point realSize = new Point();
                 Display.class.getMethod("getRealSize", Point.class).invoke(d, realSize);
@@ -129,6 +130,7 @@ public class TDevice {
                 screenHeight = realSize.y;
             } catch (Exception ignored) {
             }
+        }
         size[0] = screenWidth;
         size[1] = screenHeight;
         return size;
@@ -142,8 +144,9 @@ public class TDevice {
             Boolean boolean1 = flag1;
             _hasBigScreen = boolean1;
             if (!boolean1) {
-                if (getDensity(context) <= 1.5F)
+                if (getDensity(context) <= 1.5F) {
                     flag = false;
+                }
                 _hasBigScreen = flag;
             }
         }
@@ -233,7 +236,7 @@ public class TDevice {
 
     public static boolean isZhCN(Context context) {
         String lang = context.getResources().getConfiguration().locale.getCountry();
-        return lang.equalsIgnoreCase("CN");
+        return "CN".equalsIgnoreCase(lang);
     }
 
     public static String percent(double p1, double p2) {
@@ -399,8 +402,9 @@ public class TDevice {
     public static int getActionBarHeight(Context context) {
         int actionBarHeight = 0;
         TypedValue tv = new TypedValue();
-        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+        }
 
         if (actionBarHeight == 0 && context.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
@@ -424,7 +428,7 @@ public class TDevice {
     public static void showSystemShareOption(Activity context, final String title, final String url, final String urlPic) {
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        if (urlPic == null || urlPic.equals("")) {
+        if (urlPic == null || "".equals(urlPic)) {
             intent.setType("text/plain"); // 纯文本
         } else {
             File f = new File(urlPic);

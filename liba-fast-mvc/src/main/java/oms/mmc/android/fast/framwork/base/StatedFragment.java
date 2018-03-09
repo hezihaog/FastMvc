@@ -43,8 +43,9 @@ public class StatedFragment extends LifecycleFragment {
     }
 
     private void saveStateToArguments() {
-        if (getView() != null)
+        if (getView() != null) {
             savedState = saveState();
+        }
         if (savedState != null) {
             Bundle bundle = getArguments();
             bundle.putBundle("internalSavedViewState", savedState);

@@ -215,8 +215,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         try {
             ConnectivityManager localConnectivityManager = (ConnectivityManager) paramContext.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo localNetworkInfo = localConnectivityManager.getActiveNetworkInfo();
-            if ((localNetworkInfo != null) && (localNetworkInfo.isAvailable()))
+            if ((localNetworkInfo != null) && (localNetworkInfo.isAvailable())) {
                 return true;
+            }
         } catch (Throwable localThrowable) {
             localThrowable.printStackTrace();
         }

@@ -115,12 +115,12 @@ public class DeviceHelper {
     public static boolean isFlymeVersionHigher5_2_4() {
         //查不到默认高于5.2.4
         boolean isHigher = true;
-        if (sFlymeVersionName != null && !sFlymeVersionName.equals("")) {
+        if (sFlymeVersionName != null && !"".equals(sFlymeVersionName)) {
             Pattern pattern = Pattern.compile("(\\d+\\.){2}\\d");
             Matcher matcher = pattern.matcher(sFlymeVersionName);
             if (matcher.find()) {
                 String versionString = matcher.group();
-                if (versionString != null && !versionString.equals("")) {
+                if (versionString != null && !"".equals(versionString)) {
                     String[] version = versionString.split("\\.");
                     if (version.length == 3) {
                         if (Integer.valueOf(version[0]) < 5) {
@@ -250,7 +250,9 @@ public class DeviceHelper {
             } catch (Exception ignored) {
             }
         }
-        if (name != null) name = name.toLowerCase();
+        if (name != null) {
+            name = name.toLowerCase();
+        }
         return name;
     }
 }

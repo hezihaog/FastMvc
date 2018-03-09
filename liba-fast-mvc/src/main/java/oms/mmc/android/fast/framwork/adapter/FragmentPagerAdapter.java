@@ -46,11 +46,15 @@ public abstract class FragmentPagerAdapter extends PagerAdapter {
         String name = makeFragmentName(container.getId(), itemId);
         Fragment fragment = mFragmentManager.findFragmentByTag(name);
         if (fragment != null) {
-            if (DEBUG) Log.v(TAG, "Attaching item #" + itemId + ": f=" + fragment);
+            if (DEBUG) {
+                Log.v(TAG, "Attaching item #" + itemId + ": f=" + fragment);
+            }
             mCurTransaction.attach(fragment);
         } else {
             fragment = getItem(position);
-            if (DEBUG) Log.v(TAG, "Adding item #" + itemId + ": f=" + fragment);
+            if (DEBUG) {
+                Log.v(TAG, "Adding item #" + itemId + ": f=" + fragment);
+            }
             mCurTransaction.add(container.getId(), fragment,
                     makeFragmentName(container.getId(), itemId));
         }
@@ -67,8 +71,10 @@ public abstract class FragmentPagerAdapter extends PagerAdapter {
         if (mCurTransaction == null) {
             mCurTransaction = mFragmentManager.beginTransaction();
         }
-        if (DEBUG) Log.v(TAG, "Detaching item #" + getItemId(position) + ": f=" + object
-                + " v=" + ((Fragment)object).getView());
+        if (DEBUG) {
+            Log.v(TAG, "Detaching item #" + getItemId(position) + ": f=" + object
+                    + " v=" + ((Fragment) object).getView());
+        }
         mCurTransaction.detach((Fragment)object);
     }
 

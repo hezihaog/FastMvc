@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "27.0.0"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 104
+        versionName "1.0.4"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+//是否提交到仓库
+def upload = true
+//是否为正版
+def release = false
+//提交到服务器
+if (upload) {
+    apply plugin: 'maven'
+    group = 'oms.mmc'
+    version = !release ? android.defaultConfig.versionName + '-SNAPSHOT' : android.defaultConfig.versionName
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.sourceFiles
+    }
+    artifacts {
+        //当前aar 文件名
+        archives file('liba_load_view_factory.aar')
+        archives androidSourcesJar
+    }
+    uploadArchives {
+        repositories.mavenDeployer {
+            println "upload load-view-factory version:" + version
+            repository(url: MAVEN_R_URL) {
+                authentication(userName: MAVEN_D_USERNAME, password: MAVEN_D_PASSWORD)
+            }
+            snapshotRepository(url: MAVEN_S_URL) {
+                authentication(userName: MAVEN_D_USERNAME, password: MAVEN_D_PASSWORD)
+            }
+            pom.artifactId = "load-view-factory"
+        }
+    }
+}

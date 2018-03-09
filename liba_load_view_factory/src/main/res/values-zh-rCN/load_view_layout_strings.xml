@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--刷新-->
+    <string name="load_view_error_tip_text">哎呀，网络异常了</string>
+    <string name="load_view_error_refresh_text">刷新看看</string>
+    <string name="load_view_loading_tip_text">拼命加载中...</string>
+</resources>

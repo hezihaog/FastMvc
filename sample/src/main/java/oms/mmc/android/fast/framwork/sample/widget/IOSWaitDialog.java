@@ -37,6 +37,7 @@ public class IOSWaitDialog extends Dialog implements IEditableDialog {
         this.setCanceledOnTouchOutside(true);
     }
 
+    @Override
     public void setMessage(CharSequence msg) {
         if (TextUtils.isEmpty(msg)) {
             message.setVisibility(View.GONE);
