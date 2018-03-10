@@ -17,6 +17,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
+import oms.mmc.factory.wait.inter.IWaitViewHost;
 
 public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T> implements IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder>, StickyHeaders, StickyHeaders.ViewSetup {
     /**
@@ -33,8 +34,8 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     private final HeaderFooterAdapter mHeaderFooterAdapter;
 
     public BaseListAdapter(RecyclerView recyclerView, Activity activity, IDataSource dataSource,
-                           HashMap itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType) {
-        super(recyclerView, activity, dataSource, itemViewClazzMap, recyclerViewHelper);
+                           HashMap itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType, IWaitViewHost waitViewHost) {
+        super(recyclerView, activity, dataSource, itemViewClazzMap, recyclerViewHelper, waitViewHost);
         this.stickySectionViewType = stickySectionViewType;
         mHeaderFooterAdapter = new HeaderFooterAdapter(this);
     }

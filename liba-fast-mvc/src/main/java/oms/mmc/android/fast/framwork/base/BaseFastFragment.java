@@ -15,21 +15,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.util.WaitViewManager;
+import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 import oms.mmc.factory.wait.inter.IWaitViewController;
+import oms.mmc.factory.wait.inter.IWaitViewHost;
 
 
 /**
  * Fragment基类
  */
 public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements LayoutCallback
-        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch {
+        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch, IWaitViewHost {
     protected FragmentManager mFm;
     protected Fragment mFragment;
     private ViewFinder mViewFinder;
     private Handler mMainHandler;
+    private WaitDialogController mWaitDialogController;
     private CopyOnWriteArrayList<InstanceStateCallback> stateCallbacks = new CopyOnWriteArrayList<InstanceStateCallback>();
 
     @Override
@@ -37,17 +39,6 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
         super.onAttach(activity);
         mFm = getChildFragmentManager();
         mFragment = this;
-        //这里的操作是，当activity不是BaseFastActivity或者宿主activity的onGetWaitDialogFactory()方法返回null时，使用fragment上定义的waitView
-        IWaitViewController controller = WaitViewManager.getInstnace().find(activity);
-        if (controller == null) {
-            IWaitViewFactory waitViewFactory = onWaitDialogFactoryReady();
-            if (waitViewFactory != null && waitViewFactory.getWaitDialogController(activity) != null) {
-                controller = waitViewFactory.getWaitDialogController(activity);
-                if (controller != null) {
-                    WaitViewManager.getInstnace().add(activity, controller);
-                }
-            }
-        }
     }
 
     @Override
@@ -74,6 +65,7 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
             mViewFinder.setRootView(onLayoutView(inflater, container));
         }
         setRootView(mViewFinder.getRootView());
+        mWaitDialogController = onWaitDialogFactoryReady().madeWaitDialogController(getActivity());
         return mViewFinder.getRootView();
     }
 
@@ -113,27 +105,27 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     @Override
     public void showWaitDialog() {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), "", false);
+        getWaitViewController().getWaitIml().showWaitDialog(getActivity(), "", false);
     }
 
     @Override
     public void showWaitDialog(String msg) {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, false);
+        getWaitViewController().getWaitIml().showWaitDialog(getActivity(), msg, false);
     }
 
     @Override
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        getWaitViewController().getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
     }
 
     @Override
     public void hideWaitDialog() {
-        WaitViewManager.getInstnace().hideWaitDialog(getActivity());
+        getWaitViewController().getWaitIml().hideWaitDialog();
     }
 
     @Override
-    public IWaitViewController getWaitController() {
-        return WaitViewManager.getInstnace().find(getActivity());
+    public IWaitViewController getWaitViewController() {
+        return mWaitDialogController;
     }
 
     @Override

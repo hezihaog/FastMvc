@@ -17,7 +17,7 @@ import oms.mmc.factory.wait.iml.ProgressWaitDialogIml;
 public class BaseWaitDialogFactory implements IWaitViewFactory {
 
     @Override
-    public WaitDialogController getWaitDialogController(Activity activity) {
+    public WaitDialogController madeWaitDialogController(Activity activity) {
         return new WaitDialogController(activity, ProgressWaitDialogIml.class);
     }
 }

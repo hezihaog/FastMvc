@@ -16,8 +16,9 @@ import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
  */
 
 public class IOSWaitDialogFactory extends BaseWaitDialogFactory {
+
     @Override
-    public WaitDialogController getWaitDialogController(Activity activity) {
+    public WaitDialogController madeWaitDialogController(Activity activity) {
         return new WaitDialogController(activity, IOSWaitDialogIml.class);
     }
 }

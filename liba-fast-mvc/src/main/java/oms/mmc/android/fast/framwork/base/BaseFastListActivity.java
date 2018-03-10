@@ -58,7 +58,8 @@ public abstract class BaseFastListActivity extends BaseFastActivity implements L
 
     @Override
     public IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> onListAdapterReady() {
-        return new BaseListAdapter<BaseItemData>(getRecyclerView(), this, getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType());
+        return new BaseListAdapter<BaseItemData>(getRecyclerView(), this, getListDataSource()
+                , onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType(), this);
     }
 
     @Override

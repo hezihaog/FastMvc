@@ -1,7 +1,5 @@
 package oms.mmc.android.fast.framwork.base;
 
-import oms.mmc.factory.wait.inter.IWaitViewController;
-
 /**
  * Package: oms.mmc.android.fast.framwork.base
  * FileName: IWaitViewOperation
@@ -34,9 +32,4 @@ public interface IWaitViewHandler {
      * 隐藏WaitView
      */
     void hideWaitDialog();
-
-    /**
-     * 获取当前界面对应的WaitView控制器
-     */
-    IWaitViewController getWaitController();
 }

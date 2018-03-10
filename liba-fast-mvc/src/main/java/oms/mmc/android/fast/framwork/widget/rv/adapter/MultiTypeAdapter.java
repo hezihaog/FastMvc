@@ -18,6 +18,7 @@ import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
 
 /**
@@ -45,6 +46,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
      * 列表数据
      */
     private ArrayList<T> mListViewData;
+    private IWaitViewHost mWaitViewHost;
     /**
      * 原始的列表数据
      */
@@ -71,12 +73,13 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     private final ToastOperator mToastOperator;
 
     public MultiTypeAdapter(RecyclerView recyclerView, Activity activity, IDataSource<T> dataSource
-            , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper) {
+            , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, IWaitViewHost waitViewHost) {
         mToastOperator = new ToastOperator(activity);
         this.mRecyclerView = recyclerView;
         this.mActivity = activity;
         this.mListViewDataSource = dataSource;
         this.mListViewData = dataSource.getOriginListViewData();
+        this.mWaitViewHost = waitViewHost;
         this.originData = this.mListViewData;
         this.viewTypeClassMap = itemViewClazzMap;
         this.mRecyclerViewHelper = recyclerViewHelper;
@@ -140,7 +143,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
             e.printStackTrace();
             Log.e(TAG, "实例化TPL出错，请查看TPL构造方法是否是无参");
         }
-        tpl.init(mActivity, mRecyclerView, mToastOperator, viewType);
+        tpl.init(mActivity, mRecyclerView, mToastOperator, mWaitViewHost, viewType);
         viewHolder = tpl.getViewHolder();
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
         tpl.config(this, mListViewData, mListViewDataSource, mRecyclerViewHelper, mListScrollHelper);

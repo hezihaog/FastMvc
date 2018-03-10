@@ -15,9 +15,8 @@ import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.util.WaitViewManager;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
-import oms.mmc.factory.wait.inter.IWaitViewController;
+import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
 
 /**
@@ -33,6 +32,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     private IDataSource<? extends BaseItemData> mListDataSource;
     private List<? extends BaseItemData> mListData;
     private RecyclerView mRecyclerView;
+    private IWaitViewHost mWaitViewHost;
     private int mItemViewType = -1;
     private View mRoot;
     private int mPosition;
@@ -43,7 +43,8 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     public BaseTpl() {
     }
 
-    public void init(Activity activity, RecyclerView recyclerView, ToastOperator toastOperator, int itemViewType) {
+    public void init(Activity activity, RecyclerView recyclerView, ToastOperator toastOperator, IWaitViewHost waitViewHost, int itemViewType) {
+        this.mWaitViewHost = waitViewHost;
         this.mItemViewType = itemViewType;
         this.mActivity = activity;
         this.mRecyclerView = recyclerView;
@@ -196,27 +197,22 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
 
     @Override
     public void showWaitDialog() {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), "", false);
+        mWaitViewHost.getWaitViewController().getWaitIml().showWaitDialog(getActivity(), "", false);
     }
 
     @Override
     public void showWaitDialog(String msg) {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, false);
+        mWaitViewHost.getWaitViewController().getWaitIml().showWaitDialog(getActivity(), msg, false);
     }
 
     @Override
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        mWaitViewHost.getWaitViewController().getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
     }
 
     @Override
     public void hideWaitDialog() {
-        WaitViewManager.getInstnace().hideWaitDialog(getActivity());
-    }
-
-    @Override
-    public IWaitViewController getWaitController() {
-        return WaitViewManager.getInstnace().find(getActivity());
+        mWaitViewHost.getWaitViewController().getWaitIml().hideWaitDialog();
     }
 
     /**

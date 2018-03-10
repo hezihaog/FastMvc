@@ -18,20 +18,22 @@ import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.android.fast.framwork.util.WaitViewManager;
+import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 import oms.mmc.factory.wait.inter.IWaitViewController;
+import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.base.ScrollableViewFactory;
 
 /**
  * Activity基类
  */
 public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements LayoutCallback
-        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch {
+        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch, IWaitViewHost {
     private ViewFinder mViewFinder;
     private Handler mMainHandler;
     private CopyOnWriteArrayList<InstanceStateCallback> stateCallbacks = new CopyOnWriteArrayList<InstanceStateCallback>();
+    private WaitDialogController mWaitDialogController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
             mViewFinder.setActivity(this);
             mViewFinder.setRootView(getContentView());
         }
-        IWaitViewFactory waitViewFactory = onWaitDialogFactoryReady();
-        if (waitViewFactory != null && waitViewFactory.getWaitDialogController(getActivity()) != null) {
-            WaitViewManager.getInstnace().add(this, waitViewFactory.getWaitDialogController(getActivity()));
-        }
+        mWaitDialogController = onWaitDialogFactoryReady().madeWaitDialogController(this);
         setContentView(mViewFinder.getRootView());
         if (hasTranslucentStatusBar()) {
             onStatusBarSet();
@@ -63,7 +62,6 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     protected void onDestroy() {
         super.onDestroy();
         TDevice.hideSoftKeyboard(getContentView());
-        WaitViewManager.getInstnace().remove(this);
         if (getViewFinder() != null) {
             getViewFinder().recycle();
         }
@@ -155,27 +153,27 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
 
     @Override
     public void showWaitDialog() {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), "", false);
+        mWaitDialogController.getWaitIml().showWaitDialog(getActivity(), "", false);
     }
 
     @Override
     public void showWaitDialog(String msg) {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, false);
+        mWaitDialogController.getWaitIml().showWaitDialog(getActivity(), msg, false);
     }
 
     @Override
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        WaitViewManager.getInstnace().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        mWaitDialogController.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
     }
 
     @Override
     public void hideWaitDialog() {
-        WaitViewManager.getInstnace().hideWaitDialog(this);
+        mWaitDialogController.getWaitIml().hideWaitDialog();
     }
 
     @Override
-    public IWaitViewController getWaitController() {
-        return WaitViewManager.getInstnace().find(this);
+    public IWaitViewController getWaitViewController() {
+        return mWaitDialogController;
     }
 
     protected void setResult(int resultCode, Bundle bundle) {

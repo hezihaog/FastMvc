@@ -14,5 +14,8 @@ import oms.mmc.factory.wait.WaitDialogController;
  */
 
 public interface IWaitViewFactory {
-    WaitDialogController getWaitDialogController(Activity activity);
+    /**
+     * 创建WaitView控制器
+     */
+    WaitDialogController madeWaitDialogController(Activity activity);
 }
