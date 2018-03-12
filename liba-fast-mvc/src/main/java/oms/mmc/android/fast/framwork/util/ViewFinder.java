@@ -294,12 +294,12 @@ public class ViewFinder implements IViewFinder {
 
     @Override
     public CharSequence getViewTextWithTrim(@IdRes int viewId) {
-        return null;
+        return getTextWithDefault(viewId, "").toString().trim();
     }
 
     @Override
     public CharSequence getViewTextWithTrim(TextView view) {
-        return null;
+        return getTextWithDefault(view, "").toString().trim();
     }
 
     //-------------------------------- 单次设置监听器 --------------------------------
@@ -351,6 +351,9 @@ public class ViewFinder implements IViewFinder {
             return;
         }
         for (int id : ids) {
+            if (id <= 0) {
+                continue;
+            }
             get(id).setOnClickListener(listener);
         }
     }
@@ -367,6 +370,9 @@ public class ViewFinder implements IViewFinder {
             return;
         }
         for (View view : views) {
+            if (view == null) {
+                continue;
+            }
             view.setOnClickListener(listener);
         }
     }
