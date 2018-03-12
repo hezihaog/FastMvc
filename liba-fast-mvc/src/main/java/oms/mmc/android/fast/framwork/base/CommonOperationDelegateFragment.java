@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +16,8 @@ import mmc.image.ImageLoader;
 import mmc.image.LoadImageCallback;
 import oms.mmc.android.fast.framwork.lazy.ExtendLazyFragment;
 import oms.mmc.android.fast.framwork.util.ArgumentsDelegateHelper;
+import oms.mmc.android.fast.framwork.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.util.FragmentUtil;
 import oms.mmc.android.fast.framwork.util.IArgumentsDelegate;
 import oms.mmc.android.fast.framwork.util.IToast;
 import oms.mmc.android.fast.framwork.util.IViewFinderAction;
@@ -499,5 +503,94 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
     @Override
     public void clearImageMemoryCache() {
         getViewFinder().clearImageMemoryCache();
+    }
+
+    //-------------------- Fragment操作 ----------------------
+
+    /**
+     * 创建Fragment，不传入初始化参数
+     */
+    protected <T extends Fragment> Fragment createFragment(Class<T> fragmentClass) {
+        return createFragment(fragmentClass, null);
+    }
+
+    /**
+     * 创建Fragment，可传入初始化参数
+     */
+    protected <T extends Fragment> Fragment createFragment(Class<T> fragmentClass, Bundle args) {
+        return FragmentFactory.newInstance(getActivity(), fragmentClass, args);
+    }
+
+    /**
+     * 查找是否已经有绑定的fragment
+     */
+    protected boolean hasBindFragment() {
+        return FragmentUtil.hasFragment(getChildFragmentManager());
+    }
+
+    /**
+     * 添加Fragment
+     */
+    protected Fragment addFragment(Fragment fragment, int containerId) {
+        return FragmentUtil.addFragment(getChildFragmentManager(), fragment, containerId);
+    }
+
+    /**
+     * 替换Fragment
+     */
+    protected Fragment replaceFragment(Fragment fragment, @IdRes int containerViewId) {
+        return FragmentUtil.replaceFragment(getChildFragmentManager(), fragment, containerViewId, false);
+    }
+
+    /**
+     * 显示Fragment
+     */
+    protected void showFragment(Fragment fragment) {
+        FragmentUtil.showFragment(fragment);
+    }
+
+    /**
+     * 隐藏Fragment
+     */
+    protected void hideFragment(Fragment fragment) {
+        FragmentUtil.hideFragment(fragment);
+    }
+
+    /**
+     * 移除指定的Fragment
+     */
+    protected void removeFragment(Fragment fragment) {
+        FragmentUtil.removeFragment(fragment);
+    }
+
+    /**
+     * 移除所有同级别的Fragment
+     */
+    protected void removeFragments() {
+        FragmentUtil.removeFragments(getChildFragmentManager());
+    }
+
+    /**
+     * 移除掉所有的Fragment
+     */
+    protected void removeAllFragment() {
+        FragmentUtil.removeAllFragments(getChildFragmentManager());
+    }
+
+    /**
+     * 隐藏所有fragment
+     */
+    protected void hideAllFragment() {
+        FragmentUtil.hideFragments(getChildFragmentManager());
+    }
+
+    /**
+     * 先隐藏指定的Fragment，在显示指定的fragment
+     *
+     * @param hideFragment 要先隐藏的Fragment
+     * @param showFragment 要后显示的Fragment
+     */
+    protected void hideShowFragment(@NonNull Fragment hideFragment, @NonNull Fragment showFragment) {
+        FragmentUtil.hideShowFragment(hideFragment, showFragment);
     }
 }
