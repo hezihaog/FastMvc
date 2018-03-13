@@ -149,10 +149,6 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
         mMainHandler.postDelayed(runnable, duration);
     }
 
-    public static Bundle createArgs() {
-        return new Bundle();
-    }
-
     @Override
     protected void onSaveState(Bundle outState) {
         super.onSaveState(outState);

@@ -9,7 +9,7 @@ package oms.mmc.android.fast.framwork.util;
  * Email: hezihao@linghit.com
  */
 
-public interface IToast {
+public interface IToastOperator {
     /**
      * 以资源id显示短Toast信息
      */

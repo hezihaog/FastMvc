@@ -13,7 +13,7 @@ import android.widget.Toast;
  * Toast 工具类
  */
 
-public class ToastOperator implements IToast {
+public class ToastOperator implements IToastOperator {
     private static final String TAG = ToastOperator.class.getSimpleName();
     private Context mContext;
     private final Handler mMainHandler;

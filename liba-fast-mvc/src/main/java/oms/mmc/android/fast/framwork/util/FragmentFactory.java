@@ -37,12 +37,12 @@ public class FragmentFactory {
      * @param args    Bundle参数
      * @return Fragment实例
      */
-    public static <T extends Fragment> Fragment newInstance(Context context, Class<T> clazz, @Nullable Bundle args) {
+    public static <T extends Fragment> T newInstance(Context context, Class<T> clazz, @Nullable Bundle args) {
         Fragment fragment = Fragment.instantiate(context, clazz.getName(), args);
         if (args != null) {
             fragment.setArguments(args);
         }
-        return fragment;
+        return (T) fragment;
     }
 
     /**

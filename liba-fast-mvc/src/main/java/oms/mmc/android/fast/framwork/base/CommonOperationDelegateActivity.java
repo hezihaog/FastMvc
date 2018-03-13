@@ -17,10 +17,9 @@ import java.io.Serializable;
 import mmc.image.ImageLoader;
 import mmc.image.LoadImageCallback;
 import oms.mmc.android.fast.framwork.util.ArgumentsDelegateHelper;
-import oms.mmc.android.fast.framwork.util.FragmentFactory;
-import oms.mmc.android.fast.framwork.util.FragmentUtil;
+import oms.mmc.android.fast.framwork.util.FragmentOperator;
 import oms.mmc.android.fast.framwork.util.IArgumentsDelegate;
-import oms.mmc.android.fast.framwork.util.IToast;
+import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.IViewFinderAction;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.lifecycle.dispatch.base.LifecycleActivity;
@@ -34,9 +33,11 @@ import oms.mmc.lifecycle.dispatch.base.LifecycleActivity;
  * Email: hezihao@linghit.com
  */
 
-public abstract class CommonOperationDelegateActivity extends LifecycleActivity implements IArgumentsDelegate, IViewFinderAction, IToast {
-    private ArgumentsDelegateHelper mArgumentsDelegateHelper;
-    private ToastOperator mToastOperator;
+public abstract class CommonOperationDelegateActivity extends LifecycleActivity implements IArgumentsDelegate,
+        IViewFinderAction, IFragmentAction, IToastOperator {
+    private IArgumentsDelegate mArgumentsDelegateHelper;
+    private IToastOperator mToastOperator;
+    private IFragmentOperator mFragmentOperator;
 
     /**
      * 获取Activity
@@ -50,7 +51,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     /**
-     * 确保初始化
+     * 确保参数代理初始化
      */
     public void ensureInitArgumentsDelegate() {
         if (mArgumentsDelegateHelper == null) {
@@ -58,9 +59,22 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
         }
     }
 
+    /**
+     * 确保Toast执行器初始化
+     */
     public void ensureInitToastOperator() {
         if (mToastOperator == null) {
             mToastOperator = new ToastOperator(this);
+        }
+    }
+
+    /**
+     * 确保Fragment操作执行器初始化
+     */
+    public void ensureInitFragmentOperator() {
+        if (mFragmentOperator == null) {
+            mFragmentOperator = new FragmentOperator(this);
+            mFragmentOperator.setSupportFragmentManager(getSupportFragmentManager());
         }
     }
 
@@ -541,80 +555,122 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     //-------------------- Fragment操作 ----------------------
 
     /**
+     * 创建一个Bundle，通常用于Fragment的setArguments()传递参数
+     */
+    @Override
+    public Bundle createArgs() {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.createArgs();
+    }
+
+    /**
      * 创建Fragment，不传入初始化参数
      */
-    protected <T extends Fragment> Fragment createFragment(Class<T> fragmentClass) {
-        return createFragment(fragmentClass, null);
+    @Override
+    public <T extends Fragment> T createFragment(Class<T> fragmentClass) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.createFragment(fragmentClass, null);
     }
 
     /**
      * 创建Fragment，可传入初始化参数
      */
-    protected <T extends Fragment> Fragment createFragment(Class<T> fragmentClass, Bundle args) {
-        return FragmentFactory.newInstance(getActivity(), fragmentClass, args);
+    @Override
+    public <T extends Fragment> T createFragment(Class<T> fragmentClass, Bundle args) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.createFragment(fragmentClass, args);
     }
 
     /**
      * 查找是否已经有绑定的fragment
      */
-    protected boolean hasBindFragment() {
-        return FragmentUtil.hasFragment(getSupportFragmentManager());
+    @Override
+    public boolean hasBindFragment() {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.hasBindFragment();
+    }
+
+    /**
+     * 查找Fragment
+     *
+     * @param fragmentClass Fragment的Class，这里Fragment的Tag都是以Fragment的全类名作为Tag
+     */
+    @Override
+    public Fragment findFragment(Class<? extends Fragment> fragmentClass) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.findFragment(fragmentClass);
     }
 
     /**
      * 添加Fragment
      */
-    protected Fragment addFragment(Fragment fragment, int containerId) {
-        return FragmentUtil.addFragment(getSupportFragmentManager(), fragment, containerId);
+    @Override
+    public Fragment addFragment(Fragment fragment, int containerId) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.addFragment(fragment, containerId);
     }
 
     /**
      * 替换Fragment
      */
-    protected Fragment replaceFragment(Fragment fragment, @IdRes int containerViewId) {
-        return FragmentUtil.replaceFragment(getSupportFragmentManager(), fragment, containerViewId, false);
+    @Override
+    public Fragment replaceFragment(Fragment fragment, @IdRes int containerViewId) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.replaceFragment(fragment, containerViewId);
     }
 
     /**
      * 显示Fragment
      */
-    protected void showFragment(Fragment fragment) {
-        FragmentUtil.showFragment(fragment);
+    @Override
+    public void showFragment(Fragment fragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.showFragment(fragment);
     }
 
     /**
      * 隐藏Fragment
      */
-    protected void hideFragment(Fragment fragment) {
-        FragmentUtil.hideFragment(fragment);
+    @Override
+    public void hideFragment(Fragment fragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.hideFragment(fragment);
     }
 
     /**
      * 移除指定的Fragment
      */
-    protected void removeFragment(Fragment fragment) {
-        FragmentUtil.removeFragment(fragment);
+    @Override
+    public void removeFragment(Fragment fragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.removeFragment(fragment);
     }
 
     /**
      * 移除所有同级别的Fragment
      */
-    protected void removeFragments() {
-        FragmentUtil.removeFragments(getSupportFragmentManager());
+    @Override
+    public void removeFragments() {
+        ensureInitFragmentOperator();
+        mFragmentOperator.removeFragments();
     }
 
     /**
      * 移除掉所有的Fragment
      */
-    protected void removeAllFragment() {
-        FragmentUtil.removeAllFragments(getSupportFragmentManager());
+    @Override
+    public void removeAllFragments() {
+        ensureInitFragmentOperator();
+        mFragmentOperator.removeAllFragments();
     }
 
     /**
      * 隐藏所有fragment
      */
-    protected void hideAllFragment() {
-        FragmentUtil.hideFragments(getSupportFragmentManager());
+    @Override
+    public void hideAllFragments() {
+        ensureInitFragmentOperator();
+        mFragmentOperator.hideAllFragments();
     }
 
     /**
@@ -623,7 +679,9 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * @param hideFragment 要先隐藏的Fragment
      * @param showFragment 要后显示的Fragment
      */
-    protected void hideShowFragment(@NonNull Fragment hideFragment, @NonNull Fragment showFragment) {
-        FragmentUtil.hideShowFragment(hideFragment, showFragment);
+    @Override
+    public void hideShowFragment(@NonNull Fragment hideFragment, @NonNull Fragment showFragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.hideShowFragment(hideFragment, showFragment);
     }
 }

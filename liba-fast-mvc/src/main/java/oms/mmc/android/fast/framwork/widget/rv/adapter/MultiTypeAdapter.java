@@ -14,6 +14,9 @@ import java.util.List;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.base.IFragmentOperator;
+import oms.mmc.android.fast.framwork.util.FragmentOperator;
+import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -70,11 +73,16 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     /**
      * Toast操作类
      */
-    private final ToastOperator mToastOperator;
+    private final IToastOperator mToastOperator;
+    /**
+     * Fragment操作类
+     */
+    private final IFragmentOperator mFragmentOperator;
 
     public MultiTypeAdapter(RecyclerView recyclerView, Activity activity, IDataSource<T> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, IWaitViewHost waitViewHost) {
-        mToastOperator = new ToastOperator(activity);
+        this.mToastOperator = new ToastOperator(activity);
+        this.mFragmentOperator = new FragmentOperator(activity);
         this.mRecyclerView = recyclerView;
         this.mActivity = activity;
         this.mListViewDataSource = dataSource;
@@ -143,7 +151,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
             e.printStackTrace();
             Log.e(TAG, "实例化TPL出错，请查看TPL构造方法是否是无参");
         }
-        tpl.init(mActivity, mRecyclerView, mToastOperator, mWaitViewHost, viewType);
+        tpl.init(mActivity, mRecyclerView, mToastOperator, mWaitViewHost, mFragmentOperator, viewType);
         viewHolder = tpl.getViewHolder();
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
         tpl.config(this, mListViewData, mListViewDataSource, mRecyclerViewHelper, mListScrollHelper);

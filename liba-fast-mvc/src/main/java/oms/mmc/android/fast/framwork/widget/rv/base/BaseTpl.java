@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.widget.rv.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,11 @@ import android.view.View;
 import java.util.List;
 
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.base.IFragmentOperator;
 import oms.mmc.android.fast.framwork.base.IWaitViewHandler;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
+import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
-import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
@@ -43,16 +45,36 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     public BaseTpl() {
     }
 
-    public void init(Activity activity, RecyclerView recyclerView, ToastOperator toastOperator, IWaitViewHost waitViewHost, int itemViewType) {
+    /**
+     * 初始化
+     *
+     * @param activity         activity对象
+     * @param recyclerView     rv列表
+     * @param toastOperator    Toast执行器
+     * @param waitViewHost     WaitView依赖的宿主，BaseFastActivity或者BaseFastFragment
+     * @param fragmentOperator Fragment操作器，所有的fragment操作都封装到这里
+     * @param itemViewType     当前Tpl的ViewType
+     */
+    public void init(Activity activity, RecyclerView recyclerView, IToastOperator toastOperator, IWaitViewHost waitViewHost, IFragmentOperator fragmentOperator, int itemViewType) {
         this.mWaitViewHost = waitViewHost;
         this.mItemViewType = itemViewType;
         this.mActivity = activity;
         this.mRecyclerView = recyclerView;
         setToastOperator(toastOperator);
+        setFragmentOperator(fragmentOperator);
         setBundle(mActivity.getIntent().getExtras());
         initView();
     }
 
+    /**
+     * 刷新配置
+     *
+     * @param adapter            列表适配器
+     * @param data               数据集
+     * @param dataSource         数据源
+     * @param recyclerViewHelper rv帮助类
+     * @param listScrollHelper   列表滚动帮助类
+     */
     public void config(IAssistRecyclerAdapter adapter, List<? extends BaseItemData> data
             , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper, ListScrollHelper listScrollHelper) {
         this.mListAdapter = adapter;
@@ -62,6 +84,9 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         this.mListScrollHelper = listScrollHelper;
     }
 
+    /**
+     * 初始化条目View
+     */
     private void initView() {
         onCreate();
         onLayoutBefore();
@@ -73,6 +98,9 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         onLayoutAfter();
     }
 
+    /**
+     * 获取内部的ViewHolder
+     */
     public BaseTpl.ViewHolder getViewHolder() {
         if (mInnerViewHolder == null) {
             mInnerViewHolder = new ViewHolder(getRootView());
@@ -80,6 +108,9 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         return mInnerViewHolder;
     }
 
+    /**
+     * 获取条目的ItemView视图
+     */
     public View getRoot() {
         if (mRoot == null) {
             mRoot = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
@@ -108,23 +139,44 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
 
     }
 
+    /**
+     * 在创建布局前回调
+     */
     @Override
     public void onLayoutBefore() {
     }
 
+    /**
+     * 在创建布局后回调
+     */
     @Override
     public void onLayoutAfter() {
     }
 
+    /**
+     * 获取依赖的Activity
+     */
     @Override
-    public Activity getActivity() {
-        return mActivity;
+    public FragmentActivity getActivity() {
+        return (FragmentActivity) mActivity;
     }
 
+    /**
+     * 条目点击事件
+     *
+     * @param view     条目的ItemView
+     * @param position 当前条目的position
+     */
     public void onItemClick(View view, int position) {
 
     }
 
+    /**
+     * 条目长按事件
+     *
+     * @param view     条目的ItemView
+     * @param position 当前条目的position
+     */
     public void onItemLongClick(View view, int position) {
 
     }
@@ -138,22 +190,43 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         }
     }
 
+    /**
+     * 获取当前条目拥有的条目bean
+     *
+     * @return
+     */
     public T getItemDataBean() {
         return mBean;
     }
 
+    /**
+     * 获取当前条目的位置
+     */
     public int getPosition() {
         return mPosition;
     }
 
+    /**
+     * 获取条目当前依附的的rv
+     */
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 
+    /**
+     * 获取rv帮助类，需要调用刷新、加载更多等函数时，调用该方法获取对象
+     *
+     * @return
+     */
     public RecyclerViewViewHelper getRecyclerViewHelper() {
         return mRecyclerViewHelper;
     }
 
+    /**
+     * 获取滚动帮助类
+     *
+     * @return
+     */
     public ListScrollHelper getListScrollHelper() {
         return mListScrollHelper;
     }
@@ -162,9 +235,16 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         return mListAdapter;
     }
 
-    public void setBeanPosition(List<? extends BaseItemData> listViewData, T item, int position) {
-        this.mListData = listViewData;
-        this.mBean = item;
+    /**
+     * 设置条目信息，每次adapter的onBindViewHolder时回调
+     *
+     * @param listData 条目数据
+     * @param itemBean 条目bean
+     * @param position 条目位置
+     */
+    public void setBeanPosition(List<? extends BaseItemData> listData, T itemBean, int position) {
+        this.mListData = listData;
+        this.mBean = itemBean;
         this.mPosition = position;
     }
 

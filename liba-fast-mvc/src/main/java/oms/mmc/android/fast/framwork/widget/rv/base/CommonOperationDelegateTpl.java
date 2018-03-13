@@ -1,9 +1,12 @@
 package oms.mmc.android.fast.framwork.widget.rv.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,9 +15,12 @@ import java.io.Serializable;
 
 import mmc.image.ImageLoader;
 import mmc.image.LoadImageCallback;
+import oms.mmc.android.fast.framwork.base.IFragmentAction;
+import oms.mmc.android.fast.framwork.base.IFragmentOperator;
 import oms.mmc.android.fast.framwork.util.ArgumentsDelegateHelper;
+import oms.mmc.android.fast.framwork.util.FragmentOperator;
 import oms.mmc.android.fast.framwork.util.IArgumentsDelegate;
-import oms.mmc.android.fast.framwork.util.IToast;
+import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.IViewFinderAction;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 
@@ -27,19 +33,24 @@ import oms.mmc.android.fast.framwork.util.ToastOperator;
  * Email: hezihao@linghit.com
  */
 
-public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, IViewFinderAction, IToast {
-    private ArgumentsDelegateHelper mArgumentsDelegateHelper;
+public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, IViewFinderAction, IToastOperator, IFragmentAction {
+    private IArgumentsDelegate mArgumentsDelegateHelper;
+    private IToastOperator mToastOperator;
+    private IFragmentOperator mFragmentOperator;
     private Bundle mBundle;
-    private ToastOperator mToastOperator;
 
-    protected void setToastOperator(ToastOperator toastOperator) {
+    protected void setToastOperator(IToastOperator toastOperator) {
         mToastOperator = toastOperator;
+    }
+
+    protected void setFragmentOperator(IFragmentOperator fragmentOperator) {
+        mFragmentOperator = fragmentOperator;
     }
 
     /**
      * 获取Activity
      */
-    public abstract Activity getActivity();
+    public abstract FragmentActivity getActivity();
 
     public void setBundle(Bundle bundle) {
         if (bundle == null) {
@@ -60,6 +71,16 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
     public void ensureInitToastOperator() {
         if (mToastOperator == null) {
             mToastOperator = new ToastOperator(getActivity());
+        }
+    }
+
+    /**
+     * 确保Fragment操作执行器初始化
+     */
+    public void ensureInitFragmentOperator() {
+        if (mFragmentOperator == null) {
+            mFragmentOperator = new FragmentOperator(getActivity());
+            mFragmentOperator.setSupportFragmentManager(getActivity().getSupportFragmentManager());
         }
     }
 
@@ -534,5 +555,138 @@ public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, 
     @Override
     public void clearImageMemoryCache() {
         getViewFinder().clearImageMemoryCache();
+    }
+
+    //-------------------- Fragment操作 ----------------------
+
+    /**
+     * 创建一个Bundle，通常用于Fragment的setArguments()传递参数
+     */
+    @Override
+    public Bundle createArgs() {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.createArgs();
+    }
+
+    /**
+     * 创建Fragment，不传入初始化参数
+     */
+    @Override
+    public <T extends Fragment> T createFragment(Class<T> fragmentClass) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.createFragment(fragmentClass, null);
+    }
+
+    /**
+     * 创建Fragment，可传入初始化参数
+     */
+    @Override
+    public <T extends Fragment> T createFragment(Class<T> fragmentClass, Bundle args) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.createFragment(fragmentClass, args);
+    }
+
+    /**
+     * 查找是否已经有绑定的fragment
+     */
+    @Override
+    public boolean hasBindFragment() {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.hasBindFragment();
+    }
+
+    /**
+     * 查找Fragment
+     *
+     * @param fragmentClass Fragment的Class，这里Fragment的Tag都是以Fragment的全类名作为Tag
+     */
+    @Override
+    public Fragment findFragment(Class<? extends Fragment> fragmentClass) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.findFragment(fragmentClass);
+    }
+
+    /**
+     * 添加Fragment
+     */
+    @Override
+    public Fragment addFragment(Fragment fragment, int containerId) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.addFragment(fragment, containerId);
+    }
+
+    /**
+     * 替换Fragment
+     */
+    @Override
+    public Fragment replaceFragment(Fragment fragment, @IdRes int containerViewId) {
+        ensureInitFragmentOperator();
+        return mFragmentOperator.replaceFragment(fragment, containerViewId);
+    }
+
+    /**
+     * 显示Fragment
+     */
+    @Override
+    public void showFragment(Fragment fragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.showFragment(fragment);
+    }
+
+    /**
+     * 隐藏Fragment
+     */
+    @Override
+    public void hideFragment(Fragment fragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.hideFragment(fragment);
+    }
+
+    /**
+     * 移除指定的Fragment
+     */
+    @Override
+    public void removeFragment(Fragment fragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.removeFragment(fragment);
+    }
+
+    /**
+     * 移除所有同级别的Fragment
+     */
+    @Override
+    public void removeFragments() {
+        ensureInitFragmentOperator();
+        mFragmentOperator.removeFragments();
+    }
+
+    /**
+     * 移除掉所有的Fragment
+     */
+    @Override
+    public void removeAllFragments() {
+        ensureInitFragmentOperator();
+        mFragmentOperator.removeAllFragments();
+    }
+
+    /**
+     * 隐藏所有fragment
+     */
+    @Override
+    public void hideAllFragments() {
+        ensureInitFragmentOperator();
+        mFragmentOperator.hideAllFragments();
+    }
+
+    /**
+     * 先隐藏指定的Fragment，在显示指定的fragment
+     *
+     * @param hideFragment 要先隐藏的Fragment
+     * @param showFragment 要后显示的Fragment
+     */
+    @Override
+    public void hideShowFragment(@NonNull Fragment hideFragment, @NonNull Fragment showFragment) {
+        ensureInitFragmentOperator();
+        mFragmentOperator.hideShowFragment(hideFragment, showFragment);
     }
 }
