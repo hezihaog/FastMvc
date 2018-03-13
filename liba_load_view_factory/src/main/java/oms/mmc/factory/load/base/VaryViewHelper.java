@@ -72,7 +72,14 @@ public class VaryViewHelper implements IVaryViewHelper {
             }
             //将要覆盖的View移除，清除动画，避免移除时动画还在进行，导致内存泄露
             View childView = parentView.getChildAt(viewIndex);
-            childView.clearAnimation();
+            if (childView instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) childView;
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    viewGroup.getChildAt(i).clearAnimation();
+                }
+            } else {
+                childView.clearAnimation();
+            }
             parentView.removeView(childView);
             //添加覆盖View
             parentView.addView(view, viewIndex, params);
