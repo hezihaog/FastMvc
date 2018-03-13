@@ -67,6 +67,11 @@ public class ToastOperator implements IToastOperator {
         toast(message, Toast.LENGTH_LONG);
     }
 
+    @Override
+    public void toast(int message, int duration) {
+        toast(getString(message), duration);
+    }
+
     /**
      * 显示toast信息
      */

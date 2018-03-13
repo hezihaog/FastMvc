@@ -101,6 +101,12 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
         mToastOperator.toastLong(message);
     }
 
+    @Override
+    public void toast(int message, int duration) {
+        ensureInitToastOperator();
+        mToastOperator.toast(message, duration);
+    }
+
     /**
      * 显示toast信息
      */

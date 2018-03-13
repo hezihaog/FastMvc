@@ -31,6 +31,11 @@ public interface IToastOperator {
     void toastLong(CharSequence message);
 
     /**
+     * 以资源id显示Toast信息
+     */
+    void toast(int message, int duration);
+
+    /**
      * 显示toast信息
      */
     void toast(CharSequence message, int duration);
