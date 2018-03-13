@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.util;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,7 +20,7 @@ public class ToastOperator implements IToastOperator {
     private final Handler mMainHandler;
 
     public ToastOperator(Context context) {
-        mContext = context;
+        mContext = context.getApplicationContext();
         mMainHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -30,7 +31,7 @@ public class ToastOperator implements IToastOperator {
     /**
      * 获取资源id对应的字符串
      */
-    public String getString(int id) {
+    private String getString(int id) {
         return getContext().getApplicationContext().getResources().getString(id);
     }
 
@@ -46,7 +47,7 @@ public class ToastOperator implements IToastOperator {
      * 以直接字符串显示短Toast信息
      */
     @Override
-    public void toast(String message) {
+    public void toast(CharSequence message) {
         toast(message, android.widget.Toast.LENGTH_SHORT);
     }
 
@@ -62,7 +63,7 @@ public class ToastOperator implements IToastOperator {
      * 以直接字符串显示长Toast信息
      */
     @Override
-    public void toastLong(String message) {
+    public void toastLong(CharSequence message) {
         toast(message, Toast.LENGTH_LONG);
     }
 
@@ -70,7 +71,7 @@ public class ToastOperator implements IToastOperator {
      * 显示toast信息
      */
     @Override
-    public void toast(final String message, final int duration) {
+    public void toast(final CharSequence message, final int duration) {
         if (TextUtils.isEmpty(message)) {
             return;
         }
@@ -78,8 +79,8 @@ public class ToastOperator implements IToastOperator {
             @Override
             public void run() {
                 if (!TextUtils.isEmpty(message)) {
-                    Log.d(TAG, message);
-                    android.widget.Toast.makeText(getContext().getApplicationContext(), message, duration).show();
+                    Log.d(TAG, message.toString());
+                    Toast.makeText(getContext(), Html.fromHtml(message.toString()), duration).show();
                 }
             }
         };

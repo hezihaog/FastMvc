@@ -78,7 +78,7 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
      * 以直接字符串显示短Toast信息
      */
     @Override
-    public void toast(String message) {
+    public void toast(CharSequence message) {
         ensureInitToastOperator();
         mToastOperator.toast(message);
     }
@@ -96,7 +96,7 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
      * 以直接字符串显示长Toast信息
      */
     @Override
-    public void toastLong(String message) {
+    public void toastLong(CharSequence message) {
         ensureInitToastOperator();
         mToastOperator.toastLong(message);
     }
@@ -105,7 +105,7 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
      * 显示toast信息
      */
     @Override
-    public void toast(final String message, final int duration) {
+    public void toast(final CharSequence message, final int duration) {
         ensureInitToastOperator();
         mToastOperator.toast(message, duration);
     }

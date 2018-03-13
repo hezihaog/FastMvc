@@ -18,7 +18,7 @@ public interface IToastOperator {
     /**
      * 以直接字符串显示短Toast信息
      */
-    void toast(String message);
+    void toast(CharSequence message);
 
     /**
      * 以资源id显示长Toast信息
@@ -28,10 +28,10 @@ public interface IToastOperator {
     /**
      * 以直接字符串显示长Toast信息
      */
-    void toastLong(String message);
+    void toastLong(CharSequence message);
 
     /**
      * 显示toast信息
      */
-    void toast(String message, int duration);
+    void toast(CharSequence message, int duration);
 }
