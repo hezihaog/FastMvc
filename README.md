@@ -32,7 +32,7 @@
 
 - 本库是不依赖MMCSDK的，因为没有功能依赖MMCSDK，并且本库可用于旧项目和新项目，所以依赖的话，是不确定具体版本的，具体项目，看情况依赖即可。至于友盟的页面统计，由于本库不依赖MMCSDK，页面的统计MMCSDK都是封装到了BaseUIHelper，具体可以参考MMCSDK中的BaseFragment，将BaseUIHelper创建实例，在相应生命周期调用即可。BaseFastActivity也是一样，推荐使用Fragment来做界面。
 
-- 至于TopBar，MMCSDK2.0.0已经拆分成View了，所以BaseFastActivity和BaseFastFragment也没有默认添加到布局，建议界面根据自身建议基类，使用BaseFastFragment、BaseFastListFragment作为基类。对于模块划分，运营需求UI界面变更时方便。
+- 至于TopBar，MMCSDK2.0.0已经拆分成View了，所以BaseFastActivity和BaseFastFragment也没有默认添加到布局，建议界面根据自身建议基类，使用BaseFastFragment、BaseFastListFragment作为基类，然后将TopBar放置到布局相应位置。这样对于模块划分，运营需求UI界面变更时更加灵活。
 
 # 1.0.3依赖
 
@@ -60,8 +60,8 @@ compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar'
 
 > 文字，设置、获取操作。
 
-| 函数名        |  返回值  |  函数解释和功用  |
-| --------   | -----:  | :----:  |
+| 函数名      |    返回值   |  函数解释和功用  |
+| --------   | --------:  | :--------:  |
 | isEmpty(CharSequence str) | boolean |判断字符集是否为空，直接调用传入字符串即可判断是否为空|
 |isNotEmpty(CharSequence str)|boolean|判断字符集是否不为空，直接传入字符串即可判断是否不为空|
 |viewTextIsEmpty(int viewId，boolean isFilterSpace)|boolean|判断指定id的View上的文字是否为空（isFilterSpace表示是否忽略空格，如果内容是空格，也算是空），需要id对应的View是TextView的子类时才有效，例如EditText、Button等，常用于EditText
@@ -149,6 +149,12 @@ compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar'
 | --------   | -----:  | :----:  |
 |onCreate()|当Tpl被创建时调用，（视图还未初始化），做视图操作需要在onFindView()，onLayoutAfter()|做广播注册
 |onDestroy()|当Tpl被销毁是调用，是在RecyclerView从Window中移除时调用|做广播销毁工作
+
+> 一些BUG修复和调整
+
+- Fragment上的onWaitDialogFactoryReady()，原本是Activity和Fragment共用控制一个WaitDialog就使用了一个静态控制器，在生命周期期间去注册和注销，Activity和Fragment在内存重启时，生命周期不定，很容易导致内存泄露，现分开控制，就是说Activity和Fragment上的onWaitDialogFactoryReady()并不会覆盖，建议Activity作为容器，Fragment做界面实现。如果是列表界面，BaseTpl上的控制WaitView则是控制列表依赖的界面宿主，既和Fragment或者Activity共用。
+
+- 状态布局切换时导致的内存泄露，原因是自定义状态布局时，如果有一个View使用动画进行变化，当状态切换时，直接进行removeView的方法并不能停止动画，即使自定义View上有canel动画的操作，让自定义View保证在onDetachViewForWindow去做销毁动画的操作也十分容易漏，所以统一在移除之前遍历布局所有的子View，调用clearAnimation()彻底销毁动画。解决掉这次的内存泄漏。
 
 --------
 
