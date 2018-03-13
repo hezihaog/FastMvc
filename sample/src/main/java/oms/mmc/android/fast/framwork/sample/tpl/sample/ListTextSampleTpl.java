@@ -48,7 +48,7 @@ public class ListTextSampleTpl extends BaseStickyTpl<ItemDataWrapper> {
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
         showWaitDialog();
-        showToast("tpl -- onItemClick");
+        toast("tpl -- onItemClick");
         BaseFastApplication.getInstance().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -60,7 +60,7 @@ public class ListTextSampleTpl extends BaseStickyTpl<ItemDataWrapper> {
     @Override
     public void onItemLongClick(View view, int position) {
         super.onItemLongClick(view, position);
-        showToast("tpl -- onItemLongClick");
+        toast("tpl -- onItemLongClick");
         getListScrollHelper().smoothMoveToTop();
     }
 

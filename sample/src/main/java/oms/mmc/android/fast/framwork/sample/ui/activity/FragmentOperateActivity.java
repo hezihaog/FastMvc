@@ -54,7 +54,7 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group.getId() == R.id.actionRadioGroup) {
             //显示之前，先隐藏其他的Fragment
-            hideAllFragment();
+            hideAllFragments();
             switch (checkedId) {
                 case R.id.mainRadioButton:
                     if (mMainFragment == null) {

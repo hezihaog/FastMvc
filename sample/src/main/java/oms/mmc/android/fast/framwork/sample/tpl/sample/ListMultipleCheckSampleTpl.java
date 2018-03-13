@@ -87,7 +87,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
         }
         EventBusUtil.sendEvent(new MultipleCheckEvent(getPosition(), isCheck));
         Set<Integer> integers = getListAdapter().getCheckedItemPositions().keySet();
-        showToast("当前选中的position是 ::: " + integers.toString());
+        toast("当前选中的position是 ::: " + integers.toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

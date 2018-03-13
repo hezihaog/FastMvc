@@ -79,7 +79,7 @@ public class ListSingleCheckSampleTpl extends BaseTpl<BaseItemData> {
             isCheck = true;
         }
         EventBusUtil.sendEvent(new SingleCheckEvent(getPosition(), isCheck));
-        showToast("当前选中的position是 ::: " + getListAdapter().getCheckedItemPosition());
+        toast("当前选中的position是 ::: " + getListAdapter().getCheckedItemPosition());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -5,6 +5,9 @@
 | 更新内容        | 更新时间   |  作者  |
 | --------   | -----:  | :----:  |
 |文档初始化编写|2018.03.05|子和
+|代码审核，1.0.3版本|2018.03.12|子和
+
+---------
 
 ### 以前的框架，我们是怎样进行开发的？
 
@@ -23,7 +26,133 @@
 
 - 使用时，如果是已经更新了mmcsdk到2.0.0，则依赖此库，Activity使用BaseFastActivity进行开发。如果还是旧版本，由于以前都需要继承MMC开头的Activity不能继承本库的BaseFastActivity，所以要兼容旧版本，使用继承BaseFastFragment进行嵌入到之前的Activity进行开发。
 
-------
+---------
+
+# 关于是否加入MMCSDK
+
+- 本库是不依赖MMCSDK的，因为没有功能依赖MMCSDK，并且本库可用于旧项目和新项目，所以依赖的话，是不确定具体版本的，具体项目，看情况依赖即可。至于友盟的页面统计，由于本库不依赖MMCSDK，页面的统计MMCSDK都是封装到了BaseUIHelper，具体可以参考MMCSDK中的BaseFragment，将BaseUIHelper创建实例，在相应生命周期调用即可。BaseFastActivity也是一样，推荐使用Fragment来做界面。
+
+- 至于TopBar，MMCSDK2.0.0已经拆分成View了，所以BaseFastActivity和BaseFastFragment也没有默认添加到布局，建议界面根据自身建议基类，使用BaseFastFragment、BaseFastListFragment作为基类。对于模块划分，运营需求UI界面变更时方便。
+
+# 1.0.3依赖
+
+```java
+compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar'
+//  -------------------------- fast mvc 依赖的库 start ----------------------------
+    //生命周期监听库
+    compile 'oms.mmc:lifecycle-dispatch:1.0.1-SNAPSHOT@aar'
+    //通用滚动监听库
+    compile 'oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar'
+    //等待弹窗库
+    compile 'oms.mmc:wait-view-factory:1.0.3-SNAPSHOT@aar'
+    //界面切换状态库
+    compile 'oms.mmc:load-view-factory:1.0.4-SNAPSHOT@aar'
+    //图片加载
+    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+//    -------------------------- fast mvc 依赖的库 end ----------------------------
+```
+
+# 代码审核后，添加的方法（1.0.3版本）
+
+ - 在代码审核期间，收到了小伙伴们的建议了和bug提出，在此深深感谢各位！
+
+1. ViewFinder添加对View的操作封装（在BaseFastActivity、BaseFastFragment、BaseTpl中都有实现，所以直接类上直接调用即可）感谢景天~
+
+> 文字，设置、获取操作。
+
+| 函数名        |  返回值  |  函数解释和功用  |
+| --------   | -----:  | :----:  |
+| isEmpty(CharSequence str) | boolean |判断字符集是否为空，直接调用传入字符串即可判断是否为空|
+|isNotEmpty(CharSequence str)|boolean|判断字符集是否不为空，直接传入字符串即可判断是否不为空|
+|viewTextIsEmpty(int viewId，boolean isFilterSpace)|boolean|判断指定id的View上的文字是否为空（isFilterSpace表示是否忽略空格，如果内容是空格，也算是空），需要id对应的View是TextView的子类时才有效，例如EditText、Button等，常用于EditText
+|viewTextIsEmpty(TextView view，boolean isFilterSpace)|boolean|作用同上，直接传入一个View对象进行判断，必须是TextView的子类！
+|viewTextIsEmptyWithTrim(int viewId)|boolean|viewTextIsEmpty()中的isFilterSpace为true的简单重载。
+|viewTextIsEmptyWithTrim(TextView view)|boolean|viewTextIsEmpty()中的isFilterSpace为true的简单重载。
+|viewTextIsNotEmpty(int viewId)|boolean|判断指定id的View上的文字是否不为空
+|viewTextIsNotEmpty(TextView view)|boolean|判断指定View上的文字是否不为空
+|setViewText(CharSequence text, int viewId)|void|使用控件id，设置文字，必须是TextView的子类，例如EditText。如果传入的text为null，则会设置一个""空字符串，常用于直接从bean上getXXX()，如果bean上的String类型的属性为null则方便直接设置为""，不再重复的if(TextUtil.isEmpty(bean.getXXX()))。
+|setTextWithDefault(CharSequence text, CharSequence defaultText, int viewId)|void|使用控件id，进行设置文字，可以设置当传入的文字为null，这使用传入的默认值
+|setViewText(CharSequence text, TextView view)|void|作用同上，只是直接传入一个View
+|setTextWithDefault(CharSequence text, CharSequence defaultText, TextView view)|void|作用同上，只是直接传入一个View
+|getViewText(TextView view)| CharSequence |获取TextView及其子类上的文字，如果为null，则默认返回一个""空字符串
+|getTextWithDefault(TextView textView, CharSequence defaultText)| CharSequence |获取TextView及其子类上的文字，可以设置一个默认值，当获取为""时，返回默认值
+|CharSequence getTextWithDefault(@IdRes int viewId, CharSequence defaultText)| CharSequence |作用同上，传入View的id，注意必须是TextView及其子类
+|getViewTextWithTrim(int viewId)|CharSequence|获取TextView及其子类的内容并且调用Trim()，常用于EditText。
+|getViewTextWithTrim(TextView view)|CharSequence|作用同上，只是直接传入一个TextView及其子类。
+
+> 设置监听器
+
+| 函数名        |  返回值  |  函数解释和功用  |
+| --------   | -----:  | :----:  |
+|findAndSetOnClick(int id, View.OnClickListener listener)|View|查找View，并且设置OnClick点击监听。
+|findAndSetOnLongClick(int id, View.OnLongClickListener listener)|View|查找View，并且设置OnLongClick长按监听。
+|setOnClickListener(View.OnClickListener listener, int... ids)|void|传入多View的id，统一设置一个点击监听器。
+|setOnClickListener(View.OnClickListener listener, View... views)|void|传入多个View对象，统一设置一个点击监听器。
+|setOnLongClickListener(View.OnLongClickListener listener, int... ids)|void|传入多个View的id，统一设置一个长按事件监听器。
+|setOnLongClickListener(View.OnLongClickListener listener, View... views)|void|传入多个View对象，统一设置一个长按监听。
+
+> 显示、隐藏
+
+| 函数名        |  返回值  |  函数解释和功用  |
+| --------   | -----:  | :----:  |
+|setVisible(int... ids)|void|传入多个View的id，并且设置显示。
+|setInVisible(int... ids)|void|传入多个View的id，并且设置隐藏占位。
+|setGone(int... ids)|void|传入多个View的id，并设置隐藏。
+|setVisible(View... views)|void|传入多个View对象，并且设置显示
+|setInVisible(View... views)|void|传入多个View对象，并且设置隐藏占位|
+|setGone(View... views)|void|传入多个View对象，并且设置隐藏。
+
+> 图片加载
+
+| 函数名        |  返回值  |  函数解释和功用  |
+| --------   | -----:  | :----:  |
+|getImageLoader()|ImageLoader|获取图片加载器，需要对图片加载器做操作时调用，如需要调用加载方法，请调用下面具体的loadXxx方法|
+|loadUrlImage(String url, ImageView imageView, @IdRes int defaultImage)|void|加载网络图片到ImageView|
+|loadUrlImageToRound(String url, ImageView imageView, @IdRes int defaultImage)|void|加载网络圆形图片到ImageView|
+|loadUrlImageToCorner(String url, ImageView imageView, @IdRes int defaultImage)|void|加载网络圆角图片到ImageView圆角|
+|loadFileImage(String filePath, ImageView imageView, @IdRes int defaultImage)|void|加载内存卡图片到ImageView|
+|loadImageToBitmap(String url, LoadImageCallback loadImageCallback)|void|加载图片bitmap并回调设置的监听器
+|loadDrawableResId(@IdRes int imageViewId, @DrawableRes int resId)|void|加载本地Res图片到ImageView
+|loadDrawableResId(ImageView imageView, @DrawableRes int resId)|void|加载本地Res图片到ImageView
+|clearImageMemoryCache()|void|清除图片缓存
+
+2. 增加对Fragment的操作方法，感谢景天~
+
+| 函数名        |  返回值  |  函数解释和功用  |
+| --------   | -----:  | :----:  |
+|createFragment(Class<T> fragmentClass)|Fragment|传入Fragment的Class，创建实例
+|createFragment(Class<T> fragmentClass, Bundle args)| Fragment |传入Fragment的Class，和Bundle参数来实例化Fragment|
+|isExistFragment()|查找是否存在Fragment|当需要判断是否有fragment存在时调用，但是同样我们都是去查找特定的Fragment是否存在，所以建议调用findFragment（）进行查找，因为在权限申请等，会插入一个代理的fragment来转接onPermissionResult()。
+|findFragment(Class<? extends Fragment> fragmentClass)|Fragment|查找Fragment，该库添加的Fragment默认用Fragment的Name作为Tag。
+|addFragment(Fragment fragment, int containerId)|void|添加Fragment到指定的容器id上|
+|replaceFragment(Fragment fragment, @IdRes int containerViewId)|void|替换指定容器id上的Fragment
+|hideFragment(Fragment fragment)|void|隐藏指定的Fragment
+|removeFragment(Fragment fragment)|void|移除指定的Fragment
+|removeFragments()|void|移除同级别的Fragment
+|hideAllFragments()|void|移除所有的Fragment
+|hideShowFragment(@NonNull Fragment hideFragment, @NonNull Fragment showFragment)|void|先隐藏指定的Fragment，再显示指定的Fragment
+
+> Toast封装方法，也在BaseFastActivity、BaseFastFragment、BaseTpl上有实现。使用时直接调用即可。
+
+| 函数名        |  返回值  |  函数解释和功用  |
+| --------   | -----:  | :----:  |
+|toast(int message)|void|以资源id，提示一个短时间的Toast
+|toast(CharSequence message)|void|以CharSequence字符集，提示一个短时间的Toast
+|toastLong(int message)|void|以资源id，提示一个长时间的Toast
+|toastLong(CharSequence message)|void|以String字符集，提示一个长时间的Toast
+|toast(int message, int duration)|void|可外部定义Toast时长长短的Toast，一般不使用，直接使用toast缺省duration参数和toastLong即可。
+|toast(CharSequence message, int duration)|void|可外部定义Toast时长长短的Toast，一般不使用，直接使用toast缺省duration参数和toastLong即可。
+
+> Tpl新增方法，之前Tpl注册、注销广播，是在onLayoutBefore()和onRecyclerViewDetachedFromWindow()，不够明确，现拆分2个方法提供重写，onCreate()进行注册，onDestroy()注销。
+
+| 函数名        |  返回值  |  函数解释和功用  |
+| --------   | -----:  | :----:  |
+|onCreate()|当Tpl被创建时调用，（视图还未初始化），做视图操作需要在onFindView()，onLayoutAfter()|做广播注册
+|onDestroy()|当Tpl被销毁是调用，是在RecyclerView从Window中移除时调用|做广播销毁工作
+
+--------
+
+# 1.0.2版本
 
 # 使用
 1. gradle 引用
@@ -34,9 +163,8 @@
     //生命周期监听库
     compile 'oms.mmc:lifecycle-dispatch:1.0.1-SNAPSHOT@aar'
     //通用滚动监听库
-    compile('oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar', {
-        exclude group: 'com.android.support'
-    })
+    //通用滚动监听库
+    compile 'oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar'
     //等待弹窗库
     compile 'oms.mmc:wait-view-factory:1.0.2-SNAPSHOT@aar'
     //界面切换状态库
@@ -56,11 +184,11 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 
 | 类名        | 需要改为继承的类
 | --------   | -----:
-|ListView|ScrollableListView
-|GridView|ScrollableGridView
-|ScrollView|ScrollableScrollView
-|RecyclerView|ScrollableRecyclerView
-|NestedScrollView|ScrollableNestedScrollView
+|ListView|ScrollableListView|
+|GridView|ScrollableGridView|
+|ScrollView|ScrollableScrollView|
+|RecyclerView|ScrollableRecyclerView|
+|NestedScrollView|ScrollableNestedScrollView|
 
 4. **注意** 如果使用时ListAbleDelegateHelper.setupRecyclerView()抛出异常，尝试将ListScrollHelper引用代码排除掉内部使用版本，引用你项目中使用的！
 
@@ -153,8 +281,6 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
 
 | 函数名        | 函数解释   |  功用  |
 | --------   | -----:  | :----:  |
-|onCreate()|当Tpl被创建时调用，（视图还未初始化），做视图操作需要在onFindView()，onLayoutAfter()|做广播注册
-|onDestroy()|当Tpl被销毁是调用，是在RecyclerView从Window中移除时调用|做广播销毁工作
 |onLayoutBefore()| 在生成布局之前回调 |可以初始化一些对象预备着
 |onFindView()| 填充了布局后回调，用于查找控件 |用于查找布局中的控件|
 |onBindContent()| onFindView()后调用|给控件进行相关设置，例如给ViewPager设置Adapter|
@@ -245,7 +371,7 @@ ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).inst
         super.onLayoutBefore();
         //例如获取传递过来的用户id
         String userId = intentStr(ActivitySampleActivity.BUNDLE_KEY_USER_ID);
-        ToastUtil.showToast(getActivity(), "收到前面传递过来的userId -> " + mUserId);
+        toast(getActivity(), "收到前面传递过来的userId -> " + mUserId);
     }
 ```
 

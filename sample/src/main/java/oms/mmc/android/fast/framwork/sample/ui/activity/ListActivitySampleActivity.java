@@ -137,25 +137,25 @@ public class ListActivitySampleActivity extends BaseFastListActivity {
     @Override
     public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
-        showToast("刷新开始...");
+        toast("刷新开始...");
     }
 
     @Override
     public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
-        showToast("刷新结束...");
+        toast("刷新结束...");
     }
 
     @Override
     public void onStartLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
         super.onStartLoadMore(adapter, isFirst, isReverse);
-        showToast("上拉加载开始...");
+        toast("上拉加载开始...");
     }
 
     @Override
     public void onEndLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndLoadMore(adapter, result, isFirst, isReverse);
-        showToast("上拉加载结束...");
+        toast("上拉加载结束...");
     }
 
     /**

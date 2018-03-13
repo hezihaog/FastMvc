@@ -27,7 +27,7 @@ public class BaseFragmentSampleFragment extends BaseFastFragment {
     public void onLayoutBefore() {
         super.onLayoutBefore();
         mAge = getArguments().getString(BaseFragmentSampleActivity.BUNDLE_KEY_AGE, "-1");
-        showToast("收到跳转参数 :--> " + mAge);
+        toast("收到跳转参数 :--> " + mAge);
     }
 
     @Override

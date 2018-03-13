@@ -166,7 +166,7 @@ public class ConversationListFragment extends BaseFastListFragment {
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("headerView onClick()");
+                toast("headerView onClick()");
             }
         });
         getRecyclerViewAdapter().addHeaderView(headerView);
@@ -186,7 +186,7 @@ public class ConversationListFragment extends BaseFastListFragment {
 
     @Override
     public void onItemClick(View view, BaseTpl clickTpl, int position) {
-        showToast(String.valueOf(position));
+        toast(String.valueOf(position));
         int itemViewType = clickTpl.getItemViewType();
         if (itemViewType == TPL_CHAT) {
             MMCUIHelper.showConversationDetail(getActivity());

@@ -20,7 +20,7 @@ public class ActivitySampleActivity extends BaseFastActivity {
         super.onLayoutBefore();
         //获取传递过来的用户id
         mUserId = intentStr(ActivitySampleActivity.BUNDLE_KEY_USER_ID);
-        showToast("收到前面传递过来的userId -> " + mUserId);
+        toast("收到前面传递过来的userId -> " + mUserId);
     }
 
     /**
