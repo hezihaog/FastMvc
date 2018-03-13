@@ -302,7 +302,7 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
     //-------------------------------- 获取TextView及其子类的文字 --------------------------------
 
     /**
-     * 使用TextView，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用TextView，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param view TextView对象
      * @return View上的文字
@@ -313,7 +313,7 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
     }
 
     /**
-     * 使用View id，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用View id，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param viewId TextView的id
      * @return View上的文字
@@ -572,9 +572,9 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
      * 查找是否已经有绑定的fragment
      */
     @Override
-    public boolean hasBindFragment() {
+    public boolean isExistFragment() {
         ensureInitFragmentOperator();
-        return mFragmentOperator.hasBindFragment();
+        return mFragmentOperator.isExistFragment();
     }
 
     /**

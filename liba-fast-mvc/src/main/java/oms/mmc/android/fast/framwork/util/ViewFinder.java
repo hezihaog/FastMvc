@@ -135,11 +135,7 @@ public class ViewFinder implements IViewFinder {
      */
     @Override
     public boolean isEmpty(CharSequence str) {
-        if (str == null || str.length() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return str == null || str.length() == 0;
     }
 
     /**
@@ -305,7 +301,7 @@ public class ViewFinder implements IViewFinder {
             return defaultText;
         }
         CharSequence text = textView.getText();
-        if (text.toString().isEmpty()) {
+        if (isEmpty(text.toString().trim())) {
             return defaultText;
         } else {
             return text;

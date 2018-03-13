@@ -74,7 +74,7 @@ public class FragmentOperator implements IFragmentOperator {
      * 查找是否已经有绑定的fragment
      */
     @Override
-    public boolean hasBindFragment() {
+    public boolean isExistFragment() {
         return FragmentUtil.hasFragment(getSupportFragmentManager());
     }
 

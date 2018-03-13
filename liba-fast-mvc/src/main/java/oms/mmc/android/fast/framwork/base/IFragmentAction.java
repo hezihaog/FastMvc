@@ -31,9 +31,9 @@ public interface IFragmentAction {
     <T extends Fragment> T createFragment(Class<T> fragmentClass, Bundle args);
 
     /**
-     * 查找是否已经有存在fragment
+     * 查找是否已经存在fragment
      */
-    boolean hasBindFragment();
+    boolean isExistFragment();
 
     /**
      * 查找Fragment

@@ -315,7 +315,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     //-------------------------------- 获取TextView及其子类的文字 --------------------------------
 
     /**
-     * 使用TextView，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用TextView，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param view TextView对象
      * @return View上的文字
@@ -326,7 +326,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     /**
-     * 使用View id，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用View id，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param viewId TextView的id
      * @return View上的文字
@@ -337,7 +337,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     /**
-     * 使用View Id，获取文字，当获取为null是，可指定返回默认文字
+     * 使用View Id，获取文字，当获取为""时，可指定返回默认文字
      *
      * @param viewId      View id
      * @param defaultText 默认文字
@@ -348,7 +348,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     /**
-     * 使用View，获取文字，当获取为null是，可指定返回默认文字
+     * 使用View，获取文字，当获取为""时，可指定返回默认文字
      *
      * @param textView    View id
      * @param defaultText 默认文字
@@ -582,12 +582,12 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     }
 
     /**
-     * 查找是否已经有绑定的fragment
+     * 查找是否已经存在fragment
      */
     @Override
-    public boolean hasBindFragment() {
+    public boolean isExistFragment() {
         ensureInitFragmentOperator();
-        return mFragmentOperator.hasBindFragment();
+        return mFragmentOperator.isExistFragment();
     }
 
     /**
