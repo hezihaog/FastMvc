@@ -38,7 +38,7 @@ public class ToastOperator implements IToastOperator {
      * 以资源id显示短Toast信息
      */
     @Override
-    public void showToast(int message) {
+    public void toast(int message) {
         toast(getString(message), android.widget.Toast.LENGTH_SHORT);
     }
 
@@ -46,7 +46,7 @@ public class ToastOperator implements IToastOperator {
      * 以直接字符串显示短Toast信息
      */
     @Override
-    public void showToast(String message) {
+    public void toast(String message) {
         toast(message, android.widget.Toast.LENGTH_SHORT);
     }
 
@@ -54,7 +54,7 @@ public class ToastOperator implements IToastOperator {
      * 以资源id显示长Toast信息
      */
     @Override
-    public void showLongToast(int message) {
+    public void toastLong(int message) {
         toast(getString(message), Toast.LENGTH_LONG);
     }
 
@@ -62,7 +62,7 @@ public class ToastOperator implements IToastOperator {
      * 以直接字符串显示长Toast信息
      */
     @Override
-    public void showLongToast(String message) {
+    public void toastLong(String message) {
         toast(message, Toast.LENGTH_LONG);
     }
 

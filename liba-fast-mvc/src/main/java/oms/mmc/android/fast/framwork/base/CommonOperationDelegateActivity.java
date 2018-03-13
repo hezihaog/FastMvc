@@ -82,36 +82,36 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * 以资源id显示短Toast信息
      */
     @Override
-    public void showToast(int message) {
+    public void toast(int message) {
         ensureInitToastOperator();
-        mToastOperator.showToast(message);
+        mToastOperator.toast(message);
     }
 
     /**
      * 以直接字符串显示短Toast信息
      */
     @Override
-    public void showToast(String message) {
+    public void toast(String message) {
         ensureInitToastOperator();
-        mToastOperator.showToast(message);
+        mToastOperator.toast(message);
     }
 
     /**
      * 以资源id显示长Toast信息
      */
     @Override
-    public void showLongToast(int message) {
+    public void toastLong(int message) {
         ensureInitToastOperator();
-        mToastOperator.showLongToast(message);
+        mToastOperator.toastLong(message);
     }
 
     /**
      * 以直接字符串显示长Toast信息
      */
     @Override
-    public void showLongToast(String message) {
+    public void toastLong(String message) {
         ensureInitToastOperator();
-        mToastOperator.showLongToast(message);
+        mToastOperator.toastLong(message);
     }
 
     /**

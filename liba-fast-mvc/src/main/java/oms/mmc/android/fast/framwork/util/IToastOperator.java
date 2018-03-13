@@ -13,22 +13,22 @@ public interface IToastOperator {
     /**
      * 以资源id显示短Toast信息
      */
-    void showToast(int message);
+    void toast(int message);
 
     /**
      * 以直接字符串显示短Toast信息
      */
-    void showToast(String message);
+    void toast(String message);
 
     /**
      * 以资源id显示长Toast信息
      */
-    void showLongToast(int message);
+    void toastLong(int message);
 
     /**
      * 以直接字符串显示长Toast信息
      */
-    void showLongToast(String message);
+    void toastLong(String message);
 
     /**
      * 显示toast信息
