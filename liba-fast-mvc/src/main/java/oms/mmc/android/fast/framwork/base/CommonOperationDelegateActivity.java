@@ -219,16 +219,16 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
      * 判断View显示的文字是否为空
      */
     @Override
-    public boolean viewTextIsEmpty(int viewId) {
-        return getViewFinder().viewTextIsEmpty(viewId);
+    public boolean viewTextIsEmpty(int viewId, boolean isFilterSpace) {
+        return getViewFinder().viewTextIsEmpty(viewId, isFilterSpace);
     }
 
     /**
      * 判断View显示的文字是否为空
      */
     @Override
-    public boolean viewTextIsEmpty(TextView view) {
-        return getViewFinder().viewTextIsEmpty(view);
+    public boolean viewTextIsEmpty(TextView view, boolean isFilterSpace) {
+        return getViewFinder().viewTextIsEmpty(view, isFilterSpace);
     }
 
     /**
@@ -245,6 +245,16 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     @Override
     public boolean viewTextIsNotEmpty(TextView view) {
         return getViewFinder().viewTextIsNotEmpty(view);
+    }
+
+    @Override
+    public boolean viewTextIsEmptyWithTrim(int viewId) {
+        return getViewFinder().viewTextIsEmpty(viewId, true);
+    }
+
+    @Override
+    public boolean viewTextIsEmptyWithTrim(TextView view) {
+        return getViewFinder().viewTextIsEmpty(view, true);
     }
 
     //-------------------------------- 设置文字 --------------------------------
@@ -426,6 +436,11 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
         getViewFinder().setVisible(ids);
     }
 
+    @Override
+    public void setInVisible(int... ids) {
+        getViewFinder().setInVisible(ids);
+    }
+
     /**
      * 以多个id的方式，批量设置View为隐藏
      *
@@ -442,6 +457,11 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     @Override
     public void setVisible(View... views) {
         getViewFinder().setVisible(views);
+    }
+
+    @Override
+    public void setInVisible(View... views) {
+        getViewFinder().setInVisible(views);
     }
 
     /**

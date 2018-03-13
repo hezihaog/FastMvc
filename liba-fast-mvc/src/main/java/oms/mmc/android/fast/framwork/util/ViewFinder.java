@@ -156,16 +156,36 @@ public class ViewFinder implements IViewFinder {
      * 判断View显示的文字是否为空
      */
     @Override
-    public boolean viewTextIsEmpty(int viewId) {
-        return isEmpty(getViewTextWithTrim(viewId));
+    public boolean viewTextIsEmpty(int viewId, boolean isFilterSpace) {
+        return isFilterSpace ? isEmpty(getViewTextWithTrim(viewId)) : isEmpty(getViewText(viewId));
     }
 
     /**
      * 判断View显示的文字是否为空
      */
     @Override
-    public boolean viewTextIsEmpty(TextView view) {
-        return isEmpty(getViewTextWithTrim(view));
+    public boolean viewTextIsEmpty(TextView view, boolean isFilterSpace) {
+        return isFilterSpace ? isEmpty(getViewTextWithTrim(view)) : isEmpty(getViewText(view));
+    }
+
+    /**
+     * 判断View显示的文字是否不为空，包含Trim
+     *
+     * @param viewId 控件id
+     */
+    @Override
+    public boolean viewTextIsEmptyWithTrim(int viewId) {
+        return viewTextIsEmpty(viewId, true);
+    }
+
+    /**
+     * 判断View显示的文字是否不为空，包含Trim
+     *
+     * @param view 控件
+     */
+    @Override
+    public boolean viewTextIsEmptyWithTrim(TextView view) {
+        return viewTextIsEmpty(view, true);
     }
 
     /**
@@ -237,7 +257,7 @@ public class ViewFinder implements IViewFinder {
     //-------------------------------- 获取TextView及其子类的文字 --------------------------------
 
     /**
-     * 使用TextView，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用TextView，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param view TextView对象
      * @return View上的文字
@@ -248,7 +268,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     /**
-     * 使用View id，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用View id，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param viewId TextView的id
      * @return View上的文字
@@ -259,7 +279,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     /**
-     * 使用View Id，获取文字，当获取为null是，可指定返回默认文字
+     * 使用View Id，获取文字，当获取为""时，可指定返回默认文字
      *
      * @param viewId      View id
      * @param defaultText 默认文字
@@ -274,7 +294,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     /**
-     * 使用View，获取文字，当获取为null是，可指定返回默认文字
+     * 使用View，获取文字，当获取为""时，可指定返回默认文字
      *
      * @param textView    View id
      * @param defaultText 默认文字
@@ -285,7 +305,7 @@ public class ViewFinder implements IViewFinder {
             return defaultText;
         }
         CharSequence text = textView.getText();
-        if (text == null) {
+        if (text.toString().isEmpty()) {
             return defaultText;
         } else {
             return text;
@@ -432,6 +452,16 @@ public class ViewFinder implements IViewFinder {
         }
     }
 
+    @Override
+    public void setInVisible(int... ids) {
+        for (int id : ids) {
+            if (id <= 0) {
+                continue;
+            }
+            get(id).setVisibility(View.INVISIBLE);
+        }
+    }
+
     /**
      * 以多个id的方式，批量设置View为隐藏
      *
@@ -453,7 +483,20 @@ public class ViewFinder implements IViewFinder {
     @Override
     public void setVisible(View... views) {
         for (View view : views) {
+            if (view == null) {
+                continue;
+            }
             view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void setInVisible(View... views) {
+        for (View view : views) {
+            if (view == null) {
+                continue;
+            }
+            view.setVisibility(View.INVISIBLE);
         }
     }
 

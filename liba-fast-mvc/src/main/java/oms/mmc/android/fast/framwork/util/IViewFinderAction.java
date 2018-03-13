@@ -47,21 +47,45 @@ public interface IViewFinderAction {
 
     /**
      * 判断View显示的文字是否为空
+     *
+     * @param viewId        控件id
+     * @param isFilterSpace 是否调用trim，就是如果是空格符的话，则不当是有文字内容
      */
-    boolean viewTextIsEmpty(@IdRes int viewId);
+    boolean viewTextIsEmpty(@IdRes int viewId, boolean isFilterSpace);
 
     /**
      * 判断View显示的文字是否为空
+     *
+     * @param view          控件对象
+     * @param isFilterSpace 是否调用trim，就是如果是空格符的话，则不当是有文字内容
      */
-    boolean viewTextIsEmpty(TextView view);
+    boolean viewTextIsEmpty(TextView view, boolean isFilterSpace);
+
+    /**
+     * 判断View显示的文字是否为空，该方法是包含过滤前后空格
+     *
+     * @param viewId 控件id
+     */
+    boolean viewTextIsEmptyWithTrim(@IdRes int viewId);
+
+    /**
+     * 判断View显示的文字是否为空，该方法是包含过滤前后空格
+     *
+     * @param view 控件对象
+     */
+    boolean viewTextIsEmptyWithTrim(TextView view);
 
     /**
      * 判断View显示的文字是否不为空
+     *
+     * @param viewId 控件id
      */
     boolean viewTextIsNotEmpty(@IdRes int viewId);
 
     /**
      * 判断View显示的文字是否不为空
+     *
+     * @param view 控件对象
      */
     boolean viewTextIsNotEmpty(TextView view);
 
@@ -104,7 +128,7 @@ public interface IViewFinderAction {
     //-------------------------------- 获取TextView及其子类的文字 --------------------------------
 
     /**
-     * 使用TextView，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用TextView，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param view TextView对象
      * @return View上的文字
@@ -112,7 +136,7 @@ public interface IViewFinderAction {
     CharSequence getViewText(TextView view);
 
     /**
-     * 使用View id，获取View上的文字，当获取为null时，返回空字符串 ""
+     * 使用View id，获取View上的文字，当获取为""时，返回空字符串 ""
      *
      * @param viewId TextView的id
      * @return View上的文字
@@ -120,7 +144,7 @@ public interface IViewFinderAction {
     CharSequence getViewText(@IdRes int viewId);
 
     /**
-     * 使用View Id，获取文字，当获取为null是，可指定返回默认文字
+     * 使用View Id，获取文字，当获取为""时，可指定返回默认文字
      *
      * @param viewId      View id
      * @param defaultText 默认文字
@@ -128,7 +152,7 @@ public interface IViewFinderAction {
     CharSequence getTextWithDefault(@IdRes int viewId, CharSequence defaultText);
 
     /**
-     * 使用View，获取文字，当获取为null是，可指定返回默认文字
+     * 使用View，获取文字，当获取为""时，可指定返回默认文字
      *
      * @param textView    View id
      * @param defaultText 默认文字
@@ -211,6 +235,13 @@ public interface IViewFinderAction {
     void setVisible(@IdRes int... ids);
 
     /**
+     * 以多个id的方式，批量设置View为隐藏占位
+     *
+     * @param ids 多个View的id
+     */
+    void setInVisible(@IdRes int... ids);
+
+    /**
      * 以多个id的方式，批量设置View为隐藏
      *
      * @param ids 多个View的id
@@ -223,12 +254,22 @@ public interface IViewFinderAction {
     void setVisible(View... views);
 
     /**
+     * 设置多个View为隐藏占位
+     *
+     * @param views 多个View对象
+     */
+    void setInVisible(View... views);
+
+    /**
      * 设置多个View隐藏
      */
     void setGone(View... views);
 
     //-------------------------------- 图片加载 --------------------------------
 
+    /**
+     * 获取图片加载器
+     */
     ImageLoader getImageLoader();
 
     /**
