@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.util.List;
 
@@ -15,8 +17,10 @@ import oms.mmc.android.fast.framwork.base.IFragmentOperator;
 import oms.mmc.android.fast.framwork.base.IWaitViewHandler;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.IToastOperator;
+import oms.mmc.android.fast.framwork.util.MethodCompat;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.widget.TemplateItemWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
@@ -36,7 +40,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     private RecyclerView mRecyclerView;
     private IWaitViewHost mWaitViewHost;
     private int mItemViewType = -1;
-    private View mRoot;
+    private ViewGroup mRoot;
     private int mPosition;
     private T mBean;
     private BaseTpl.ViewHolder mInnerViewHolder;
@@ -90,12 +94,20 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     private void initView() {
         onCreate();
         onLayoutBefore();
-        mRoot = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
+        generateItemLayoutWrapper();
+        View itemView = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
+        mRoot.addView(itemView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
         mRoot.addOnAttachStateChangeListener(this);
         mViewFinder = new ViewFinder(getActivity(), mRoot);
         onFindView(mViewFinder);
         onBindContent();
         onLayoutAfter();
+    }
+
+    private void generateItemLayoutWrapper() {
+        mRoot = new TemplateItemWrapper(getActivity());
+        mRoot.setId(MethodCompat.generateViewId());
+        mRoot.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
     }
 
     /**
@@ -113,7 +125,9 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
      */
     public View getRoot() {
         if (mRoot == null) {
-            mRoot = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
+            generateItemLayoutWrapper();
+            View itemView = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
+            mRoot.addView(itemView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
         }
         return mRoot;
     }
