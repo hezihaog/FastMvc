@@ -40,32 +40,48 @@ dependencies {
     compile project(':liba-fast-mvc')
 
     //直接不加arr默认都下载依赖，不推荐该方法，会默认下载全部的依赖
+
     //compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT'
 
     //也可以使用arr后加上依赖传递，不过也就意味着下载全部依赖
-//    compile('oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar') {
-//        transitive = true
-//    }
+
+    //    compile('oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar') {
+
+    //        transitive = true
+
+    //    }
 
     //推荐该方法，只下载框架中的文件，再手动依赖框架中依赖的类库
-//    compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar'
-////  -------------------------- fast mvc 依赖的库 start ----------------------------
-//    //生命周期监听库
-//    compile 'oms.mmc:lifecycle-dispatch:1.0.1-SNAPSHOT@aar'
-//    //通用滚动监听库
-//    compile 'oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar'
-//    //等待弹窗库
-//    compile 'oms.mmc:wait-view-factory:1.0.3-SNAPSHOT@aar'
-//    //界面切换状态库
-//    compile 'oms.mmc:load-view-factory:1.0.4-SNAPSHOT@aar'
-//    //图片加载
-//    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
-////    -------------------------- fast mvc 依赖的库 end ----------------------------
 
+    //    compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar'
 
+    ////  -------------------------- fast mvc 依赖的库 start ----------------------------
+
+    //    //生命周期监听库
+
+    //    compile 'oms.mmc:lifecycle-dispatch:1.0.1-SNAPSHOT@aar'
+
+    //    //通用滚动监听库
+
+    //    compile 'oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar'
+
+    //    //等待弹窗库
+
+    //    compile 'oms.mmc:wait-view-factory:1.0.3-SNAPSHOT@aar'
+
+    //    //界面切换状态库
+
+    //    compile 'oms.mmc:load-view-factory:1.0.4-SNAPSHOT@aar'
+
+    //    //图片加载
+
+    //    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+
+    ////    -------------------------- fast mvc 依赖的库 end ----------------------------
     compile 'com.hzh:liba-logger:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.promeg:tinypinyin:2.0.3'
+
     //Glide图片加载框架
     compile 'com.github.bumptech.glide:glide:3.8.0'
     compile 'org.greenrobot:eventbus:3.1.1'
@@ -73,12 +89,16 @@ dependencies {
     compile('com.alibaba.android:ultraviewpager:1.0.6.1@aar') {
         transitive = true
     }
+
     //MMC SDK
     compile 'oms.mmc.mmcsdk:core:2.0.0.0-SNAPSHOT@aar'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
     //尾部加载loading控件
     compile 'com.pnikosis:materialish-progress:1.7'
+
     //内存泄露监控
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    compile project(':liba_easy_cache')
 }
