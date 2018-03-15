@@ -32,8 +32,8 @@ public class PerfMonManager extends BaseManager implements PerfMonAtion {
     @Override
     public void clearEnv() {
         super.clearEnv();
-        //2分钟检测一次，70%时回收内存
-        getInstance().initParams(60 * 1000 * 2, 0.7f);
+        //4分钟检测一次，70%时回收内存
+        getInstance().initParams(60 * 1000 * 4, 0.7f);
     }
 
     /**

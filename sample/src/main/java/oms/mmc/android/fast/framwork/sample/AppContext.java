@@ -5,6 +5,8 @@ import android.content.Context;
 import com.squareup.leakcanary.LeakCanary;
 
 import oms.mmc.android.fast.framwork.BaseFastApplication;
+import oms.mmc.android.fast.framwork.config.AppConfigManager;
+import oms.mmc.android.fast.framwork.manager.factory.ManagerFactory;
 import oms.mmc.cache.CacheManager;
 
 /**
@@ -25,8 +27,9 @@ public class AppContext extends BaseFastApplication {
         }
         LeakCanary.install(this);
         //管理器工厂
-        //ManagerFactory.getInstance().init(this);
+        ManagerFactory.getInstance().init(this);
         CacheManager.getInstance().init(this);
+        AppConfigManager.init(this);
     }
 
     @Override

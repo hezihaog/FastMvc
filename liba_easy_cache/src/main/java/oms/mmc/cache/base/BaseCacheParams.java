@@ -1,9 +1,9 @@
 package oms.mmc.cache.base;
 
-import oms.mmc.cache.interf.ICacheParams;
-
 import java.io.Serializable;
 import java.util.HashMap;
+
+import oms.mmc.cache.interf.ICacheParams;
 
 /**
  * Created by Hezihao on 2017/9/8.
@@ -34,7 +34,7 @@ public abstract class BaseCacheParams implements ICacheParams {
 
     private HashMap<String, Serializable> getParamsMap() {
         if (paramsMap == null) {
-            paramsMap = new HashMap<String, Serializable>();
+            paramsMap = new HashMap<String, Serializable>(5);
         }
         return paramsMap;
     }
