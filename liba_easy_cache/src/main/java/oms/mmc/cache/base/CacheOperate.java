@@ -30,16 +30,14 @@ public class CacheOperate {
     }
 
     /**
-     * 初始化，会保存Context，最好传入ApplicationContext
-     *
-     * @return
+     * 初始化
      */
     public static CacheOperate init(CacheConfig config) {
         if (isInited) {
             return SingletonHolder.instance;
         } else {
             CacheOperate instance = SingletonHolder.instance;
-            instance.context = config.getContext();
+            instance.context = config.getContext().getApplicationContext();
             instance.versionCode = config.getVersionCode();
             instance.mLruCache = new LruCache<String, Object>(config.getMemoryMaxSize());
             instance.mDiskCache = ACache.get(config.getContext(), config.getCacheFileName()
