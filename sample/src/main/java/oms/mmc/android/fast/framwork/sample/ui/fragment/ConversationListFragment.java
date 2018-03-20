@@ -35,8 +35,8 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatT
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -84,7 +84,7 @@ public class ConversationListFragment extends BaseFastListFragment {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
     }
 
     @Override

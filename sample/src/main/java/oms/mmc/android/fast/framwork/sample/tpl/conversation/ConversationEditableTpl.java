@@ -6,7 +6,7 @@ import android.widget.CompoundButton;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
@@ -23,7 +23,7 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
     private CheckBox checkBox;
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         checkBox = finder.get(R.id.checkBox);
         checkBox.setOnCheckedChangeListener(this);

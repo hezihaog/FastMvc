@@ -23,7 +23,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextReceiverTpl
 import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.wait.IOSWaitDialogFactory;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -71,7 +71,7 @@ public class ChatListActivity extends BaseFastListActivity {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         mToolbar = finder.get(R.id.toolBar);
     }
 
@@ -118,7 +118,7 @@ public class ChatListActivity extends BaseFastListActivity {
     }
 
     @Override
-    protected IWaitViewFactory onWaitDialogFactoryReady() {
+    public IWaitViewFactory onWaitDialogFactoryReady() {
         return new IOSWaitDialogFactory();
     }
 

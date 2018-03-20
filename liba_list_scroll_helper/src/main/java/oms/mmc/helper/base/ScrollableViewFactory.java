@@ -45,12 +45,15 @@ public class ScrollableViewFactory implements IScrollableReplaceFactory {
      */
     @Override
     public void install() {
-        LayoutInflaterCompat.setFactory(LayoutInflater.from(mActivity), new LayoutInflaterFactory() {
-            @Override
-            public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-                return performReplace(parent, name, context, attrs);
-            }
-        });
+        LayoutInflaterFactory factory = LayoutInflaterCompat.getFactory(LayoutInflater.from(mActivity));
+        if (factory == null) {
+            LayoutInflaterCompat.setFactory(LayoutInflater.from(mActivity), new LayoutInflaterFactory() {
+                @Override
+                public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+                    return performReplace(parent, name, context, attrs);
+                }
+            });
+        }
     }
 
     @Override

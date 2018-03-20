@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
 /**
@@ -30,7 +30,7 @@ public class ConversationChatTpl extends ConversationEditableTpl {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         avatar = finder.get(R.id.avatar);
         name = finder.get(R.id.name);

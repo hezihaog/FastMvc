@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.SingleCheckEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
@@ -47,7 +47,7 @@ public class ListSingleCheckSampleTpl extends BaseTpl<BaseItemData> {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         mTextView = finder.get(R.id.textTv);
         mSingleCheck = finder.get(R.id.singleCheck);

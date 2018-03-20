@@ -1,118 +1,80 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.util.ActivityManager;
-import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
+import oms.mmc.android.fast.framwork.util.FastUIDelegate;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.TDevice;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 import oms.mmc.factory.wait.inter.IWaitViewController;
-import oms.mmc.factory.wait.inter.IWaitViewHost;
-import oms.mmc.helper.base.ScrollableViewFactory;
 
 /**
  * Activity基类
  */
-public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements LayoutCallback
-        , IWaitViewHandler, IHandlerDispatcher, IWaitViewHost, IInstanceState {
-    private ViewFinder mViewFinder;
-    private Handler mMainHandler;
-    private WaitDialogController mWaitDialogController;
+public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements IFastUIInterface {
+    IFastUIDelegate mUIDelegate = new FastUIDelegate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ScrollableViewFactory.create(this, new AppCompatScrollableReplaceAdapter()).install();
+        mUIDelegate.attachUIIml(this);
+        mUIDelegate.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         ActivityManager.getActivityManager().addActivity(this);
-        onLayoutBefore();
-        if (mViewFinder == null) {
-            mViewFinder = new ViewFinder(getActivity(), onLayoutView(getLayoutInflater(), null));
-        } else {
-            mViewFinder.setActivity(this);
-            mViewFinder.setRootView(getContentView());
-        }
-        mWaitDialogController = onWaitDialogFactoryReady().madeWaitDialogController(this);
-        setContentView(mViewFinder.getRootView());
+        mUIDelegate.performLayoutBefore();
+        mUIDelegate.performLayoutView(null);
+        setContentView(mUIDelegate.getRootView());
         if (hasTranslucentStatusBar()) {
-            onStatusBarSet();
-            onSetStatusBarBlack();
+            setTranslucentStatusBar();
+            setBlackStatusBar();
         }
-        onFindView(mViewFinder);
-        onLayoutAfter();
+        mUIDelegate.performFindView();
+        mUIDelegate.performLayoutAfter();
         setupFragment(onSetupFragment());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        TDevice.hideSoftKeyboard(getContentView());
-        if (getViewFinder() != null) {
-            getViewFinder().recycle();
+        if (mUIDelegate != null) {
+            mUIDelegate.onDestroy();
         }
         ActivityManager.getActivityManager().removeActivity(this);
     }
 
     /**
-     * 设置状态栏
+     * 设置透明状态栏
      */
-    protected void onStatusBarSet() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(Color.BLACK);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            //miui、flyme透明衔接，非miui、flyme加上阴影
-            if (TDevice.isMiui() || TDevice.isMeizu()) {
-                getWindow().setStatusBarColor(Color.TRANSPARENT);
-            } else {
-                getWindow().setStatusBarColor(Color.argb((int) (255 * 0.2f), 0, 0, 0));
-            }
-        }
+    protected void setTranslucentStatusBar() {
+        TDevice.setTranslucentStatusBar(getActivity());
     }
 
     /**
-     * 设置状态栏文字黑色
+     * 设置状态栏文字黑色，暂只支持小米、魅族
      */
-    protected void onSetStatusBarBlack() {
+    protected void setBlackStatusBar() {
         TDevice.setStatusBarMode(getActivity(), true);
     }
 
     protected void hideStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            WindowManager.LayoutParams attrs = getWindow().getAttributes();
-            attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-            getWindow().setAttributes(attrs);
-        }
+        TDevice.hideStatusBar(getActivity());
     }
 
     protected void showStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            WindowManager.LayoutParams attrs = getWindow().getAttributes();
-            attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-            getWindow().setAttributes(attrs);
-        }
+        TDevice.showStatusBar(getActivity());
     }
 
     /**
      * 返回等待弹窗样式工厂
      */
-    protected IWaitViewFactory onWaitDialogFactoryReady() {
+    @Override
+    public IWaitViewFactory onWaitDialogFactoryReady() {
         return new BaseWaitDialogFactory();
     }
 
@@ -133,7 +95,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
     }
 
     public final <E extends View> E findView(int id) {
@@ -141,36 +103,33 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     }
 
     @Override
-    public ViewFinder getViewFinder() {
-        if (mViewFinder == null) {
-            mViewFinder = new ViewFinder(getActivity(), onLayoutView(getLayoutInflater(), null));
-        }
-        return mViewFinder;
+    public IViewFinder getViewFinder() {
+        return mUIDelegate.getViewFinder();
     }
 
     @Override
     public void showWaitDialog() {
-        mWaitDialogController.getWaitIml().showWaitDialog(getActivity(), "", false);
+        getWaitViewController().getWaitIml().showWaitDialog(getActivity(), "", false);
     }
 
     @Override
     public void showWaitDialog(String msg) {
-        mWaitDialogController.getWaitIml().showWaitDialog(getActivity(), msg, false);
+        getWaitViewController().getWaitIml().showWaitDialog(getActivity(), msg, false);
     }
 
     @Override
     public void showWaitDialog(String msg, final boolean isTouchCancelable) {
-        mWaitDialogController.getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
+        getWaitViewController().getWaitIml().showWaitDialog(getActivity(), msg, isTouchCancelable);
     }
 
     @Override
     public void hideWaitDialog() {
-        mWaitDialogController.getWaitIml().hideWaitDialog();
+        getWaitViewController().getWaitIml().hideWaitDialog();
     }
 
     @Override
     public IWaitViewController getWaitViewController() {
-        return mWaitDialogController;
+        return mUIDelegate.getWaitViewController();
     }
 
     protected void setResult(int resultCode, Bundle bundle) {
@@ -230,30 +189,17 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
 
     @Override
     public Handler initHandler() {
-        Handler handler = null;
-        if (getApplication() instanceof BaseFastApplication) {
-            handler = ((BaseFastApplication) getApplication()).getMainHandler();
-        }
-        if (handler == null) {
-            handler = new Handler(getMainLooper());
-        }
-        return handler;
+        return mUIDelegate.initHandler();
     }
 
     @Override
     public void post(Runnable runnable) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
-        }
-        mMainHandler.post(runnable);
+        mUIDelegate.post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
-        }
-        mMainHandler.postDelayed(runnable, duration);
+        mUIDelegate.postDelayed(runnable, duration);
     }
 
     @Override
@@ -276,12 +222,5 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     @Override
     public void onRestoreState(Bundle stateBundle) {
         getViewFinder().restoreInstance(stateBundle);
-    }
-
-    /**
-     * 获取设置的ContentView
-     */
-    public View getContentView() {
-        return ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
     }
 }

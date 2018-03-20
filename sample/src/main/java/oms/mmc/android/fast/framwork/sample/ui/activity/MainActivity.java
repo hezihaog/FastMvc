@@ -22,7 +22,7 @@ import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationListFragment
 import oms.mmc.android.fast.framwork.sample.ui.fragment.FindFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.MeFragment;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample
@@ -46,7 +46,7 @@ public class MainActivity extends BaseFastActivity implements View.OnClickListen
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         toolBar = finder.get(R.id.toolBar);
         viewPager = finder.get(R.id.viewPager);
         tabLayout = finder.get(R.id.tabLayout);

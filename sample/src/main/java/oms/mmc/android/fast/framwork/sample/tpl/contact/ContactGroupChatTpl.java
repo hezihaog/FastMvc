@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
@@ -26,7 +26,7 @@ public class ContactGroupChatTpl extends BaseTpl<BaseItemData> {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
     }
 
     @Override

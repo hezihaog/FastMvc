@@ -1,0 +1,144 @@
+package oms.mmc.android.fast.framwork.util;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+
+import oms.mmc.android.fast.framwork.BaseFastApplication;
+import oms.mmc.android.fast.framwork.base.IFastUIDelegate;
+import oms.mmc.android.fast.framwork.base.IFastUIInterface;
+import oms.mmc.factory.wait.WaitDialogController;
+import oms.mmc.factory.wait.inter.IWaitViewController;
+import oms.mmc.helper.base.ScrollableViewFactory;
+
+/**
+ * Package: oms.mmc.android.fast.framwork.util
+ * FileName: IFastUIDelegate
+ * Date: on 2018/3/20  下午5:20
+ * Auther: zihe
+ * Descirbe:
+ * Email: hezihao@linghit.com
+ */
+
+public class FastUIDelegate implements IFastUIDelegate {
+    private IFastUIInterface mUiIml;
+    private Activity mActivity;
+    private ViewFinder mViewFinder;
+    private Handler mMainHandler;
+    private WaitDialogController mWaitDialogController;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        ScrollableViewFactory.create(getActivity(), new AppCompatScrollableReplaceAdapter()).install();
+    }
+
+    @Override
+    public void attachUIIml(IFastUIInterface uiIml) {
+        mUiIml = uiIml;
+        if (uiIml instanceof Activity) {
+            mActivity = (Activity) mUiIml;
+        } else if (uiIml instanceof Fragment) {
+            mActivity = ((Fragment) uiIml).getActivity();
+        } else if (uiIml instanceof android.support.v4.app.Fragment) {
+            mActivity = ((android.support.v4.app.Fragment) uiIml).getActivity();
+        }
+    }
+
+    @Override
+    public void performLayoutBefore() {
+        mUiIml.onLayoutBefore();
+    }
+
+    @Override
+    public void performLayoutView(ViewGroup container) {
+        if (mViewFinder == null) {
+            mViewFinder = new ViewFinder(getActivity(),
+                    mUiIml.onLayoutView(LayoutInflater.from(getActivity()), container));
+        } else {
+            mViewFinder.setActivity(getActivity());
+            mViewFinder.setRootView(getContentView());
+        }
+        mWaitDialogController = mUiIml.onWaitDialogFactoryReady().madeWaitDialogController(getActivity());
+    }
+
+    @Override
+    public void performFindView() {
+        mUiIml.onFindView(mViewFinder);
+    }
+
+    @Override
+    public void performLayoutAfter() {
+        mUiIml.onLayoutAfter();
+    }
+
+    @Override
+    public void onDestroy() {
+        TDevice.hideSoftKeyboard(getContentView());
+        if (mViewFinder != null) {
+            mViewFinder.recycle();
+        }
+    }
+
+    @Override
+    public Activity getActivity() {
+        return mActivity;
+    }
+
+    @Override
+    public View getContentView() {
+        return ((ViewGroup) getWindow().findViewById(android.R.id.content)).getChildAt(0);
+    }
+
+    @Override
+    public ViewFinder getViewFinder() {
+        return mViewFinder;
+    }
+
+    @Override
+    public IWaitViewController getWaitViewController() {
+        return mWaitDialogController;
+    }
+
+    @Override
+    public View getRootView() {
+        return mViewFinder.getRootView();
+    }
+
+    @Override
+    public Window getWindow() {
+        return mActivity.getWindow();
+    }
+
+    @Override
+    public Handler initHandler() {
+        Handler handler = null;
+        if (getActivity().getApplication() instanceof BaseFastApplication) {
+            handler = ((BaseFastApplication) getActivity().getApplication()).getMainHandler();
+        }
+        if (handler == null) {
+            handler = new Handler(getActivity().getMainLooper());
+        }
+        return handler;
+    }
+
+    @Override
+    public void post(Runnable runnable) {
+        if (mMainHandler == null) {
+            mMainHandler = initHandler();
+        }
+        mMainHandler.post(runnable);
+    }
+
+    @Override
+    public void postDelayed(Runnable runnable, long duration) {
+        if (mMainHandler == null) {
+            mMainHandler = initHandler();
+        }
+        mMainHandler.postDelayed(runnable, duration);
+    }
+}

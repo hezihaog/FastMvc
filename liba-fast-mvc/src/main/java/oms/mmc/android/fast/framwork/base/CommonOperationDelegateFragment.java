@@ -37,6 +37,8 @@ public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment
     private IToastOperator mToastOperator;
     private IFragmentOperator mFragmentOperator;
 
+    public abstract BaseFastFragment getFragment();
+
     /**
      * 确保参数代理初始化
      */

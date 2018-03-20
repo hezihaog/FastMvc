@@ -25,7 +25,7 @@ import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ToggleModeEvent;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListModeSampleTpl;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
@@ -47,7 +47,7 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         mModeBtn = finder.get(R.id.modeBtn);
     }

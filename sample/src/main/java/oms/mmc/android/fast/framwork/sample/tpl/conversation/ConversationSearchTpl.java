@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
@@ -26,23 +26,23 @@ public class ConversationSearchTpl extends BaseTpl<BaseItemData> {
     private EditText mSearchEdit;
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         mSearchEdit = finder.get(R.id.searchEdit);
     }
 
     @Override
-    public void onSaveState(Bundle savedBundle) {
-        super.onSaveState(savedBundle);
+    public void onSaveState(Bundle stateBundle) {
+        super.onSaveState(stateBundle);
         mSearchEdit = getViewFinder().get(R.id.searchEdit);
-        savedBundle.putString(KEY_EDIT, String.valueOf(getViewText(mSearchEdit)));
+        stateBundle.putString(KEY_EDIT, String.valueOf(getViewText(mSearchEdit)));
     }
 
     @Override
-    public void onRestoreState(Bundle restoreBundle) {
-        super.onRestoreState(restoreBundle);
+    public void onRestoreState(Bundle stateBundle) {
+        super.onRestoreState(stateBundle);
         mSearchEdit = getViewFinder().get(R.id.searchEdit);
-        String content = restoreBundle.getString(KEY_EDIT);
+        String content = stateBundle.getString(KEY_EDIT);
         setViewText(content, mSearchEdit);
     }
 

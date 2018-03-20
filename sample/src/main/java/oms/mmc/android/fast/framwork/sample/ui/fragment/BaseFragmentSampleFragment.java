@@ -8,7 +8,7 @@ import android.widget.TextView;
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseFragmentSampleActivity;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -36,7 +36,7 @@ public class BaseFragmentSampleFragment extends BaseFastFragment {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         mAgeTv = finder.get(R.id.ageTv);
     }
 

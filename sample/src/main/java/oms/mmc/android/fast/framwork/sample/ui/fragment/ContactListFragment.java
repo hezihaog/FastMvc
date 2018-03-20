@@ -27,7 +27,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactSumCountTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
@@ -61,7 +61,7 @@ public class ContactListFragment extends BaseFastListFragment {
     public static final int TPL_RECOMMENT = 7;
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
     }
 
     @Override

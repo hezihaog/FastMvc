@@ -63,7 +63,7 @@ public class ViewFinder implements IViewFinder {
     }
 
     @Override
-    public ViewFinder getViewFinder() {
+    public IViewFinder getViewFinder() {
         return this;
     }
 

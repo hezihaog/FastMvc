@@ -12,6 +12,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
@@ -617,6 +618,28 @@ public class TDevice {
             WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
             attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
             activity.getWindow().setAttributes(attrs);
+        }
+    }
+
+    /**
+     * 设置透明状态栏
+     */
+    public static void setTranslucentStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.setNavigationBarColor(Color.BLACK);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            View decorView = window.getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            //miui、flyme透明衔接，非miui、flyme加上阴影
+            if (TDevice.isMiui() || TDevice.isMeizu()) {
+                window.setStatusBarColor(Color.TRANSPARENT);
+            } else {
+                window.setStatusBarColor(Color.argb((int) (255 * 0.2f), 0, 0, 0));
+            }
         }
     }
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.LoadStatus;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.factory.load.base.IVaryViewHelper;
 import oms.mmc.factory.load.base.SimpleLoadViewHelper;
 
@@ -41,7 +41,7 @@ public class SimpleLoadViewHelperUseSampleActivity extends BaseFastActivity impl
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         mContainerLayout = finder.get(R.id.container);
         mContentTv = finder.get(R.id.contentTv);

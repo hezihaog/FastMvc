@@ -14,7 +14,7 @@ import java.util.HashMap;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ToggleModeEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
@@ -49,7 +49,7 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         mTextTv = finder.get(R.id.textTv);
         mCheckIv = finder.get(R.id.checkIv);

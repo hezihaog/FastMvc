@@ -9,7 +9,7 @@ import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.wait.IOSWaitDialogFactory;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 
 /**
@@ -30,7 +30,7 @@ public class MeFragment extends BaseFastFragment {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         avatar = finder.get(R.id.avatar);
     }
 
@@ -56,7 +56,7 @@ public class MeFragment extends BaseFastFragment {
 
     //fragment重写该方法，如果activity已经复写了，则无效。一般项目都会加一个项目基类继承BaseFastActivity，也不会一套UI多种风格
     @Override
-    protected IWaitViewFactory onWaitDialogFactoryReady() {
+    public IWaitViewFactory onWaitDialogFactoryReady() {
         return new IOSWaitDialogFactory();
     }
 }

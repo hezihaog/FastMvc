@@ -14,7 +14,7 @@ import java.util.Map;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.event.ConversationEditStateChangeEvent;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 
@@ -36,7 +36,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         editTv = finder.get(R.id.editTv);
         editTv.setOnClickListener(this);

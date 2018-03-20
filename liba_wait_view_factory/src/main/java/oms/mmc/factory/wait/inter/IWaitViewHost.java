@@ -1,5 +1,7 @@
 package oms.mmc.factory.wait.inter;
 
+import oms.mmc.factory.wait.factory.IWaitViewFactory;
+
 /**
  * Package: oms.mmc.factory.wait.inter
  * FileName: IWaitVIewHost
@@ -10,6 +12,11 @@ package oms.mmc.factory.wait.inter;
  */
 
 public interface IWaitViewHost {
+    /**
+     * 构造WaitView工厂
+     */
+    IWaitViewFactory onWaitDialogFactoryReady();
+
     /**
      * WaitView控制器
      */

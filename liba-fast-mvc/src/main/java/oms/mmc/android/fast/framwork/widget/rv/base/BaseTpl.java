@@ -14,9 +14,11 @@ import java.util.List;
 
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IFragmentOperator;
+import oms.mmc.android.fast.framwork.base.IInstanceState;
 import oms.mmc.android.fast.framwork.base.IWaitViewHandler;
 import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.IToastOperator;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.MethodCompat;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
@@ -30,7 +32,8 @@ import oms.mmc.helper.ListScrollHelper;
  *
  * @author 子和
  */
-public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements LayoutCallback, IWaitViewHandler, View.OnAttachStateChangeListener {
+public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements LayoutCallback,
+        IWaitViewHandler, View.OnAttachStateChangeListener, IInstanceState {
     private Activity mActivity;
     private RecyclerViewViewHelper mRecyclerViewHelper;
     private ListScrollHelper mListScrollHelper;
@@ -133,7 +136,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     }
 
     @Override
-    public ViewFinder getViewFinder() {
+    public IViewFinder getViewFinder() {
         if (mViewFinder == null) {
             mViewFinder = new ViewFinder(getActivity(), getRoot());
         }
@@ -271,7 +274,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
 
     }
 
@@ -341,20 +344,20 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     /**
      * 当界面被强制内存回收前回调
      *
-     * @param savedBundle 保存的信息的map
+     * @param stateBundle 保存的信息的map
      */
-    @CallSuper
-    public void onSaveState(Bundle savedBundle) {
+    @Override
+    public void onSaveState(Bundle stateBundle) {
 
     }
 
     /**
      * 当用户重新打开app，界面已经被内存回收了，马上进行恢复时回调
      *
-     * @param restoreBundle 马上进行恢复时，之前保存的信息的map
+     * @param stateBundle 马上进行恢复时，之前保存的信息的map
      */
-    @CallSuper
-    public void onRestoreState(Bundle restoreBundle) {
+    @Override
+    public void onRestoreState(Bundle stateBundle) {
         if (mViewFinder == null) {
             mViewFinder = new ViewFinder(getActivity(), mRoot);
         } else {

@@ -24,7 +24,7 @@ public interface IViewFinderAction {
     /**
      * 抽象方法，子类实现返回ViewFinder
      */
-    ViewFinder getViewFinder();
+    IViewFinder getViewFinder();
 
     /**
      * 获取布局View

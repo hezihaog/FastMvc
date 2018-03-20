@@ -13,7 +13,7 @@ import oms.mmc.android.fast.framwork.sample.ui.fragment.MainSampleFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.MyInfoSampleFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ShoppingCartSampleFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.StoreSampleFragment;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.activity
@@ -37,7 +37,7 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         RadioGroup mainActionRadioGroup = finder.get(R.id.actionRadioGroup);
         mainActionRadioGroup.setOnCheckedChangeListener(this);

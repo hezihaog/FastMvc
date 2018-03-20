@@ -4,72 +4,57 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
-import oms.mmc.factory.wait.WaitDialogController;
+import oms.mmc.android.fast.framwork.util.FastUIDelegate;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.factory.wait.factory.BaseWaitDialogFactory;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 import oms.mmc.factory.wait.inter.IWaitViewController;
-import oms.mmc.factory.wait.inter.IWaitViewHost;
 
 
 /**
  * Fragment基类
  */
-public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements LayoutCallback
-        , IWaitViewHandler, IHandlerDispatcher, IWaitViewHost {
-    protected FragmentManager mFm;
-    protected Fragment mFragment;
-    private ViewFinder mViewFinder;
-    private Handler mMainHandler;
-    private WaitDialogController mWaitDialogController;
+public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements IFastUIInterface {
+    IFastUIDelegate mUIDelegate = new FastUIDelegate();
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mFm = getChildFragmentManager();
-        mFragment = this;
+        mUIDelegate.attachUIIml(this);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onLayoutBefore();
+        mUIDelegate.onCreate(getArguments());
+        mUIDelegate.performLayoutBefore();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (getViewFinder() != null) {
-            getViewFinder().recycle();
+        if (mUIDelegate != null) {
+            mUIDelegate.onDestroy();
         }
     }
 
 
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mViewFinder == null) {
-            mViewFinder = new ViewFinder(getActivity(), onLayoutView(inflater, container));
-        } else {
-            mViewFinder.setActivity(getActivity());
-            mViewFinder.setRootView(onLayoutView(inflater, container));
-        }
-        setRootView(mViewFinder.getRootView());
-        mWaitDialogController = onWaitDialogFactoryReady().madeWaitDialogController(getActivity());
-        return mViewFinder.getRootView();
+        mUIDelegate.performLayoutView(container);
+        setRootView(mUIDelegate.getRootView());
+        return mUIDelegate.getRootView();
     }
 
     @Override
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        onFindView(getViewFinder());
-        onLayoutAfter();
+        mUIDelegate.performFindView();
+        mUIDelegate.performLayoutAfter();
     }
 
     @Override
@@ -88,16 +73,14 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     /**
      * 返回等待弹窗样式工厂
      */
-    protected IWaitViewFactory onWaitDialogFactoryReady() {
+    @Override
+    public IWaitViewFactory onWaitDialogFactoryReady() {
         return new BaseWaitDialogFactory();
     }
 
     @Override
-    public ViewFinder getViewFinder() {
-        if (mViewFinder == null) {
-            mViewFinder = new ViewFinder(getActivity(), onLayoutView(LayoutInflater.from(getContext()), null));
-        }
-        return mViewFinder;
+    public IViewFinder getViewFinder() {
+        return mUIDelegate.getViewFinder();
     }
 
     @Override
@@ -122,35 +105,26 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     @Override
     public IWaitViewController getWaitViewController() {
-        return mWaitDialogController;
+        return mUIDelegate.getWaitViewController();
     }
 
     @Override
     public Handler initHandler() {
-        Handler handler = null;
-        if (getActivity().getApplication() instanceof BaseFastApplication) {
-            handler = ((BaseFastApplication) getActivity().getApplication()).getMainHandler();
-        }
-        if (handler == null) {
-            handler = new Handler(getActivity().getMainLooper());
-        }
-        return handler;
+        return mUIDelegate.initHandler();
     }
 
     @Override
     public void post(Runnable runnable) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
+        if (mUIDelegate != null) {
+            mUIDelegate.post(runnable);
         }
-        mMainHandler.post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
+        if (mUIDelegate != null) {
+            mUIDelegate.postDelayed(runnable, duration);
         }
-        mMainHandler.postDelayed(runnable, duration);
     }
 
     @Override
@@ -162,12 +136,11 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     @Override
     public void onRestoreState(Bundle stateBundle) {
         super.onRestoreState(stateBundle);
-        if (mViewFinder == null) {
-            mViewFinder = new ViewFinder(getActivity(), onLayoutView(LayoutInflater.from(getContext()), null));
-        } else {
-            mViewFinder.setActivity(getActivity());
-            mViewFinder.setRootView(onLayoutView(LayoutInflater.from(getContext()), null));
-        }
         getViewFinder().restoreInstance(stateBundle);
+    }
+
+    @Override
+    public BaseFastFragment getFragment() {
+        return this;
     }
 }

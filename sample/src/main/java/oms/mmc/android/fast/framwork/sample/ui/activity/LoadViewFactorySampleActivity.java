@@ -23,7 +23,7 @@ import oms.mmc.android.fast.framwork.sample.loadview.SampleLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.loadview.SampleLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
 import oms.mmc.android.fast.framwork.sample.util.LoadStatus;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -54,7 +54,7 @@ public class LoadViewFactorySampleActivity extends BaseFastListActivity implemen
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         //操作按钮
         mShowLoadingBtn = finder.get(R.id.showLoadingBtn);

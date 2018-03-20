@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 
 public class ActivitySampleActivity extends BaseFastActivity {
     public static final String BUNDLE_KEY_USER_ID = "key_user_id";
@@ -32,7 +32,7 @@ public class ActivitySampleActivity extends BaseFastActivity {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         //onFindView回调上找控件
         mContent = finder.get(R.id.content);

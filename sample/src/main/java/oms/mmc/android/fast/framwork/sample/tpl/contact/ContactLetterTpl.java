@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
@@ -31,7 +31,7 @@ public class ContactLetterTpl extends BaseStickyTpl<ItemDataWrapper> {
     }
 
     @Override
-    public void onFindView(ViewFinder finder) {
+    public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         letter = finder.get(R.id.letter);
     }

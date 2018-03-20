@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import oms.mmc.android.fast.framwork.util.ViewFinder;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 
 /**
  * 普通界面布局回调接口
@@ -27,7 +27,7 @@ public interface LayoutCallback {
      *
      * @param finder 布局View持有器
      */
-    void onFindView(ViewFinder finder);
+    void onFindView(IViewFinder finder);
 
     /**
      * 页面View初始化完成回调，子类可复写对view进一步处理
