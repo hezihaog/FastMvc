@@ -11,7 +11,16 @@ import oms.mmc.factory.wait.inter.IWaitViewHost;
  * Email: hezihao@linghit.com
  */
 
-public interface IFastUIInterface extends LayoutCallback
-        , IWaitViewHandler, IHandlerDispatcher, IWaitViewHost, IInstanceState{
+public interface IFastUIInterface extends LayoutCallback,
+        IWaitViewHandler, IHandlerDispatcher, IWaitViewHost, IInstanceState, IStatusBarOperate {
 
+    /**
+     * 创建UI代理
+     */
+    IFastUIDelegate createFastUIDelegate();
+
+    /**
+     * 获取UI代理
+     */
+    IFastUIDelegate getFastUIDelegate();
 }

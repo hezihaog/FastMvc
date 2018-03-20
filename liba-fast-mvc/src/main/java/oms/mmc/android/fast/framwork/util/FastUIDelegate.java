@@ -12,6 +12,7 @@ import android.view.Window;
 import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.base.IFastUIDelegate;
 import oms.mmc.android.fast.framwork.base.IFastUIInterface;
+import oms.mmc.android.fast.framwork.base.IStatusBarHost;
 import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.factory.wait.inter.IWaitViewController;
 import oms.mmc.helper.base.ScrollableViewFactory;
@@ -101,6 +102,9 @@ public class FastUIDelegate implements IFastUIDelegate {
 
     @Override
     public IWaitViewController getWaitViewController() {
+        if (mWaitDialogController == null) {
+            mWaitDialogController = mUiIml.onWaitDialogFactoryReady().madeWaitDialogController(getActivity());
+        }
         return mWaitDialogController;
     }
 
@@ -112,6 +116,17 @@ public class FastUIDelegate implements IFastUIDelegate {
     @Override
     public Window getWindow() {
         return mActivity.getWindow();
+    }
+
+    @Override
+    public void configStatusBar() {
+        if (mUiIml instanceof IStatusBarHost) {
+            IStatusBarHost host = (IStatusBarHost) mUiIml;
+            if (host.hasTranslucentStatusBar()) {
+                setTranslucentStatusBar();
+                setBlackStatusBar();
+            }
+        }
     }
 
     @Override
@@ -140,5 +155,31 @@ public class FastUIDelegate implements IFastUIDelegate {
             mMainHandler = initHandler();
         }
         mMainHandler.postDelayed(runnable, duration);
+    }
+
+    /**
+     * 设置透明状态栏
+     */
+    @Override
+    public void setTranslucentStatusBar() {
+        TDevice.setTranslucentStatusBar(getActivity());
+    }
+
+    /**
+     * 设置状态栏文字黑色，暂只支持小米、魅族
+     */
+    @Override
+    public void setBlackStatusBar() {
+        TDevice.setStatusBarMode(getActivity(), true);
+    }
+
+    @Override
+    public void hideStatusBar() {
+        TDevice.hideStatusBar(getActivity());
+    }
+
+    @Override
+    public void showStatusBar() {
+        TDevice.showStatusBar(getActivity());
     }
 }

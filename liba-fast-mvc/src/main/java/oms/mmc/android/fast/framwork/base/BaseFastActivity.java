@@ -18,22 +18,20 @@ import oms.mmc.factory.wait.inter.IWaitViewController;
 /**
  * Activity基类
  */
-public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements IFastUIInterface {
-    IFastUIDelegate mUIDelegate = new FastUIDelegate();
+public abstract class BaseFastActivity extends CommonOperationDelegateActivity
+        implements IFastUIInterface, IStatusBarHost {
+    IFastUIDelegate mUIDelegate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mUIDelegate.attachUIIml(this);
+        ActivityManager.getActivityManager().addActivity(this);
+        mUIDelegate = createFastUIDelegate();
         mUIDelegate.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        ActivityManager.getActivityManager().addActivity(this);
         mUIDelegate.performLayoutBefore();
         mUIDelegate.performLayoutView(null);
         setContentView(mUIDelegate.getRootView());
-        if (hasTranslucentStatusBar()) {
-            setTranslucentStatusBar();
-            setBlackStatusBar();
-        }
+        mUIDelegate.configStatusBar();
         mUIDelegate.performFindView();
         mUIDelegate.performLayoutAfter();
         setupFragment(onSetupFragment());
@@ -49,25 +47,38 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     }
 
     /**
+     * 是否需要透明状态栏，默认为false，需要则子类重写并返回true；
+     * 注意，透明后布局会上移，建议顶部的ToolBar的高度加上状态栏的高度
+     */
+    @Override
+    public boolean hasTranslucentStatusBar() {
+        return false;
+    }
+
+    /**
      * 设置透明状态栏
      */
-    protected void setTranslucentStatusBar() {
-        TDevice.setTranslucentStatusBar(getActivity());
+    @Override
+    public void setTranslucentStatusBar() {
+        mUIDelegate.setTranslucentStatusBar();
     }
 
     /**
      * 设置状态栏文字黑色，暂只支持小米、魅族
      */
-    protected void setBlackStatusBar() {
-        TDevice.setStatusBarMode(getActivity(), true);
+    @Override
+    public void setBlackStatusBar() {
+        mUIDelegate.setBlackStatusBar();
     }
 
-    protected void hideStatusBar() {
-        TDevice.hideStatusBar(getActivity());
+    @Override
+    public void hideStatusBar() {
+        mUIDelegate.hideStatusBar();
     }
 
-    protected void showStatusBar() {
-        TDevice.showStatusBar(getActivity());
+    @Override
+    public void showStatusBar() {
+        mUIDelegate.showStatusBar();
     }
 
     /**
@@ -76,14 +87,6 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
     @Override
     public IWaitViewFactory onWaitDialogFactoryReady() {
         return new BaseWaitDialogFactory();
-    }
-
-    /**
-     * 是否需要透明状态栏，默认为false，需要则子类重写并返回true；
-     * 注意，透明后布局会上移，建议顶部的ToolBar的高度加上状态栏的高度
-     */
-    protected boolean hasTranslucentStatusBar() {
-        return false;
     }
 
     @Override
@@ -129,13 +132,32 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
 
     @Override
     public IWaitViewController getWaitViewController() {
-        return mUIDelegate.getWaitViewController();
+        IWaitViewController controller = getFastUIDelegate().getWaitViewController();
+        if (controller == null) {
+            controller = getFastUIDelegate().getWaitViewController();
+        }
+        return controller;
     }
 
     protected void setResult(int resultCode, Bundle bundle) {
         Intent intent = new Intent();
         intent.putExtras(bundle);
         setResult(resultCode, intent);
+    }
+
+    @Override
+    public IFastUIDelegate createFastUIDelegate() {
+        FastUIDelegate delegate = new FastUIDelegate();
+        delegate.attachUIIml(this);
+        return delegate;
+    }
+
+    @Override
+    public IFastUIDelegate getFastUIDelegate() {
+        if (mUIDelegate == null) {
+            mUIDelegate = createFastUIDelegate();
+        }
+        return mUIDelegate;
     }
 
     @Override
@@ -189,17 +211,17 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
 
     @Override
     public Handler initHandler() {
-        return mUIDelegate.initHandler();
+        return getFastUIDelegate().initHandler();
     }
 
     @Override
     public void post(Runnable runnable) {
-        mUIDelegate.post(runnable);
+        getFastUIDelegate().post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
-        mUIDelegate.postDelayed(runnable, duration);
+        getFastUIDelegate().postDelayed(runnable, duration);
     }
 
     @Override

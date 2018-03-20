@@ -20,12 +20,12 @@ import oms.mmc.factory.wait.inter.IWaitViewController;
  * Fragment基类
  */
 public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements IFastUIInterface {
-    IFastUIDelegate mUIDelegate = new FastUIDelegate();
+    IFastUIDelegate mUIDelegate;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mUIDelegate.attachUIIml(this);
+        mUIDelegate = createFastUIDelegate();
     }
 
     @Override
@@ -109,6 +109,21 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     }
 
     @Override
+    public IFastUIDelegate createFastUIDelegate() {
+        FastUIDelegate delegate = new FastUIDelegate();
+        delegate.attachUIIml(this);
+        return delegate;
+    }
+
+    @Override
+    public IFastUIDelegate getFastUIDelegate() {
+        if (mUIDelegate == null) {
+            mUIDelegate = createFastUIDelegate();
+        }
+        return mUIDelegate;
+    }
+
+    @Override
     public Handler initHandler() {
         return mUIDelegate.initHandler();
     }
@@ -130,7 +145,9 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     @Override
     public void onSaveState(Bundle stateBundle) {
         super.onSaveState(stateBundle);
-        getViewFinder().saveInstance(stateBundle);
+        if (getViewFinder() != null) {
+            getViewFinder().saveInstance(stateBundle);
+        }
     }
 
     @Override
@@ -142,5 +159,25 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     @Override
     public BaseFastFragment getFragment() {
         return this;
+    }
+
+    @Override
+    public void setTranslucentStatusBar() {
+        mUIDelegate.setTranslucentStatusBar();
+    }
+
+    @Override
+    public void setBlackStatusBar() {
+        mUIDelegate.setBlackStatusBar();
+    }
+
+    @Override
+    public void hideStatusBar() {
+        mUIDelegate.hideStatusBar();
+    }
+
+    @Override
+    public void showStatusBar() {
+        mUIDelegate.showStatusBar();
     }
 }

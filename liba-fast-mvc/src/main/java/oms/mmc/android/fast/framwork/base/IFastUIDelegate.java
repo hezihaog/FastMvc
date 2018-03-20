@@ -18,7 +18,7 @@ import oms.mmc.factory.wait.inter.IWaitViewController;
  * Email: hezihao@linghit.com
  */
 
-public interface IFastUIDelegate extends IHandlerDispatcher {
+public interface IFastUIDelegate extends IHandlerDispatcher, IStatusBarOperate {
     /**
      * 代理onCreate()
      */
@@ -85,4 +85,9 @@ public interface IFastUIDelegate extends IHandlerDispatcher {
      * 获取界面Window
      */
     Window getWindow();
+
+    /**
+     * 配置状态栏
+     */
+    void configStatusBar();
 }
