@@ -9,7 +9,7 @@ import oms.mmc.lifecycle.dispatch.base.LifecycleFragment;
 /**
  * 保存状态Fragment
  */
-public class StatedFragment extends LifecycleFragment {
+public class StatedFragment extends LifecycleFragment implements IInstanceState {
     private Bundle savedState;
 
     public StatedFragment() {
@@ -74,9 +74,13 @@ public class StatedFragment extends LifecycleFragment {
         }
     }
 
-    protected void onSaveState(Bundle outState) {
+    @Override
+    public void onSaveState(Bundle stateBundle) {
+
     }
 
-    protected void onRestoreState(Bundle savedInstanceState) {
+    @Override
+    public void onRestoreState(Bundle stateBundle) {
+
     }
 }

@@ -23,6 +23,7 @@
 package oms.mmc.android.fast.framwork.util;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.view.LayoutInflater;
@@ -78,6 +79,35 @@ public class ViewFinder implements IViewFinder {
         if (mViews == null) {
             mViews = createCacheMap();
         }
+    }
+
+    @Override
+    public void saveInstance(Bundle bundle) {
+        onSaveInstance(bundle);
+    }
+
+    @Override
+    public void restoreInstance(Bundle bundle) {
+        onRestoreInstance(bundle);
+    }
+
+    /**
+     * 帮保存状态时回调
+     */
+    protected void onSaveInstance(Bundle bundle) {
+
+    }
+
+    /**
+     * 当恢复状态时回调
+     */
+    protected void onRestoreInstance(Bundle bundle) {
+
+    }
+
+    @Override
+    public IViewFinder getFinder() {
+        return this;
     }
 
     /**

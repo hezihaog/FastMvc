@@ -3,7 +3,6 @@ package oms.mmc.android.fast.framwork.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
+import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.factory.wait.WaitDialogController;
@@ -26,13 +24,12 @@ import oms.mmc.factory.wait.inter.IWaitViewHost;
  * Fragment基类
  */
 public abstract class BaseFastFragment extends CommonOperationDelegateFragment implements LayoutCallback
-        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch, IWaitViewHost {
+        , IWaitViewHandler, IHandlerDispatcher, IWaitViewHost {
     protected FragmentManager mFm;
     protected Fragment mFragment;
     private ViewFinder mViewFinder;
     private Handler mMainHandler;
     private WaitDialogController mWaitDialogController;
-    private CopyOnWriteArrayList<InstanceStateCallback> stateCallbacks = new CopyOnWriteArrayList<InstanceStateCallback>();
 
     @Override
     public void onAttach(Activity activity) {
@@ -130,7 +127,14 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     @Override
     public Handler initHandler() {
-        return new Handler(Looper.getMainLooper());
+        Handler handler = null;
+        if (getActivity().getApplication() instanceof BaseFastApplication) {
+            handler = ((BaseFastApplication) getActivity().getApplication()).getMainHandler();
+        }
+        if (handler == null) {
+            handler = new Handler(getActivity().getMainLooper());
+        }
+        return handler;
     }
 
     @Override
@@ -150,38 +154,20 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     }
 
     @Override
-    protected void onSaveState(Bundle outState) {
-        super.onSaveState(outState);
-        for (InstanceStateCallback callback : stateCallbacks) {
-            callback.onSaveInstanceState(outState);
-        }
+    public void onSaveState(Bundle stateBundle) {
+        super.onSaveState(stateBundle);
+        getViewFinder().saveInstance(stateBundle);
     }
 
     @Override
-    protected void onRestoreState(Bundle savedInstanceState) {
-        super.onRestoreState(savedInstanceState);
+    public void onRestoreState(Bundle stateBundle) {
+        super.onRestoreState(stateBundle);
         if (mViewFinder == null) {
             mViewFinder = new ViewFinder(getActivity(), onLayoutView(LayoutInflater.from(getContext()), null));
         } else {
             mViewFinder.setActivity(getActivity());
             mViewFinder.setRootView(onLayoutView(LayoutInflater.from(getContext()), null));
         }
-        for (InstanceStateCallback callback : stateCallbacks) {
-            callback.onRestoreInstanceState(savedInstanceState);
-        }
-    }
-
-    @Override
-    public void addStateListener(InstanceStateCallback callback) {
-        if (callback != null) {
-            stateCallbacks.add(callback);
-        }
-    }
-
-    @Override
-    public void removeStateListener(InstanceStateCallback callback) {
-        if (callback != null) {
-            stateCallbacks.remove(callback);
-        }
+        getViewFinder().restoreInstance(stateBundle);
     }
 }

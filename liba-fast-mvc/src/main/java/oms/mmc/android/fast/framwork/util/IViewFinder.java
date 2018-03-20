@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.View;
 
@@ -13,6 +14,21 @@ import android.view.View;
  */
 
 public interface IViewFinder extends IViewFinderAction {
+    /**
+     * 保存状态
+     */
+    void saveInstance(Bundle bundle);
+
+    /**
+     * 恢复状态
+     */
+    void restoreInstance(Bundle bundle);
+
+    /**
+     * 获取自己
+     */
+    IViewFinder getFinder();
+
     /**
      * 回收内存，在生命周期销毁时调用
      */

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
-import oms.mmc.android.fast.framwork.base.IStateDispatch;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -73,14 +72,9 @@ public class ListAbleDelegateHelper {
      * 滚动监听帮助类
      */
     private ListScrollHelper mScrollHelper;
-    /**
-     * 状态保存对象
-     */
-    private IStateDispatch mStateDispatch;
 
-    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble, IStateDispatch stateDispatch) {
+    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble) {
         mListAble = listAble;
-        mStateDispatch = stateDispatch;
     }
 
     /**
@@ -101,7 +95,7 @@ public class ListAbleDelegateHelper {
         mRecyclerView.setLayoutManager(mListAble.onGetListLayoutManager());
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {
-            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshLayout, mRecyclerView, mStateDispatch);
+            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshLayout, mRecyclerView);
         }
         //初始化数据源
         if (mListDataSource == null) {

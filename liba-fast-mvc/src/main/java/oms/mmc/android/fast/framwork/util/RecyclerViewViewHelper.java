@@ -21,7 +21,6 @@ import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
-import oms.mmc.android.fast.framwork.base.IStateDispatch;
 import oms.mmc.android.fast.framwork.base.InstanceStateCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -76,14 +75,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private ListScrollHelper listScrollHelper;
     //主线程Handler
     private final Handler mUiHandler;
-    //内存重启状态执行者
-    private IStateDispatch mStateDispatch;
     //内存重启状态回调
     private final InstanceStateCallback mStateCallback;
 
-    public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView, IStateDispatch stateDispatch) {
+    public RecyclerViewViewHelper(final SwipeRefreshLayout refreshLayout, final RecyclerView recyclerView) {
         this.mContext = refreshLayout.getContext().getApplicationContext();
-        mStateDispatch = stateDispatch;
         this.mUiHandler = new Handler(Looper.getMainLooper());
         this.mRefreshLayout = refreshLayout;
         this.mRecyclerView = recyclerView;
@@ -147,7 +143,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 }
             }
         };
-        stateDispatch.addStateListener(mStateCallback);
     }
 
     public void setupScrollHelper(ListScrollHelper scrollHelper) {
@@ -402,9 +397,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         if (mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
             mAsyncTask.cancel(true);
             mAsyncTask = null;
-        }
-        if (mStateDispatch != null) {
-            mStateDispatch.removeStateListener(mStateCallback);
         }
     }
 

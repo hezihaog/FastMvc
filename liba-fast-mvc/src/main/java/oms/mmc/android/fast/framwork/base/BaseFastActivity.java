@@ -5,14 +5,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
+import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.util.ActivityManager;
 import oms.mmc.android.fast.framwork.util.AppCompatScrollableReplaceAdapter;
 import oms.mmc.android.fast.framwork.util.FragmentFactory;
@@ -29,10 +27,9 @@ import oms.mmc.helper.base.ScrollableViewFactory;
  * Activity基类
  */
 public abstract class BaseFastActivity extends CommonOperationDelegateActivity implements LayoutCallback
-        , IWaitViewHandler, IHandlerDispatcher, IStateDispatch, IWaitViewHost {
+        , IWaitViewHandler, IHandlerDispatcher, IWaitViewHost, IInstanceState {
     private ViewFinder mViewFinder;
     private Handler mMainHandler;
-    private CopyOnWriteArrayList<InstanceStateCallback> stateCallbacks = new CopyOnWriteArrayList<InstanceStateCallback>();
     private WaitDialogController mWaitDialogController;
 
     @Override
@@ -233,7 +230,14 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
 
     @Override
     public Handler initHandler() {
-        return new Handler(getMainLooper());
+        Handler handler = null;
+        if (getApplication() instanceof BaseFastApplication) {
+            handler = ((BaseFastApplication) getApplication()).getMainHandler();
+        }
+        if (handler == null) {
+            handler = new Handler(getMainLooper());
+        }
+        return handler;
     }
 
     @Override
@@ -252,35 +256,26 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity i
         mMainHandler.postDelayed(runnable, duration);
     }
 
-    @CallSuper
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        for (InstanceStateCallback callback : stateCallbacks) {
-            callback.onSaveInstanceState(outState);
-        }
+        onSaveState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        for (InstanceStateCallback callback : stateCallbacks) {
-            callback.onRestoreInstanceState(savedInstanceState);
-        }
+        onRestoreState(savedInstanceState);
     }
 
     @Override
-    public void addStateListener(InstanceStateCallback callback) {
-        if (callback != null) {
-            stateCallbacks.add(callback);
-        }
+    public void onSaveState(Bundle stateBundle) {
+        getViewFinder().saveInstance(stateBundle);
     }
 
     @Override
-    public void removeStateListener(InstanceStateCallback callback) {
-        if (callback != null) {
-            stateCallbacks.remove(callback);
-        }
+    public void onRestoreState(Bundle stateBundle) {
+        getViewFinder().restoreInstance(stateBundle);
     }
 
     /**
