@@ -24,6 +24,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ChatTextSenderTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.wait.IOSWaitDialogFactory;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -38,7 +39,7 @@ import oms.mmc.factory.wait.factory.IWaitViewFactory;
  * Email: hezihao@linghit.com
  */
 
-public class ChatListActivity extends BaseFastListActivity {
+public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayout> {
     public static final int TPL_CHAT_DATE = 0;
     public static final int TPL_CHAT_TEXT_SENDER = 1;
     public static final int TPL_CHAT_TEXT_RECEIVER = 2;

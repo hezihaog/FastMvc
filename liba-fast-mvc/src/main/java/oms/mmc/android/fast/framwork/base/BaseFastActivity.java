@@ -95,11 +95,11 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity
     }
 
     @Override
-    public void onLayoutAfter() {
+    public void onFindView(IViewFinder finder) {
     }
 
     @Override
-    public void onFindView(IViewFinder finder) {
+    public void onLayoutAfter() {
     }
 
     public final <E extends View> E findView(int id) {

@@ -15,7 +15,6 @@ import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -30,11 +29,11 @@ import oms.mmc.helper.ListScrollHelper;
  * Email: hezihao@linghit.com
  */
 
-public class ListAbleDelegateHelper {
+public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     /**
      * 下拉刷新控件
      */
-    protected IPullRefreshWrapper<? extends IPullRefreshLayout> mRefreshWrapper;
+    protected IPullRefreshWrapper<P> mRefreshWrapper;
     /**
      * 列表
      */
@@ -74,13 +73,13 @@ public class ListAbleDelegateHelper {
     /**
      * 下拉刷新界面
      */
-    private IPullRefreshUi mPullRefreshUi;
+    private IPullRefreshUi<P> mPullRefreshUi;
     /**
      * 滚动监听帮助类
      */
     private ListScrollHelper mScrollHelper;
 
-    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble, IPullRefreshUi pullRefreshUi) {
+    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble, IPullRefreshUi<P> pullRefreshUi) {
         this.mListAble = listAble;
         this.mPullRefreshUi = pullRefreshUi;
     }
@@ -97,8 +96,8 @@ public class ListAbleDelegateHelper {
      */
     private void setup(View rootLayout) {
         //初始化下拉刷新控件，并且回调获取包裹类
-        IPullRefreshLayout pullToRefreshLayout = (SwipeRefreshPullLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
-        mRefreshWrapper = mPullRefreshUi.onInitPullRefreshWrapper(pullToRefreshLayout);
+        IPullRefreshLayout pullToRefreshLayout = (IPullRefreshLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
+        mRefreshWrapper = mPullRefreshUi.onInitPullRefreshWrapper((P) pullToRefreshLayout);
         mPullRefreshUi.onPullRefreshWrapperReady(mRefreshWrapper, mRefreshWrapper.getPullRefreshAbleView());
         //初始化列表控件
         mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.fast_recycler_view);

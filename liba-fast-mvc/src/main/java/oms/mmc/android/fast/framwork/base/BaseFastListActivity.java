@@ -16,8 +16,8 @@ import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
-import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -27,16 +27,16 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public abstract class BaseFastListActivity extends BaseFastActivity
+public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends BaseFastActivity
         implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>
         , OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener,
-        BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi {
-    private ListAbleDelegateHelper mDelegateHelper;
+        BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi<P> {
+    private ListAbleDelegateHelper<P> mDelegateHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper(this, this);
+        mDelegateHelper = new ListAbleDelegateHelper<P>(this, this);
         mDelegateHelper.startDelegate(getWindow().getDecorView());
         //初始化监听
         mDelegateHelper.getListAdapter().addOnItemClickListener(this);
@@ -75,12 +75,12 @@ public abstract class BaseFastListActivity extends BaseFastActivity
     }
 
     @Override
-    public IPullRefreshWrapper<?> onInitPullRefreshWrapper(IPullRefreshLayout pullToRefreshLayout) {
-        return new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
+    public IPullRefreshWrapper<P> onInitPullRefreshWrapper(P pullRefreshAbleView) {
+        return (IPullRefreshWrapper<P>) new SwipePullRefreshWrapper((SwipePullRefreshLayout) pullRefreshAbleView);
     }
 
     @Override
-    public void onPullRefreshWrapperReady(IPullRefreshWrapper<? extends IPullRefreshLayout> refreshWrapper, IPullRefreshLayout pullRefreshAbleView) {
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<P> refreshWrapper, P pullRefreshAbleView) {
     }
 
     @Override

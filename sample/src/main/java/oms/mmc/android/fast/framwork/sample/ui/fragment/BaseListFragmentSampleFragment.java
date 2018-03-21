@@ -12,6 +12,7 @@ import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -25,7 +26,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class BaseListFragmentSampleFragment extends BaseFastListFragment {
+public class BaseListFragmentSampleFragment extends BaseFastListFragment<SwipePullRefreshLayout> {
     public static final int TPL_TEXT = 1;
 
     @Override

@@ -11,26 +11,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
  * Email: hezihao@linghit.com
  */
 
-public class SwipeRefreshPullWrapper extends AbsPullRefreshWrapper<SwipeRefreshPullLayout> {
-    public SwipeRefreshPullWrapper(SwipeRefreshPullLayout refreshLayout) {
+public class SwipePullRefreshWrapper extends AbsPullRefreshWrapper<SwipePullRefreshLayout> {
+    public SwipePullRefreshWrapper(SwipePullRefreshLayout refreshLayout) {
         super(refreshLayout);
     }
 
     @Override
     public void startRefresh() {
+        getPullRefreshAbleView().startRefresh();
         if (getRefreshListener() != null) {
             getRefreshListener().onRefresh();
         }
-    }
-
-    @Override
-    public void startRefreshAnimation() {
-        this.setRefreshed(true);
-    }
-
-    @Override
-    public void stopRefreshAnimation() {
-        this.setRefreshed(false);
     }
 
     @Override
@@ -38,7 +29,7 @@ public class SwipeRefreshPullWrapper extends AbsPullRefreshWrapper<SwipeRefreshP
         post(new Runnable() {
             @Override
             public void run() {
-                startRefreshAnimation();
+                getPullRefreshAbleView().startRefreshWithAnimation();
                 if (getRefreshListener() != null) {
                     getRefreshListener().onRefresh();
                 }
@@ -47,14 +38,14 @@ public class SwipeRefreshPullWrapper extends AbsPullRefreshWrapper<SwipeRefreshP
     }
 
     @Override
-    public void setRefreshComplete() {
-        stopRefreshAnimation();
+    public void completeRefresh() {
+        getPullRefreshAbleView().completeRefresh();
     }
 
     @Override
     public void setOnRefreshListener(final OnRefreshListener listener) {
         bindRefreshListener(listener);
-        SwipeRefreshPullLayout refreshAbleView = getPullRefreshAbleView();
+        SwipePullRefreshLayout refreshAbleView = getPullRefreshAbleView();
         refreshAbleView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -64,7 +55,7 @@ public class SwipeRefreshPullWrapper extends AbsPullRefreshWrapper<SwipeRefreshP
     }
 
     @Override
-    public boolean isRefreshed() {
-        return getPullRefreshAbleView().isRefreshing();
+    public boolean isRefurbishing() {
+        return getPullRefreshAbleView().isRefurbishing();
     }
 }

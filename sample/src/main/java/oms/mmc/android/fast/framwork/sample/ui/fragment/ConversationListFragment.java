@@ -37,6 +37,7 @@ import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -51,7 +52,7 @@ import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutM
  * Email: hezihao@linghit.com
  */
 
-public class ConversationListFragment extends BaseFastListFragment {
+public class ConversationListFragment extends BaseFastListFragment<SwipePullRefreshLayout> {
     //搜索条目
     public static final int TPL_SEARCH = 1;
     //编辑条目

@@ -49,31 +49,6 @@ public interface IPullRefreshWrapper<T extends IPullRefreshLayout> extends IPull
     boolean isNotPullToRefresh();
 
     /**
-     * 开始刷新，没有带动画，同样用于初次进度界面，直接刷新数据
-     */
-    void startRefresh();
-
-    /**
-     * 开启刷新动画，用于手动控制动画显示，不依赖于刷新动画是 {@link #startRefreshWithAnimation} 来调用
-     */
-    void startRefreshAnimation();
-
-    /**
-     * 停止刷新动画，用于手动控制动画结束，不依赖于结束动画是 {@link #setRefreshComplete} 来调用
-     */
-    void stopRefreshAnimation();
-
-    /**
-     * 开始刷新，并带有动画（例如SwipeRefreshLayout有个加载圈转动）
-     */
-    void startRefreshWithAnimation();
-
-    /**
-     * 给外部刷新时调用，停止刷新（例如停止刷新动画等）
-     */
-    void setRefreshComplete();
-
-    /**
      * 设置下拉刷新回调监听
      *
      * @param listener 监听器

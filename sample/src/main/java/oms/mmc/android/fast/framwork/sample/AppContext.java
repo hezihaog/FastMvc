@@ -2,6 +2,8 @@ package oms.mmc.android.fast.framwork.sample;
 
 import android.content.Context;
 
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 import com.squareup.leakcanary.LeakCanary;
 
 import oms.mmc.android.fast.framwork.BaseFastApplication;
@@ -30,6 +32,8 @@ public class AppContext extends BaseFastApplication {
         ManagerFactory.getInstance().init(this);
         CacheManager.getInstance().init(this);
         AppConfigManager.init(this);
+        //设置演示的下拉刷新库的刷新头
+        TwinklingRefreshLayout.setDefaultHeader(SinaRefreshView.class.getName());
     }
 
     @Override

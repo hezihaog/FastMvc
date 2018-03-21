@@ -38,6 +38,7 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile project(':liba-fast-mvc')
+    compile project(':liba_easy_cache')
 
     //直接不加arr默认都下载依赖，不推荐该方法，会默认下载全部的依赖
 
@@ -100,5 +101,6 @@ dependencies {
     //内存泄露监控
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    compile project(':liba_easy_cache')
+    //演示下拉刷新中间层使用的下拉刷新布局
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }

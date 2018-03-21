@@ -26,10 +26,11 @@ import oms.mmc.android.fast.framwork.sample.event.ToggleModeEvent;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListModeSampleTpl;
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
-public class ListActivityModeSampleActivity extends BaseFastListActivity {
+public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePullRefreshLayout> {
     public static final int TPL_ITEM = 1;
 
     private Button mModeBtn;

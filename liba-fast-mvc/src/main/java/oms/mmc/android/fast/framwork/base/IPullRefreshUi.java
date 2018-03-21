@@ -12,13 +12,13 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
  * Email: hezihao@linghit.com
  */
 
-public interface IPullRefreshUi {
+public interface IPullRefreshUi<P extends IPullRefreshLayout> {
     /**
      * 回调界面使用对应的下拉刷新控件来生成对应的包裹类
      *
-     * @param pullToRefreshLayout 布局中使用的下拉刷新控件
+     * @param pullRefreshAbleView 布局中使用的下拉刷新控件
      */
-    IPullRefreshWrapper<?> onInitPullRefreshWrapper(IPullRefreshLayout pullToRefreshLayout);
+    IPullRefreshWrapper<P> onInitPullRefreshWrapper(P pullRefreshAbleView);
 
     /**
      * 下拉刷新包裹类初始化完毕后回调，统一在这里下拉刷新控件进行一些相关设置
@@ -26,5 +26,5 @@ public interface IPullRefreshUi {
      * @param refreshWrapper      下拉刷新包裹类
      * @param pullRefreshAbleView 下拉刷新控件
      */
-    void onPullRefreshWrapperReady(IPullRefreshWrapper<? extends IPullRefreshLayout> refreshWrapper, IPullRefreshLayout pullRefreshAbleView);
+    void onPullRefreshWrapperReady(IPullRefreshWrapper<P> refreshWrapper, P pullRefreshAbleView);
 }

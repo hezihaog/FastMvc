@@ -227,7 +227,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     public void refresh() {
         if (mDataAdapter == null || mDataSource == null) {
             if (mRefreshWrapper != null) {
-                mRefreshWrapper.setRefreshComplete();
+                mRefreshWrapper.completeRefresh();
             }
             return;
         }
@@ -240,7 +240,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             protected void onPreExecute() {
                 if (mDataAdapter.isEmpty()) {
                     mLoadView.showLoading();
-                    mRefreshWrapper.setRefreshComplete();
+                    mRefreshWrapper.completeRefresh();
                 } else {
                     mLoadView.restore();
                 }
@@ -294,7 +294,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 if (getRefreshWrapper().isCanPullToRefresh()) {
                     mRefreshWrapper.setRefreshEnable();
                 }
-                mRefreshWrapper.setRefreshed(false);
+                mRefreshWrapper.completeRefresh();
                 if (isFirstRefresh) {
                     isFirstRefresh = false;
                 }
@@ -321,7 +321,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         }
         if (mDataAdapter == null || mDataSource == null) {
             if (mRefreshWrapper != null) {
-                mRefreshWrapper.setRefreshed(false);
+                mRefreshWrapper.completeRefresh();
             }
             return;
         }
@@ -482,17 +482,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * 开始刷新，同时让SwipeRefreshLayout显示刷新
      */
     public void startRefreshWithRefreshLoading() {
-        mUiHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                getRefreshWrapper().setRefreshed(true);
-                refresh();
-            }
-        });
+        mRefreshWrapper.startRefreshWithAnimation();
     }
 
     public boolean isRefreshing() {
-        return mRefreshWrapper.isRefreshed();
+        return mRefreshWrapper.isRefurbishing();
     }
 
     public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {

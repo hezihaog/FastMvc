@@ -91,11 +91,6 @@ public abstract class AbsPullRefreshWrapper<T extends IPullRefreshLayout> implem
         return getPullRefreshAbleView().isRefreshDisable();
     }
 
-    @Override
-    public void setRefreshed(boolean isRefreshing) {
-        getPullRefreshAbleView().setRefreshed(isRefreshing);
-    }
-
     /**
      * 延时初始化Handler
      */

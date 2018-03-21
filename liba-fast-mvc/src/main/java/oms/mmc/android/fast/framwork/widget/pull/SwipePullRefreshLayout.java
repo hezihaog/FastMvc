@@ -13,15 +13,30 @@ import android.util.AttributeSet;
  * Email: hezihao@linghit.com
  */
 
-public class SwipeRefreshPullLayout extends SwipeRefreshLayout implements IPullRefreshLayout {
+public class SwipePullRefreshLayout extends SwipeRefreshLayout implements IPullRefreshLayout {
     private boolean mRefreshEnabled;
 
-    public SwipeRefreshPullLayout(Context context) {
+    public SwipePullRefreshLayout(Context context) {
         super(context);
     }
 
-    public SwipeRefreshPullLayout(Context context, AttributeSet attrs) {
+    public SwipePullRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @Override
+    public void startRefresh() {
+        //不带动画，无需操作，直接Wrapper类去调用监听器的onRefresh()即可
+    }
+
+    @Override
+    public void startRefreshWithAnimation() {
+        setRefreshing(true);
+    }
+
+    @Override
+    public void completeRefresh() {
+        setRefreshing(false);
     }
 
     @Override
@@ -47,12 +62,7 @@ public class SwipeRefreshPullLayout extends SwipeRefreshLayout implements IPullR
     }
 
     @Override
-    public void setRefreshed(boolean isRefreshing) {
-        setRefreshing(isRefreshing);
-    }
-
-    @Override
-    public boolean isRefreshed() {
+    public boolean isRefurbishing() {
         return isRefreshing();
     }
 }

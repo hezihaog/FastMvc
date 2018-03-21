@@ -17,8 +17,8 @@ import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
-import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -28,11 +28,11 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public abstract class BaseFastListFragment extends BaseFastFragment
+public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends BaseFastFragment
         implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>,
         OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener
-        , BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi {
-    private ListAbleDelegateHelper mDelegateHelper;
+        , BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi<P> {
+    private ListAbleDelegateHelper<P> mDelegateHelper;
 
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
@@ -42,7 +42,7 @@ public abstract class BaseFastListFragment extends BaseFastFragment
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper(this, this);
+        mDelegateHelper = new ListAbleDelegateHelper<P>(this, this);
         mDelegateHelper.startDelegate(rootLayout);
         //初始化监听
         mDelegateHelper.getListAdapter().addOnItemClickListener(this);
@@ -69,20 +69,18 @@ public abstract class BaseFastListFragment extends BaseFastFragment
     /**
      * 返回下拉刷新控件的包裹类，如果使用其他下拉刷新的控件，在这个回调上进行返回对应的包裹类，默认返回SwipeRefreshLayout的包裹类
      *
-     * @param pullToRefreshLayout 布局中使用的下拉刷新控件
+     * @param pullRefreshAbleView 布局中使用的下拉刷新控件
      */
     @Override
-    public IPullRefreshWrapper<?> onInitPullRefreshWrapper(IPullRefreshLayout pullToRefreshLayout) {
-        return new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
+    public IPullRefreshWrapper<P> onInitPullRefreshWrapper(P pullRefreshAbleView) {
+        return (IPullRefreshWrapper<P>) new SwipePullRefreshWrapper((SwipePullRefreshLayout) pullRefreshAbleView);
     }
 
     /**
      * 下拉刷新控件初始化完毕时回调，统一在这个回调中对下拉刷新控件进行相关设置
-     * @param refreshWrapper
-     * @param pullRefreshAbleView
      */
     @Override
-    public void onPullRefreshWrapperReady(IPullRefreshWrapper<? extends IPullRefreshLayout> refreshWrapper, IPullRefreshLayout pullRefreshAbleView) {
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<P> refreshWrapper, P pullRefreshAbleView) {
     }
 
     @Override

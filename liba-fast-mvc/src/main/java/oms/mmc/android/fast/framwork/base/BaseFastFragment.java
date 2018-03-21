@@ -67,6 +67,10 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     }
 
     @Override
+    public void onFindView(IViewFinder finder) {
+    }
+
+    @Override
     public void onLayoutAfter() {
     }
 

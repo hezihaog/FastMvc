@@ -20,6 +20,7 @@ import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListImageSampleTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -28,7 +29,7 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public class ListActivitySampleActivity extends BaseFastListActivity {
+public class ListActivitySampleActivity extends BaseFastListActivity<SwipePullRefreshLayout> {
     public static final String BUNDLE_KEY_HAS_STICKY = "key_has_sticky";
 
     public static final int TPL_TEXT = 1;

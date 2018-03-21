@@ -15,7 +15,7 @@ import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.base.IFastUIDelegate;
 import oms.mmc.android.fast.framwork.base.IFastUIInterface;
 import oms.mmc.android.fast.framwork.base.IStatusBarHost;
-import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.factory.wait.WaitDialogController;
 import oms.mmc.factory.wait.inter.IWaitViewController;
 import oms.mmc.helper.base.ScrollableViewFactory;
@@ -42,7 +42,7 @@ public class FastUIDelegate implements IFastUIDelegate {
             View view = null;
             //为了兼容旧版框架中没有封装下拉刷新而做的批量替换掉原生的下拉刷新控件为我们封装的对应的刷新控件
             if ("android.support.v4.widget.SwipeRefreshLayout".equals(name)) {
-                view = new SwipeRefreshPullLayout(activity, attrs);
+                view = new SwipePullRefreshLayout(activity, attrs);
             }
             if (view == null) {
                 return super.onReplace(activity, parent, name, context, attrs);
