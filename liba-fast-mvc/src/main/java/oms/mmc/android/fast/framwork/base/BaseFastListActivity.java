@@ -75,8 +75,12 @@ public abstract class BaseFastListActivity extends BaseFastActivity
     }
 
     @Override
-    public IPullRefreshWrapper<?> onPullRefreshWrapperReady(IPullRefreshLayout pullToRefreshLayout) {
+    public IPullRefreshWrapper<?> onInitPullRefreshWrapper(IPullRefreshLayout pullToRefreshLayout) {
         return new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
+    }
+
+    @Override
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<? extends IPullRefreshLayout> refreshWrapper, IPullRefreshLayout pullRefreshAbleView) {
     }
 
     @Override
@@ -128,7 +132,7 @@ public abstract class BaseFastListActivity extends BaseFastActivity
     }
 
     public IPullRefreshWrapper<?> getRefreshLayout() {
-        return mDelegateHelper.getRefreshLayout();
+        return mDelegateHelper.getRefreshWrapper();
     }
 
     public RecyclerView getRecyclerView() {

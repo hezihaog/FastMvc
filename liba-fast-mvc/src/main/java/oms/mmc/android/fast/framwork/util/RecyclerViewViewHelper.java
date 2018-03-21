@@ -22,6 +22,7 @@ import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.InstanceStateCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -33,7 +34,7 @@ import oms.mmc.helper.adapter.SimpleListScrollAdapter;
  */
 public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> mDataAdapter;
-    private IPullRefreshWrapper<?> mRefreshLayout;
+    private IPullRefreshWrapper<?> mRefreshWrapper;
     private IDataSource<Model> mDataSource;
     private RecyclerView mRecyclerView;
     private Context mContext;
@@ -72,15 +73,14 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     //内存重启状态回调
     private final InstanceStateCallback mStateCallback;
 
-    public RecyclerViewViewHelper(final IPullRefreshWrapper<?> refreshLayout, final RecyclerView recyclerView) {
-        this.mContext = refreshLayout.getPullRefreshAbleView().getContext().getApplicationContext();
+    public RecyclerViewViewHelper(final IPullRefreshWrapper<?> refreshWrapper, final RecyclerView recyclerView) {
+        this.mContext = refreshWrapper.getPullRefreshAbleView().getContext().getApplicationContext();
         this.mUiHandler = new Handler(Looper.getMainLooper());
-        this.mRefreshLayout = refreshLayout;
+        this.mRefreshWrapper = refreshWrapper;
         this.mRecyclerView = recyclerView;
-        this.mRefreshLayout.setRefreshDisable();
-        ;
+        this.mRefreshWrapper.setRefreshDisable();
         this.mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        this.mRefreshLayout.setOnRefreshListener(new IPullRefreshWrapper.OnRefreshListener() {
+        this.mRefreshWrapper.setOnRefreshListener(new IPullRefreshWrapper.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refresh();
@@ -157,10 +157,10 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
             @Override
             public void onScrollTop() {
-                if (getRefreshLayout().isCanPullToRefresh() &&
-                        getRefreshLayout().getPullRefreshAbleView().isRefreshEnable()) {
+                if (getRefreshWrapper().isCanPullToRefresh() &&
+                        getRefreshWrapper().getPullRefreshAbleView().isRefreshEnable()) {
                     //已经滚动到了顶部，可以下拉刷新
-                    mRefreshLayout.setRefreshEnable();
+                    mRefreshWrapper.setRefreshEnable();
                     //如果是反转的布局（例如是QQ聊天页面），则刷新下一页
                     if (isReverse) {
                         startRefreshWithRefreshLoading();
@@ -216,7 +216,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     public void init(ILoadViewFactory loadViewFactory, ILoadMoreViewFactory loadMoreViewFactory) {
         this.mLoadView = loadViewFactory.madeLoadView();
         this.mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
-        this.mLoadView.init((View) getRefreshLayout().getPullRefreshAbleView(), onClickRefreshListener);
+        this.mLoadView.init((View) getRefreshWrapper().getPullRefreshAbleView(), onClickRefreshListener);
         this.mLoadMoreView.init(getRecyclerView(), onClickRefreshListener, enableLoadMoreFooter);
     }
 
@@ -226,8 +226,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     @Override
     public void refresh() {
         if (mDataAdapter == null || mDataSource == null) {
-            if (mRefreshLayout != null) {
-                mRefreshLayout.setRefreshComplete();
+            if (mRefreshWrapper != null) {
+                mRefreshWrapper.setRefreshComplete();
             }
             return;
         }
@@ -240,7 +240,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             protected void onPreExecute() {
                 if (mDataAdapter.isEmpty()) {
                     mLoadView.showLoading();
-                    mRefreshLayout.setRefreshComplete();
+                    mRefreshWrapper.setRefreshComplete();
                 } else {
                     mLoadView.restore();
                 }
@@ -291,10 +291,10 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     mOnStateChangeListener.onEndRefresh(mDataAdapter, result, isFirstRefresh, isReverse);
                 }
                 //刷新结束
-                if (getRefreshLayout().isCanPullToRefresh()) {
-                    mRefreshLayout.setRefreshEnable();
+                if (getRefreshWrapper().isCanPullToRefresh()) {
+                    mRefreshWrapper.setRefreshEnable();
                 }
-                mRefreshLayout.setRefreshed(false);
+                mRefreshWrapper.setRefreshed(false);
                 if (isFirstRefresh) {
                     isFirstRefresh = false;
                 }
@@ -320,8 +320,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             return;
         }
         if (mDataAdapter == null || mDataSource == null) {
-            if (mRefreshLayout != null) {
-                mRefreshLayout.setRefreshed(false);
+            if (mRefreshWrapper != null) {
+                mRefreshWrapper.setRefreshed(false);
             }
             return;
         }
@@ -470,8 +470,12 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         this.mDataSource = dataSource;
     }
 
-    public IPullRefreshWrapper<?> getRefreshLayout() {
-        return mRefreshLayout;
+    public IPullRefreshWrapper<?> getRefreshWrapper() {
+        return mRefreshWrapper;
+    }
+
+    public IPullRefreshLayout getRefreshLayout() {
+        return mRefreshWrapper.getPullRefreshAbleView();
     }
 
     /**
@@ -481,14 +485,14 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
-                getRefreshLayout().setRefreshed(true);
+                getRefreshWrapper().setRefreshed(true);
                 refresh();
             }
         });
     }
 
     public boolean isRefreshing() {
-        return mRefreshLayout.isRefreshed();
+        return mRefreshWrapper.isRefreshed();
     }
 
     public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
@@ -520,9 +524,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      */
     public void setCanPullToRefresh(boolean canPullToRefresh) {
         if (canPullToRefresh) {
-            getRefreshLayout().setCanPullToRefresh();
+            getRefreshWrapper().setCanPullToRefresh();
         } else {
-            getRefreshLayout().setNotPullToRefresh();
+            getRefreshWrapper().setNotPullToRefresh();
         }
     }
 
@@ -530,7 +534,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * 是否可以下拉刷新
      */
     public boolean isCanPullToRefresh() {
-        return getRefreshLayout().isCanPullToRefresh();
+        return getRefreshWrapper().isCanPullToRefresh();
     }
 
     /**

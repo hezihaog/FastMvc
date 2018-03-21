@@ -72,8 +72,17 @@ public abstract class BaseFastListFragment extends BaseFastFragment
      * @param pullToRefreshLayout 布局中使用的下拉刷新控件
      */
     @Override
-    public IPullRefreshWrapper<?> onPullRefreshWrapperReady(IPullRefreshLayout pullToRefreshLayout) {
+    public IPullRefreshWrapper<?> onInitPullRefreshWrapper(IPullRefreshLayout pullToRefreshLayout) {
         return new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
+    }
+
+    /**
+     * 下拉刷新控件初始化完毕时回调，统一在这个回调中对下拉刷新控件进行相关设置
+     * @param refreshWrapper
+     * @param pullRefreshAbleView
+     */
+    @Override
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<? extends IPullRefreshLayout> refreshWrapper, IPullRefreshLayout pullRefreshAbleView) {
     }
 
     @Override
@@ -142,7 +151,7 @@ public abstract class BaseFastListFragment extends BaseFastFragment
     }
 
     public IPullRefreshWrapper<?> getRefreshLayout() {
-        return mDelegateHelper.getRefreshLayout();
+        return mDelegateHelper.getRefreshWrapper();
     }
 
     public RecyclerView getRecyclerView() {

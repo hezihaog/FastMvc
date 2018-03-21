@@ -18,5 +18,13 @@ public interface IPullRefreshUi {
      *
      * @param pullToRefreshLayout 布局中使用的下拉刷新控件
      */
-    IPullRefreshWrapper<?> onPullRefreshWrapperReady(IPullRefreshLayout pullToRefreshLayout);
+    IPullRefreshWrapper<?> onInitPullRefreshWrapper(IPullRefreshLayout pullToRefreshLayout);
+
+    /**
+     * 下拉刷新包裹类初始化完毕后回调，统一在这里下拉刷新控件进行一些相关设置
+     *
+     * @param refreshWrapper      下拉刷新包裹类
+     * @param pullRefreshAbleView 下拉刷新控件
+     */
+    void onPullRefreshWrapperReady(IPullRefreshWrapper<? extends IPullRefreshLayout> refreshWrapper, IPullRefreshLayout pullRefreshAbleView);
 }

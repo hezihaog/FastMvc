@@ -16,7 +16,6 @@ import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
-import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -35,7 +34,7 @@ public class ListAbleDelegateHelper {
     /**
      * 下拉刷新控件
      */
-    protected IPullRefreshWrapper<? extends IPullRefreshLayout> mRefreshLayout;
+    protected IPullRefreshWrapper<? extends IPullRefreshLayout> mRefreshWrapper;
     /**
      * 列表
      */
@@ -97,16 +96,16 @@ public class ListAbleDelegateHelper {
      * 开始设置
      */
     private void setup(View rootLayout) {
-        //初始化布局控件
+        //初始化下拉刷新控件，并且回调获取包裹类
         IPullRefreshLayout pullToRefreshLayout = (SwipeRefreshPullLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
-        mPullRefreshUi.onPullRefreshWrapperReady(pullToRefreshLayout);
-        mRefreshLayout = new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
+        mRefreshWrapper = mPullRefreshUi.onInitPullRefreshWrapper(pullToRefreshLayout);
+        mPullRefreshUi.onPullRefreshWrapperReady(mRefreshWrapper, mRefreshWrapper.getPullRefreshAbleView());
         //初始化列表控件
         mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.fast_recycler_view);
         mRecyclerView.setLayoutManager(mListAble.onGetListLayoutManager());
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {
-            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshLayout, mRecyclerView);
+            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshWrapper, mRecyclerView);
         }
         //初始化数据源
         if (mListDataSource == null) {
@@ -133,8 +132,12 @@ public class ListAbleDelegateHelper {
         mListAble.onListReady();
     }
 
-    public IPullRefreshWrapper<?> getRefreshLayout() {
-        return mRefreshLayout;
+    public IPullRefreshWrapper<?> getRefreshWrapper() {
+        return mRefreshWrapper;
+    }
+
+    public IPullRefreshLayout getRefreshLayout() {
+        return mRefreshWrapper.getPullRefreshAbleView();
     }
 
     public RecyclerView getRecyclerView() {
