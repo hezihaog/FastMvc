@@ -81,6 +81,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity
         mUIDelegate.showStatusBar();
     }
 
+
     /**
      * 返回等待弹窗样式工厂
      */

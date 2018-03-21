@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.base.IPullRefreshUi;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
@@ -72,12 +73,17 @@ public class ListAbleDelegateHelper {
      */
     private ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> mListAble;
     /**
+     * 下拉刷新界面
+     */
+    private IPullRefreshUi mPullRefreshUi;
+    /**
      * 滚动监听帮助类
      */
     private ListScrollHelper mScrollHelper;
 
-    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble) {
-        mListAble = listAble;
+    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder> listAble, IPullRefreshUi pullRefreshUi) {
+        this.mListAble = listAble;
+        this.mPullRefreshUi = pullRefreshUi;
     }
 
     /**
@@ -93,6 +99,7 @@ public class ListAbleDelegateHelper {
     private void setup(View rootLayout) {
         //初始化布局控件
         IPullRefreshLayout pullToRefreshLayout = (SwipeRefreshPullLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
+        mPullRefreshUi.onPullRefreshWrapperReady(pullToRefreshLayout);
         mRefreshLayout = new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
         //初始化列表控件
         mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.fast_recycler_view);
@@ -120,6 +127,10 @@ public class ListAbleDelegateHelper {
         //初始化列表加载更多视图工厂
         mLoadMoreViewFactory = mListAble.onLoadMoreViewFactoryReady();
         mRecyclerViewHelper.init(mLoadViewFactory, mLoadMoreViewFactory);
+    }
+
+    public void notifyListReady() {
+        mListAble.onListReady();
     }
 
     public IPullRefreshWrapper<?> getRefreshLayout() {

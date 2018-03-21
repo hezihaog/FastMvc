@@ -14,7 +14,10 @@ import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -24,13 +27,16 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public abstract class BaseFastListActivity extends BaseFastActivity implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
+public abstract class BaseFastListActivity extends BaseFastActivity
+        implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>
+        , OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener,
+        BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi {
     private ListAbleDelegateHelper mDelegateHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper(this);
+        mDelegateHelper = new ListAbleDelegateHelper(this, this);
         mDelegateHelper.startDelegate(getWindow().getDecorView());
         //初始化监听
         mDelegateHelper.getListAdapter().addOnItemClickListener(this);
@@ -66,6 +72,11 @@ public abstract class BaseFastListActivity extends BaseFastActivity implements L
     public ListScrollHelper onGetScrollHelper() {
         //默认都是rv，这里默认使用rv的，如果是使用其他的，复写该方法，返回对应的包裹类和控件
         return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
+    }
+
+    @Override
+    public IPullRefreshWrapper<?> onPullRefreshWrapperReady(IPullRefreshLayout pullToRefreshLayout) {
+        return new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
     }
 
     @Override

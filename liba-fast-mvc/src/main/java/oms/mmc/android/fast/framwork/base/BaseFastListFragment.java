@@ -15,7 +15,10 @@ import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -25,7 +28,10 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public abstract class BaseFastListFragment extends BaseFastFragment implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>, OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener, BaseListAdapter.OnRecyclerViewItemLongClickListener {
+public abstract class BaseFastListFragment extends BaseFastFragment
+        implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>,
+        OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener
+        , BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi {
     private ListAbleDelegateHelper mDelegateHelper;
 
     @Override
@@ -36,13 +42,13 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper(this);
+        mDelegateHelper = new ListAbleDelegateHelper(this, this);
         mDelegateHelper.startDelegate(rootLayout);
         //初始化监听
         mDelegateHelper.getListAdapter().addOnItemClickListener(this);
         mDelegateHelper.getListAdapter().addOnItemLongClickListener(this);
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
-        onListReady();
+        mDelegateHelper.notifyListReady();
         return rootLayout;
     }
 
@@ -58,6 +64,16 @@ public abstract class BaseFastListFragment extends BaseFastFragment implements L
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onLazyViewCreated(view, savedInstanceState);
         mDelegateHelper.setupScrollHelper();
+    }
+
+    /**
+     * 返回下拉刷新控件的包裹类，如果使用其他下拉刷新的控件，在这个回调上进行返回对应的包裹类，默认返回SwipeRefreshLayout的包裹类
+     *
+     * @param pullToRefreshLayout 布局中使用的下拉刷新控件
+     */
+    @Override
+    public IPullRefreshWrapper<?> onPullRefreshWrapperReady(IPullRefreshLayout pullToRefreshLayout) {
+        return new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
     }
 
     @Override

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
@@ -23,27 +23,27 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 public class ConversationSearchTpl extends BaseTpl<BaseItemData> {
     private static final String KEY_EDIT = "key_edit_text_content";
 
-    private EditText mSearchEdit;
+    private TextView mSearchTv;
 
     @Override
     public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
-        mSearchEdit = finder.get(R.id.searchEdit);
+        mSearchTv = finder.get(R.id.searchTv);
     }
 
     @Override
     public void onSaveState(Bundle stateBundle) {
         super.onSaveState(stateBundle);
-        mSearchEdit = getViewFinder().get(R.id.searchEdit);
-        stateBundle.putString(KEY_EDIT, String.valueOf(getViewText(mSearchEdit)));
+        mSearchTv = getViewFinder().get(R.id.searchTv);
+        stateBundle.putString(KEY_EDIT, String.valueOf(getViewText(mSearchTv)));
     }
 
     @Override
     public void onRestoreState(Bundle stateBundle) {
         super.onRestoreState(stateBundle);
-        mSearchEdit = getViewFinder().get(R.id.searchEdit);
+        mSearchTv = getViewFinder().get(R.id.searchTv);
         String content = stateBundle.getString(KEY_EDIT);
-        setViewText(content, mSearchEdit);
+        setViewText(content, mSearchTv);
     }
 
     @Override
