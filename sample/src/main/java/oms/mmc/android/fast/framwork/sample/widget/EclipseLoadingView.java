@@ -247,7 +247,9 @@ public class EclipseLoadingView extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        animatorSet.cancel();
+        if (animatorSet != null) {
+            animatorSet.cancel();
+        }
     }
 
     @Override
