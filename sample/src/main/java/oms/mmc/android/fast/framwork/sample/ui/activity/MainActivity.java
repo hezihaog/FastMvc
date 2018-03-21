@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.adapter.SimpleFragmentPagerAdapter;
-import oms.mmc.android.fast.framwork.base.BaseFastActivity;
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.lazy.PagerVisibleFragment;
+import oms.mmc.android.fast.framwork.sample.AppCompatSupportFastActivity;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ContactListFragment;
 import oms.mmc.android.fast.framwork.sample.ui.fragment.ConversationListFragment;
@@ -33,7 +33,7 @@ import oms.mmc.android.fast.framwork.util.IViewFinder;
  * Email: hezihao@linghit.com
  */
 
-public class MainActivity extends BaseFastActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatSupportFastActivity implements View.OnClickListener {
     private Toolbar toolBar;
     private ViewPager viewPager;
     private TabLayout tabLayout;

@@ -35,7 +35,12 @@ public class FastUIDelegate implements IFastUIDelegate {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ScrollableViewFactory.create(getActivity(), new AppCompatScrollableReplaceAdapter()).install();
+        if (mUiIml != null) {
+            //只在Activity时安装，Fragment无需调用
+            if (mUiIml instanceof Activity) {
+                ScrollableViewFactory.create(getActivity(), new AppCompatScrollableReplaceAdapter()).install();
+            }
+        }
     }
 
     @Override
