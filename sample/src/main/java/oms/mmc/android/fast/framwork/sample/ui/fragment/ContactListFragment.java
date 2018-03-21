@@ -148,6 +148,6 @@ public class ContactListFragment extends BaseFastListFragment {
     @Override
     public void onListReady() {
         super.onListReady();
-        getRecyclerViewHelper().setEnablePullToRefresh(false);
+        getRecyclerViewHelper().setCanPullToRefresh(false);
     }
 }

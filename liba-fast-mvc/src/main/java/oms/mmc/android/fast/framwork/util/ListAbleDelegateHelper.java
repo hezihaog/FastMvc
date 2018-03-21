@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.util;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,10 @@ import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipeRefreshPullWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -31,7 +34,7 @@ public class ListAbleDelegateHelper {
     /**
      * 下拉刷新控件
      */
-    protected SwipeRefreshLayout mRefreshLayout;
+    protected IPullRefreshWrapper<? extends IPullRefreshLayout> mRefreshLayout;
     /**
      * 列表
      */
@@ -89,7 +92,8 @@ public class ListAbleDelegateHelper {
      */
     private void setup(View rootLayout) {
         //初始化布局控件
-        mRefreshLayout = (SwipeRefreshLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
+        IPullRefreshLayout pullToRefreshLayout = (SwipeRefreshPullLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
+        mRefreshLayout = new SwipeRefreshPullWrapper((SwipeRefreshPullLayout) pullToRefreshLayout);
         //初始化列表控件
         mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.fast_recycler_view);
         mRecyclerView.setLayoutManager(mListAble.onGetListLayoutManager());
@@ -118,7 +122,7 @@ public class ListAbleDelegateHelper {
         mRecyclerViewHelper.init(mLoadViewFactory, mLoadMoreViewFactory);
     }
 
-    public SwipeRefreshLayout getRefreshLayout() {
+    public IPullRefreshWrapper<?> getRefreshLayout() {
         return mRefreshLayout;
     }
 
