@@ -90,6 +90,7 @@ public class EclipseLoadingView extends View {
      */
     private float eclipseSweepAngle;
     private AnimatorSet animatorSet;
+    private AnimatorListenerAdapter mListenerAdapter;
 
     public EclipseLoadingView(Context context) {
         this(context, null);
@@ -225,12 +226,13 @@ public class EclipseLoadingView extends View {
 
         animatorSet = new AnimatorSet();
         animatorSet.playSequentially(animator1, animator2, animator3, animator4);
-        animatorSet.addListener(new AnimatorListenerAdapter() {
+        mListenerAdapter = new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 animatorSet.start();
             }
-        });
+        };
+        animatorSet.addListener(mListenerAdapter);
         animatorSet.start();
     }
 
@@ -247,6 +249,9 @@ public class EclipseLoadingView extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        if (mListenerAdapter != null) {
+            animatorSet.removeListener(mListenerAdapter);
+        }
         if (animatorSet != null) {
             animatorSet.cancel();
         }
