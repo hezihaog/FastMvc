@@ -12,6 +12,7 @@ import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleAc
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySingleCheckSampleActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.ListStickyActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.LoadViewFactorySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SampleChooseActivity;
@@ -64,7 +65,7 @@ public class MMCUIHelper {
      * 带粘性的列表
      */
     public static void showListActivitySampleWithSticky(Activity activity) {
-        Intent intent = new Intent(activity, ListActivitySampleActivity.class);
+        Intent intent = new Intent(activity, ListStickyActivitySampleActivity.class);
         intent.putExtra(ListActivitySampleActivity.BUNDLE_KEY_HAS_STICKY, true);
         activity.startActivity(intent);
     }
