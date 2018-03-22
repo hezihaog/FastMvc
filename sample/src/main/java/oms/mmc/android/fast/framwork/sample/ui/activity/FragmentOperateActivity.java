@@ -2,6 +2,7 @@ package oms.mmc.android.fast.framwork.sample.ui.activity;
 
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,14 @@ import oms.mmc.android.fast.framwork.util.IViewFinder;
  */
 
 public class FragmentOperateActivity extends BaseFastActivity implements RadioGroup.OnCheckedChangeListener {
+    private RadioButton mMainRadioButton;
+    private RadioGroup mMainActionRadioGroup;
+
     private Fragment mMainFragment;
     private Fragment mStoreFragment;
     private Fragment mShoppingCarFragment;
     private Fragment mMyInfoFragment;
-    private RadioButton mMainRadioButton;
-    private RadioGroup mMainActionRadioGroup;
+    private Toolbar mToolbar;
 
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
@@ -41,6 +44,7 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
     @Override
     public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
+        mToolbar = finder.get(R.id.toolBar);
         mMainActionRadioGroup = finder.get(R.id.actionRadioGroup);
         mMainActionRadioGroup.setOnCheckedChangeListener(this);
         mMainRadioButton = finder.get(R.id.mainRadioButton);
@@ -49,6 +53,8 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
     @Override
     public void onLayoutAfter() {
         super.onLayoutAfter();
+        mToolbar.setTitle(R.string.app_name);
+        mToolbar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
         mMainRadioButton.setChecked(true);
     }
 

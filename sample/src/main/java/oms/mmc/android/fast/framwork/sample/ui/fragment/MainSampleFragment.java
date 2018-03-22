@@ -42,8 +42,12 @@ public class MainSampleFragment extends BaseFastListFragment<TwinklingPullRefres
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
             protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
+                if (isRefresh) {
+                    Thread.sleep(500);
+                } else {
+                    Thread.sleep(1500);
+                }
                 ArrayList<BaseItemData> models = new ArrayList<>();
-                Thread.sleep(1500);
                 for (int i = 0; i < 15; i++) {
                     models.add(new ItemDataWrapper(TPL_SAMPLE_TEXT, "TwinklingPullRefreshLayout item ::: " + i));
                 }

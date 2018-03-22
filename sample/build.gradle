@@ -108,4 +108,6 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'//没有使用特殊Header，可以不加这行
     //演示下拉刷新中间层使用的下拉刷新布局Ultra-Pull-To-Refresh
     compile 'in.srain.cube:ultra-ptr:1.0.11'
+    //演示下拉刷新中间层使用的下拉刷新布局BGARefreshLayout
+    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.8@aar'
 }

@@ -52,7 +52,11 @@ public class StoreSampleFragment extends BaseFastListFragment<SmartPullRefreshLa
         return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
             protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
-                Thread.sleep(1500);
+                if (isRefresh) {
+                    Thread.sleep(500);
+                } else {
+                    Thread.sleep(1500);
+                }
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 for (int i = 0; i < 15; i++) {
                     models.add(new ItemDataWrapper(TPL_TEXT, "SmartPullRefreshLayout item ::: " + i));
