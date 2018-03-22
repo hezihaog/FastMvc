@@ -101,9 +101,11 @@ dependencies {
     //内存泄露监控
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    //演示下拉刷新中间层使用的下拉刷新布局
+    //演示下拉刷新中间层使用的下拉刷新布局TwinklingRefreshLayout
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
-    //演示下拉刷新中间层使用的下拉刷新布局
+    //演示下拉刷新中间层使用的下拉刷新布局SmartRefreshLayout
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'//没有使用特殊Header，可以不加这行
+    //演示下拉刷新中间层使用的下拉刷新布局Ultra-Pull-To-Refresh
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
 }

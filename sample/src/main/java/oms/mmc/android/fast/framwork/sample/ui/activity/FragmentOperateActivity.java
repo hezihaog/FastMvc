@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.ui.activity;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
     private Fragment mShoppingCarFragment;
     private Fragment mMyInfoFragment;
     private RadioButton mMainRadioButton;
+    private RadioGroup mMainActionRadioGroup;
 
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
@@ -39,8 +41,8 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
     @Override
     public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
-        RadioGroup mainActionRadioGroup = finder.get(R.id.actionRadioGroup);
-        mainActionRadioGroup.setOnCheckedChangeListener(this);
+        mMainActionRadioGroup = finder.get(R.id.actionRadioGroup);
+        mMainActionRadioGroup.setOnCheckedChangeListener(this);
         mMainRadioButton = finder.get(R.id.mainRadioButton);
     }
 
@@ -53,6 +55,18 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group.getId() == R.id.actionRadioGroup) {
+            //切换按钮颜色
+            int childCount = mMainActionRadioGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                RadioButton button = (RadioButton) mMainActionRadioGroup.getChildAt(i);
+                if (button.getId() == checkedId) {
+                    button.setTextColor(Color.parseColor("#FFFFFF"));
+                    button.setBackgroundColor(Color.parseColor("#909090"));
+                } else {
+                    button.setTextColor(Color.parseColor("#909090"));
+                    button.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                }
+            }
             //显示之前，先隐藏其他的Fragment
             hideAllFragments();
             switch (checkedId) {

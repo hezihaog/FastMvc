@@ -8,10 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- 自定义头部 -->
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!-- 可以自定义头部 -->
+        <!--<com.scwang.smartrefresh.layout.header.ClassicsHeader-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <oms.mmc.helper.widget.ScrollableRecyclerView
             android:id="@id/fast_recycler_view"

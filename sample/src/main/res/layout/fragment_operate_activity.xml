@@ -10,11 +10,15 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#909090" />
+
     <RadioGroup
         android:id="@+id/actionRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#909090"
         android:orientation="horizontal">
 
         <RadioButton
@@ -24,7 +28,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="首页" />
+            android:text="首页"
+            android:textColor="#202020" />
 
         <RadioButton
             android:id="@+id/storeRadioButton"
@@ -33,7 +38,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="商城" />
+            android:text="商城"
+            android:textColor="#202020" />
 
         <RadioButton
             android:id="@+id/shoppingCartRadioButton"
@@ -42,7 +48,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="购物车" />
+            android:text="购物车"
+            android:textColor="#202020" />
 
         <RadioButton
             android:id="@+id/myInfoRadioButton"
@@ -51,6 +58,7 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="我的信息" />
+            android:text="我的信息"
+            android:textColor="#202020" />
     </RadioGroup>
 </LinearLayout>
