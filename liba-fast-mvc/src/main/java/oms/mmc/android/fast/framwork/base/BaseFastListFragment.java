@@ -22,6 +22,7 @@ import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
@@ -81,6 +82,11 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
      */
     @Override
     public void onPullRefreshWrapperReady(IPullRefreshWrapper<P> refreshWrapper, P pullRefreshAbleView) {
+    }
+
+    @Override
+    public RecyclerView.LayoutManager onGetListLayoutManager() {
+        return new StickyHeadersLinearLayoutManager(getContext());
     }
 
     @Override

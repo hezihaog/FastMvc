@@ -17,32 +17,6 @@ public class SwipePullRefreshWrapper extends AbsPullRefreshWrapper<SwipePullRefr
     }
 
     @Override
-    public void startRefresh() {
-        getPullRefreshAbleView().startRefresh();
-        if (getRefreshListener() != null) {
-            getRefreshListener().onRefresh();
-        }
-    }
-
-    @Override
-    public void startRefreshWithAnimation() {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                getPullRefreshAbleView().startRefreshWithAnimation();
-                if (getRefreshListener() != null) {
-                    getRefreshListener().onRefresh();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void completeRefresh() {
-        getPullRefreshAbleView().completeRefresh();
-    }
-
-    @Override
     public void setOnRefreshListener(final OnRefreshListener listener) {
         bindRefreshListener(listener);
         SwipePullRefreshLayout refreshAbleView = getPullRefreshAbleView();
@@ -52,10 +26,5 @@ public class SwipePullRefreshWrapper extends AbsPullRefreshWrapper<SwipePullRefr
                 listener.onRefresh();
             }
         });
-    }
-
-    @Override
-    public boolean isRefurbishing() {
-        return getPullRefreshAbleView().isRefurbishing();
     }
 }

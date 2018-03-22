@@ -123,4 +123,35 @@ public abstract class AbsPullRefreshWrapper<T extends IPullRefreshLayout> implem
     public OnRefreshListener getRefreshListener() {
         return mRefreshListener;
     }
+
+    @Override
+    public void startRefresh() {
+        getPullRefreshAbleView().startRefresh();
+        if (getRefreshListener() != null) {
+            getRefreshListener().onRefresh();
+        }
+    }
+
+    @Override
+    public void startRefreshWithAnimation() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                getPullRefreshAbleView().startRefreshWithAnimation();
+                if (getRefreshListener() != null) {
+                    getRefreshListener().onRefresh();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void completeRefresh() {
+        getPullRefreshAbleView().completeRefresh();
+    }
+
+    @Override
+    public boolean isRefurbishing() {
+        return getPullRefreshAbleView().isRefurbishing();
+    }
 }

@@ -45,7 +45,7 @@ public class MainSampleFragment extends BaseFastListFragment<TwinklingPullRefres
                 ArrayList<BaseItemData> models = new ArrayList<>();
                 Thread.sleep(1500);
                 for (int i = 0; i < 15; i++) {
-                    models.add(new ItemDataWrapper(TPL_SAMPLE_TEXT, "item ::: " + i));
+                    models.add(new ItemDataWrapper(TPL_SAMPLE_TEXT, "TwinklingPullRefreshLayout item ::: " + i));
                 }
                 this.page = page;
                 this.hasMore = true;

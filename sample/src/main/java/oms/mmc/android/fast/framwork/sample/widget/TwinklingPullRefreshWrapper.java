@@ -20,26 +20,6 @@ public class TwinklingPullRefreshWrapper extends AbsPullRefreshWrapper<Twinkling
     }
 
     @Override
-    public boolean isRefurbishing() {
-        return getPullRefreshAbleView().isRefurbishing();
-    }
-
-    @Override
-    public void startRefresh() {
-        getPullRefreshAbleView().startRefresh();
-    }
-
-    @Override
-    public void startRefreshWithAnimation() {
-        getPullRefreshAbleView().startRefresh();
-    }
-
-    @Override
-    public void completeRefresh() {
-        getPullRefreshAbleView().finishRefreshing();
-    }
-
-    @Override
     public void setOnRefreshListener(final OnRefreshListener listener) {
         getPullRefreshAbleView().setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
