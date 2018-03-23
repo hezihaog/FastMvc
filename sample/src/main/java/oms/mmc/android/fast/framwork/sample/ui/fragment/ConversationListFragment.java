@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,9 +36,10 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatT
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
-import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
-import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -52,7 +54,7 @@ import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutM
  * Email: hezihao@linghit.com
  */
 
-public class ConversationListFragment extends BaseFastListFragment<SwipePullRefreshLayout> {
+public class ConversationListFragment extends BaseFastListFragment<SmartPullRefreshLayout> {
     //搜索条目
     public static final int TPL_SEARCH = 1;
     //编辑条目
@@ -85,7 +87,8 @@ public class ConversationListFragment extends BaseFastListFragment<SwipePullRefr
     }
 
     @Override
-    public void onFindView(IViewFinder finder) {
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_conversation_list, container, false);
     }
 
     @Override
@@ -143,6 +146,17 @@ public class ConversationListFragment extends BaseFastListFragment<SwipePullRefr
         tpls.put(TPL_EMAIL, ConversationEmailTpl.class);
         tpls.put(TPL_CHAT, ConversationChatTpl.class);
         return tpls;
+    }
+
+    @Override
+    public IPullRefreshWrapper<SmartPullRefreshLayout> onInitPullRefreshWrapper(SmartPullRefreshLayout pullRefreshAbleView) {
+        return new SmartPullRefreshWrapper(pullRefreshAbleView);
+    }
+
+    @Override
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
+        super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
+        pullRefreshAbleView.setEnableLoadmore(false);
     }
 
     @Override

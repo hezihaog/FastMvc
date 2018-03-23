@@ -1,8 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 
@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
-import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -27,10 +26,11 @@ import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactSumCountTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
-import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 
 /**
@@ -42,33 +42,34 @@ import oms.mmc.factory.load.factory.ILoadViewFactory;
  * Email: hezihao@linghit.com
  */
 
-public class ContactListFragment extends BaseFastListFragment {
-    //新的好友条目
-    public static final int TPL_NEW_FRIEND = 0;
-    //群聊条目
-    public static final int TPL_GROUP_CHAT = 1;
-    //标签条目
-    public static final int TPL_LABLE = 2;
-    //公众号条目
-    public static final int TPL_OFFICIAL_ACCOUNTS = 3;
-    //悬浮的字母类型
-    public static final int TPL_STICKY_LETTER = 4;
-    //我的联系人条目
-    public static final int TPL_CONTACT = 5;
-    //联系人总数条目
-    public static final int TPL_SUM_CONTACT_COUNT = 6;
+public class ContactListFragment extends BaseFastListFragment<SmartPullRefreshLayout> {
     //推荐卡片
-    public static final int TPL_RECOMMENT = 7;
+    public static final int TPL_RECOMMENT = 1;
+    //新的好友条目
+    public static final int TPL_NEW_FRIEND = 2;
+    //群聊条目
+    public static final int TPL_GROUP_CHAT = 3;
+    //标签条目
+    public static final int TPL_LABLE = 4;
+    //公众号条目
+    public static final int TPL_OFFICIAL_ACCOUNTS = 5;
+    //悬浮的字母类型
+    public static final int TPL_STICKY_LETTER = 6;
+    //我的联系人条目
+    public static final int TPL_CONTACT = 7;
+    //联系人总数条目
+    public static final int TPL_SUM_CONTACT_COUNT = 8;
 
     @Override
-    public void onFindView(IViewFinder finder) {
+    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_contact_list, container, false);
     }
 
     @Override
-    public IDataSource onListDataSourceReady() {
-        return new BaseListDataSource(getActivity()) {
+    public IDataSource<BaseItemData> onListDataSourceReady() {
+        return new BaseListDataSource<BaseItemData>(getActivity()) {
             @Override
-            protected ArrayList load(int page, boolean isRefresh) throws Exception {
+            protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 //模拟后台数据
                 Thread.sleep(1000);
                 //拼装需要的数据集
@@ -79,6 +80,7 @@ public class ContactListFragment extends BaseFastListFragment {
                 models.add(new BaseItemData(TPL_GROUP_CHAT));
                 models.add(new BaseItemData(TPL_LABLE));
                 models.add(new BaseItemData(TPL_OFFICIAL_ACCOUNTS));
+
                 ArrayList<String> datas = new ArrayList<String>();
                 for (int i = 0; i < 25; i++) {
                     datas.add(FakeUtil.getRandomName(i));
@@ -108,6 +110,17 @@ public class ContactListFragment extends BaseFastListFragment {
         };
     }
 
+    @Override
+    public IPullRefreshWrapper<SmartPullRefreshLayout> onInitPullRefreshWrapper(SmartPullRefreshLayout pullRefreshAbleView) {
+        return new SmartPullRefreshWrapper(pullRefreshAbleView);
+    }
+
+    @Override
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
+        super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
+        pullRefreshAbleView.setEnableLoadmore(false);
+    }
+
     /**
      * 修改懒加载进场布局，用于替换懒加载在显示之前的空白瞬间
      */
@@ -119,6 +132,7 @@ public class ContactListFragment extends BaseFastListFragment {
     @Override
     public HashMap<Integer, Class> onListTypeClassesReady() {
         HashMap<Integer, Class> tpls = new HashMap<Integer, Class>();
+        tpls.put(TPL_RECOMMENT, ContactRecommendTpl.class);
         tpls.put(TPL_NEW_FRIEND, NewFriendTpl.class);
         tpls.put(TPL_GROUP_CHAT, ContactGroupChatTpl.class);
         tpls.put(TPL_LABLE, ContactLabelTpl.class);
@@ -126,18 +140,12 @@ public class ContactListFragment extends BaseFastListFragment {
         tpls.put(TPL_STICKY_LETTER, ContactLetterTpl.class);
         tpls.put(TPL_CONTACT, ContactTpl.class);
         tpls.put(TPL_SUM_CONTACT_COUNT, ContactSumCountTpl.class);
-        tpls.put(TPL_RECOMMENT, ContactRecommendTpl.class);
         return tpls;
     }
 
     @Override
     public int onGetStickyTplViewType() {
         return TPL_STICKY_LETTER;
-    }
-
-    @Override
-    public RecyclerView.LayoutManager onGetListLayoutManager() {
-        return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
     }
 
     @Override
@@ -148,6 +156,7 @@ public class ContactListFragment extends BaseFastListFragment {
     @Override
     public void onListReady() {
         super.onListReady();
-        getRecyclerViewHelper().setCanPullToRefresh(false);
+        getRefreshLayoutWrapper().setRefreshEnable();
+//        getRecyclerViewHelper().setCanPullToRefresh(false);
     }
 }

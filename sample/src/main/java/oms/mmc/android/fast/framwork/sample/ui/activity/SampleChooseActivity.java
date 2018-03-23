@@ -18,11 +18,14 @@ import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.SampleChooseTpl;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
-public class SampleChooseActivity extends BaseFastListActivity {
+public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshLayout> {
     private static final int TPL_SAMPLE_MODULE = 1;
 
     private Toolbar mToolBar;
@@ -69,10 +72,21 @@ public class SampleChooseActivity extends BaseFastListActivity {
     }
 
     @Override
+    public IPullRefreshWrapper<SmartPullRefreshLayout> onInitPullRefreshWrapper(SmartPullRefreshLayout pullRefreshAbleView) {
+        return new SmartPullRefreshWrapper(pullRefreshAbleView);
+    }
+
+    @Override
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
+        super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
+        pullRefreshAbleView.setEnableLoadmore(false);
+    }
+
+    @Override
     public void onListReady() {
         super.onListReady();
         //设置不可以下拉刷新
-        getListAbleDelegateHelper().getRecyclerViewHelper().setCanPullToRefresh(false);
+//        getListAbleDelegateHelper().getRecyclerViewHelper().setCanPullToRefresh(false);
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
                 .type(TPL_SAMPLE_MODULE, R.drawable.shape_conversation_item_decoration)

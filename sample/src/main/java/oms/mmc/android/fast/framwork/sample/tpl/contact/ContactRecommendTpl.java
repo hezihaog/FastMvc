@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.sample.tpl.contact;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.util.TypedValue;
@@ -15,6 +14,7 @@ import com.tmall.ultraviewpager.UltraViewPager;
 
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 
@@ -28,7 +28,6 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  */
 
 public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
-
     private UltraViewPager mUltraViewPager;
 
     @Override
@@ -55,10 +54,10 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
                 .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
                 .setFocusColor(Color.GREEN)
                 .setNormalColor(Color.WHITE)
-                .setIndicatorPadding(dip2px(getActivity(), 4f))
+                .setIndicatorPadding((int) TDevice.dpToPixel(getActivity(), 4f))
                 .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2.8f, getActivity().getResources().getDisplayMetrics()));
         //设置indicator对齐方式
-        mUltraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0, 0, 0, dip2px(getActivity(), 5f));
+        mUltraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM).setMargin(0, 0, 0, (int) TDevice.dpToPixel(getActivity(), 5f));
         //构造indicator,绑定到UltraViewPager
         mUltraViewPager.getIndicator().build();
         //设定页面循环播放
@@ -105,6 +104,8 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
                 case 4:
                     layout.setBackgroundColor(Color.parseColor("#F44336"));
                     break;
+                default:
+                    break;
             }
             container.addView(layout);
             return layout;
@@ -115,20 +116,5 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
             LinearLayout view = (LinearLayout) object;
             container.removeView(view);
         }
-    }
-
-    public static int dip2px(Context context, float dipValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
-    }
-
-    public static int px2dp(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-
-    private int sp2px(Context context, float spVal) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                spVal, context.getResources().getDisplayMetrics());
     }
 }

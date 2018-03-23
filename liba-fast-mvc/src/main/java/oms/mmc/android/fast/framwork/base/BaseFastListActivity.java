@@ -137,8 +137,12 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
         return mDelegateHelper;
     }
 
-    public IPullRefreshWrapper<?> getRefreshLayout() {
+    public IPullRefreshWrapper<?> getRefreshLayoutWrapper() {
         return mDelegateHelper.getRefreshWrapper();
+    }
+
+    public IPullRefreshLayout getRefreshLayout() {
+        return mDelegateHelper.getRefreshWrapper().getPullRefreshAbleView();
     }
 
     public RecyclerView getRecyclerView() {

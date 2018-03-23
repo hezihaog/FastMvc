@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +15,9 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
-import oms.mmc.android.fast.framwork.base.InstanceStateCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
@@ -70,8 +67,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private ListScrollHelper listScrollHelper;
     //主线程Handler
     private final Handler mUiHandler;
-    //内存重启状态回调
-    private final InstanceStateCallback mStateCallback;
 
     public RecyclerViewViewHelper(final IPullRefreshWrapper<?> refreshWrapper, final RecyclerView recyclerView) {
         this.mContext = refreshWrapper.getPullRefreshAbleView().getContext().getApplicationContext();
@@ -108,36 +103,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 }
             }
         });
-        //添加内存重启分发监听
-        mStateCallback = new InstanceStateCallback() {
-            @Override
-            public void onSaveInstanceState(Bundle outState) {
-                int allItemCount = mRecyclerView.getAdapter().getItemCount();
-                for (int i = 0; i < allItemCount; i++) {
-                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                    if (holder != null && holder.itemView != null) {
-                        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-                        if (tpl != null) {
-                            tpl.onSaveState(outState);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onRestoreInstanceState(Bundle savedInstanceState) {
-                int allItemCount = mRecyclerView.getAdapter().getItemCount();
-                for (int i = 0; i < allItemCount; i++) {
-                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                    if (holder != null && holder.itemView != null) {
-                        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-                        if (tpl != null) {
-                            tpl.onRestoreState(savedInstanceState);
-                        }
-                    }
-                }
-            }
-        };
     }
 
     public void setupScrollHelper(ListScrollHelper scrollHelper) {
