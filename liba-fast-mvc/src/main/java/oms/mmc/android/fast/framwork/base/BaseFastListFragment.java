@@ -48,8 +48,8 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         mDelegateHelper.startDelegate(rootLayout);
         //初始化监听
         HeaderFooterDataAdapter headerFooterAdapter = (HeaderFooterDataAdapter) mDelegateHelper.getListAdapter();
-        ((BaseListAdapter)headerFooterAdapter.getAdapter()).addOnItemClickListener(this);
-        ((BaseListAdapter)headerFooterAdapter.getAdapter()).addOnItemLongClickListener(this);
+        ((BaseListAdapter) headerFooterAdapter.getAdapter()).addOnItemClickListener(this);
+        ((BaseListAdapter) headerFooterAdapter.getAdapter()).addOnItemLongClickListener(this);
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
         mDelegateHelper.notifyListReady();
         return rootLayout;
@@ -98,7 +98,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
 
     @Override
     public IDataAdapter<BaseItemData> onListAdapterReady() {
-        BaseListAdapter adapter =  new BaseListAdapter<BaseItemData>(getRecyclerView(), getActivity(), getListDataSource()
+        BaseListAdapter adapter = new BaseListAdapter<BaseItemData>(getRecyclerView(), getActivity(), getListDataSource()
                 , onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType(), this);
         return new HeaderFooterDataAdapter(adapter);
     }
@@ -186,7 +186,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     }
 
     public BaseListAdapter<BaseItemData> getListAdapter() {
-        return (BaseListAdapter<BaseItemData>) mDelegateHelper.getListAdapter();
+        return (BaseListAdapter<BaseItemData>) ((HeaderFooterDataAdapter) mDelegateHelper.getListAdapter()).getAdapter();
     }
 
     public HeaderFooterAdapter getRecyclerViewAdapter() {

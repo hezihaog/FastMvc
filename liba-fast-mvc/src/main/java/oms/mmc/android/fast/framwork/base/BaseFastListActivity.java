@@ -169,7 +169,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
     }
 
     public BaseListAdapter<BaseItemData> getListAdapter() {
-        return (BaseListAdapter<BaseItemData>) mDelegateHelper.getListAdapter();
+        return (BaseListAdapter<BaseItemData>) ((HeaderFooterDataAdapter) mDelegateHelper.getListAdapter()).getAdapter();
     }
 
     public HeaderFooterAdapter getRecyclerViewAdapter() {
