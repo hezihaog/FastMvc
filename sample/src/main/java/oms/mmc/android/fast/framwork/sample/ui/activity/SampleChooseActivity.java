@@ -16,7 +16,9 @@ import java.util.HashMap;
 import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
+import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.R;
+import oms.mmc.android.fast.framwork.sample.loadview.SampleChooseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.SampleChooseTpl;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
@@ -80,6 +82,11 @@ public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshL
     public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
         pullRefreshAbleView.setEnableLoadmore(false);
+    }
+
+    @Override
+    public ILoadMoreViewFactory onLoadMoreViewFactoryReady() {
+        return new SampleChooseLoadMoreViewFactory();
     }
 
     @Override
