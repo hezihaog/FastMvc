@@ -20,6 +20,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
@@ -30,8 +31,8 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends BaseFastFragment
-        implements ListLayoutCallback<BaseItemData, BaseTpl.ViewHolder>,
-        OnStateChangeListener<ArrayList<BaseItemData>>, BaseListAdapter.OnRecyclerViewItemClickListener
+        implements ListLayoutCallback<BaseItemData>,
+        OnStateChangeListener<BaseItemData>, BaseListAdapter.OnRecyclerViewItemClickListener
         , BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi<P> {
     private ListAbleDelegateHelper<P> mDelegateHelper;
 
@@ -46,8 +47,9 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         mDelegateHelper = new ListAbleDelegateHelper<P>(this, this);
         mDelegateHelper.startDelegate(rootLayout);
         //初始化监听
-        mDelegateHelper.getListAdapter().addOnItemClickListener(this);
-        mDelegateHelper.getListAdapter().addOnItemLongClickListener(this);
+        HeaderFooterDataAdapter headerFooterAdapter = (HeaderFooterDataAdapter) mDelegateHelper.getListAdapter();
+        ((BaseListAdapter)headerFooterAdapter.getAdapter()).addOnItemClickListener(this);
+        ((BaseListAdapter)headerFooterAdapter.getAdapter()).addOnItemLongClickListener(this);
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
         mDelegateHelper.notifyListReady();
         return rootLayout;
@@ -95,9 +97,10 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     }
 
     @Override
-    public IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> onListAdapterReady() {
-        return new BaseListAdapter<BaseItemData>(getRecyclerView(), getActivity(), getListDataSource()
+    public IDataAdapter<BaseItemData> onListAdapterReady() {
+        BaseListAdapter adapter =  new BaseListAdapter<BaseItemData>(getRecyclerView(), getActivity(), getListDataSource()
                 , onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType(), this);
+        return new HeaderFooterDataAdapter(adapter);
     }
 
     @Override
@@ -121,19 +124,19 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
     }
 
     @Override
-    public void onStartLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartLoadMore(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
     }
 
     @Override
-    public void onEndLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndLoadMore(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
     }
 
     @Override
@@ -174,16 +177,16 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         return mDelegateHelper.getListDataSource();
     }
 
-    public ArrayList<BaseItemData> getListViewData() {
+    public ArrayList<BaseItemData> getListData() {
         return mDelegateHelper.getListData();
     }
 
-    public ArrayList<BaseItemData> getOriginData() {
+    public ArrayList<BaseItemData> getOriginListData() {
         return mDelegateHelper.getOriginData();
     }
 
     public BaseListAdapter<BaseItemData> getListAdapter() {
-        return mDelegateHelper.getListAdapter();
+        return (BaseListAdapter<BaseItemData>) mDelegateHelper.getListAdapter();
     }
 
     public HeaderFooterAdapter getRecyclerViewAdapter() {

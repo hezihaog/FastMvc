@@ -2,7 +2,6 @@ package oms.mmc.android.fast.framwork.base;
 
 import android.support.v7.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
@@ -12,7 +11,7 @@ import oms.mmc.helper.ListScrollHelper;
 /**
  * 列表页面布局回调接口
  */
-public interface ListLayoutCallback<T, VH extends RecyclerView.ViewHolder> {
+public interface ListLayoutCallback<T> {
     /**
      * 列表数据源初始化回调
      *
@@ -35,7 +34,7 @@ public interface ListLayoutCallback<T, VH extends RecyclerView.ViewHolder> {
      *
      * @return 列表需要的适配器
      */
-    IDataAdapter<ArrayList<T>, VH> onListAdapterReady();
+    IDataAdapter<T> onListAdapterReady();
 
     /**
      * 列表加载布局切换工厂初始化回调

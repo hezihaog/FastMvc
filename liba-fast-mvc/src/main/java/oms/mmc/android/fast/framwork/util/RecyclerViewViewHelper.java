@@ -15,13 +15,11 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.SimpleListScrollAdapter;
@@ -30,12 +28,12 @@ import oms.mmc.helper.adapter.SimpleListScrollAdapter;
  * RecyclerView帮助类
  */
 public class RecyclerViewViewHelper<Model> implements IViewHelper {
-    private IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> mDataAdapter;
+    private IDataAdapter<Model> mDataAdapter;
     private IPullRefreshWrapper<?> mRefreshWrapper;
     private IDataSource<Model> mDataSource;
     private RecyclerView mRecyclerView;
     private Context mContext;
-    private OnStateChangeListener<ArrayList<Model>> mOnStateChangeListener;
+    private OnStateChangeListener<Model> mOnStateChangeListener;
     private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
     private static final long NO_LOAD_DATA = -1;
     private long loadDataTime = NO_LOAD_DATA;
@@ -393,18 +391,18 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return loadDataTime != NO_LOAD_DATA;
     }
 
-    public OnStateChangeListener<ArrayList<Model>> getOnStateChangeListener() {
+    public OnStateChangeListener<Model> getOnStateChangeListener() {
         return mOnStateChangeListener;
     }
 
     /**
      * 设置状态监听，监听开始刷新，刷新成功，开始加载更多，加载更多成功
      */
-    public void setOnStateChangeListener(OnStateChangeListener<ArrayList<Model>> onStateChangeListener) {
+    public void setOnStateChangeListener(OnStateChangeListener<Model> onStateChangeListener) {
         this.mOnStateChangeListener = onStateChangeListener;
     }
 
-    public IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> getAdapter() {
+    public IDataAdapter<Model> getAdapter() {
         return mDataAdapter;
     }
 
@@ -413,8 +411,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      *
      * @param adapter
      */
-    public void setAdapter(IDataAdapter<ArrayList<Model>, BaseTpl.ViewHolder> adapter) {
-        mRecyclerView.setAdapter(((BaseListAdapter) adapter).getHeaderFooterAdapter());
+    public void setAdapter(IDataAdapter<Model> adapter) {
+        mRecyclerView.setAdapter((RecyclerView.Adapter) adapter);
         this.mDataAdapter = adapter;
     }
 

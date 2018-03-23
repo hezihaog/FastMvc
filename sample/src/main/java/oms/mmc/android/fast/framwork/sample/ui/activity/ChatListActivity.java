@@ -26,7 +26,6 @@ import oms.mmc.android.fast.framwork.sample.wait.IOSWaitDialogFactory;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
 
@@ -135,7 +134,7 @@ public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayou
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
         if (isFirst) {
             showWaitDialog("正在加载..");
@@ -143,7 +142,7 @@ public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayou
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
         if (isFirst) {
             hideWaitDialog();

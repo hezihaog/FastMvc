@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
-import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.MultiTypeAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
@@ -19,7 +18,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 
-public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T> implements IDataAdapter<ArrayList<T>, BaseTpl.ViewHolder>, StickyHeaders, StickyHeaders.ViewSetup {
+public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T> implements IDataAdapter<T>, StickyHeaders, StickyHeaders.ViewSetup {
     /**
      * 不使用粘性头部
      */
@@ -28,16 +27,11 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
      * 粘性条目的类型，默认没有粘性头部
      */
     private int stickySectionViewType = NOT_STICKY_SECTION;
-    /**
-     * 支持头部尾部的适配器装饰类，最终设置给rv的是这个适配器，而不是BaseAdapter
-     */
-    private final HeaderFooterAdapter mHeaderFooterAdapter;
 
     public BaseListAdapter(RecyclerView recyclerView, Activity activity, IDataSource dataSource,
                            HashMap itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType, IWaitViewHost waitViewHost) {
         super(recyclerView, activity, dataSource, itemViewClazzMap, recyclerViewHelper, waitViewHost);
         this.stickySectionViewType = stickySectionViewType;
-        mHeaderFooterAdapter = new HeaderFooterAdapter(this);
     }
 
     @Override
@@ -75,28 +69,20 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
         getListData().addAll(data);
     }
 
-    @Override
-    public void setListViewData(ArrayList<T> data) {
-        setListData(data);
+        @Override
+    public void setListData(ArrayList listData) {
+        super.setListData(listData);
     }
 
     @Override
     public boolean isEmpty() {
-        if (this.getItemCount() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return getItemCount() == 0;
     }
 
     @Override
     public boolean isStickyHeader(int position) {
         //不使用粘性头部，则都返回false
         if (stickySectionViewType == NOT_STICKY_SECTION) {
-            return false;
-        }
-        //越界处理
-        if (position >= getItemCount()) {
             return false;
         }
         return getItemViewType(position) == stickySectionViewType;
@@ -123,48 +109,5 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
             BaseStickyTpl tpl = (BaseStickyTpl) tag;
             tpl.onDetachedSticky();
         }
-    }
-
-    /**
-     * 添加Header View
-     *
-     * @param headerView Header View
-     */
-    public void addHeaderView(View headerView) {
-        mHeaderFooterAdapter.addHeaderView(headerView);
-    }
-
-    /**
-     * 添加Footer View
-     *
-     * @param footerView Footer View
-     */
-    public void addFooterView(View footerView) {
-        mHeaderFooterAdapter.addFooterView(footerView);
-    }
-
-    /**
-     * 移除Header View
-     *
-     * @param headerView Header View
-     */
-    public void removeHeaderView(View headerView) {
-        mHeaderFooterAdapter.removeHeader(headerView);
-    }
-
-    /**
-     * 移除Footer View
-     *
-     * @param footerView Footer View
-     */
-    public void removeFooterView(View footerView) {
-        mHeaderFooterAdapter.removeFooter(footerView);
-    }
-
-    /**
-     * 获取装饰的适配器
-     */
-    public HeaderFooterAdapter getHeaderFooterAdapter() {
-        return mHeaderFooterAdapter;
     }
 }

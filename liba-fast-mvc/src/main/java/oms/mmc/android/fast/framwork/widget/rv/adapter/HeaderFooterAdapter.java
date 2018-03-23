@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
-import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 
 /**
@@ -28,7 +27,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * The real adapter for RecyclerView RecyclerView.Adapter<RecyclerView.ViewHolder>
      */
-    private IDataAdapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
 
     private ArrayList<View> mHeaderViews = new ArrayList<View>();
     private ArrayList<View> mFooterViews = new ArrayList<View>();
@@ -44,7 +43,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public HeaderFooterAdapter() {
     }
 
-    public HeaderFooterAdapter(IDataAdapter adapter) {
+    public HeaderFooterAdapter(RecyclerView.Adapter adapter) {
         setAdapter(adapter);
     }
 
@@ -53,7 +52,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      *
      * @param adapter
      */
-    public void setAdapter(IDataAdapter adapter) {
+    public void setAdapter(RecyclerView.Adapter adapter) {
         if (null != adapter) {
             if (!(adapter instanceof RecyclerView.Adapter)) {
                 throw new RuntimeException("A RecyclerView.Adapter is Need");
@@ -73,7 +72,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /**
      * @return RecyclerView.Adapter
      */
-    public IDataAdapter getAdapter() {
+    public RecyclerView.Adapter getAdapter() {
         return mAdapter;
     }
 
@@ -357,7 +356,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public boolean isStickyHeader(int position) {
-        if ((getAdapter()).isEmpty()) {
+        if (isEmpty()) {
             return false;
         }
         //过滤掉头部和尾部，他们不需要粘性
@@ -376,7 +375,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void setupStickyHeaderView(View stickyHeader) {
-        if ((getAdapter()).isEmpty()) {
+        if (isEmpty()) {
             return;
         }
         ((BaseListAdapter) getAdapter()).setupStickyHeaderView(stickyHeader);
@@ -384,7 +383,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void teardownStickyHeaderView(View stickyHeader) {
-        if ((getAdapter()).isEmpty()) {
+        if (isEmpty()) {
             return;
         }
         ((BaseListAdapter) getAdapter()).teardownStickyHeaderView(stickyHeader);
@@ -407,9 +406,12 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class RecyclerHeaderViewHolder extends RecyclerView.ViewHolder {
-
         public RecyclerHeaderViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    public boolean isEmpty() {
+        return getItemCount() == 0;
     }
 }

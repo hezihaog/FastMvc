@@ -22,7 +22,6 @@ import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.helper.ListScrollHelper;
@@ -136,25 +135,25 @@ public class ListStickyActivitySampleActivity extends BaseFastListActivity<Swipe
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
         toast("刷新开始...");
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
         toast("刷新结束...");
     }
 
     @Override
-    public void onStartLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartLoadMore(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
         super.onStartLoadMore(adapter, isFirst, isReverse);
         toast("上拉加载开始...");
     }
 
     @Override
-    public void onEndLoadMore(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndLoadMore(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndLoadMore(adapter, result, isFirst, isReverse);
         toast("上拉加载结束...");
     }

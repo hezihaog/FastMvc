@@ -209,7 +209,7 @@ public class ConversationListFragment extends BaseFastListFragment<SmartPullRefr
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
         super.onStartRefresh(adapter, isFirst, isReverse);
         if (isFirst) {
             //showWaitDialog();
@@ -217,7 +217,7 @@ public class ConversationListFragment extends BaseFastListFragment<SmartPullRefr
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<ArrayList<BaseItemData>, BaseTpl.ViewHolder> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
         super.onEndRefresh(adapter, result, isFirst, isReverse);
         if (isFirst) {
             //hideWaitDialog();

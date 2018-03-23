@@ -15,27 +15,26 @@ limitations under the License.
  */
 package oms.mmc.android.fast.framwork.base;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
+import java.util.ArrayList;
 
 /**
  * 列表控件的adapter接口
  */
-public interface IDataAdapter<T, VH extends RecyclerView.ViewHolder> {
+public interface IDataAdapter<T> {
     /**
      * 设置下拉刷新数据集
      */
-    void setRefreshListViewData(T data, boolean isReverse, boolean isFirst);
+    void setRefreshListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst);
 
     /**
      * 设置加载更多数据集
      */
-    void setLoadMoreListViewData(T data, boolean isReverse, boolean isFirst);
+    void setLoadMoreListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst);
 
     /**
      * 设置数据集
      */
-    void setListViewData(T data);
+    void setListData(ArrayList<T> data);
 
     /**
      * 刷新数据集
@@ -46,18 +45,4 @@ public interface IDataAdapter<T, VH extends RecyclerView.ViewHolder> {
      * adapter中数据是否为空
      */
     boolean isEmpty();
-
-    int getItemCount();
-
-    void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer);
-
-    void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer);
-
-    long getItemId(int position);
-
-    int getItemViewType(int position);
-
-    VH onCreateViewHolder(ViewGroup parent, int viewType);
-
-    void onBindViewHolder(VH holder, int position);
 }
