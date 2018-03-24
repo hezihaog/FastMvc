@@ -149,7 +149,10 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
             tpl = (BaseTpl) constructor.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "实例化TPL出错，请查看TPL构造方法是否是无参");
+            Log.e(TAG, "反射实例化Tpl出错，请查看Tpl构造方法是否是无参");
+        }
+        if (tpl == null) {
+            throw new NullPointerException("反射实例化Tpl失败，请检查Tpl构造方法是否公开，并且不是非静态匿名内部类");
         }
         tpl.init(mActivity, mRecyclerView, mToastOperator, mWaitViewHost, mFragmentOperator, viewType);
         viewHolder = tpl.getViewHolder();
