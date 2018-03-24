@@ -189,8 +189,8 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
         mRecyclerView.setHasFixedSize(true);
         //设置结束，开始刷新
-        ArrayList<BaseItemData> listViewData = getListData();
-        if (listViewData.size() == 0) {
+        ArrayList<BaseItemData> listData = getListData();
+        if (listData.size() == 0) {
             getRecyclerViewHelper().refresh();
         }
     }

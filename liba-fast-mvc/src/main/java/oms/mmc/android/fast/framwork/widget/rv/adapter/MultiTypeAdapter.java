@@ -43,11 +43,11 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     /**
      * 数据集
      */
-    private IDataSource<T> mListViewDataSource;
+    private IDataSource<T> mListDataSource;
     /**
      * 列表数据
      */
-    private ArrayList<T> mListViewData;
+    private ArrayList<T> mListData;
     /**
      * 等待弹窗依赖的宿主
      */
@@ -83,8 +83,8 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mRecyclerView = recyclerView;
         this.mActivity = activity;
-        this.mListViewDataSource = dataSource;
-        this.mListViewData = dataSource.getListData();
+        this.mListDataSource = dataSource;
+        this.mListData = dataSource.getListData();
         this.mWaitViewHost = waitViewHost;
         this.viewTypeClassMap = itemViewClazzMap;
         this.mRecyclerViewHelper = recyclerViewHelper;
@@ -154,7 +154,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
         tpl.init(mActivity, mRecyclerView, mToastOperator, mWaitViewHost, mFragmentOperator, viewType);
         viewHolder = tpl.getViewHolder();
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
-        tpl.config(this, mListViewData, mListViewDataSource, mRecyclerViewHelper, mListScrollHelper);
+        tpl.config(this, mListData, mListDataSource, mRecyclerViewHelper, mListScrollHelper);
         if (onItemClickListeners.size() > 0) {
             tpl.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,7 +188,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     @Override
     public void onBindViewHolder(BaseTpl.ViewHolder holder, int position) {
         BaseTpl<T> tpl = (BaseTpl<T>) holder.itemView.getTag(R.id.tag_tpl);
-        tpl.setBeanPosition(mListViewData, getItem(position), position);
+        tpl.setBeanPosition(mListData, getItem(position), position);
         try {
             tpl.render();
         } catch (Throwable e) {
@@ -203,12 +203,12 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public T getItem(int position) {
-        return mListViewData.get(position);
+        return mListData.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return mListViewData.size();
+        return mListData.size();
     }
 
     @Override
@@ -237,18 +237,18 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     }
 
     @Override
-    public IDataSource<T> getListViewDataSource() {
-        return mListViewDataSource;
+    public IDataSource<T> getListDataSource() {
+        return mListDataSource;
     }
 
     @Override
     public void setListData(ArrayList listData) {
-        this.mListViewData = listData;
+        this.mListData = listData;
     }
 
     @Override
     public ArrayList<T> getListData() {
-        return mListViewData;
+        return mListData;
     }
 
     @Override

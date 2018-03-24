@@ -47,7 +47,7 @@ public interface IMultiTypeAdapter<T> {
     /**
      * 获取原始数据集
      */
-    IDataSource<T> getListViewDataSource();
+    IDataSource<T> getListDataSource();
 
     /**
      * 添加rv条目点击监听
