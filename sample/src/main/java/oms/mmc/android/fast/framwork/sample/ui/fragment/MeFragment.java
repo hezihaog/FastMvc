@@ -51,7 +51,7 @@ public class MeFragment extends BaseFastFragment {
      */
     @Override
     protected View onGetLazyLoadingView(LayoutInflater inflater) {
-        return inflater.inflate(R.layout.layout_loading_view_sample_loading, null);
+        return inflater.inflate(R.layout.layout_ziwei_load_loading, null);
     }
 
     //fragment重写该方法，如果activity已经复写了，则无效。一般项目都会加一个项目基类继承BaseFastActivity，也不会一套UI多种风格

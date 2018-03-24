@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
 import oms.mmc.android.fast.framwork.sample.R;
-import oms.mmc.android.fast.framwork.util.IViewFinder;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -21,9 +20,5 @@ public class FindFragment extends BaseFastFragment {
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_find, container, false);
-    }
-
-    @Override
-    public void onFindView(IViewFinder finder) {
     }
 }

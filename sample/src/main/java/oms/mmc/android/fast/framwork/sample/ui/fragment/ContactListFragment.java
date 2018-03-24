@@ -126,7 +126,7 @@ public class ContactListFragment extends BaseFastListFragment<SmartPullRefreshLa
      */
     @Override
     protected View onGetLazyLoadingView(LayoutInflater inflater) {
-        return inflater.inflate(R.layout.layout_loading_view_sample_loading, null);
+        return inflater.inflate(R.layout.layout_ziwei_load_loading, null);
     }
 
     @Override

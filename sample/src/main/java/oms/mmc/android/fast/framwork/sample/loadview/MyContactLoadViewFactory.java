@@ -5,6 +5,7 @@ import android.view.View;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.base.BaseLoadViewHelper;
+import oms.mmc.factory.load.base.VaryViewHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.loadview
@@ -21,12 +22,19 @@ public class MyContactLoadViewFactory extends BaseLoadViewFactory {
     public ILoadView madeLoadView() {
         return new BaseLoadViewHelper() {
             @Override
+            protected View onInflateLoadingLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+                //替换加载中状态布局，直接只有一个进度条
+                return this.helper.inflate(R.layout.layout_my_contact_load_loading);
+            }
+
+            @Override
             public void showEmpty() {
-                View layout = helper.inflate(R.layout.load_empty_text);
+                //替换数据为空布局
+                View layout = helper.inflate(R.layout.layout_my_contact_load_empty);
                 layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        //去掉点击布局时的事件
                     }
                 });
                 helper.showLayout(layout);
