@@ -31,13 +31,13 @@ public class HeaderFooterDataAdapter<T extends BaseItemData> extends HeaderFoote
     }
 
     @Override
-    public void setRefreshListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
-        mAdapter.setRefreshListViewData(data, isReverse, isFirst);
+    public void setRefreshListData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
+        mAdapter.setRefreshListData(data, isReverse, isFirst);
     }
 
     @Override
-    public void setLoadMoreListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
-        mAdapter.setLoadMoreListViewData(data, isReverse, isFirst);
+    public void setLoadMoreListData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
+        mAdapter.setLoadMoreListData(data, isReverse, isFirst);
     }
 
     @Override

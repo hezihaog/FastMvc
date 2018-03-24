@@ -48,7 +48,7 @@ public interface IDataSource<T> {
     /**
      * 获得数据集合
      */
-    ArrayList<T> getOriginListViewData();
+    ArrayList<T> getListData();
 
     /**
      * 获取当前页码

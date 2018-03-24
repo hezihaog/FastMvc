@@ -20,15 +20,18 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
     protected boolean hasMore = false;
 
     protected Activity mActivity;
-    protected ArrayList<T> mOriginListViewData = new ArrayList<T>();
+    /**
+     * 数据集
+     */
+    protected ArrayList<T> mListData = new ArrayList<T>();
 
     public BaseListDataSource(Activity activity) {
         this.mActivity = activity;
     }
 
     @Override
-    public ArrayList<T> getOriginListViewData() {
-        return mOriginListViewData;
+    public ArrayList<T> getListData() {
+        return mListData;
     }
 
     @Override

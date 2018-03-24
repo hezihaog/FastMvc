@@ -235,7 +235,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     }
                 } else {
                     loadDataTime = System.currentTimeMillis();
-                    mDataAdapter.setRefreshListViewData(result, isReverse, isFirstRefresh);
+                    mDataAdapter.setRefreshListData(result, isReverse, isFirstRefresh);
                     mDataAdapter.notifyDataSetChanged();
                     if (mDataAdapter.isEmpty()) {
                         mLoadView.showEmpty();
@@ -317,7 +317,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     mLoadView.tipFail();
                     mLoadMoreView.showError();
                 } else {
-                    mDataAdapter.setLoadMoreListViewData(result, isReverse, isFistLoadMore);
+                    mDataAdapter.setLoadMoreListData(result, isReverse, isFistLoadMore);
                     mDataAdapter.notifyDataSetChanged();
                     if (mDataAdapter.isEmpty()) {
                         mLoadView.showEmpty();

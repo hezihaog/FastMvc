@@ -47,7 +47,7 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     }
 
     @Override
-    public void setRefreshListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
+    public void setRefreshListData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
         ArrayList<T> listData = getListData();
         //第一次刷新
         if (isFirst) {
@@ -65,7 +65,7 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     }
 
     @Override
-    public void setLoadMoreListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
+    public void setLoadMoreListData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
         getListData().addAll(data);
     }
 

@@ -53,10 +53,6 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
      */
     protected ArrayList<BaseItemData> mListData;
     /**
-     * 原始数据
-     */
-    protected ArrayList<BaseItemData> mOriginData;
-    /**
      * 列表适配器
      */
     protected IDataAdapter<BaseItemData> mListAdapter;
@@ -114,8 +110,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         }
         mRecyclerViewHelper.setDataSource(this.mListDataSource);
         if (mListData == null) {
-            mListData = mListDataSource.getOriginListViewData();
-            mOriginData = mListDataSource.getOriginListViewData();
+            mListData = mListDataSource.getListData();
         }
         //初始化列表适配器
         if (mListAdapter == null) {
@@ -155,10 +150,6 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
 
     public ArrayList<BaseItemData> getListData() {
         return mListData;
-    }
-
-    public ArrayList<BaseItemData> getOriginData() {
-        return mOriginData;
     }
 
     public IDataAdapter<BaseItemData> getListAdapter() {

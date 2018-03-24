@@ -24,12 +24,12 @@ public interface IDataAdapter<T> {
     /**
      * 设置下拉刷新数据集
      */
-    void setRefreshListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst);
+    void setRefreshListData(ArrayList<T> data, boolean isReverse, boolean isFirst);
 
     /**
      * 设置加载更多数据集
      */
-    void setLoadMoreListViewData(ArrayList<T> data, boolean isReverse, boolean isFirst);
+    void setLoadMoreListData(ArrayList<T> data, boolean isReverse, boolean isFirst);
 
     /**
      * 设置数据集
@@ -37,7 +37,7 @@ public interface IDataAdapter<T> {
     void setListData(ArrayList<T> data);
 
     /**
-     * 刷新数据集
+     * 提醒数据集改变
      */
     void notifyDataSetChanged();
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
@@ -49,11 +48,10 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
      * 列表数据
      */
     private ArrayList<T> mListViewData;
-    private IWaitViewHost mWaitViewHost;
     /**
-     * 原始的列表数据
+     * 等待弹窗依赖的宿主
      */
-    private ArrayList<T> originData;
+    private IWaitViewHost mWaitViewHost;
     /**
      * 点击事件
      */
@@ -86,9 +84,8 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
         this.mRecyclerView = recyclerView;
         this.mActivity = activity;
         this.mListViewDataSource = dataSource;
-        this.mListViewData = dataSource.getOriginListViewData();
+        this.mListViewData = dataSource.getListData();
         this.mWaitViewHost = waitViewHost;
-        this.originData = this.mListViewData;
         this.viewTypeClassMap = itemViewClazzMap;
         this.mRecyclerViewHelper = recyclerViewHelper;
         initListener();
@@ -220,11 +217,6 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     }
 
     @Override
-    public List<T> getOriginData() {
-        return originData;
-    }
-
-    @Override
     public void addOnItemClickListener(OnRecyclerViewItemClickListener onItemClickListeners) {
         this.onItemClickListeners.add(onItemClickListeners);
     }
@@ -250,11 +242,6 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     }
 
     @Override
-    public HashMap<Integer, Class> getViewTypeClassMap() {
-        return viewTypeClassMap;
-    }
-
-    @Override
     public void setListData(ArrayList listData) {
         this.mListViewData = listData;
     }
@@ -262,11 +249,6 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     @Override
     public ArrayList<T> getListData() {
         return mListViewData;
-    }
-
-    @Override
-    public void setRecyclerViewHelper(RecyclerViewViewHelper helper) {
-        this.mRecyclerViewHelper = helper;
     }
 
     @Override

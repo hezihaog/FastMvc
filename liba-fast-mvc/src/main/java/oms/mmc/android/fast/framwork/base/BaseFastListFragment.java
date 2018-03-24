@@ -181,10 +181,6 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         return mDelegateHelper.getListData();
     }
 
-    public ArrayList<BaseItemData> getOriginListData() {
-        return mDelegateHelper.getOriginData();
-    }
-
     public BaseListAdapter<BaseItemData> getListAdapter() {
         return (BaseListAdapter<BaseItemData>) ((HeaderFooterDataAdapter) mDelegateHelper.getListAdapter()).getAdapter();
     }

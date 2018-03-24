@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
@@ -47,10 +45,8 @@ public interface IMultiTypeAdapter<T> {
     T getItem(int position);
 
     /**
-     * 获取原始数据
+     * 获取原始数据集
      */
-    List<T> getOriginData();
-
     IDataSource<T> getListViewDataSource();
 
     /**
@@ -74,21 +70,9 @@ public interface IMultiTypeAdapter<T> {
     RecyclerViewViewHelper<T> getRecyclerViewHelper();
 
     /**
-     * 获取类型映射Map
-     */
-    HashMap<Integer, Class> getViewTypeClassMap();
-
-    /**
      * 设置列表数据
      */
     void setListData(ArrayList<T> listData);
-
-    /**
-     * 设置rv帮助类
-     *
-     * @param helper 帮助类实例
-     */
-    void setRecyclerViewHelper(RecyclerViewViewHelper helper);
 
     /**
      * 设置滚动帮助类
