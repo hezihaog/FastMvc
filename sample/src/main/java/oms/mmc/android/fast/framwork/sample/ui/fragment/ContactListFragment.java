@@ -144,7 +144,7 @@ public class ContactListFragment extends BaseFastListFragment<SmartPullRefreshLa
     }
 
     @Override
-    public int onGetStickyTplViewType() {
+    public int onStickyTplViewTypeReady() {
         return TPL_STICKY_LETTER;
     }
 

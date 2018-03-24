@@ -70,7 +70,7 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
     protected void onRender(ItemDataWrapper itemData) {
     }
 
-    private static class Adapter extends PagerAdapter {
+    private class Adapter extends PagerAdapter {
 
         @Override
         public int getCount() {
@@ -83,7 +83,7 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             LinearLayout layout = (LinearLayout) LayoutInflater.from(container.getContext())
                     .inflate(R.layout.view_contact_recomment_view_pager_child, null);
             TextView textView = (TextView) layout.findViewById(R.id.pager_text_view);
@@ -107,6 +107,12 @@ public class ContactRecommendTpl extends BaseTpl<ItemDataWrapper> {
                 default:
                     break;
             }
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toast("好友推荐 banner onClick... position ::: " + position);
+                }
+            });
             container.addView(layout);
             return layout;
         }

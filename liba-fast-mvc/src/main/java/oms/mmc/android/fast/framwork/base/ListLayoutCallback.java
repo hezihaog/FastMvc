@@ -1,7 +1,5 @@
 package oms.mmc.android.fast.framwork.base;
 
-import android.support.v7.widget.RecyclerView;
-
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
@@ -18,16 +16,6 @@ public interface ListLayoutCallback<T> {
      * @return 列表数据源
      */
     IDataSource<T> onListDataSourceReady();
-
-    /**
-     * 获取RecyclerView的LayoutManager
-     */
-    RecyclerView.LayoutManager onGetListLayoutManager();
-
-    /**
-     * 列表初始化完成回调
-     */
-    void onListReady();
 
     /**
      * 列表适配器初始化回调
@@ -60,15 +48,20 @@ public interface ListLayoutCallback<T> {
     /**
      * 需要设置粘性悬浮条目类时重写该方法返回粘性条目的类型
      */
-    int onGetStickyTplViewType();
+    int onStickyTplViewTypeReady();
 
     /**
      * 获取滚动监听帮助类对象
      */
-    ListScrollHelper onGetScrollHelper();
+    ListScrollHelper onInitScrollHelper();
 
     /**
      * 滚动监听帮助类初始化完成
      */
     void onListScrollHelperReady(ListScrollHelper listScrollHelper);
+
+    /**
+     * 列表初始化完成回调
+     */
+    void onListReady();
 }

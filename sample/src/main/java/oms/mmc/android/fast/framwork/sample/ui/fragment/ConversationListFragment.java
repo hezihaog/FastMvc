@@ -158,7 +158,7 @@ public class ConversationListFragment extends BaseFastListFragment<SmartPullRefr
     }
 
     @Override
-    public int onGetStickyTplViewType() {
+    public int onStickyTplViewTypeReady() {
         return TPL_EDIT;
     }
 

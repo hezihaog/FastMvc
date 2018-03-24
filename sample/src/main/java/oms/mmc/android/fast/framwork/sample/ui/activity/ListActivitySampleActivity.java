@@ -95,11 +95,11 @@ public class ListActivitySampleActivity extends BaseFastListActivity<SwipePullRe
     }
 
     @Override
-    public int onGetStickyTplViewType() {
+    public int onStickyTplViewTypeReady() {
         if (mHasSticky) {
             return TPL_TEXT;
         } else {
-            return super.onGetStickyTplViewType();
+            return super.onStickyTplViewTypeReady();
         }
     }
 
@@ -118,7 +118,7 @@ public class ListActivitySampleActivity extends BaseFastListActivity<SwipePullRe
      * 这里返回对应的滚动帮助类，要和使用的一样，基本都是rv的
      */
     @Override
-    public ListScrollHelper onGetScrollHelper() {
+    public ListScrollHelper onInitScrollHelper() {
         return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
 

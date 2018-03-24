@@ -23,6 +23,7 @@ import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -32,8 +33,8 @@ import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends BaseFastFragment
         implements ListLayoutCallback<BaseItemData>,
-        OnStateChangeListener<BaseItemData>, BaseListAdapter.OnRecyclerViewItemClickListener
-        , BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi<P> {
+        OnStateChangeListener<BaseItemData>, BaseListAdapter.OnRecyclerViewItemClickListener,
+        RecyclerViewListConfigCallback, BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi<P> {
     private ListAbleDelegateHelper<P> mDelegateHelper;
 
     @Override
@@ -44,7 +45,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper<P>(this, this);
+        mDelegateHelper = new ListAbleDelegateHelper<P>(this, this, this);
         mDelegateHelper.startDelegate(rootLayout);
         //初始化监听
         HeaderFooterDataAdapter headerFooterAdapter = (HeaderFooterDataAdapter) mDelegateHelper.getListAdapter();
@@ -99,12 +100,12 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     @Override
     public IDataAdapter<BaseItemData> onListAdapterReady() {
         BaseListAdapter adapter = new BaseListAdapter<BaseItemData>(getRecyclerView(), getActivity(), getListDataSource()
-                , onListTypeClassesReady(), getRecyclerViewHelper(), onGetStickyTplViewType(), this);
+                , onListTypeClassesReady(), getRecyclerViewHelper(), onStickyTplViewTypeReady(), this);
         return new HeaderFooterDataAdapter(adapter);
     }
 
     @Override
-    public ListScrollHelper onGetScrollHelper() {
+    public ListScrollHelper onInitScrollHelper() {
         //默认都是rv，这里默认使用rv的，如果是使用其他的，复写该方法，返回对应的包裹类和控件
         return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
     }
@@ -149,7 +150,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     }
 
     @Override
-    public int onGetStickyTplViewType() {
+    public int onStickyTplViewTypeReady() {
         return BaseListAdapter.NOT_STICKY_SECTION;
     }
 
