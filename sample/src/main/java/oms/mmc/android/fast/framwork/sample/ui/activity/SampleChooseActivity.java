@@ -101,6 +101,13 @@ public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshL
         getRecyclerView().addItemDecoration(decoration);
     }
 
+    @Override
+    public void onListReadyAfter() {
+        super.onListReadyAfter();
+        //进入后马上刷新一次
+        getRefreshWrapper().startRefreshWithAnimation();
+    }
+
     /**
      * 组装例子列表数据
      */

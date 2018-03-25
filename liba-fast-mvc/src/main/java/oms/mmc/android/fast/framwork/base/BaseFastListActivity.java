@@ -67,6 +67,10 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
     }
 
     @Override
+    public void onListReadyAfter() {
+    }
+
+    @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.activity_base_fast_list, container);
     }
@@ -155,6 +159,10 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
 
     public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
         return mDelegateHelper.getRecyclerViewHelper();
+    }
+
+    public IPullRefreshWrapper<?> getRefreshWrapper() {
+        return mDelegateHelper.getRefreshWrapper();
     }
 
     public IDataSource<BaseItemData> getListDataSource() {

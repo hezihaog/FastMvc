@@ -126,15 +126,35 @@ public abstract class AbsPullRefreshWrapper<T extends IPullRefreshLayout> implem
 
     @Override
     public void startRefresh() {
-        getPullRefreshAbleView().startRefresh();
-        if (getRefreshListener() != null) {
-            getRefreshListener().onRefresh();
+        startRefresh(0);
+    }
+
+    @Override
+    public void startRefresh(long delayMillis) {
+        final Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                getPullRefreshAbleView().startRefresh();
+                if (getRefreshListener() != null) {
+                    getRefreshListener().onRefresh();
+                }
+            }
+        };
+        if (delayMillis <= 0) {
+            post(task);
+        } else {
+            postDelayed(task, delayMillis);
         }
     }
 
     @Override
     public void startRefreshWithAnimation() {
-        post(new Runnable() {
+        startRefreshWithAnimation(0);
+    }
+
+    @Override
+    public void startRefreshWithAnimation(long delayMillis) {
+        Runnable task = new Runnable() {
             @Override
             public void run() {
                 getPullRefreshAbleView().startRefreshWithAnimation();
@@ -142,12 +162,33 @@ public abstract class AbsPullRefreshWrapper<T extends IPullRefreshLayout> implem
                     getRefreshListener().onRefresh();
                 }
             }
-        });
+        };
+        if (delayMillis <= 0) {
+            post(task);
+        } else {
+            postDelayed(task, delayMillis);
+        }
     }
 
     @Override
     public void completeRefresh() {
-        getPullRefreshAbleView().completeRefresh();
+        completeRefresh(0);
+    }
+
+
+    @Override
+    public void completeRefresh(long delayMillis) {
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                getPullRefreshAbleView().completeRefresh();
+            }
+        };
+        if (delayMillis <= 0) {
+            post(task);
+        } else {
+            postDelayed(task, delayMillis);
+        }
     }
 
     @Override

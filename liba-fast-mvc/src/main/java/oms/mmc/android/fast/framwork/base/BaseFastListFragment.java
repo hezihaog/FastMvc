@@ -98,6 +98,10 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     }
 
     @Override
+    public void onListReadyAfter() {
+    }
+
+    @Override
     public IDataAdapter<BaseItemData> onListAdapterReady() {
         BaseListAdapter adapter = new BaseListAdapter<BaseItemData>(getRecyclerView(), getActivity(), getListDataSource()
                 , onListTypeClassesReady(), getRecyclerViewHelper(), onStickyTplViewTypeReady(), this);
@@ -172,6 +176,10 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
 
     public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
         return mDelegateHelper.getRecyclerViewHelper();
+    }
+
+    public IPullRefreshWrapper<?> getRefreshWrapper() {
+        return mDelegateHelper.getRefreshWrapper();
     }
 
     public IDataSource<BaseItemData> getListDataSource() {

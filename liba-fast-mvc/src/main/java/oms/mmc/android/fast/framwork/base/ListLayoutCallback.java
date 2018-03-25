@@ -61,7 +61,12 @@ public interface ListLayoutCallback<T> {
     void onListScrollHelperReady(ListScrollHelper listScrollHelper);
 
     /**
-     * 列表初始化完成回调
+     * 列表初始化完成后回调
      */
     void onListReady();
+
+    /**
+     * onListReady()调用完后调用，可以做第一次是使用缓存拿取数据填充界面，马上调用刷新拿取最新数据
+     */
+    void onListReadyAfter();
 }

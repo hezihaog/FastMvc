@@ -159,4 +159,11 @@ public class ContactListFragment extends BaseFastListFragment<SmartPullRefreshLa
         getRefreshLayoutWrapper().setRefreshEnable();
 //        getRecyclerViewHelper().setCanPullToRefresh(false);
     }
+
+    @Override
+    public void onListReadyAfter() {
+        super.onListReadyAfter();
+        //进入后马上刷新一次
+        getRefreshWrapper().startRefreshWithAnimation();
+    }
 }

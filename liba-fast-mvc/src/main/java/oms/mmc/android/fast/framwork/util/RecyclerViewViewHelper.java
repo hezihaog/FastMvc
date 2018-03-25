@@ -71,7 +71,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         this.mUiHandler = new Handler(Looper.getMainLooper());
         this.mRefreshWrapper = refreshWrapper;
         this.mRecyclerView = recyclerView;
-        this.mRefreshWrapper.setRefreshDisable();
+        //暂时不能刷新前禁止下拉布局禁止下拉，由于某些刷新布局刷新时会判断是否禁用，禁用了就刷新无效了
+//        this.mRefreshWrapper.setRefreshDisable();
         this.mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         this.mRefreshWrapper.setOnRefreshListener(new IPullRefreshWrapper.OnRefreshListener() {
             @Override

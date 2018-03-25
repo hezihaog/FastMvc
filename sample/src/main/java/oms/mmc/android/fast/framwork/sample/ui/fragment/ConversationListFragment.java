@@ -193,6 +193,13 @@ public class ConversationListFragment extends BaseFastListFragment<SmartPullRefr
     }
 
     @Override
+    public void onListReadyAfter() {
+        super.onListReadyAfter();
+        //进入后马上刷新一次
+        getRefreshWrapper().startRefreshWithAnimation();
+    }
+
+    @Override
     public void onItemClick(View view, BaseTpl clickTpl, int position) {
         toast(String.valueOf(position));
         int itemViewType = clickTpl.getItemViewType();

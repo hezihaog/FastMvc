@@ -11,7 +11,7 @@ import android.content.Context;
  * Email: hezihao@linghit.com
  */
 
-public interface IPullRefreshWrapper<T extends IPullRefreshLayout> extends IPullRefreshLayoutOperator {
+public interface IPullRefreshWrapper<T extends IPullRefreshLayout> extends IPullRefreshLayoutOperator, IPullRefreshWithDelayAction {
     /**
      * 依附上刷新布局
      *
@@ -24,6 +24,9 @@ public interface IPullRefreshWrapper<T extends IPullRefreshLayout> extends IPull
      */
     T getPullRefreshAbleView();
 
+    /**
+     * 获取上下文
+     */
     Context getContext();
 
     /**

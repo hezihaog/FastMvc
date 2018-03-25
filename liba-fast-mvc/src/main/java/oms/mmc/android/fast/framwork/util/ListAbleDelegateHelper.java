@@ -194,8 +194,10 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         //设置结束，开始刷新
         ArrayList<BaseItemData> listData = getListData();
         if (listData.size() == 0) {
+            //第一次刷新开始
             getRecyclerViewHelper().refresh();
         }
+        mListAble.onListReadyAfter();
     }
 
     /**
