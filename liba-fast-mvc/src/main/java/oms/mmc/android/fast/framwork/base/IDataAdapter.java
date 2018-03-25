@@ -37,6 +37,11 @@ public interface IDataAdapter<T> {
     void setListData(ArrayList<T> data);
 
     /**
+     * 获取列表数据
+     */
+    ArrayList<T> getListData();
+
+    /**
      * 提醒数据集改变
      */
     void notifyDataSetChanged();

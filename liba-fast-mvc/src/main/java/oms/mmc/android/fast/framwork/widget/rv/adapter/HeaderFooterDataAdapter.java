@@ -46,6 +46,11 @@ public class HeaderFooterDataAdapter<T extends BaseItemData> extends HeaderFoote
     }
 
     @Override
+    public ArrayList<T> getListData() {
+        return mAdapter.getListData();
+    }
+
+    @Override
     public boolean isEmpty() {
         return mAdapter.isEmpty();
     }
