@@ -49,7 +49,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
         mDelegateHelper = new ListAbleDelegateHelper<P>(this, this, this);
-        mDelegateHelper.startDelegate(getActivity(), rootLayout);
+        mDelegateHelper.startDelegate(rootLayout);
         //初始化监听
         HeaderFooterDataAdapter headerFooterAdapter = (HeaderFooterDataAdapter) mDelegateHelper.getListAdapter();
         ((BaseListAdapter) headerFooterAdapter.getAdapter()).addOnItemClickListener(this);
@@ -57,6 +57,14 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
         mDelegateHelper.notifyListReady();
         return rootLayout;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mDelegateHelper != null) {
+            mDelegateHelper.destroyRecyclerViewHelper();
+        }
     }
 
     @Override

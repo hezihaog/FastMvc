@@ -1,7 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,12 +12,12 @@ import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 
+import oms.mmc.android.fast.framwork.async.AsyncTask;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.async.AsyncExecutor;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.SimpleListScrollAdapter;
@@ -33,8 +32,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private IPullRefreshWrapper<?> mRefreshWrapper;
     private IDataSource<Model> mDataSource;
     private IScrollableView mScrollableView;
-    private Activity mActivity;
+    private Context mContext;
     private OnStateChangeListener<Model> mOnStateChangeListener;
+    private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
     private static final long NO_LOAD_DATA = -1;
     private long loadDataTime = NO_LOAD_DATA;
     /**
@@ -53,21 +53,18 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private boolean isFistLoadMore = true;
     private ILoadViewFactory.ILoadView mLoadView;
     private ILoadMoreViewFactory.ILoadMoreView mLoadMoreView;
-    /**
-     * 滚动帮助类
-     */
+    //滚动帮助类
     private ListScrollHelper listScrollHelper;
-    /**
-     * 主线程Handler
-     */
+    //主线程Handler
     private final Handler mUiHandler;
-    AsyncExecutor.AsyncCallback<ArrayList<Model>, Void> mTask;
 
-    public RecyclerViewViewHelper(Activity activity, IPullRefreshWrapper<?> refreshWrapper, final IScrollableView scrollableView) {
-        this.mActivity = activity;
+    public RecyclerViewViewHelper(final IPullRefreshWrapper<?> refreshWrapper, final IScrollableView scrollableView) {
+        this.mContext = refreshWrapper.getPullRefreshAbleView().getContext().getApplicationContext();
         this.mUiHandler = new Handler(Looper.getMainLooper());
         this.mRefreshWrapper = refreshWrapper;
         this.mScrollableView = scrollableView;
+        //暂时不能刷新前禁止下拉布局禁止下拉，由于某些刷新布局刷新时会判断是否禁用，禁用了就刷新无效了
+//        this.mRefreshWrapper.setRefreshDisable();
         this.mRefreshWrapper.setOnRefreshListener(new IPullRefreshWrapper.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -123,6 +120,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     /**
      * 是否有网络连接
+     *
+     * @param paramContext
+     * @return
      */
     @SuppressLint("MissingPermission")
     public static boolean hasNetwork(Context paramContext) {
@@ -163,13 +163,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             }
             return;
         }
-        if (mTask != null && !mTask.isCancel()) {
-            mTask.cancel();
+        if (mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mAsyncTask.cancel(true);
         }
-        mTask = new AsyncExecutor.AsyncCallback<ArrayList<Model>, Void>() {
+        mAsyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
+
             @Override
-            public void onRunBefore() {
-                super.onRunBefore();
+            protected void onPreExecute() {
                 if (mDataAdapter.isEmpty()) {
                     mLoadView.showLoading();
                     mRefreshWrapper.completeRefresh();
@@ -182,7 +182,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             }
 
             @Override
-            public ArrayList<Model> onRunning() {
+            protected ArrayList<Model> doInBackground(Void... params) {
                 try {
                     return mDataSource.refresh(isReverse);
                 } catch (Exception e) {
@@ -192,8 +192,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             }
 
             @Override
-            public void onRunAfter(ArrayList<Model> result) {
-                super.onRunAfter(result);
+            protected void onPostExecute(ArrayList<Model> result) {
                 //返回的数据集为空，异常情况
                 if (result == null) {
                     //本次加载之前，列表也没有数据，则显示错误布局
@@ -232,8 +231,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     isFirstRefresh = false;
                 }
             }
+
         };
-        AsyncExecutor.getInstance().execute((Activity) getContext(), mTask);
+        mAsyncTask.execute();
     }
 
     /**
@@ -254,13 +254,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             }
             return;
         }
-        if (mTask != null && !mTask.isCancel()) {
-            mTask.cancel();
+        if (mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mAsyncTask.cancel(true);
         }
-        mTask = new AsyncExecutor.AsyncCallback<ArrayList<Model>, Void>() {
+        mAsyncTask = new AsyncTask<Void, Void, ArrayList<Model>>() {
+
             @Override
-            public void onRunBefore() {
-                super.onRunBefore();
+            protected void onPreExecute() {
                 if (mOnStateChangeListener != null) {
                     mOnStateChangeListener.onStartLoadMore(mDataAdapter, isFistLoadMore, isReverse);
                 }
@@ -268,7 +268,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             }
 
             @Override
-            public ArrayList<Model> onRunning() {
+            protected ArrayList<Model> doInBackground(Void... params) {
                 try {
                     return mDataSource.loadMore();
                 } catch (Exception e) {
@@ -278,8 +278,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             }
 
             @Override
-            public void onRunAfter(ArrayList<Model> result) {
-                super.onRunAfter(result);
+            protected void onPostExecute(ArrayList<Model> result) {
                 if (result == null) {
                     mLoadView.tipFail();
                     mLoadMoreView.showError();
@@ -306,15 +305,26 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 }
             }
         };
+        mAsyncTask.execute();
+    }
 
-        AsyncExecutor.getInstance().execute((Activity) getContext(), mTask);
+    /**
+     * 做销毁操作，比如关闭正在加载数据的异步线程等
+     */
+    public void destroy() {
+        if (mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mAsyncTask.cancel(true);
+            mAsyncTask = null;
+        }
     }
 
     /**
      * 是否正在加载中
+     *
+     * @return
      */
     public boolean isLoading() {
-        return mTask != null && !mTask.isComplete();
+        return mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED;
     }
 
     public IScrollableView getScrollableView() {
@@ -417,7 +427,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     @Override
     public Context getContext() {
-        return mActivity;
+        return mContext;
     }
 
     /**
