@@ -12,7 +12,7 @@ public interface ICommonListAdapterDelegate<T, I> {
     /**
      * 获取列表条目总数
      */
-    int getListCount();
+    int getListItemCount();
 
     /**
      * 根据位置，获取条目Id
@@ -24,7 +24,7 @@ public interface ICommonListAdapterDelegate<T, I> {
     /**
      * 获取列表条目类型总数
      */
-    int getListViewTypeCount();
+    int getListItemViewTypeCount();
 
     /**
      * 根据列表的位置，获取条目的ViewTYpe类型
@@ -53,5 +53,5 @@ public interface ICommonListAdapterDelegate<T, I> {
      * @param listData 列表数据源
      * @param position 条目位置
      */
-    void updateTpl(ArrayList<T> listData, int position);
+    void updateTpl(I tpl, ArrayList<T> listData, int position);
 }

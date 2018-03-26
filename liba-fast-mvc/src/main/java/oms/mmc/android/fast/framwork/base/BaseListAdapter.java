@@ -1,7 +1,6 @@
 package oms.mmc.android.fast.framwork.base;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,9 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
-public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T> implements IDataAdapter<T>, StickyHeaders, StickyHeaders.ViewSetup {
+public class BaseListAdapter extends MultiTypeAdapter implements IDataAdapter<BaseItemData>, StickyHeaders, StickyHeaders.ViewSetup {
     /**
      * 不使用粘性头部
      */
@@ -28,9 +28,9 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
      */
     private int stickySectionViewType = NOT_STICKY_SECTION;
 
-    public BaseListAdapter(RecyclerView recyclerView, Activity activity, IDataSource dataSource,
+    public BaseListAdapter(ScrollableRecyclerView scrollableView, Activity activity, IDataSource dataSource,
                            HashMap itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType, IWaitViewHost waitViewHost) {
-        super(recyclerView, activity, dataSource, itemViewClazzMap, recyclerViewHelper, waitViewHost);
+        super(scrollableView, activity, dataSource, itemViewClazzMap, recyclerViewHelper, waitViewHost);
         this.stickySectionViewType = stickySectionViewType;
     }
 
@@ -47,8 +47,8 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     }
 
     @Override
-    public void setRefreshListData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
-        ArrayList<T> listData = getListData();
+    public void setRefreshListData(ArrayList<BaseItemData> data, boolean isReverse, boolean isFirst) {
+        ArrayList<BaseItemData> listData = getListData();
         //第一次刷新
         if (isFirst) {
             listData.addAll(0, data);
@@ -65,7 +65,7 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     }
 
     @Override
-    public void setLoadMoreListData(ArrayList<T> data, boolean isReverse, boolean isFirst) {
+    public void setLoadMoreListData(ArrayList<BaseItemData> data, boolean isReverse, boolean isFirst) {
         getListData().addAll(data);
     }
 
@@ -75,7 +75,7 @@ public class BaseListAdapter<T extends BaseItemData> extends MultiTypeAdapter<T>
     }
 
     @Override
-    public ArrayList<T> getListData() {
+    public ArrayList<BaseItemData> getListData() {
         return super.getListData();
     }
 

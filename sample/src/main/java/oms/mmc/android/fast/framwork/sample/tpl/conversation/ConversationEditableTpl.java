@@ -31,12 +31,12 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
 
     @Override
     protected void onRender(ItemDataWrapper itemData) {
-        if (getListAdapter().isEditMode()) {
+        if (getAssistHelper().isEditMode()) {
             getViewFinder().setVisible(R.id.checkBox);
         } else {
             getViewFinder().setGone(R.id.checkBox);
         }
-        if (getListAdapter().getCheckedItemPositions().containsKey(getPosition())) {
+        if (getAssistHelper().getCheckedItemPositions().containsKey(getPosition())) {
             checkBox.setChecked(true);
         } else {
             checkBox.setChecked(false);
@@ -45,11 +45,11 @@ public abstract class ConversationEditableTpl extends BaseTpl<ItemDataWrapper> i
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getAssistHelper().getCheckedItemPositions();
         Integer position = getPosition();
         if (isChecked) {
             if (!checkedItemPositions.containsKey(position)) {
-                getListAdapter().getCheckedItemPositions().put(position, getItemDataBean());
+                getAssistHelper().getCheckedItemPositions().put(position, getItemDataBean());
             }
         } else {
             if (checkedItemPositions.containsKey(position)) {

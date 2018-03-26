@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.util;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,8 @@ import android.widget.FrameLayout;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
+import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.util
@@ -20,7 +21,7 @@ import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 
 public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMoreView {
     private ViewGroup mFooterView;
-    private RecyclerView mList;
+    private IScrollableView mList;
 
     private View.OnClickListener onClickRefreshListener;
     //一开始设置的尾部布局，用于后续如果子类切换了部分尾部视图，剩余默认视图切换回来的作用
@@ -40,7 +41,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
     }
 
     @Override
-    public void init(RecyclerView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter) {
+    public void init(IScrollableView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter) {
         mInflater = LayoutInflater.from(list.getContext());
         this.mList = list;
         this.onClickRefreshListener = onClickLoadMoreListener;
@@ -53,7 +54,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
         onInflateFooterViewAfter(mFooterView);
         if (enableLoadMoreFooter) {
             //添加加载更多布局到尾部
-            ((HeaderFooterAdapter) list.getAdapter()).addFooterView(mFooterView);
+            ((HeaderFooterAdapter) ((ScrollableRecyclerView)list).getAdapter()).addFooterView(mFooterView);
         }
         showNormal();
     }
@@ -110,9 +111,9 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
     @Override
     public void enableLoadMoreFooter(boolean enableLoadMoreFooter) {
         if (enableLoadMoreFooter) {
-            ((HeaderFooterAdapter) mList.getAdapter()).addFooterView(mFooterView);
+            ((HeaderFooterAdapter) ((ScrollableRecyclerView)mList).getAdapter()).addFooterView(mFooterView);
         } else {
-            ((HeaderFooterAdapter) mList.getAdapter()).removeFooter(mFooterView);
+            ((HeaderFooterAdapter) ((ScrollableRecyclerView)mList).getAdapter()).removeFooter(mFooterView);
         }
     }
 
@@ -183,7 +184,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
     /**
      * 子类重写返回尾部布局
      */
-    protected abstract View onInflateFooterView(LayoutInflater inflater, RecyclerView list, View.OnClickListener onClickLoadMoreListener);
+    protected abstract View onInflateFooterView(LayoutInflater inflater, IScrollableView list, View.OnClickListener onClickLoadMoreListener);
 
     /**
      * 实例化尾部布局后回调，通常是查找控件

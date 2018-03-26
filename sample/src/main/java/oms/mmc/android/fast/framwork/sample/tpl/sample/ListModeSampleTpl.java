@@ -58,13 +58,13 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
     @Override
     protected void onRender(ItemDataWrapper itemData) {
         setViewText((String) itemData.getDatas().get(0), mTextTv);
-        boolean isEditMode = getListAdapter().isEditMode();
+        boolean isEditMode = getAssistHelper().isEditMode();
         if (!isEditMode) {
             setGone(mCheckIv);
             toggleCheck(false);
         } else {
             setVisible(mCheckIv);
-            HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+            HashMap<Integer, Object> checkedItemPositions = getAssistHelper().getCheckedItemPositions();
             if (checkedItemPositions.containsKey(getPosition())) {
                 toggleCheck(true);
             } else {
@@ -77,18 +77,18 @@ public class ListModeSampleTpl extends BaseTpl<ItemDataWrapper> {
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
         //不是编辑模式直接返回
-        if (!getListAdapter().isEditMode()) {
+        if (!getAssistHelper().isEditMode()) {
             return;
         }
-        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getAssistHelper().getCheckedItemPositions();
         boolean isCheck;
         //选中了，反选
         if (checkedItemPositions.containsKey(getPosition())) {
-            getListAdapter().getCheckedItemPositions().remove(Integer.valueOf(getPosition()));
+            getAssistHelper().getCheckedItemPositions().remove(Integer.valueOf(getPosition()));
             isCheck = false;
         } else {
             //没有选中，选中
-            getListAdapter().getCheckedItemPositions().put(getPosition(), getItemDataBean());
+            getAssistHelper().getCheckedItemPositions().put(getPosition(), getItemDataBean());
             isCheck = true;
         }
         toggleCheck(isCheck);

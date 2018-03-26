@@ -28,6 +28,7 @@ import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.wait.factory.IWaitViewFactory;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.activity
@@ -147,7 +148,7 @@ public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayou
         if (isFirst) {
             hideWaitDialog();
             //一开始滚动到底部，由于反转布局，位置0就是底部
-            getRecyclerView().scrollToPosition(0);
+            ((ScrollableRecyclerView)getScrollableView()).scrollToPosition(0);
         }
     }
 }

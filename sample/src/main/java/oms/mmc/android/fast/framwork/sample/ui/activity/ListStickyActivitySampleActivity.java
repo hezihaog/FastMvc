@@ -119,7 +119,7 @@ public class ListStickyActivitySampleActivity extends BaseFastListActivity<Swipe
      */
     @Override
     public ListScrollHelper onInitScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
+        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getScrollableView()));
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ListStickyActivitySampleActivity extends BaseFastListActivity<Swipe
                 .type(TPL_TEXT, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_IMAGE, R.drawable.shape_conversation_item_decoration)
                 .create();
-        getRecyclerView().addItemDecoration(decoration);
+        ((ScrollableRecyclerView)getScrollableView()).addItemDecoration(decoration);
     }
 
     @Override

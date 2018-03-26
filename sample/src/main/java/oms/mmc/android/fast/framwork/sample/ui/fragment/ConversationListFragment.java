@@ -39,11 +39,13 @@ import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.list.helper.AssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -189,7 +191,7 @@ public class ConversationListFragment extends BaseFastListFragment<SmartPullRefr
                 .type(TPL_EMAIL, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_CHAT, R.drawable.shape_conversation_item_decoration)
                 .create();
-        getRecyclerView().addItemDecoration(decoration);
+        ((ScrollableRecyclerView)getScrollableView()).addItemDecoration(decoration);
     }
 
     @Override
@@ -230,13 +232,13 @@ public class ConversationListFragment extends BaseFastListFragment<SmartPullRefr
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ConversationEditStateChangeEvent event) {
         RecyclerViewViewHelper<BaseItemData> recyclerViewHelper = getRecyclerViewHelper();
-        BaseListAdapter<BaseItemData> listAdapter = getListAdapter();
+        BaseListAdapter listAdapter = getListAdapter();
         if (event.isEditMode()) {
-            getListAdapter().setMode(BaseListAdapter.MODE_EDIT);
+            getAssistHelper().setMode(AssistHelper.MODE_EDIT);
             //编辑模式时不能下拉刷新
             recyclerViewHelper.setCanPullToRefresh(false);
         } else {
-            listAdapter.setMode(BaseListAdapter.MODE_NORMAL);
+            getAssistHelper().setMode(AssistHelper.MODE_NORMAL);
             recyclerViewHelper.setCanPullToRefresh(true);
         }
         listAdapter.notifyDataSetChanged();

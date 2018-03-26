@@ -23,9 +23,11 @@ import oms.mmc.android.fast.framwork.util.MethodCompat;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.TemplateItemWrapper;
-import oms.mmc.android.fast.framwork.widget.rv.adapter.IAssistRecyclerAdapter;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.base.IScrollableView;
 
 /**
  * 列表条目基础模板，条目类
@@ -37,11 +39,12 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     private Activity mActivity;
     private RecyclerViewViewHelper mRecyclerViewHelper;
     private ListScrollHelper mListScrollHelper;
-    private IAssistRecyclerAdapter mListAdapter;
+    private ICommonListAdapter mListAdapter;
     private IDataSource<? extends BaseItemData> mListDataSource;
     private List<? extends BaseItemData> mListData;
-    private RecyclerView mRecyclerView;
+    private IScrollableView mScrollableView;
     private IWaitViewHost mWaitViewHost;
+    private IAssistHelper mAssistHelper;
     private int mItemViewType = -1;
     private ViewGroup mRoot;
     private int mPosition;
@@ -54,19 +57,21 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
 
     /**
      * 初始化
-     *
-     * @param activity         activity对象
-     * @param recyclerView     rv列表
+     *  @param activity         activity对象
+     * @param scrollableView     rv列表
      * @param toastOperator    Toast执行器
      * @param waitViewHost     WaitView依赖的宿主，BaseFastActivity或者BaseFastFragment
      * @param fragmentOperator Fragment操作器，所有的fragment操作都封装到这里
+     * @param assistHelper
      * @param itemViewType     当前Tpl的ViewType
      */
-    public void init(Activity activity, RecyclerView recyclerView, IToastOperator toastOperator, IWaitViewHost waitViewHost, IFragmentOperator fragmentOperator, int itemViewType) {
+    public void init(Activity activity, IScrollableView scrollableView, IToastOperator toastOperator
+            , IWaitViewHost waitViewHost, IFragmentOperator fragmentOperator, IAssistHelper assistHelper, int itemViewType) {
         this.mWaitViewHost = waitViewHost;
+        this.mAssistHelper = assistHelper;
         this.mItemViewType = itemViewType;
         this.mActivity = activity;
-        this.mRecyclerView = recyclerView;
+        this.mScrollableView = scrollableView;
         setToastOperator(toastOperator);
         setFragmentOperator(fragmentOperator);
         setBundle(mActivity.getIntent().getExtras());
@@ -82,7 +87,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
      * @param recyclerViewHelper rv帮助类
      * @param listScrollHelper   列表滚动帮助类
      */
-    public void config(IAssistRecyclerAdapter adapter, List<? extends BaseItemData> data
+    public void config(ICommonListAdapter adapter, List<? extends BaseItemData> data
             , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper, ListScrollHelper listScrollHelper) {
         this.mListAdapter = adapter;
         this.mListDataSource = dataSource;
@@ -98,7 +103,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         onCreate();
         onLayoutBefore();
         generateItemLayoutWrapper();
-        View itemView = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
+        View itemView = onLayoutView(LayoutInflater.from(mActivity), (ViewGroup) mScrollableView);
         mRoot.addView(itemView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
         mRoot.addOnAttachStateChangeListener(this);
         mViewFinder = new ViewFinder(getActivity(), mRoot);
@@ -129,7 +134,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     public View getRoot() {
         if (mRoot == null) {
             generateItemLayoutWrapper();
-            View itemView = onLayoutView(LayoutInflater.from(mActivity), mRecyclerView);
+            View itemView = onLayoutView(LayoutInflater.from(mActivity), (ViewGroup) mScrollableView);
             mRoot.addView(itemView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
         }
         return mRoot;
@@ -224,10 +229,10 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     }
 
     /**
-     * 获取条目当前依附的的rv
+     * 获取条目当前依附的的滚动列表
      */
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    public IScrollableView getScrollableView() {
+        return mScrollableView;
     }
 
     /**
@@ -248,7 +253,7 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         return mListScrollHelper;
     }
 
-    public IAssistRecyclerAdapter getListAdapter() {
+    public ICommonListAdapter getListAdapter() {
         return mListAdapter;
     }
 
@@ -382,6 +387,10 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         recyclerTpl();
     }
 
+    public IAssistHelper getAssistHelper() {
+        return mAssistHelper;
+    }
+
     /**
      * 回收Tpl中的引用
      */
@@ -404,8 +413,8 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         if (mListData != null) {
             mListData = null;
         }
-        if (mRecyclerView != null) {
-            mRecyclerView = null;
+        if (mScrollableView != null) {
+            mScrollableView = null;
         }
         if (mRoot != null) {
             mRoot = null;

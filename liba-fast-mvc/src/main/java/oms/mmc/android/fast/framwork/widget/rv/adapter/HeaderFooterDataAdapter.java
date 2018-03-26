@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.base.IDataAdapter;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 
 /**
@@ -16,7 +18,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
  * Email: hezihao@linghit.com
  */
 
-public class HeaderFooterDataAdapter<T extends BaseItemData> extends HeaderFooterAdapter implements IDataAdapter<T> {
+public class HeaderFooterDataAdapter<T extends BaseItemData> extends HeaderFooterAdapter implements IDataAdapter<T>, ICommonListAdapter {
     private IDataAdapter<T> mAdapter;
 
     public HeaderFooterDataAdapter(IDataAdapter<T> adapter) {
@@ -53,5 +55,35 @@ public class HeaderFooterDataAdapter<T extends BaseItemData> extends HeaderFoote
     @Override
     public boolean isEmpty() {
         return mAdapter.isEmpty();
+    }
+
+    @Override
+    public void addOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
+        ((ICommonListAdapter)mAdapter).addOnItemClickListener(onItemClickListener);
+    }
+
+    @Override
+    public void removeOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
+        ((ICommonListAdapter)mAdapter).removeOnItemClickListener(onItemClickListener);
+    }
+
+    @Override
+    public void addOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
+        ((ICommonListAdapter)mAdapter).addOnItemLongClickListener(onItemLongClickListener);
+    }
+
+    @Override
+    public void removeOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
+        ((ICommonListAdapter)mAdapter).removeOnItemLongClickListener(onItemLongClickListener);
+    }
+
+    @Override
+    public void setAssistHelper(IAssistHelper assistHelper) {
+        ((ICommonListAdapter)mAdapter).setAssistHelper(assistHelper);
+    }
+
+    @Override
+    public IAssistHelper getAssistHelper() {
+        return ((ICommonListAdapter)mAdapter).getAssistHelper();
     }
 }

@@ -2,11 +2,9 @@ package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,10 +16,14 @@ import oms.mmc.android.fast.framwork.util.FragmentOperator;
 import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
+import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -32,10 +34,9 @@ import oms.mmc.helper.ListScrollHelper;
  * Email: hezihao@linghit.com
  */
 
-public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRecyclerAdapter<BaseTpl.ViewHolder> implements IMultiTypeAdapter {
-    private static final String TAG = MultiTypeAdapter.class.getSimpleName();
+public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements IMultiTypeAdapter, ICommonListAdapter {
     private Activity mActivity;
-    private RecyclerView mRecyclerView;
+    private ScrollableRecyclerView mScrollableView;
     /**
      * 条目类的类型和条目类class的映射
      */
@@ -43,11 +44,11 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     /**
      * 数据集
      */
-    private IDataSource<T> mListDataSource;
+    private IDataSource<BaseItemData> mListDataSource;
     /**
      * 列表数据
      */
-    private ArrayList<T> mListData;
+    private ArrayList<BaseItemData> mListData;
     /**
      * 等待弹窗依赖的宿主
      */
@@ -55,15 +56,15 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     /**
      * 点击事件
      */
-    private ArrayList<OnRecyclerViewItemClickListener> onItemClickListeners = new ArrayList<OnRecyclerViewItemClickListener>();
+    private ArrayList<OnScrollableViewItemClickListener> onItemClickListeners = new ArrayList<OnScrollableViewItemClickListener>();
     /**
      * 长按事件
      */
-    private ArrayList<OnRecyclerViewItemLongClickListener> onItemLongClickListener = new ArrayList<OnRecyclerViewItemLongClickListener>();
+    private ArrayList<OnScrollableViewItemLongClickListener> onItemLongClickListeners = new ArrayList<OnScrollableViewItemLongClickListener>();
     /**
      * rv帮助类
      */
-    private RecyclerViewViewHelper<T> mRecyclerViewHelper;
+    private RecyclerViewViewHelper<BaseItemData> mRecyclerViewHelper;
     /**
      * 列表滚动帮助类
      */
@@ -76,18 +77,21 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
      * Fragment操作类
      */
     private final IFragmentOperator mFragmentOperator;
+    private final CommonListAdapterDelegate mAdapterDelegate;
+    private IAssistHelper mAssistHelper;
 
-    public MultiTypeAdapter(RecyclerView recyclerView, Activity activity, IDataSource<T> dataSource
+    public MultiTypeAdapter(ScrollableRecyclerView scrollableView, Activity activity, IDataSource<BaseItemData> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, IWaitViewHost waitViewHost) {
         this.mToastOperator = new ToastOperator(activity);
         this.mFragmentOperator = new FragmentOperator(activity);
-        this.mRecyclerView = recyclerView;
+        this.mScrollableView = scrollableView;
         this.mActivity = activity;
         this.mListDataSource = dataSource;
         this.mListData = dataSource.getListData();
         this.mWaitViewHost = waitViewHost;
         this.viewTypeClassMap = itemViewClazzMap;
         this.mRecyclerViewHelper = recyclerViewHelper;
+        this.mAdapterDelegate = new CommonListAdapterDelegate(dataSource.getListData(), viewTypeClassMap);
         initListener();
     }
 
@@ -95,7 +99,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
      * 初始化监听器
      */
     private void initListener() {
-        addOnItemClickListener(new OnRecyclerViewItemClickListener() {
+        addOnItemClickListener(new OnScrollableViewItemClickListener() {
 
             @Override
             public void onItemClick(View view, BaseTpl clickTpl, int position) {
@@ -103,7 +107,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
                 tpl.onItemClick(view, position);
             }
         });
-        addOnItemLongClickListener(new OnRecyclerViewItemLongClickListener() {
+        addOnItemLongClickListener(new OnScrollableViewItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(View view, BaseTpl longClickTpl, int position) {
@@ -112,12 +116,12 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
                 return true;
             }
         });
-        mRecyclerView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
+        mScrollableView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
             @Override
             public void onViewDetachedFromWindow(View v) {
-                int allItemCount = mRecyclerView.getAdapter().getItemCount();
+                int allItemCount = mScrollableView.getAdapter().getItemCount();
                 for (int i = 0; i < allItemCount; i++) {
-                    RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                    RecyclerView.ViewHolder holder = mScrollableView.findViewHolderForAdapterPosition(i);
                     if (holder != null && holder.itemView != null) {
                         BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
                         if (tpl != null) {
@@ -130,28 +134,15 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     }
 
     @Override
+    public int getItemCount() {
+        return mAdapterDelegate.getListItemCount();
+    }
+
+    @Override
     public BaseTpl.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BaseTpl.ViewHolder viewHolder;
-        //反射构造条目类
-        Constructor constructor = null;
-        try {
-            constructor = viewTypeClassMap.get(viewType).getConstructor();
-            constructor.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            Log.e(TAG, "无法获取Tpl构造方法，请注意不能修改省略无参构造方法");
-        }
-        BaseTpl tpl = null;
-        try {
-            tpl = (BaseTpl) constructor.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "反射实例化Tpl出错，请查看Tpl构造方法是否是无参");
-        }
-        if (tpl == null) {
-            throw new NullPointerException("反射实例化Tpl失败，请检查Tpl构造方法是否公开，并且不是非静态匿名内部类");
-        }
-        tpl.init(mActivity, mRecyclerView, mToastOperator, mWaitViewHost, mFragmentOperator, viewType);
+        BaseTpl tpl = mAdapterDelegate.createTpl(viewType);
+        tpl.init(mActivity, mScrollableView, mToastOperator, mWaitViewHost, mFragmentOperator, getAssistHelper(), viewType);
         viewHolder = tpl.getViewHolder();
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
         tpl.config(this, mListData, mListDataSource, mRecyclerViewHelper, mListScrollHelper);
@@ -160,7 +151,7 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
                 @Override
                 public void onClick(View view) {
                     if (onItemClickListeners != null) {
-                        for (OnRecyclerViewItemClickListener clickListener : onItemClickListeners) {
+                        for (OnScrollableViewItemClickListener clickListener : onItemClickListeners) {
                             BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
                             clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
                         }
@@ -168,13 +159,13 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
                 }
             });
         }
-        if (onItemLongClickListener.size() > 0) {
+        if (onItemLongClickListeners.size() > 0) {
             tpl.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (onItemLongClickListener != null) {
+                    if (onItemLongClickListeners != null) {
                         BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                        for (OnRecyclerViewItemLongClickListener longClickListener : onItemLongClickListener) {
+                        for (OnScrollableViewItemLongClickListener longClickListener : onItemLongClickListeners) {
                             longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
                         }
                     }
@@ -187,57 +178,47 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
 
     @Override
     public void onBindViewHolder(BaseTpl.ViewHolder holder, int position) {
-        BaseTpl<T> tpl = (BaseTpl<T>) holder.itemView.getTag(R.id.tag_tpl);
-        tpl.setBeanPosition(mListData, getItem(position), position);
-        try {
-            tpl.render();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public T getItem(int position) {
-        return mListData.get(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mListData.size();
+        BaseTpl<BaseItemData> tpl = (BaseTpl<BaseItemData>) holder.itemView.getTag(R.id.tag_tpl);
+        mAdapterDelegate.updateTpl(tpl, mListData, position);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getViewType();
+        return mAdapterDelegate.getListItemViewType(position);
     }
 
     @Override
-    public void addOnItemClickListener(OnRecyclerViewItemClickListener onItemClickListeners) {
-        this.onItemClickListeners.add(onItemClickListeners);
+    public void addOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
+        this.onItemClickListeners.add(onItemClickListener);
     }
 
     @Override
-    public void addOnItemLongClickListener(OnRecyclerViewItemLongClickListener onItemLongClickListener) {
-        this.onItemLongClickListener.add(onItemLongClickListener);
+    public void addOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListeners.add(onItemLongClickListener);
     }
 
     @Override
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    public void removeOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
+        this.onItemClickListeners.remove(onItemClickListener);
     }
 
     @Override
-    public RecyclerViewViewHelper<T> getRecyclerViewHelper() {
+    public void removeOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListeners.remove(onItemLongClickListener);
+    }
+
+    @Override
+    public RecyclerView getScrollableView() {
+        return mScrollableView;
+    }
+
+    @Override
+    public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
         return mRecyclerViewHelper;
     }
 
     @Override
-    public IDataSource<T> getListDataSource() {
+    public IDataSource<BaseItemData> getListDataSource() {
         return mListDataSource;
     }
 
@@ -247,12 +228,22 @@ public abstract class MultiTypeAdapter<T extends BaseItemData> extends AssistRec
     }
 
     @Override
-    public ArrayList<T> getListData() {
+    public ArrayList<BaseItemData> getListData() {
         return mListData;
     }
 
     @Override
     public void setListScrollHelper(ListScrollHelper listScrollHelper) {
         mListScrollHelper = listScrollHelper;
+    }
+
+    @Override
+    public void setAssistHelper(IAssistHelper assistHelper) {
+        mAssistHelper = assistHelper;
+    }
+
+    @Override
+    public IAssistHelper getAssistHelper() {
+        return mAssistHelper;
     }
 }

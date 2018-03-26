@@ -14,6 +14,8 @@ import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IPullRefreshUi;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.helper.AssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
@@ -22,6 +24,9 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.base.IScrollableViewWrapper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.util
@@ -40,7 +45,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     /**
      * 列表
      */
-    protected RecyclerView mRecyclerView;
+    protected IScrollableView mScrollableView;
     /**
      * 列表加载帮助类
      */
@@ -78,11 +83,14 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
      * 滚动监听帮助类
      */
     private ListScrollHelper mScrollHelper;
+    private IScrollableViewWrapper mScrollableViewWrapper;
+    private AssistHelper mAssistHelper;
 
     public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData> listAble, RecyclerViewListConfigCallback recyclerViewListConfigCallback, IPullRefreshUi<P> pullRefreshUi) {
         this.mListAble = listAble;
         this.mRecyclerViewListConfigCallback = recyclerViewListConfigCallback;
         this.mPullRefreshUi = pullRefreshUi;
+        mAssistHelper = new AssistHelper();
     }
 
     /**
@@ -101,11 +109,13 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         mRefreshWrapper = mPullRefreshUi.onInitPullRefreshWrapper((P) pullToRefreshLayout);
         mPullRefreshUi.onPullRefreshWrapperReady(mRefreshWrapper, mRefreshWrapper.getPullRefreshAbleView());
         //初始化列表控件
-        mRecyclerView = (RecyclerView) rootLayout.findViewById(R.id.fast_recycler_view);
-        mRecyclerView.setLayoutManager(mRecyclerViewListConfigCallback.onGetListLayoutManager());
+        mScrollableView = (IScrollableView) rootLayout.findViewById(R.id.fast_recycler_view);
+        if (mScrollableView instanceof ScrollableRecyclerView) {
+            ((ScrollableRecyclerView) mScrollableView).setLayoutManager(mRecyclerViewListConfigCallback.onGetListLayoutManager());
+        }
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {
-            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshWrapper, mRecyclerView);
+            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshWrapper, mScrollableView);
         }
         //初始化数据源
         if (mListDataSource == null) {
@@ -119,7 +129,9 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         if (mListAdapter == null) {
             mListAdapter = mListAble.onListAdapterReady();
         }
+        ((ICommonListAdapter)mListAdapter).setAssistHelper(mAssistHelper);
         mRecyclerViewHelper.setAdapter(mListAdapter);
+        setupScrollHelper();
         //初始化视图切换工厂
         mLoadViewFactory = mListAble.onLoadViewFactoryReady();
         //初始化列表加载更多视图工厂
@@ -139,8 +151,12 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         return mRefreshWrapper.getPullRefreshAbleView();
     }
 
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    public IScrollableView getScrollableView() {
+        return mScrollableView;
+    }
+
+    public IScrollableViewWrapper getScrollableViewWrapper() {
+        return mScrollableViewWrapper;
     }
 
     public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
@@ -157,6 +173,10 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
 
     public IDataAdapter<BaseItemData> getListAdapter() {
         return mListAdapter;
+    }
+
+    public AssistHelper getAssistHelper() {
+        return mAssistHelper;
     }
 
     public ILoadViewFactory getLoadViewFactory() {
@@ -179,18 +199,21 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
      * 设置列表控件相关配置
      */
     public void setupRecyclerView() {
-        //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
-        try {
-            mRecyclerView.getLayoutManager().setItemPrefetchEnabled(false);
-        } catch (Throwable e) {
-            //这里try-catch是因为如果使用者使用排除进行替换低版本的rv时，调用该方法会可能找不到方法抛出异常
-            //e.printStackTrace();
+        if (getScrollableView() instanceof ScrollableRecyclerView) {
+            ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getScrollableView();
+            //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
+            try {
+                scrollableRecyclerView.getLayoutManager().setItemPrefetchEnabled(false);
+            } catch (Throwable e) {
+                //这里try-catch是因为如果使用者使用排除进行替换低版本的rv时，调用该方法会可能找不到方法抛出异常
+                //e.printStackTrace();
+            }
+            RecyclerView.LayoutManager layoutManager = scrollableRecyclerView.getLayoutManager();
+            //自动测量
+            layoutManager.setAutoMeasureEnabled(true);
+            //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
+            scrollableRecyclerView.setHasFixedSize(true);
         }
-        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-        //自动测量
-        layoutManager.setAutoMeasureEnabled(true);
-        //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
-        mRecyclerView.setHasFixedSize(true);
         //设置结束，开始刷新
         ArrayList<BaseItemData> listData = getListData();
         if (listData.size() == 0) {
@@ -215,6 +238,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     public void setupScrollHelper() {
         //加入滚动监听
         mScrollHelper = mListAble.onInitScrollHelper();
+        mScrollableViewWrapper = mScrollHelper.getScrollableViewWrapper();
         mRecyclerViewHelper.setupScrollHelper(mScrollHelper);
         ((BaseListAdapter) ((HeaderFooterDataAdapter) mListAdapter).getAdapter()).setListScrollHelper(mScrollHelper);
         mListAble.onListScrollHelperReady(mScrollHelper);
@@ -225,23 +249,29 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
      */
     public void compatNestedScroll() {
         //放弃滚动，将滚动交给上层的NestedScrollView
-        getRecyclerView().setNestedScrollingEnabled(false);
+        IScrollableView scrollableView = getScrollableView();
+        if (scrollableView instanceof ScrollableRecyclerView) {
+            ((ScrollableRecyclerView)scrollableView).setNestedScrollingEnabled(false);
+        }
     }
 
     /**
      * 反转列表布局，实现类似QQ聊天时使用，当时线性布局和网格时才可以使用
      */
     public void reverseListLayout() {
-        RecyclerView.LayoutManager manager = getRecyclerView().getLayoutManager();
-        if (manager instanceof LinearLayoutManager) {
-            LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
-            //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确
-            getRecyclerViewHelper().setReverse(true);
-            //设置rv为倒转布局
-            layoutManager.setReverseLayout(true);
-            //当不是网格时才能使用元素添加顺序倒转，就是说只有线性布局
-            if (!(manager instanceof GridLayoutManager)) {
-                layoutManager.setStackFromEnd(true);
+        IScrollableView scrollableView = getScrollableView();
+        if (scrollableView instanceof ScrollableRecyclerView) {
+            RecyclerView.LayoutManager manager = ((ScrollableRecyclerView)scrollableView).getLayoutManager();
+            if (manager instanceof LinearLayoutManager) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
+                //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确
+                getRecyclerViewHelper().setReverse(true);
+                //设置rv为倒转布局
+                layoutManager.setReverseLayout(true);
+                //当不是网格时才能使用元素添加顺序倒转，就是说只有线性布局
+                if (!(manager instanceof GridLayoutManager)) {
+                    layoutManager.setStackFromEnd(true);
+                }
             }
         }
     }
@@ -254,7 +284,10 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
             getScrollHelper().smoothMoveToTop();
         } else {
             //由于是反转布局，顶部的position就是列表的总数
-            getRecyclerView().smoothScrollToPosition(getRecyclerView().getAdapter().getItemCount());
+            if (getScrollableView() instanceof ScrollableRecyclerView) {
+                ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getScrollableView();
+                scrollableRecyclerView.smoothScrollToPosition(scrollableRecyclerView.getAdapter().getItemCount());
+            }
         }
     }
 
@@ -265,8 +298,11 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         if (!isReverse) {
             getScrollHelper().moveToTop();
         } else {
-            //由于是反转布局，顶部的position就是列表的总数
-            getRecyclerView().scrollToPosition(getRecyclerView().getAdapter().getItemCount());
+            if (getScrollableView() instanceof ScrollableRecyclerView) {
+                ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getScrollableView();
+                //由于是反转布局，顶部的position就是列表的总数
+                scrollableRecyclerView.scrollToPosition(scrollableRecyclerView.getAdapter().getItemCount());
+            }
         }
     }
 
@@ -276,7 +312,11 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
      * @param position 条目的position
      */
     public BaseTpl findTplByPosition(int position) {
-        RecyclerView.ViewHolder viewHolder = getRecyclerView().findViewHolderForAdapterPosition(position);
-        return (BaseTpl) viewHolder.itemView.getTag(R.id.tag_tpl);
+        if (getScrollableView() instanceof ScrollableRecyclerView) {
+            ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getScrollableView();
+            RecyclerView.ViewHolder viewHolder = scrollableRecyclerView.findViewHolderForAdapterPosition(position);
+            return (BaseTpl) viewHolder.itemView.getTag(R.id.tag_tpl);
+        }
+        return null;
     }
 }

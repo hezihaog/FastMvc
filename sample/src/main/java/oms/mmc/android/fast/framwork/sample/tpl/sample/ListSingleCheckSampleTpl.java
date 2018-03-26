@@ -56,7 +56,7 @@ public class ListSingleCheckSampleTpl extends BaseTpl<BaseItemData> {
     @Override
     protected void onRender(BaseItemData itemData) {
         setViewText("item position " + getPosition(), mTextView);
-        int checkedItemPosition = getListAdapter().getCheckedItemPosition();
+        int checkedItemPosition = getAssistHelper().getCheckedItemPosition();
         if (checkedItemPosition == getPosition()) {
             toggleCheckImage(true);
         } else {
@@ -68,18 +68,18 @@ public class ListSingleCheckSampleTpl extends BaseTpl<BaseItemData> {
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
         boolean isCheck;
-        int checkedItemPosition = getListAdapter().getCheckedItemPosition();
+        int checkedItemPosition = getAssistHelper().getCheckedItemPosition();
         //已经选中，取消选中
         if (checkedItemPosition == getPosition()) {
-            getListAdapter().clearCheckedItemPosition();
+            getAssistHelper().clearCheckedItemPosition();
             isCheck = false;
         } else {
             //未选中，选中
-            getListAdapter().setCheckedItemPosition(getPosition());
+            getAssistHelper().setCheckedItemPosition(getPosition());
             isCheck = true;
         }
         EventBusUtil.sendEvent(new SingleCheckEvent(getPosition(), isCheck));
-        toast("当前选中的position是 ::: " + getListAdapter().getCheckedItemPosition());
+        toast("当前选中的position是 ::: " + getAssistHelper().getCheckedItemPosition());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

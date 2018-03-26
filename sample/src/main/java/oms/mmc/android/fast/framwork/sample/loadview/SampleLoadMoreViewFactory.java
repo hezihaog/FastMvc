@@ -1,8 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.loadview;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -10,6 +10,7 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.util.AbsLoadMoreHelper;
+import oms.mmc.helper.base.IScrollableView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.loadview
@@ -28,8 +29,8 @@ public class SampleLoadMoreViewFactory implements ILoadMoreViewFactory {
     public ILoadMoreView madeLoadMoreView() {
         return new AbsLoadMoreHelper() {
             @Override
-            protected View onInflateFooterView(LayoutInflater inflater, RecyclerView list, View.OnClickListener onClickLoadMoreListener) {
-                return inflater.inflate(R.layout.layout_sample_load_more_footer, list, false);
+            protected View onInflateFooterView(LayoutInflater inflater, IScrollableView list, View.OnClickListener onClickLoadMoreListener) {
+                return inflater.inflate(R.layout.layout_sample_load_more_footer, (ViewGroup) list, false);
             }
 
             @Override

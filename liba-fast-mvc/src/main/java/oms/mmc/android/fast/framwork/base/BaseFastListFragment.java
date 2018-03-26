@@ -15,6 +15,8 @@ import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
@@ -28,13 +30,14 @@ import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutM
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.base.IScrollableView;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
 public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends BaseFastFragment
         implements ListLayoutCallback<BaseItemData>,
-        OnStateChangeListener<BaseItemData>, BaseListAdapter.OnRecyclerViewItemClickListener,
-        RecyclerViewListConfigCallback, BaseListAdapter.OnRecyclerViewItemLongClickListener, IPullRefreshUi<P> {
+        OnStateChangeListener<BaseItemData>, ICommonListAdapter.OnScrollableViewItemClickListener,
+        RecyclerViewListConfigCallback, ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {
     private ListAbleDelegateHelper<P> mDelegateHelper;
 
     @Override
@@ -67,7 +70,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     @Override
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onLazyViewCreated(view, savedInstanceState);
-        mDelegateHelper.setupScrollHelper();
+//        mDelegateHelper.setupScrollHelper();
     }
 
     /**
@@ -103,15 +106,14 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
 
     @Override
     public IDataAdapter<BaseItemData> onListAdapterReady() {
-        BaseListAdapter adapter = new BaseListAdapter<BaseItemData>(getRecyclerView(), getActivity(), getListDataSource()
-                , onListTypeClassesReady(), getRecyclerViewHelper(), onStickyTplViewTypeReady(), this);
+        BaseListAdapter adapter = new BaseListAdapter((ScrollableRecyclerView)getScrollableView(), getActivity(), getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), onStickyTplViewTypeReady(), this);
         return new HeaderFooterDataAdapter(adapter);
     }
 
     @Override
     public ListScrollHelper onInitScrollHelper() {
         //默认都是rv，这里默认使用rv的，如果是使用其他的，复写该方法，返回对应的包裹类和控件
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getRecyclerView()));
+        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getScrollableView()));
     }
 
     @Override
@@ -170,8 +172,8 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         return mDelegateHelper.getRefreshWrapper().getPullRefreshAbleView();
     }
 
-    public RecyclerView getRecyclerView() {
-        return mDelegateHelper.getRecyclerView();
+    public IScrollableView getScrollableView() {
+        return mDelegateHelper.getScrollableView();
     }
 
     public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
@@ -190,12 +192,17 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         return mDelegateHelper.getListData();
     }
 
-    public BaseListAdapter<BaseItemData> getListAdapter() {
-        return (BaseListAdapter<BaseItemData>) ((HeaderFooterDataAdapter) mDelegateHelper.getListAdapter()).getAdapter();
+    public BaseListAdapter getListAdapter() {
+        return (BaseListAdapter) ((HeaderFooterDataAdapter) mDelegateHelper.getListAdapter()).getAdapter();
+    }
+
+    public IAssistHelper getAssistHelper() {
+        return mDelegateHelper.getAssistHelper();
     }
 
     public HeaderFooterAdapter getRecyclerViewAdapter() {
-        return (HeaderFooterAdapter) mDelegateHelper.getRecyclerView().getAdapter();
+        ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) mDelegateHelper.getScrollableView();
+        return (HeaderFooterAdapter) scrollableRecyclerView.getAdapter();
     }
 
     public ILoadViewFactory getLoadViewFactory() {

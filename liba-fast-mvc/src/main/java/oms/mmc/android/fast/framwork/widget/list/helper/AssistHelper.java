@@ -1,8 +1,5 @@
-package oms.mmc.android.fast.framwork.widget.rv.adapter;
+package oms.mmc.android.fast.framwork.widget.list.helper;
 
-import android.support.v7.widget.RecyclerView;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +12,7 @@ import java.util.Map;
  * Email: hezihao@linghit.com
  */
 
-public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
-        extends RecyclerView.Adapter<T> implements IAssistRecyclerAdapter {
+public class AssistHelper implements IAssistHelper {
     /**
      * 多选时使用
      */
@@ -33,57 +29,6 @@ public abstract class AssistRecyclerAdapter<T extends RecyclerView.ViewHolder>
      * 可用于保存临时数据的容器
      */
     private Map<String, Object> tagList = new HashMap<String, Object>();
-
-    private ArrayList<OnAttachedToRecyclerViewListener> mAttachedRecyclerListener = new ArrayList<OnAttachedToRecyclerViewListener>();
-    private ArrayList<onViewAttachedToWindowListener> mAttachedWindowListener = new ArrayList<onViewAttachedToWindowListener>();
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        for (OnAttachedToRecyclerViewListener listener : mAttachedRecyclerListener) {
-            listener.onAttachedToRecyclerView();
-        }
-    }
-
-    @Override
-    public void addOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener) {
-        if (!mAttachedRecyclerListener.contains(listener)) {
-            mAttachedRecyclerListener.add(listener);
-        }
-    }
-
-    @Override
-    public void removeOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener) {
-        mAttachedRecyclerListener.remove(listener);
-    }
-
-    @Override
-    public void removeAllOnAttachedToRecyclerViewListener() {
-        mAttachedRecyclerListener.clear();
-    }
-
-    @Override
-    public void onViewAttachedToWindow(T holder) {
-        super.onViewAttachedToWindow(holder);
-        for (onViewAttachedToWindowListener listener : mAttachedWindowListener) {
-            listener.onViewAttachedToWindow(holder);
-        }
-    }
-
-    @Override
-    public void addOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener) {
-        mAttachedWindowListener.add(listener);
-    }
-
-    @Override
-    public void removeOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener) {
-        mAttachedWindowListener.remove(listener);
-    }
-
-    @Override
-    public void removeAllOnViewAttachedToWindowListener() {
-        mAttachedWindowListener.clear();
-    }
 
     @Override
     public void putTag(String key, Object value) {

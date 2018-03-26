@@ -59,7 +59,7 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
     @Override
     protected void onRender(BaseItemData itemData) {
         setViewText("item position " + getPosition(), mTextView);
-        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getAssistHelper().getCheckedItemPositions();
         if (checkedItemPositions.containsKey(getPosition())) {
             toggleCheckImage(true);
         } else {
@@ -71,22 +71,22 @@ public class ListMultipleCheckSampleTpl extends BaseTpl<BaseItemData> {
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
         //不是编辑模式直接返回
-        if (!getListAdapter().isEditMode()) {
+        if (!getAssistHelper().isEditMode()) {
             return;
         }
         boolean isCheck;
-        HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+        HashMap<Integer, Object> checkedItemPositions = getAssistHelper().getCheckedItemPositions();
         //已经选中，取消选中
         if (checkedItemPositions.containsKey(getPosition())) {
-            getListAdapter().getCheckedItemPositions().remove(getPosition());
+            getAssistHelper().getCheckedItemPositions().remove(getPosition());
             isCheck = false;
         } else {
             //未选中，选中
-            getListAdapter().getCheckedItemPositions().put(getPosition(), getItemDataBean());
+            getAssistHelper().getCheckedItemPositions().put(getPosition(), getItemDataBean());
             isCheck = true;
         }
         EventBusUtil.sendEvent(new MultipleCheckEvent(getPosition(), isCheck));
-        Set<Integer> integers = getListAdapter().getCheckedItemPositions().keySet();
+        Set<Integer> integers = getAssistHelper().getCheckedItemPositions().keySet();
         toast("当前选中的position是 ::: " + integers.toString());
     }
 

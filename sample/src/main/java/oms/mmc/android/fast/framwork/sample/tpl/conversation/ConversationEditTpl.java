@@ -44,7 +44,7 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     protected void onRender(BaseItemData itemData) {
-        boolean isNormalMode = getListAdapter().isNormalMode();
+        boolean isNormalMode = getAssistHelper().isNormalMode();
         if (isNormalMode) {
             editTv.setText(R.string.main_tool_bar_edit_mode_text);
         } else {
@@ -54,8 +54,8 @@ public class ConversationEditTpl extends BaseStickyTpl<BaseItemData> implements 
 
     @Override
     public void onClick(View v) {
-        final HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
-        boolean isEditMode = getListAdapter().isEditMode();
+        final HashMap<Integer, Object> checkedItemPositions = getAssistHelper().getCheckedItemPositions();
+        boolean isEditMode = getAssistHelper().isEditMode();
         if (!isEditMode) {
             EventBusUtil.sendEvent(new ConversationEditStateChangeEvent().setEditMode());
             editTv.setText(R.string.main_tool_bar_complete_mode_text);

@@ -1,6 +1,5 @@
-package oms.mmc.android.fast.framwork.widget.rv.adapter;
+package oms.mmc.android.fast.framwork.widget.list.helper;
 
-import android.support.v7.widget.RecyclerView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +9,11 @@ import java.util.Map;
  * FileName: IAssistRecyclerAdapter
  * Date: on 2018/2/12  下午3:20
  * Auther: zihe
- * Descirbe:辅助RecyclerViewAdapter
+ * Descirbe:辅助Helper接口
  * Email: hezihao@linghit.com
  */
 
-public interface IAssistRecyclerAdapter {
+public interface IAssistHelper {
     /**
      * 没有选中
      */
@@ -27,26 +26,6 @@ public interface IAssistRecyclerAdapter {
      * 管理模式
      */
     int MODE_EDIT = 1;
-
-    interface OnAttachedToRecyclerViewListener {
-        void onAttachedToRecyclerView();
-    }
-
-    void addOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener);
-
-    void removeOnAttachedToRecyclerViewListener(OnAttachedToRecyclerViewListener listener);
-
-    void removeAllOnAttachedToRecyclerViewListener();
-
-    interface onViewAttachedToWindowListener<T extends RecyclerView.ViewHolder> {
-        void onViewAttachedToWindow(T holder);
-    }
-
-    void addOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener);
-
-    void removeOnViewAttachedToWindowListener(onViewAttachedToWindowListener listener);
-
-    void removeAllOnViewAttachedToWindowListener();
 
     /**
      * 设置一个Tag
@@ -125,9 +104,4 @@ public interface IAssistRecyclerAdapter {
      * 是否是普通模式
      */
     boolean isNormalMode();
-
-    /**
-     * 刷新数据集
-     */
-    void notifyDataSetChanged();
 }

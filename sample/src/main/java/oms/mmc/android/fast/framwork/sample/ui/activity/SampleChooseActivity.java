@@ -26,6 +26,7 @@ import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshLayout> {
     private static final int TPL_SAMPLE_MODULE = 1;
@@ -98,7 +99,7 @@ public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshL
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
                 .type(TPL_SAMPLE_MODULE, R.drawable.shape_conversation_item_decoration)
                 .create();
-        getRecyclerView().addItemDecoration(decoration);
+        ((ScrollableRecyclerView)getScrollableView()).addItemDecoration(decoration);
     }
 
     @Override

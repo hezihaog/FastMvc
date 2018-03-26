@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
-import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -29,6 +28,7 @@ import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePullRefreshLayout> {
     public static final int TPL_ITEM = 1;
@@ -60,15 +60,15 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePu
             @Override
             public void onClick(View v) {
                 //查询出点击之前的状态
-                boolean isNormalMode = getListAdapter().isNormalMode();
+                boolean isNormalMode = getAssistHelper().isNormalMode();
                 //不是编辑状态，设置为编辑状态
                 if (isNormalMode) {
-                    getListAdapter().setEditMode();
+                    getAssistHelper().setEditMode();
                     EventBusUtil.sendEvent(new ToggleModeEvent(true));
-                    getRecyclerView().getAdapter().notifyDataSetChanged();
+                    ((ScrollableRecyclerView)getScrollableView()).getAdapter().notifyDataSetChanged();
                 } else {
                     //之前是编辑状态，如果勾选了，则提示是否删除，否则切换回普通状态
-                    final HashMap<Integer, Object> checkedItemPositions = getListAdapter().getCheckedItemPositions();
+                    final HashMap<Integer, Object> checkedItemPositions = getAssistHelper().getCheckedItemPositions();
                     if (!checkedItemPositions.isEmpty()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("提示");
@@ -77,7 +77,6 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePu
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                BaseListAdapter<BaseItemData> listAdapter = getListAdapter();
                                 //用选择的位置，找出需要删除的条目
                                 ArrayList<BaseItemData> needDeleteItemData = new ArrayList<BaseItemData>();
                                 for (Map.Entry<Integer, Object> entry : checkedItemPositions.entrySet()) {
@@ -85,7 +84,7 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePu
                                 }
                                 //批量删除条目
                                 getListData().removeAll(needDeleteItemData);
-                                listAdapter.setNormalMode();
+                                getAssistHelper().setNormalMode();
                                 checkedItemPositions.clear();
                                 EventBusUtil.sendEvent(new ToggleModeEvent(false));
                                 getListAdapter().notifyDataSetChanged();
@@ -98,7 +97,7 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePu
                         });
                         builder.show();
                     } else {
-                        getListAdapter().setEditMode();
+                        getAssistHelper().setEditMode();
                         EventBusUtil.sendEvent(new ToggleModeEvent(false));
                     }
                 }
@@ -152,7 +151,7 @@ public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePu
             mModeBtn.setText("完成");
         } else {
             mModeBtn.setText("编辑");
-            getListAdapter().clearCheckedItemPositions();
+            getAssistHelper().clearCheckedItemPositions();
         }
     }
 }

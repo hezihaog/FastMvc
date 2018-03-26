@@ -1,12 +1,13 @@
 package oms.mmc.android.fast.framwork.util;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.helper.base.IScrollableView;
 
 
 public class DefaultLoadMoreHelper extends AbsLoadMoreHelper {
@@ -14,8 +15,8 @@ public class DefaultLoadMoreHelper extends AbsLoadMoreHelper {
     private ProgressBar mProgressBar;
 
     @Override
-    protected View onInflateFooterView(LayoutInflater inflater, RecyclerView list, View.OnClickListener onClickLoadMoreListener) {
-        return inflater.inflate(R.layout.layout_default_load_more_footer, list, false);
+    protected View onInflateFooterView(LayoutInflater inflater, IScrollableView list, View.OnClickListener onClickLoadMoreListener) {
+        return inflater.inflate(R.layout.layout_default_load_more_footer, (ViewGroup) list, false);
     }
 
     @Override

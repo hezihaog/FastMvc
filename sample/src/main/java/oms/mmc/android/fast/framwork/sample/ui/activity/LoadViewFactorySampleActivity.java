@@ -27,6 +27,7 @@ import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 public class LoadViewFactorySampleActivity extends BaseFastListActivity implements View.OnClickListener {
     public static final int TPL_TEXT = 1;
@@ -167,7 +168,7 @@ public class LoadViewFactorySampleActivity extends BaseFastListActivity implemen
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
                 .type(TPL_TEXT, R.drawable.shape_conversation_item_decoration)
                 .create();
-        getRecyclerView().addItemDecoration(decoration);
+        ((ScrollableRecyclerView)getScrollableView()).addItemDecoration(decoration);
     }
 
     private ArrayList<String> getData() {

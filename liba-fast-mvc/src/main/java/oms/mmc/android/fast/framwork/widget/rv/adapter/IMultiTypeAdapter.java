@@ -1,13 +1,11 @@
 package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.helper.ListScrollHelper;
 
 /**
@@ -21,28 +19,9 @@ import oms.mmc.helper.ListScrollHelper;
 
 public interface IMultiTypeAdapter<T> {
     /**
-     * rv的条目点击事件
-     */
-    interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view, BaseTpl clickTpl, int position);
-    }
-
-    /**
-     * rv的条目长按事件
-     */
-    interface OnRecyclerViewItemLongClickListener {
-        boolean onItemLongClick(View view, BaseTpl longClickTpl, int position);
-    }
-
-    /**
      * 获取列表数据
      */
     ArrayList<T> getListData();
-
-    /**
-     * 获取position对应的条目
-     */
-    T getItem(int position);
 
     /**
      * 获取原始数据集
@@ -50,19 +29,9 @@ public interface IMultiTypeAdapter<T> {
     IDataSource<T> getListDataSource();
 
     /**
-     * 添加rv条目点击监听
-     */
-    void addOnItemClickListener(OnRecyclerViewItemClickListener onItemClickListeners);
-
-    /**
-     * 添加rv条目长按监听
-     */
-    void addOnItemLongClickListener(OnRecyclerViewItemLongClickListener onItemLongClickListener);
-
-    /**
      * 获取rv
      */
-    RecyclerView getRecyclerView();
+    RecyclerView getScrollableView();
 
     /**
      * 获取rv帮助类

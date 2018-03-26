@@ -11,7 +11,6 @@ import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView.OnScrollListener;
 
 import java.util.ArrayList;
 
@@ -23,6 +22,8 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.SimpleListScrollAdapter;
+import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * RecyclerView帮助类
@@ -31,7 +32,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private IDataAdapter<Model> mDataAdapter;
     private IPullRefreshWrapper<?> mRefreshWrapper;
     private IDataSource<Model> mDataSource;
-    private RecyclerView mRecyclerView;
+    private IScrollableView mScrollableView;
     private Context mContext;
     private OnStateChangeListener<Model> mOnStateChangeListener;
     private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
@@ -66,14 +67,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     //主线程Handler
     private final Handler mUiHandler;
 
-    public RecyclerViewViewHelper(final IPullRefreshWrapper<?> refreshWrapper, final RecyclerView recyclerView) {
+    public RecyclerViewViewHelper(final IPullRefreshWrapper<?> refreshWrapper, final IScrollableView scrollableView) {
         this.mContext = refreshWrapper.getPullRefreshAbleView().getContext().getApplicationContext();
         this.mUiHandler = new Handler(Looper.getMainLooper());
         this.mRefreshWrapper = refreshWrapper;
-        this.mRecyclerView = recyclerView;
+        this.mScrollableView = scrollableView;
         //暂时不能刷新前禁止下拉布局禁止下拉，由于某些刷新布局刷新时会判断是否禁用，禁用了就刷新无效了
 //        this.mRefreshWrapper.setRefreshDisable();
-        this.mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         this.mRefreshWrapper.setOnRefreshListener(new IPullRefreshWrapper.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -81,27 +81,27 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             }
         });
         //添加给外部使用的滚动监听
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (mScrollListeners != null) {
-                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
-                        listener.onScrollStateChanged(recyclerView, newState);
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (mScrollListeners != null) {
-                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
-                        listener.onScrolled(recyclerView, dx, dy);
-                    }
-                }
-            }
-        });
+//        mScrollableView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (mScrollListeners != null) {
+//                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
+//                        listener.onScrollStateChanged(recyclerView, newState);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (mScrollListeners != null) {
+//                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
+//                        listener.onScrolled(recyclerView, dx, dy);
+//                    }
+//                }
+//            }
+//        });
     }
 
     public void setupScrollHelper(ListScrollHelper scrollHelper) {
@@ -110,13 +110,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             @Override
             public void onScrolledUp() {
                 super.onScrolledUp();
-                TDevice.hideSoftKeyboard(getRecyclerView());
+                TDevice.hideSoftKeyboard((View) getScrollableView());
             }
 
             @Override
             public void onScrolledDown() {
                 super.onScrolledDown();
-                TDevice.hideSoftKeyboard(getRecyclerView());
+                TDevice.hideSoftKeyboard((View) getScrollableView());
             }
 
             @Override
@@ -149,14 +149,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         });
     }
 
-    public int getScrollState() {
-        return mRecyclerView.getScrollState();
-    }
-
-    public boolean isFlingState() {
-        return mRecyclerView.getScrollState() == OnScrollListener.SCROLL_STATE_FLING;
-    }
-
     /**
      * 是否有网络连接
      *
@@ -181,7 +173,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         this.mLoadView = loadViewFactory.madeLoadView();
         this.mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
         this.mLoadView.init((View) getRefreshWrapper().getPullRefreshAbleView(), onClickRefreshListener);
-        this.mLoadMoreView.init(getRecyclerView(), onClickRefreshListener, enableLoadMoreFooter);
+        this.mLoadMoreView.init(getScrollableView(), onClickRefreshListener, enableLoadMoreFooter);
     }
 
     /**
@@ -367,8 +359,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED;
     }
 
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    public IScrollableView getScrollableView() {
+        return mScrollableView;
     }
 
     @Override
@@ -413,7 +405,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * @param adapter
      */
     public void setAdapter(IDataAdapter<Model> adapter) {
-        mRecyclerView.setAdapter((RecyclerView.Adapter) adapter);
+        ((ScrollableRecyclerView)mScrollableView).setAdapter((RecyclerView.Adapter) adapter);
         this.mDataAdapter = adapter;
     }
 

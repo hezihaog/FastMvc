@@ -14,13 +14,13 @@ public abstract class AbsCommonListAdapterDelegate<T extends BaseItemData, I> im
     private ArrayList<T> mListData;
     private HashMap<Integer, Class> viewTypeClassMap;
 
-    public AbsCommonListAdapterDelegate(ArrayList<T> mListData, HashMap<Integer, Class> viewTypeClassMap) {
-        this.mListData = mListData;
+    public AbsCommonListAdapterDelegate(ArrayList<T> listData, HashMap<Integer, Class> viewTypeClassMap) {
+        this.mListData = listData;
         this.viewTypeClassMap = viewTypeClassMap;
     }
 
     @Override
-    public int getListCount() {
+    public int getListItemCount() {
         return mListData.size();
     }
 
@@ -30,7 +30,7 @@ public abstract class AbsCommonListAdapterDelegate<T extends BaseItemData, I> im
     }
 
     @Override
-    public int getListViewTypeCount() {
+    public int getListItemViewTypeCount() {
         return viewTypeClassMap.size();
     }
 
@@ -42,5 +42,13 @@ public abstract class AbsCommonListAdapterDelegate<T extends BaseItemData, I> im
     @Override
     public T getItem(int position) {
         return mListData.get(position);
+    }
+
+    public ArrayList<T> getListData() {
+        return mListData;
+    }
+
+    public HashMap<Integer, Class> getViewTypeClassMap() {
+        return viewTypeClassMap;
     }
 }

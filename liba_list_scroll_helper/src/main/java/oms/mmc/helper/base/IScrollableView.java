@@ -1,5 +1,7 @@
 package oms.mmc.helper.base;
 
+import android.content.Context;
+
 /**
  * Package: oms.mmc.android.fast.framwork.base
  * FileName: IScrollableView
@@ -10,4 +12,5 @@ package oms.mmc.helper.base;
  */
 
 public interface IScrollableView {
+    Context getContext();
 }
