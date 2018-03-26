@@ -14,9 +14,9 @@ import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -29,7 +29,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * RecyclerView帮助类
  */
 public class RecyclerViewViewHelper<Model> implements IViewHelper {
-    private IDataAdapter<Model> mDataAdapter;
+    private ICommonListAdapter<Model> mDataAdapter;
     private IPullRefreshWrapper<?> mRefreshWrapper;
     private IDataSource<Model> mDataSource;
     private IScrollableView mScrollableView;
@@ -395,7 +395,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         this.mOnStateChangeListener = onStateChangeListener;
     }
 
-    public IDataAdapter<Model> getAdapter() {
+    public ICommonListAdapter<Model> getAdapter() {
         return mDataAdapter;
     }
 
@@ -404,7 +404,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      *
      * @param adapter
      */
-    public void setAdapter(IDataAdapter<Model> adapter) {
+    public void setAdapter(ICommonListAdapter<Model> adapter) {
         ((ScrollableRecyclerView)mScrollableView).setAdapter((RecyclerView.Adapter) adapter);
         this.mDataAdapter = adapter;
     }

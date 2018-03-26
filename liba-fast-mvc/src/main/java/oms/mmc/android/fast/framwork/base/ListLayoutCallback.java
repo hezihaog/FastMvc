@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.base;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 
@@ -22,7 +23,7 @@ public interface ListLayoutCallback<T> {
      *
      * @return 列表需要的适配器
      */
-    IDataAdapter<T> onListAdapterReady();
+    ICommonListAdapter<T> onListAdapterReady();
 
     /**
      * 列表加载布局切换工厂初始化回调

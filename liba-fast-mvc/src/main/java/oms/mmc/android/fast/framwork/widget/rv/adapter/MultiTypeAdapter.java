@@ -34,7 +34,8 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements IMultiTypeAdapter, ICommonListAdapter {
+public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements
+        IMultiTypeAdapter, ICommonListAdapter<BaseItemData> {
     private Activity mActivity;
     private ScrollableRecyclerView mScrollableView;
     /**
@@ -188,6 +189,34 @@ public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.View
     }
 
     @Override
+    public boolean isEmpty() {
+        return getItemCount() == 0;
+    }
+
+    @Override
+    public void setRefreshListData(ArrayList<BaseItemData> data, boolean isReverse, boolean isFirst) {
+        ArrayList<BaseItemData> listData = getListData();
+        //第一次刷新
+        if (isFirst) {
+            listData.addAll(0, data);
+        } else {
+            //不是第一次刷新
+            if (!isReverse) {
+                listData.clear();
+                listData.addAll(data);
+            } else {
+                //如果是QQ聊天界面的在顶部下拉加载，直接将数据加上，rv设置布局反转即可
+                listData.addAll(data);
+            }
+        }
+    }
+
+    @Override
+    public void setLoadMoreListData(ArrayList<BaseItemData> data, boolean isReverse, boolean isFirst) {
+        getListData().addAll(data);
+    }
+
+    @Override
     public void addOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
         this.onItemClickListeners.add(onItemClickListener);
     }
@@ -215,11 +244,6 @@ public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.View
     @Override
     public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
         return mRecyclerViewHelper;
-    }
-
-    @Override
-    public IDataSource<BaseItemData> getListDataSource() {
-        return mListDataSource;
     }
 
     @Override

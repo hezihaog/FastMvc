@@ -29,7 +29,7 @@ import oms.mmc.helper.widget.ScrollableListView;
  * Created by wally on 18/3/25.
  */
 
-public class CommonListViewAdapter extends BaseAdapter implements ICommonListAdapter {
+public class CommonListViewAdapter extends BaseAdapter implements ICommonListAdapter<BaseItemData> {
     private final CommonListAdapterDelegate mAdapterDelegate;
     private Activity mActivity;
     private ScrollableListView mScrollableView;
@@ -45,7 +45,11 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
      * 数据集
      */
     private IDataSource<BaseItemData> mListDataSource;
+    /**
+     * 数据
+     */
     private ArrayList<BaseItemData> mListData;
+
     private HashMap<Integer, Class> mViewTypeClassMap;
     /**
      * rv帮助类
@@ -228,5 +232,38 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
     @Override
     public IAssistHelper getAssistHelper() {
         return mAssistHelper;
+    }
+
+    @Override
+    public void setRefreshListData(ArrayList<BaseItemData> data, boolean isReverse, boolean isFirst) {
+        ArrayList<BaseItemData> listData = getListData();
+        //第一次刷新
+        if (isFirst) {
+            listData.addAll(0, data);
+        } else {
+            //不是第一次刷新
+            if (!isReverse) {
+                listData.clear();
+                listData.addAll(data);
+            } else {
+                //如果是QQ聊天界面的在顶部下拉加载，直接将数据加上，rv设置布局反转即可
+                listData.addAll(data);
+            }
+        }
+    }
+
+    @Override
+    public void setLoadMoreListData(ArrayList<BaseItemData> data, boolean isReverse, boolean isFirst) {
+        getListData().addAll(data);
+    }
+
+    @Override
+    public void setListData(ArrayList<BaseItemData> listData) {
+        this.mListData = listData;
+    }
+
+    @Override
+    public ArrayList<BaseItemData> getListData() {
+        return mListData;
     }
 }

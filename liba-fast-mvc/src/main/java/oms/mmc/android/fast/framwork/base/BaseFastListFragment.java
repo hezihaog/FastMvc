@@ -70,7 +70,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     @Override
     protected void onLazyViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onLazyViewCreated(view, savedInstanceState);
-//        mDelegateHelper.setupScrollHelper();
+        mDelegateHelper.setupScrollHelper();
     }
 
     /**
@@ -105,7 +105,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     }
 
     @Override
-    public IDataAdapter<BaseItemData> onListAdapterReady() {
+    public ICommonListAdapter<BaseItemData> onListAdapterReady() {
         BaseListAdapter adapter = new BaseListAdapter((ScrollableRecyclerView)getScrollableView(), getActivity(), getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), onStickyTplViewTypeReady(), this);
         return new HeaderFooterDataAdapter(adapter);
     }
@@ -131,19 +131,19 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
     }
 
     @Override
-    public void onStartRefresh(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartRefresh(ICommonListAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
     }
 
     @Override
-    public void onEndRefresh(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndRefresh(ICommonListAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
     }
 
     @Override
-    public void onStartLoadMore(IDataAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
+    public void onStartLoadMore(ICommonListAdapter<BaseItemData> adapter, boolean isFirst, boolean isReverse) {
     }
 
     @Override
-    public void onEndLoadMore(IDataAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+    public void onEndLoadMore(ICommonListAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
     }
 
     @Override

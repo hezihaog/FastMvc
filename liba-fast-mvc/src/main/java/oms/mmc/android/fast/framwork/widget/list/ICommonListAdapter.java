@@ -2,6 +2,8 @@ package oms.mmc.android.fast.framwork.widget.list;
 
 import android.view.View;
 
+import java.util.ArrayList;
+
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 
@@ -10,7 +12,53 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
  * 通用适配器
  */
 
-public interface ICommonListAdapter {
+public interface ICommonListAdapter<T> {
+    /**
+     * 提醒数据集已改变，提醒刷新数据
+     */
+    void notifyDataSetChanged();
+
+    /**
+     * 设置下拉刷新数据集
+     */
+    void setRefreshListData(ArrayList<T> data, boolean isReverse, boolean isFirst);
+
+    /**
+     * 设置加载更多数据集
+     */
+    void setLoadMoreListData(ArrayList<T> data, boolean isReverse, boolean isFirst);
+
+    /**
+     * 设置数据集
+     */
+    void setListData(ArrayList<T> listData);
+
+    /**
+     * 获取列表数据
+     *
+     * @return 数据集
+     */
+    ArrayList<T> getListData();
+
+    /**
+     * adapter中数据是否为空
+     *
+     * @return true则为数据集为空，false为不为空
+     */
+    boolean isEmpty();
+
+    /**
+     * 设置多选、单选等功能帮助类
+     *
+     * @param assistHelper 功能帮助类
+     */
+    void setAssistHelper(IAssistHelper assistHelper);
+
+    /**
+     * 获取功能帮助类
+     */
+    IAssistHelper getAssistHelper();
+
     /**
      * 列表的条目点击事件
      */
@@ -48,10 +96,4 @@ public interface ICommonListAdapter {
      * @param onItemLongClickListener 列表条目长按监听
      */
     void removeOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener);
-
-    void notifyDataSetChanged();
-
-    void setAssistHelper(IAssistHelper assistHelper);
-
-    IAssistHelper getAssistHelper();
 }

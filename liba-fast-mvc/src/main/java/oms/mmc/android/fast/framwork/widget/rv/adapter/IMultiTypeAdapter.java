@@ -2,9 +2,6 @@ package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.support.v7.widget.RecyclerView;
 
-import java.util.ArrayList;
-
-import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.helper.ListScrollHelper;
 
@@ -19,16 +16,6 @@ import oms.mmc.helper.ListScrollHelper;
 
 public interface IMultiTypeAdapter<T> {
     /**
-     * 获取列表数据
-     */
-    ArrayList<T> getListData();
-
-    /**
-     * 获取原始数据集
-     */
-    IDataSource<T> getListDataSource();
-
-    /**
      * 获取rv
      */
     RecyclerView getScrollableView();
@@ -37,11 +24,6 @@ public interface IMultiTypeAdapter<T> {
      * 获取rv帮助类
      */
     RecyclerViewViewHelper<T> getRecyclerViewHelper();
-
-    /**
-     * 设置列表数据
-     */
-    void setListData(ArrayList<T> listData);
 
     /**
      * 设置滚动帮助类

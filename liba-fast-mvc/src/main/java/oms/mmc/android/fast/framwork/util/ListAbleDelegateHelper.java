@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.BaseListAdapter;
-import oms.mmc.android.fast.framwork.base.IDataAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IPullRefreshUi;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
@@ -61,7 +60,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     /**
      * 列表适配器
      */
-    protected IDataAdapter<BaseItemData> mListAdapter;
+    protected ICommonListAdapter<BaseItemData> mListAdapter;
     /**
      * 加载状态切换布局工厂
      */
@@ -129,9 +128,8 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         if (mListAdapter == null) {
             mListAdapter = mListAble.onListAdapterReady();
         }
-        ((ICommonListAdapter)mListAdapter).setAssistHelper(mAssistHelper);
+        mListAdapter.setAssistHelper(mAssistHelper);
         mRecyclerViewHelper.setAdapter(mListAdapter);
-        setupScrollHelper();
         //初始化视图切换工厂
         mLoadViewFactory = mListAble.onLoadViewFactoryReady();
         //初始化列表加载更多视图工厂
@@ -171,7 +169,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         return mListData;
     }
 
-    public IDataAdapter<BaseItemData> getListAdapter() {
+    public ICommonListAdapter<BaseItemData> getListAdapter() {
         return mListAdapter;
     }
 
