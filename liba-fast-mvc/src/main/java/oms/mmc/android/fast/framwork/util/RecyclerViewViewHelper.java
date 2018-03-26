@@ -38,7 +38,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
     private static final long NO_LOAD_DATA = -1;
     private long loadDataTime = NO_LOAD_DATA;
-    private ArrayList<RecyclerView.OnScrollListener> mScrollListeners;
     /**
      * 是否是反转布局，默认为false
      */
@@ -55,13 +54,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private boolean isFistLoadMore = true;
     private ILoadViewFactory.ILoadView mLoadView;
     private ILoadMoreViewFactory.ILoadMoreView mLoadMoreView;
-    private OnClickListener onClickRefreshListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            refresh();
-        }
-    };
     //滚动帮助类
     private ListScrollHelper listScrollHelper;
     //主线程Handler
@@ -150,6 +142,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     public void init(ILoadViewFactory loadViewFactory, ILoadMoreViewFactory loadMoreViewFactory) {
         this.mLoadView = loadViewFactory.madeLoadView();
         this.mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
+        OnClickListener onClickRefreshListener = new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                refresh();
+            }
+        };
         this.mLoadView.init((View) getRefreshWrapper().getPullRefreshAbleView(), onClickRefreshListener);
         this.mLoadMoreView.init(getScrollableView(), onClickRefreshListener, enableLoadMoreFooter);
     }
@@ -427,19 +426,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     public boolean isRefreshing() {
         return mRefreshWrapper.isRefurbishing();
-    }
-
-    public void addOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
-        if (mScrollListeners == null) {
-            mScrollListeners = new ArrayList<RecyclerView.OnScrollListener>();
-        }
-        mScrollListeners.add(onScrollListener);
-    }
-
-    public void removeOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
-        if (mScrollListeners != null && onScrollListener != null) {
-            mScrollListeners.remove(onScrollListener);
-        }
     }
 
     /**
