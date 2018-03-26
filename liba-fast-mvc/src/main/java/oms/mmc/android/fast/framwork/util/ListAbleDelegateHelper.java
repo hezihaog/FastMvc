@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
+import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,6 +85,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     private ListScrollHelper mScrollHelper;
     private IScrollableViewWrapper mScrollableViewWrapper;
     private AssistHelper mAssistHelper;
+    private Activity mActivity;
 
     public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData> listAble, RecyclerViewListConfigCallback recyclerViewListConfigCallback, IPullRefreshUi<P> pullRefreshUi) {
         this.mListAble = listAble;
@@ -95,7 +97,8 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     /**
      * 开始代理
      */
-    public void startDelegate(View rootLayout) {
+    public void startDelegate(Activity activity, View rootLayout) {
+        mActivity = activity;
         setup(rootLayout);
     }
 
@@ -114,7 +117,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         }
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {
-            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshWrapper, mScrollableView);
+            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mActivity, mRefreshWrapper, mScrollableView);
         }
         //初始化数据源
         if (mListDataSource == null) {
@@ -222,15 +225,6 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     }
 
     /**
-     * 销毁RecyclerViewHelper
-     */
-    public void destroyRecyclerViewHelper() {
-        if (mRecyclerViewHelper != null) {
-            mRecyclerViewHelper.destroy();
-        }
-    }
-
-    /**
      * 设置滚动帮助类
      */
     public void setupScrollHelper() {
@@ -249,7 +243,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         //放弃滚动，将滚动交给上层的NestedScrollView
         IScrollableView scrollableView = getScrollableView();
         if (scrollableView instanceof ScrollableRecyclerView) {
-            ((ScrollableRecyclerView)scrollableView).setNestedScrollingEnabled(false);
+            ((ScrollableRecyclerView) scrollableView).setNestedScrollingEnabled(false);
         }
     }
 
@@ -259,7 +253,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     public void reverseListLayout() {
         IScrollableView scrollableView = getScrollableView();
         if (scrollableView instanceof ScrollableRecyclerView) {
-            RecyclerView.LayoutManager manager = ((ScrollableRecyclerView)scrollableView).getLayoutManager();
+            RecyclerView.LayoutManager manager = ((ScrollableRecyclerView) scrollableView).getLayoutManager();
             if (manager instanceof LinearLayoutManager) {
                 LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
                 //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确

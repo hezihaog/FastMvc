@@ -37,6 +37,7 @@ dependencies {
     compile project(':liba_load_view_factory')
     //图片加载
     compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+    compile project(':liba-async-executor')
 }
 
 //是否提交到仓库
