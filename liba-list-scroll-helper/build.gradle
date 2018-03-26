@@ -20,7 +20,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile rootProject.ext.dependencies["recyclerview"]
 }
 
 //是否提交到仓库
@@ -37,21 +38,20 @@ if (upload) {
         from android.sourceSets.main.java.sourceFiles
     }
     artifacts {
-        //当前aar 文件名，要与上传的module名一致
-        archives file('liba_wait_view_factory.aar')
+        //当前aar 文件名
+        archives file('liba-list-scroll-helper.aar')
         archives androidSourcesJar
     }
     uploadArchives {
         repositories.mavenDeployer {
-            println "upload waitViewFactory version:" + version
+            println "upload listScrollHelper version:" + version
             repository(url: MAVEN_R_URL) {
                 authentication(userName: MAVEN_D_USERNAME, password: MAVEN_D_PASSWORD)
             }
             snapshotRepository(url: MAVEN_S_URL) {
                 authentication(userName: MAVEN_D_USERNAME, password: MAVEN_D_PASSWORD)
             }
-            //生成的引用中使用的名字
-            pom.artifactId = "wait-view-factory"
+            pom.artifactId = "list-scroll-helper"
         }
     }
 }

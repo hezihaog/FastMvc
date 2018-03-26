@@ -30,11 +30,11 @@ dependencies {
     //生命周期监听库
     compile project(':liba-lifecycle-dispatch')
     //通用滚动监听库
-    compile project(':liba_list_scroll_helper')
+    compile project(':liba-list-scroll-helper')
     //等待弹窗库
-    compile project(':liba_wait_view_factory')
+    compile project(':liba-wait-view-factory')
     //界面状态切换状态库
-    compile project(':liba_load_view_factory')
+    compile project(':liba-load-view-factory')
     //图片加载
     compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
     compile project(':liba-async-executor')

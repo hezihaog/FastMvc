@@ -38,7 +38,7 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile project(':liba-fast-mvc')
-    compile project(':liba_easy_cache')
+    compile project(':liba-easy-cache')
 
     //直接不加arr默认都下载依赖，不推荐该方法，会默认下载全部的依赖
 
