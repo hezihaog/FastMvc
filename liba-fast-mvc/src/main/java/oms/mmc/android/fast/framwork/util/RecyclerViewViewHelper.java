@@ -80,28 +80,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 refresh();
             }
         });
-        //添加给外部使用的滚动监听
-//        mScrollableView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (mScrollListeners != null) {
-//                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
-//                        listener.onScrollStateChanged(recyclerView, newState);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if (mScrollListeners != null) {
-//                    for (RecyclerView.OnScrollListener listener : mScrollListeners) {
-//                        listener.onScrolled(recyclerView, dx, dy);
-//                    }
-//                }
-//            }
-//        });
     }
 
     public void setupScrollHelper(ListScrollHelper scrollHelper) {
@@ -267,6 +245,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     /**
      * 加载更多，开启异步线程，并且显示加载中的界面，当数据加载完成自动还原成加载完成的布局，并且刷新列表数据
      */
+    @Override
     public void loadMore() {
         if (isLoading()) {
             return;
@@ -368,6 +347,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return mLoadView;
     }
 
+    @Override
+    public ILoadMoreViewFactory.ILoadMoreView getLoadMoreView() {
+        return mLoadMoreView;
+    }
+
     /**
      * 获取上次刷新数据的时间（数据成功的加载），如果数据没有加载成功过，那么返回-1
      */
@@ -405,7 +389,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * @param adapter
      */
     public void setAdapter(ICommonListAdapter<Model> adapter) {
-        ((ScrollableRecyclerView)mScrollableView).setAdapter((RecyclerView.Adapter) adapter);
+        ((ScrollableRecyclerView) mScrollableView).setAdapter((RecyclerView.Adapter) adapter);
         this.mDataAdapter = adapter;
     }
 
@@ -465,6 +449,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return hasMoreData;
     }
 
+    @Override
     public Context getContext() {
         return mContext;
     }
