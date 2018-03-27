@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 
 /**
@@ -378,7 +377,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (isEmpty()) {
             return;
         }
-        ((BaseListAdapter) getAdapter()).setupStickyHeaderView(stickyHeader);
+        ((StickyHeaders.ViewSetup)getAdapter()).setupStickyHeaderView(stickyHeader);
     }
 
     @Override
@@ -386,7 +385,7 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (isEmpty()) {
             return;
         }
-        ((BaseListAdapter) getAdapter()).teardownStickyHeaderView(stickyHeader);
+        ((StickyHeaders.ViewSetup)getAdapter()).teardownStickyHeaderView(stickyHeader);
     }
 
     public interface OnItemClickListener {

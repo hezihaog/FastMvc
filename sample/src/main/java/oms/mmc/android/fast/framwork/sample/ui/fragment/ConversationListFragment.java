@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
-import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -232,7 +231,7 @@ public class ConversationListFragment extends BaseFastListFragment<SmartPullRefr
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ConversationEditStateChangeEvent event) {
         RecyclerViewViewHelper<BaseItemData> recyclerViewHelper = getRecyclerViewHelper();
-        BaseListAdapter listAdapter = getListAdapter();
+        ICommonListAdapter listAdapter = getListAdapter();
         if (event.isEditMode()) {
             getAssistHelper().setMode(AssistHelper.MODE_EDIT);
             //编辑模式时不能下拉刷新

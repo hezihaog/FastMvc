@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.helper.ListScrollHelper;
 
 /**
  * Created by wally on 18/3/25.
@@ -58,6 +59,10 @@ public interface ICommonListAdapter<T> {
      * 获取功能帮助类
      */
     IAssistHelper getAssistHelper();
+
+    void setListScrollHelper(ListScrollHelper listScrollHelper);
+
+    ListScrollHelper getListScrollHelper();
 
     /**
      * 列表的条目点击事件

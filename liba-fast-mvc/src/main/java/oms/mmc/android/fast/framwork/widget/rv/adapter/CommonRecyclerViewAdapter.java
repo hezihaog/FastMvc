@@ -2,6 +2,7 @@ package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,7 +21,9 @@ import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
+import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
@@ -30,12 +33,13 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * FileName: MultiTypeAdapter
  * Date: on 2018/2/12  下午2:54
  * Auther: zihe
- * Descirbe:
+ * Descirbe:通用的RecyclerView适配器
  * Email: hezihao@linghit.com
  */
 
-public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements
-        IMultiTypeAdapter, ICommonListAdapter<BaseItemData> {
+public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.ViewHolder> implements
+        IMultiTypeAdapter, ICommonListAdapter<BaseItemData>, StickyHeaders, StickyHeaders.ViewSetup {
+
     private Activity mActivity;
     private ScrollableRecyclerView mScrollableView;
     /**
@@ -80,9 +84,17 @@ public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.View
     private final IFragmentOperator mFragmentOperator;
     private final CommonListAdapterDelegate mAdapterDelegate;
     private IAssistHelper mAssistHelper;
+    /**
+     * 不使用粘性头部
+     */
+    public static final int NOT_STICKY_SECTION = -1;
+    /**
+     * 粘性条目的类型，默认没有粘性头部
+     */
+    private int stickySectionViewType = NOT_STICKY_SECTION;
 
-    public MultiTypeAdapter(ScrollableRecyclerView scrollableView, Activity activity, IDataSource<BaseItemData> dataSource
-            , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, IWaitViewHost waitViewHost) {
+    public CommonRecyclerViewAdapter(ScrollableRecyclerView scrollableView, Activity activity, IDataSource<BaseItemData> dataSource
+            , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, IWaitViewHost waitViewHost, int stickySectionViewType) {
         this.mToastOperator = new ToastOperator(activity);
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mScrollableView = scrollableView;
@@ -93,7 +105,52 @@ public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.View
         this.viewTypeClassMap = itemViewClazzMap;
         this.mRecyclerViewHelper = recyclerViewHelper;
         this.mAdapterDelegate = new CommonListAdapterDelegate(dataSource.getListData(), viewTypeClassMap);
+        this.stickySectionViewType = stickySectionViewType;
         initListener();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(BaseTpl.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+        if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+            if (isStickyHeader(holder.getLayoutPosition())) {
+                StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+                p.setFullSpan(true);
+            }
+        }
+    }
+
+    @Override
+    public boolean isStickyHeader(int position) {
+        //不使用粘性头部，则都返回false
+        if (stickySectionViewType == NOT_STICKY_SECTION) {
+            return false;
+        }
+        return getItemViewType(position) == stickySectionViewType;
+    }
+
+    @Override
+    public boolean isStickyHeaderViewType(int viewType) {
+        return stickySectionViewType == viewType;
+    }
+
+    @Override
+    public void setupStickyHeaderView(View stickyHeader) {
+        Object tag = stickyHeader.getTag(R.id.tag_tpl);
+        if (tag != null && tag instanceof BaseStickyTpl) {
+            BaseStickyTpl tpl = (BaseStickyTpl) tag;
+            tpl.onAttachSticky();
+        }
+    }
+
+    @Override
+    public void teardownStickyHeaderView(View stickyHeader) {
+        Object tag = stickyHeader.getTag(R.id.tag_tpl);
+        if (tag != null && tag instanceof BaseStickyTpl) {
+            BaseStickyTpl tpl = (BaseStickyTpl) tag;
+            tpl.onDetachedSticky();
+        }
     }
 
     /**
@@ -259,6 +316,11 @@ public abstract class MultiTypeAdapter extends RecyclerView.Adapter<BaseTpl.View
     @Override
     public void setListScrollHelper(ListScrollHelper listScrollHelper) {
         mListScrollHelper = listScrollHelper;
+    }
+
+    @Override
+    public ListScrollHelper getListScrollHelper() {
+        return mListScrollHelper;
     }
 
     @Override

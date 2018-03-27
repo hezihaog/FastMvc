@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
-import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -91,7 +90,7 @@ public class ListActivitySampleActivity extends BaseFastListActivity<SwipePullRe
      */
     @Override
     public RecyclerView.LayoutManager onGetListLayoutManager() {
-        return new StickyHeadersLinearLayoutManager<BaseListAdapter>(getActivity());
+        return new StickyHeadersLinearLayoutManager(getActivity());
     }
 
     @Override

@@ -21,6 +21,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.CommonRecyclerViewAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -51,9 +52,9 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         mDelegateHelper = new ListAbleDelegateHelper<P>(this, this, this);
         mDelegateHelper.startDelegate(getActivity(), rootLayout);
         //初始化监听
-        HeaderFooterDataAdapter headerFooterAdapter = (HeaderFooterDataAdapter) mDelegateHelper.getListAdapter();
-        ((BaseListAdapter) headerFooterAdapter.getAdapter()).addOnItemClickListener(this);
-        ((BaseListAdapter) headerFooterAdapter.getAdapter()).addOnItemLongClickListener(this);
+        ICommonListAdapter adapter = mDelegateHelper.getListAdapter();
+        adapter.addOnItemClickListener(this);
+        adapter.addOnItemLongClickListener(this);
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
         mDelegateHelper.notifyListReady();
         return rootLayout;
@@ -106,7 +107,8 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
 
     @Override
     public ICommonListAdapter<BaseItemData> onListAdapterReady() {
-        BaseListAdapter adapter = new BaseListAdapter((ScrollableRecyclerView) getScrollableView(), getActivity(), getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), onStickyTplViewTypeReady(), this);
+        CommonRecyclerViewAdapter adapter = new CommonRecyclerViewAdapter((ScrollableRecyclerView) getScrollableView()
+                , getActivity(), getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), this, onStickyTplViewTypeReady());
         return new HeaderFooterDataAdapter<BaseItemData>(adapter);
     }
 
@@ -157,7 +159,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
 
     @Override
     public int onStickyTplViewTypeReady() {
-        return BaseListAdapter.NOT_STICKY_SECTION;
+        return CommonRecyclerViewAdapter.NOT_STICKY_SECTION;
     }
 
     public ListAbleDelegateHelper getListAbleDelegateHelper() {
@@ -192,8 +194,8 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout> extends
         return mDelegateHelper.getListData();
     }
 
-    public BaseListAdapter getListAdapter() {
-        return (BaseListAdapter) ((HeaderFooterDataAdapter) mDelegateHelper.getListAdapter()).getAdapter();
+    public ICommonListAdapter<BaseItemData> getListAdapter() {
+        return mDelegateHelper.getListAdapter();
     }
 
     public IAssistHelper getAssistHelper() {

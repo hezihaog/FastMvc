@@ -19,6 +19,7 @@ import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
+import oms.mmc.android.fast.framwork.widget.lv.PinnedSectionListView;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
@@ -27,9 +28,10 @@ import oms.mmc.helper.widget.ScrollableListView;
 
 /**
  * Created by wally on 18/3/25.
+ * ListView通用适配器
  */
 
-public class CommonListViewAdapter extends BaseAdapter implements ICommonListAdapter<BaseItemData> {
+public class CommonListViewAdapter extends BaseAdapter implements ICommonListAdapter<BaseItemData>, PinnedSectionListView.PinnedSectionListAdapter {
     private final CommonListAdapterDelegate mAdapterDelegate;
     private Activity mActivity;
     private ScrollableListView mScrollableView;
@@ -49,7 +51,9 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
      * 数据
      */
     private ArrayList<BaseItemData> mListData;
-
+    /**
+     *
+     */
     private HashMap<Integer, Class> mViewTypeClassMap;
     /**
      * rv帮助类
@@ -200,8 +204,14 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
         return mAdapterDelegate.getListItemViewType(position);
     }
 
+    @Override
     public void setListScrollHelper(ListScrollHelper listScrollHelper) {
         mListScrollHelper = listScrollHelper;
+    }
+
+    @Override
+    public ListScrollHelper getListScrollHelper() {
+        return mListScrollHelper;
     }
 
     @Override
@@ -265,5 +275,10 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
     @Override
     public ArrayList<BaseItemData> getListData() {
         return mListData;
+    }
+
+    @Override
+    public boolean isItemViewTypePinned(int viewType) {
+        return false;
     }
 }

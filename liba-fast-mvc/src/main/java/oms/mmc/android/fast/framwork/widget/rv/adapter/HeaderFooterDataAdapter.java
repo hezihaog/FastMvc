@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
+import oms.mmc.helper.ListScrollHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.widget.rv.adapter
@@ -58,31 +59,41 @@ public class HeaderFooterDataAdapter<T extends BaseItemData> extends HeaderFoote
 
     @Override
     public void addOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
-        ((ICommonListAdapter) mAdapter).addOnItemClickListener(onItemClickListener);
+        mAdapter.addOnItemClickListener(onItemClickListener);
     }
 
     @Override
     public void removeOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
-        ((ICommonListAdapter) mAdapter).removeOnItemClickListener(onItemClickListener);
+        mAdapter.removeOnItemClickListener(onItemClickListener);
     }
 
     @Override
     public void addOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
-        ((ICommonListAdapter) mAdapter).addOnItemLongClickListener(onItemLongClickListener);
+        mAdapter.addOnItemLongClickListener(onItemLongClickListener);
     }
 
     @Override
     public void removeOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
-        ((ICommonListAdapter) mAdapter).removeOnItemLongClickListener(onItemLongClickListener);
+        mAdapter.removeOnItemLongClickListener(onItemLongClickListener);
     }
 
     @Override
     public void setAssistHelper(IAssistHelper assistHelper) {
-        ((ICommonListAdapter) mAdapter).setAssistHelper(assistHelper);
+        mAdapter.setAssistHelper(assistHelper);
     }
 
     @Override
     public IAssistHelper getAssistHelper() {
-        return ((ICommonListAdapter) mAdapter).getAssistHelper();
+        return mAdapter.getAssistHelper();
+    }
+
+    @Override
+    public void setListScrollHelper(ListScrollHelper listScrollHelper) {
+        mAdapter.setListScrollHelper(listScrollHelper);
+    }
+
+    @Override
+    public ListScrollHelper getListScrollHelper() {
+        return mAdapter.getListScrollHelper();
     }
 }

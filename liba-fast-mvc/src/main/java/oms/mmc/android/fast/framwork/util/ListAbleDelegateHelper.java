@@ -9,7 +9,6 @@ import android.view.View;
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.base.BaseListAdapter;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IPullRefreshUi;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
@@ -18,7 +17,6 @@ import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.AssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
@@ -239,7 +237,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         mScrollHelper = mListAble.onInitScrollHelper();
         mScrollableViewWrapper = mScrollHelper.getScrollableViewWrapper();
         mRecyclerViewHelper.setupScrollHelper(mScrollHelper);
-        ((BaseListAdapter) ((HeaderFooterDataAdapter) mListAdapter).getAdapter()).setListScrollHelper(mScrollHelper);
+        mListAdapter.setListScrollHelper(mScrollHelper);
         mListAble.onListScrollHelperReady(mScrollHelper);
     }
 
