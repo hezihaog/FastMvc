@@ -1,6 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
-import android.content.Context;
+import android.app.Activity;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
@@ -20,9 +20,9 @@ public interface IViewHelper {
     void loadMore();
 
     /**
-     * 获取上下文
+     * 获取Activity
      */
-    Context getContext();
+    Activity getActivity();
 
     /**
      * 获取界面切换的加载布局

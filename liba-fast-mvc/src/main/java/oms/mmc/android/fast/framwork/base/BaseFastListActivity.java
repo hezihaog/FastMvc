@@ -43,7 +43,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDelegateHelper = new ListAbleDelegateHelper<P>(this, this, this);
-        mDelegateHelper.startDelegate(getWindow().getDecorView());
+        mDelegateHelper.startDelegate(getActivity(), getWindow().getDecorView());
         //初始化监听
         HeaderFooterDataAdapter headerFooterAdapter = (HeaderFooterDataAdapter) mDelegateHelper.getListAdapter();
         ((BaseListAdapter) headerFooterAdapter.getAdapter()).addOnItemClickListener(this);

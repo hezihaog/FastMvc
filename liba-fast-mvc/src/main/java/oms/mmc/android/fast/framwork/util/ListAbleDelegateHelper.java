@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.util;
 
+import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -95,14 +96,14 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     /**
      * 开始代理
      */
-    public void startDelegate(View rootLayout) {
-        setup(rootLayout);
+    public void startDelegate(Activity activity, View rootLayout) {
+        setup(activity, rootLayout);
     }
 
     /**
      * 开始设置
      */
-    private void setup(View rootLayout) {
+    private void setup(Activity activity, View rootLayout) {
         //初始化下拉刷新控件，并且回调获取包裹类
         IPullRefreshLayout pullToRefreshLayout = (IPullRefreshLayout) rootLayout.findViewById(R.id.fast_refresh_layout);
         mRefreshWrapper = mPullRefreshUi.onInitPullRefreshWrapper((P) pullToRefreshLayout);
@@ -114,7 +115,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         }
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {
-            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(mRefreshWrapper, mScrollableView);
+            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(activity, mRefreshWrapper, mScrollableView);
         }
         //初始化数据源
         if (mListDataSource == null) {
@@ -249,7 +250,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         //放弃滚动，将滚动交给上层的NestedScrollView
         IScrollableView scrollableView = getScrollableView();
         if (scrollableView instanceof ScrollableRecyclerView) {
-            ((ScrollableRecyclerView)scrollableView).setNestedScrollingEnabled(false);
+            ((ScrollableRecyclerView) scrollableView).setNestedScrollingEnabled(false);
         }
     }
 
@@ -259,7 +260,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     public void reverseListLayout() {
         IScrollableView scrollableView = getScrollableView();
         if (scrollableView instanceof ScrollableRecyclerView) {
-            RecyclerView.LayoutManager manager = ((ScrollableRecyclerView)scrollableView).getLayoutManager();
+            RecyclerView.LayoutManager manager = ((ScrollableRecyclerView) scrollableView).getLayoutManager();
             if (manager instanceof LinearLayoutManager) {
                 LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
                 //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确

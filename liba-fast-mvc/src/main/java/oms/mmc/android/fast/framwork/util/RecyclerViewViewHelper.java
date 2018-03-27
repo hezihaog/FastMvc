@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -32,7 +33,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private IPullRefreshWrapper<?> mRefreshWrapper;
     private IDataSource<Model> mDataSource;
     private IScrollableView mScrollableView;
-    private Context mContext;
+    private Activity mActivity;
     private OnStateChangeListener<Model> mOnStateChangeListener;
     private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
     private static final long NO_LOAD_DATA = -1;
@@ -58,13 +59,11 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     //主线程Handler
     private final Handler mUiHandler;
 
-    public RecyclerViewViewHelper(final IPullRefreshWrapper<?> refreshWrapper, final IScrollableView scrollableView) {
-        this.mContext = refreshWrapper.getPullRefreshAbleView().getContext().getApplicationContext();
+    public RecyclerViewViewHelper(Activity activity, final IPullRefreshWrapper<?> refreshWrapper, final IScrollableView scrollableView) {
+        this.mActivity = activity;
         this.mUiHandler = new Handler(Looper.getMainLooper());
         this.mRefreshWrapper = refreshWrapper;
         this.mScrollableView = scrollableView;
-        //暂时不能刷新前禁止下拉布局禁止下拉，由于某些刷新布局刷新时会判断是否禁用，禁用了就刷新无效了
-//        this.mRefreshWrapper.setRefreshDisable();
         this.mRefreshWrapper.setOnRefreshListener(new IPullRefreshWrapper.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -426,8 +425,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     }
 
     @Override
-    public Context getContext() {
-        return mContext;
+    public Activity getActivity() {
+        return mActivity;
     }
 
     /**
