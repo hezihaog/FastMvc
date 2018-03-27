@@ -82,7 +82,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
     public ICommonListAdapter<BaseItemData> onListAdapterReady() {
         BaseListAdapter adapter = new BaseListAdapter((ScrollableRecyclerView) getScrollableView(), getActivity(), getListDataSource()
                 , onListTypeClassesReady(), getRecyclerViewHelper(), onStickyTplViewTypeReady(), this);
-        return new HeaderFooterDataAdapter(adapter);
+        return new HeaderFooterDataAdapter<BaseItemData>(adapter);
     }
 
     @Override
