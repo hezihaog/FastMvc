@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.adapter.IListScrollViewAdapter;
 
 /**
  * Created by wally on 18/3/25.
  * 通用适配器
  */
 
-public interface ICommonListAdapter<T> {
+public interface ICommonListAdapter<T> extends IListScrollViewAdapter {
     /**
      * 提醒数据集已改变，提醒刷新数据
      */

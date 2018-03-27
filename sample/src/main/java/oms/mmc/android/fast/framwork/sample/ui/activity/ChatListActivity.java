@@ -39,7 +39,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayout> {
+public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
     public static final int TPL_CHAT_DATE = 0;
     public static final int TPL_CHAT_TEXT_SENDER = 1;
     public static final int TPL_CHAT_TEXT_RECEIVER = 2;
@@ -148,7 +148,7 @@ public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayou
         if (isFirst) {
             hideWaitDialog();
             //一开始滚动到底部，由于反转布局，位置0就是底部
-            ((ScrollableRecyclerView)getScrollableView()).scrollToPosition(0);
+            getScrollableView().scrollToPosition(0);
         }
     }
 }

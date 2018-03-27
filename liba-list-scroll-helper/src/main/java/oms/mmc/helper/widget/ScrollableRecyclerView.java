@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.adapter.IListScrollViewAdapter;
+import oms.mmc.helper.base.IScrollableAdapterView;
+import oms.mmc.helper.util.ListScrollViewAdapterUtil;
 
 
 /**
@@ -17,7 +19,7 @@ import oms.mmc.helper.base.IScrollableView;
  * Email: hezihao@linghit.com
  */
 
-public class ScrollableRecyclerView extends RecyclerView implements IScrollableView {
+public class ScrollableRecyclerView extends RecyclerView implements IScrollableAdapterView {
     public ScrollableRecyclerView(Context context) {
         super(context);
     }
@@ -28,5 +30,16 @@ public class ScrollableRecyclerView extends RecyclerView implements IScrollableV
 
     public ScrollableRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    @Override
+    public void setListAdapter(IListScrollViewAdapter adapter) {
+        ListScrollViewAdapterUtil.isValidListAdapter(adapter);
+        super.setAdapter((Adapter) adapter);
+    }
+
+    @Override
+    public IListScrollViewAdapter getListAdapter() {
+        return (IListScrollViewAdapter) super.getAdapter();
     }
 }

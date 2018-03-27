@@ -1,6 +1,6 @@
 package oms.mmc.helper.base;
 
-import android.view.View;
+import oms.mmc.helper.adapter.IListScrollViewAdapter;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -11,7 +11,7 @@ import android.view.View;
  * Email: hezihao@linghit.com
  */
 
-public abstract class AbsScrollableViewWrapper<T extends View & IScrollableView> implements IScrollableViewWrapper<T> {
+public abstract class AbsScrollableViewWrapper<T extends IScrollableView> implements IScrollableViewWrapper<T> {
     private T scrollingView;
 
     public AbsScrollableViewWrapper(T scrollingView) {
@@ -21,5 +21,12 @@ public abstract class AbsScrollableViewWrapper<T extends View & IScrollableView>
     @Override
     public T getScrollableView() {
         return scrollingView;
+    }
+
+    @Override
+    public void setAdapter(IListScrollViewAdapter adapter) {
+        if (getScrollableView() instanceof IScrollableAdapterView) {
+            ((IScrollableAdapterView) getScrollableView()).setListAdapter(adapter);
+        }
     }
 }

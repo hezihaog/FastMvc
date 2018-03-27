@@ -2,7 +2,7 @@ package oms.mmc.android.fast.framwork.loadview;
 
 import android.view.View;
 
-import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.base.IScrollableAdapterView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.loadview
@@ -29,7 +29,7 @@ public interface ILoadMoreViewFactory {
          * @param list
          * @param onClickLoadMoreListener 加载更多的点击事件，需要点击调用加载更多的按钮都可以设置这个监听
          */
-        void init(IScrollableView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter);
+        void init(IScrollableAdapterView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter);
 
         /**
          * 显示普通布局，整个item是空白的

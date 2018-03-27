@@ -30,20 +30,21 @@ import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutM
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.base.IScrollableAdapterView;
+import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends BaseFastActivity
-        implements ListLayoutCallback<BaseItemData>, OnStateChangeListener<BaseItemData>,
+public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastActivity
+        implements ListLayoutCallback<BaseItemData, V>, OnStateChangeListener<BaseItemData>,
         ICommonListAdapter.OnScrollableViewItemClickListener, RecyclerViewListConfigCallback,
         ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {
-    private ListAbleDelegateHelper<P> mDelegateHelper;
+    private ListAbleDelegateHelper<P, V>  mDelegateHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper<P>(this, this, this);
+        mDelegateHelper = new ListAbleDelegateHelper<P, V>(this, this, this);
         mDelegateHelper.startDelegate(getActivity(), getWindow().getDecorView());
         //初始化监听
         ICommonListAdapter adapter = mDelegateHelper.getListAdapter();
@@ -51,7 +52,6 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
         adapter.addOnItemLongClickListener(this);
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
         onListReady();
-        mDelegateHelper.setupScrollHelper();
     }
 
     @Override
@@ -87,9 +87,9 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
     }
 
     @Override
-    public ListScrollHelper onInitScrollHelper() {
+    public ListScrollHelper<V> onInitScrollHelper() {
         //默认都是rv，这里默认使用rv的，如果是使用其他的，复写该方法，返回对应的包裹类和控件
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getScrollableView()));
+        return new ListScrollHelper<V>((IScrollableViewWrapper<V>) new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getScrollableView()));
     }
 
     @Override
@@ -157,7 +157,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout> extends
         return mDelegateHelper.getRefreshWrapper().getPullRefreshAbleView();
     }
 
-    public IScrollableView getScrollableView() {
+    public V getScrollableView() {
         return mDelegateHelper.getScrollableView();
     }
 

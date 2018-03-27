@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -22,8 +21,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.SimpleListScrollAdapter;
-import oms.mmc.helper.base.IScrollableView;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
+import oms.mmc.helper.base.IScrollableAdapterView;
 
 /**
  * RecyclerView帮助类
@@ -32,7 +30,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private ICommonListAdapter<Model> mDataAdapter;
     private IPullRefreshWrapper<?> mRefreshWrapper;
     private IDataSource<Model> mDataSource;
-    private IScrollableView mScrollableView;
+    private IScrollableAdapterView mScrollableView;
     private Activity mActivity;
     private OnStateChangeListener<Model> mOnStateChangeListener;
     private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
@@ -59,7 +57,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     //主线程Handler
     private final Handler mUiHandler;
 
-    public RecyclerViewViewHelper(Activity activity, final IPullRefreshWrapper<?> refreshWrapper, final IScrollableView scrollableView) {
+    public RecyclerViewViewHelper(Activity activity, final IPullRefreshWrapper<?> refreshWrapper, final IScrollableAdapterView scrollableView) {
         this.mActivity = activity;
         this.mUiHandler = new Handler(Looper.getMainLooper());
         this.mRefreshWrapper = refreshWrapper;
@@ -171,7 +169,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
             protected void onPreExecute() {
                 if (mDataAdapter.isEmpty()) {
                     mLoadView.showLoading();
-                    mRefreshWrapper.completeRefresh();
                 } else {
                     mLoadView.restore();
                 }
@@ -326,7 +323,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED;
     }
 
-    public IScrollableView getScrollableView() {
+    public IScrollableAdapterView getScrollableView() {
         return mScrollableView;
     }
 
@@ -377,7 +374,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * @param adapter
      */
     public void setAdapter(ICommonListAdapter<Model> adapter) {
-        ((ScrollableRecyclerView) mScrollableView).setAdapter((RecyclerView.Adapter) adapter);
+        getListScrollHelper().getScrollableViewWrapper().setAdapter(adapter);
         this.mDataAdapter = adapter;
     }
 
@@ -476,5 +473,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     public void setEnableLoadMoreFooter(boolean enableLoadMoreFooter) {
         this.enableLoadMoreFooter = enableLoadMoreFooter;
         mLoadMoreView.enableLoadMoreFooter(enableLoadMoreFooter);
+    }
+
+    public ListScrollHelper getListScrollHelper() {
+        return listScrollHelper;
     }
 }

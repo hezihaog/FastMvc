@@ -55,7 +55,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public class ConversationListFragment extends BaseFastListFragment<SmartPullRefreshLayout> {
+public class ConversationListFragment extends BaseFastListFragment<SmartPullRefreshLayout, ScrollableRecyclerView> {
     //搜索条目
     public static final int TPL_SEARCH = 1;
     //编辑条目

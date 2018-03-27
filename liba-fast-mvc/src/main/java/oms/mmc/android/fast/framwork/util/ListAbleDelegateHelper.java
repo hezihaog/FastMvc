@@ -22,6 +22,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.base.IScrollableAdapterView;
 import oms.mmc.helper.base.IScrollableView;
 import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
@@ -35,7 +36,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
+public class ListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScrollableAdapterView> {
     /**
      * 下拉刷新控件
      */
@@ -43,7 +44,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     /**
      * 列表
      */
-    protected IScrollableView mScrollableView;
+    protected V mScrollableView;
     /**
      * 列表加载帮助类
      */
@@ -71,7 +72,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     /**
      * 列表界面，ListActivity或者ListFragment
      */
-    private ListLayoutCallback<BaseItemData> mListAble;
+    private ListLayoutCallback<BaseItemData, V> mListAble;
     private RecyclerViewListConfigCallback mRecyclerViewListConfigCallback;
     /**
      * 下拉刷新界面
@@ -84,7 +85,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
     private IScrollableViewWrapper mScrollableViewWrapper;
     private AssistHelper mAssistHelper;
 
-    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData> listAble, RecyclerViewListConfigCallback recyclerViewListConfigCallback, IPullRefreshUi<P> pullRefreshUi) {
+    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, V> listAble, RecyclerViewListConfigCallback recyclerViewListConfigCallback, IPullRefreshUi<P> pullRefreshUi) {
         this.mListAble = listAble;
         this.mRecyclerViewListConfigCallback = recyclerViewListConfigCallback;
         this.mPullRefreshUi = pullRefreshUi;
@@ -107,7 +108,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         mRefreshWrapper = mPullRefreshUi.onInitPullRefreshWrapper((P) pullToRefreshLayout);
         mPullRefreshUi.onPullRefreshWrapperReady(mRefreshWrapper, mRefreshWrapper.getPullRefreshAbleView());
         //初始化列表控件
-        mScrollableView = (IScrollableView) rootLayout.findViewById(R.id.fast_recycler_view);
+        mScrollableView = (V) rootLayout.findViewById(R.id.fast_recycler_view);
         if (mScrollableView instanceof ScrollableRecyclerView) {
             ((ScrollableRecyclerView) mScrollableView).setLayoutManager(mRecyclerViewListConfigCallback.onGetListLayoutManager());
         }
@@ -128,6 +129,8 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
             mListAdapter = mListAble.onListAdapterReady();
         }
         mListAdapter.setAssistHelper(mAssistHelper);
+        //设置滚动帮助类
+        setupScrollHelper();
         mRecyclerViewHelper.setAdapter(mListAdapter);
         //初始化视图切换工厂
         mLoadViewFactory = mListAble.onLoadViewFactoryReady();
@@ -148,7 +151,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         return mRefreshWrapper.getPullRefreshAbleView();
     }
 
-    public IScrollableView getScrollableView() {
+    public V getScrollableView() {
         return mScrollableView;
     }
 
@@ -184,7 +187,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout> {
         return mLoadMoreViewFactory;
     }
 
-    public ListLayoutCallback<BaseItemData> getListAble() {
+    public ListLayoutCallback<BaseItemData, V> getListAble() {
         return mListAble;
     }
 

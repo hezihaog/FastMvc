@@ -6,8 +6,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
+import oms.mmc.helper.adapter.IListScrollViewAdapter;
+import oms.mmc.helper.base.IScrollableAdapterView;
 import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.widget.ScrollableListView;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
@@ -41,7 +46,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
     }
 
     @Override
-    public void init(IScrollableView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter) {
+    public void init(IScrollableAdapterView list, View.OnClickListener onClickLoadMoreListener, boolean enableLoadMoreFooter) {
         mInflater = LayoutInflater.from(list.getContext());
         this.mList = list;
         this.onClickRefreshListener = onClickLoadMoreListener;
@@ -54,7 +59,12 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
         onInflateFooterViewAfter(mFooterView);
         if (enableLoadMoreFooter) {
             //添加加载更多布局到尾部
-            ((HeaderFooterAdapter) ((ScrollableRecyclerView)list).getAdapter()).addFooterView(mFooterView);
+            IListScrollViewAdapter listAdapter = list.getListAdapter();
+            if (list instanceof ScrollableRecyclerView) {
+                ((HeaderFooterDataAdapter) listAdapter).addFooterView(mFooterView);
+            } else if (list instanceof CommonListViewAdapter) {
+                ((ScrollableListView) list).addFooterView(mFooterView);
+            }
         }
         showNormal();
     }
@@ -111,9 +121,9 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
     @Override
     public void enableLoadMoreFooter(boolean enableLoadMoreFooter) {
         if (enableLoadMoreFooter) {
-            ((HeaderFooterAdapter) ((ScrollableRecyclerView)mList).getAdapter()).addFooterView(mFooterView);
+            ((HeaderFooterAdapter) ((ScrollableRecyclerView) mList).getAdapter()).addFooterView(mFooterView);
         } else {
-            ((HeaderFooterAdapter) ((ScrollableRecyclerView)mList).getAdapter()).removeFooter(mFooterView);
+            ((HeaderFooterAdapter) ((ScrollableRecyclerView) mList).getAdapter()).removeFooter(mFooterView);
         }
     }
 

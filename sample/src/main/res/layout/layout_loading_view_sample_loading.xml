@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <oms.mmc.android.fast.framwork.sample.widget.EclipseLoadingView
+    <com.pnikosis.materialishprogress.ProgressWheel
         android:id="@+id/loadView"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:indeterminate="false"
+        wheel:matProg_barColor="#5588FF"
+        wheel:matProg_fillRadius="true"
+        wheel:matProg_progressIndeterminate="true" />
 </FrameLayout>

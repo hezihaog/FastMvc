@@ -19,6 +19,7 @@ import oms.mmc.android.fast.framwork.sample.widget.TwinklingPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -29,7 +30,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class MainSampleFragment extends BaseFastListFragment<TwinklingPullRefreshLayout> {
+public class MainSampleFragment extends BaseFastListFragment<TwinklingPullRefreshLayout, ScrollableRecyclerView> {
     public static final int TPL_SAMPLE_TEXT = 1;
 
     @Override

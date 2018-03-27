@@ -31,7 +31,8 @@ import oms.mmc.helper.widget.ScrollableListView;
  * ListView通用适配器
  */
 
-public class CommonListViewAdapter extends BaseAdapter implements ICommonListAdapter<BaseItemData>, PinnedSectionListView.PinnedSectionListAdapter {
+public class CommonListViewAdapter extends BaseAdapter implements ICommonListAdapter<BaseItemData>
+        , PinnedSectionListView.PinnedSectionListAdapter {
     private final CommonListAdapterDelegate mAdapterDelegate;
     private Activity mActivity;
     private ScrollableListView mScrollableView;
@@ -148,14 +149,16 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        BaseTpl<BaseItemData> tpl;
+        BaseTpl<BaseItemData> tpl = null;
         if (convertView == null) {
             int viewType = mAdapterDelegate.getListItemViewType(position);
             tpl = mAdapterDelegate.createTpl(viewType);
             tpl.init(mActivity, mScrollableView, mToastOperator, mWaitViewHost, mFragmentOperator, getAssistHelper(), viewType);
-            convertView.setTag(R.id.tag_tpl, tpl);
             tpl.config(this, mListData, mListDataSource, mRecyclerViewHelper, mListScrollHelper);
-        } else {
+            convertView = tpl.getRootView();
+            convertView.setTag(R.id.tag_tpl, tpl);
+        }
+        if (convertView != null) {
             tpl = (BaseTpl<BaseItemData>) convertView.getTag(R.id.tag_tpl);
             tpl.setBeanPosition(mListData, (BaseItemData) getItem(position), position);
             try {

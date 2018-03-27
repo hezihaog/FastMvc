@@ -1,6 +1,6 @@
 package oms.mmc.helper.base;
 
-import android.view.View;
+import oms.mmc.helper.adapter.IListScrollViewAdapter;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -11,11 +11,11 @@ import android.view.View;
  * Email: hezihao@linghit.com
  */
 
-public interface IScrollableViewWrapper<T extends View & IScrollableView> {
+public interface IScrollableViewWrapper<V extends IScrollableView> {
     /**
      * 滚动代理接口，转接滚动控件的监听器滚动事件
      */
-    interface ScrollDelegate<T extends View & IScrollableView> {
+    interface ScrollDelegate {
         /**
          * 当前正在向上滚动
          */
@@ -43,14 +43,21 @@ public interface IScrollableViewWrapper<T extends View & IScrollableView> {
      * @param delegate       代理对象
      * @param scrollableView 滚动view
      */
-    void setup(ScrollDelegate delegate, T scrollableView);
+    void setup(ScrollDelegate delegate, V scrollableView);
+
+    /**
+     * 设置列表控件适配器
+     *
+     * @param adapter 适配器
+     */
+    void setAdapter(IListScrollViewAdapter adapter);
 
     /**
      * 获取当前包裹的滚动控件对象
      *
      * @return 当前包裹的滚动控件对象
      */
-    T getScrollableView();
+    V getScrollableView();
 
     /**
      * 瞬时滚动到顶部

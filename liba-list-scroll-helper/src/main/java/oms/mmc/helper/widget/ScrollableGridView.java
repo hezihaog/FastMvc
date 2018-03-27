@@ -4,10 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.AbsListView;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 
 import java.util.ArrayList;
 
-import oms.mmc.helper.base.IScrollableView;
+import oms.mmc.helper.adapter.IListScrollViewAdapter;
+import oms.mmc.helper.base.IScrollableAdapterView;
+import oms.mmc.helper.util.ListScrollViewAdapterUtil;
 
 
 /**
@@ -19,7 +22,7 @@ import oms.mmc.helper.base.IScrollableView;
  * Email: hezihao@linghit.com
  */
 
-public class ScrollableGridView extends GridView implements IScrollableView {
+public class ScrollableGridView extends GridView implements IScrollableAdapterView {
     private final ArrayList<OnListViewScrollListener> mListener =
             new ArrayList<OnListViewScrollListener>();
 
@@ -55,6 +58,17 @@ public class ScrollableGridView extends GridView implements IScrollableView {
                 }
             }
         });
+    }
+
+    @Override
+    public void setListAdapter(IListScrollViewAdapter adapter) {
+        ListScrollViewAdapterUtil.isValidListAdapter(adapter);
+        super.setAdapter((ListAdapter) adapter);
+    }
+
+    @Override
+    public IListScrollViewAdapter getListAdapter() {
+        return (IListScrollViewAdapter) super.getAdapter();
     }
 
     public interface OnListViewScrollListener {

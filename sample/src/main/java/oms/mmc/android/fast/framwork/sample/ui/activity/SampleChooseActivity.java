@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.magiepooh.recycleritemdecoration.ItemDecorations;
-import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,15 +17,19 @@ import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.loadview.SampleChooseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.SampleChooseTpl;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
+import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.widget.ScrollableListView;
+import oms.mmc.helper.wrapper.ScrollableListViewWrapper;
 
-public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshLayout> {
+public class SampleChooseActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableListView> {
     private static final int TPL_SAMPLE_MODULE = 1;
 
     private Toolbar mToolBar;
@@ -75,38 +76,29 @@ public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshL
     }
 
     @Override
-    public IPullRefreshWrapper<SmartPullRefreshLayout> onInitPullRefreshWrapper(SmartPullRefreshLayout pullRefreshAbleView) {
-        return new SmartPullRefreshWrapper(pullRefreshAbleView);
+    public ICommonListAdapter<BaseItemData> onListAdapterReady() {
+        return new CommonListViewAdapter(getActivity(), getListDataSource(), (ScrollableListView) getScrollableView(), onListTypeClassesReady(), this, getRecyclerViewHelper());
     }
 
     @Override
-    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
+    public ListScrollHelper<ScrollableListView> onInitScrollHelper() {
+        return new ListScrollHelper<ScrollableListView>(new ScrollableListViewWrapper((ScrollableListView) getScrollableView()));
+    }
+
+    @Override
+    public IPullRefreshWrapper<SwipePullRefreshLayout> onInitPullRefreshWrapper(SwipePullRefreshLayout pullRefreshAbleView) {
+        return new SwipePullRefreshWrapper(pullRefreshAbleView);
+    }
+
+    @Override
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SwipePullRefreshLayout> refreshWrapper, SwipePullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
-        pullRefreshAbleView.setEnableLoadmore(false);
+//        pullRefreshAbleView.setEnableLoadmore(false);
     }
 
     @Override
     public ILoadMoreViewFactory onLoadMoreViewFactoryReady() {
         return new SampleChooseLoadMoreViewFactory();
-    }
-
-    @Override
-    public void onListReady() {
-        super.onListReady();
-        //设置不可以下拉刷新
-//        getListAbleDelegateHelper().getRecyclerViewHelper().setCanPullToRefresh(false);
-        //添加分隔线
-        VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
-                .type(TPL_SAMPLE_MODULE, R.drawable.shape_conversation_item_decoration)
-                .create();
-        ((ScrollableRecyclerView)getScrollableView()).addItemDecoration(decoration);
-    }
-
-    @Override
-    public void onListReadyAfter() {
-        super.onListReadyAfter();
-        //进入后马上刷新一次
-        getRefreshWrapper().startRefreshWithAnimation();
     }
 
     /**

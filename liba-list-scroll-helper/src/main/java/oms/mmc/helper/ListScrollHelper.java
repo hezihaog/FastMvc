@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import oms.mmc.helper.base.IScrollHelper;
+import oms.mmc.helper.base.IScrollableView;
 import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.listener.IListScrollListener;
 
@@ -17,11 +18,11 @@ import oms.mmc.helper.listener.IListScrollListener;
  * Email: hezihao@linghit.com
  */
 
-public class ListScrollHelper implements IScrollHelper {
+public class ListScrollHelper<V extends IScrollableView> implements IScrollHelper {
     private ArrayList<IListScrollListener> listeners = new ArrayList<IListScrollListener>();
-    private IScrollableViewWrapper scrollableViewWrapper;
+    private IScrollableViewWrapper<V> scrollableViewWrapper;
 
-    public ListScrollHelper(IScrollableViewWrapper scrollableViewWrapper) {
+    public ListScrollHelper(IScrollableViewWrapper<V> scrollableViewWrapper) {
         this.scrollableViewWrapper = scrollableViewWrapper;
         this.scrollableViewWrapper.setup(new IScrollableViewWrapper.ScrollDelegate() {
             @Override

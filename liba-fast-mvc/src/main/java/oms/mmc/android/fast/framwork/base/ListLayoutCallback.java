@@ -6,11 +6,12 @@ import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.base.IScrollableAdapterView;
 
 /**
  * 列表页面布局回调接口
  */
-public interface ListLayoutCallback<T> {
+public interface ListLayoutCallback<T, V extends IScrollableAdapterView> {
     /**
      * 列表数据源初始化回调
      *
@@ -54,12 +55,12 @@ public interface ListLayoutCallback<T> {
     /**
      * 获取滚动监听帮助类对象
      */
-    ListScrollHelper onInitScrollHelper();
+    ListScrollHelper<V> onInitScrollHelper();
 
     /**
      * 滚动监听帮助类初始化完成
      */
-    void onListScrollHelperReady(ListScrollHelper listScrollHelper);
+    void onListScrollHelperReady(ListScrollHelper<V> listScrollHelper);
 
     /**
      * 列表初始化完成后回调

@@ -26,6 +26,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.adapter.IListScrollViewAdapter;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**

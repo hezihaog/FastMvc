@@ -18,6 +18,7 @@ import oms.mmc.android.fast.framwork.sample.widget.BGAPullRefreshLayoutWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -28,7 +29,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class MyInfoSampleFragment extends BaseFastListFragment<BGAPullRefreshLayout> {
+public class MyInfoSampleFragment extends BaseFastListFragment<BGAPullRefreshLayout, ScrollableRecyclerView> {
     private static final int TPL_TEXT = 1;
 
     @Override

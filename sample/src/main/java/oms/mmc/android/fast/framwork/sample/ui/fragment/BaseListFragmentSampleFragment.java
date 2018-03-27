@@ -10,11 +10,11 @@ import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
-import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -25,12 +25,8 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class BaseListFragmentSampleFragment extends BaseFastListFragment<SwipePullRefreshLayout> {
+public class BaseListFragmentSampleFragment extends BaseFastListFragment<SwipePullRefreshLayout, ScrollableRecyclerView> {
     public static final int TPL_TEXT = 1;
-
-    @Override
-    public void onFindView(IViewFinder finder) {
-    }
 
     @Override
     public IDataSource<BaseItemData> onListDataSourceReady() {

@@ -30,7 +30,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
-public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePullRefreshLayout> {
+public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
     public static final int TPL_ITEM = 1;
 
     private Button mModeBtn;

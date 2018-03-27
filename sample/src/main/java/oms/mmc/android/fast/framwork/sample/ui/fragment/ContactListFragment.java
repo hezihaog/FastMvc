@@ -32,6 +32,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -42,7 +43,7 @@ import oms.mmc.factory.load.factory.ILoadViewFactory;
  * Email: hezihao@linghit.com
  */
 
-public class ContactListFragment extends BaseFastListFragment<SmartPullRefreshLayout> {
+public class ContactListFragment extends BaseFastListFragment<SmartPullRefreshLayout, ScrollableRecyclerView> {
     //推荐卡片
     public static final int TPL_RECOMMENT = 1;
     //新的好友条目

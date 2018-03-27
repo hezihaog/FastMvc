@@ -17,6 +17,7 @@ import oms.mmc.android.fast.framwork.sample.widget.PtrPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment
@@ -27,7 +28,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  * Email: hezihao@linghit.com
  */
 
-public class ShoppingCartSampleFragment extends BaseFastListFragment<PtrPullRefreshLayout> {
+public class ShoppingCartSampleFragment extends BaseFastListFragment<PtrPullRefreshLayout, ScrollableRecyclerView> {
     public static final int TPL_TEXT = 1;
 
     @Override
