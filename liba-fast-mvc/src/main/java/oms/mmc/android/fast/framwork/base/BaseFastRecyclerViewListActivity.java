@@ -22,6 +22,14 @@ import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
+/**
+ * Package: oms.mmc.android.fast.framwork.base
+ * FileName: BaseFastListViewActivity
+ * Date: on 2018/3/28  下午6:55
+ * Auther: zihe
+ * Descirbe:RecyclerView控件使用的Activity
+ * Email: hezihao@linghit.com
+ */
 public abstract class BaseFastRecyclerViewListActivity
         <P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastListActivity<P, V> implements RecyclerViewListConfigCallback {
 

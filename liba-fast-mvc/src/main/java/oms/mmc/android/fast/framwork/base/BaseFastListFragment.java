@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.loadview.BaseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
@@ -24,56 +23,51 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
-import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.base.IScrollableAdapterView;
+import oms.mmc.helper.base.IScrollableView;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
- * FileName: BaseFastListActivity
- * Date: on 2018/3/28  下午6:51
+ * FileName: BaseFastListFragment
+ * Date: on 2018/3/28  下午11:18
  * Auther: zihe
- * Descirbe:列表基类，没有引入控件，只有有具体控件后继承本类，例如rv、lv就直接继承{@link BaseFastRecyclerViewListActivity} {@link BaseFastListViewActivity}
+ * Descirbe:
  * Email: hezihao@linghit.com
  */
 
-public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastActivity
-        implements ListLayoutCallback<BaseItemData, V>, OnStateChangeListener<BaseItemData>,
-        ICommonListAdapter.OnScrollableViewItemClickListener, IListConfigCallback,
-        ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {
+public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastFragment
+        implements ListLayoutCallback<BaseItemData, V>,
+        OnStateChangeListener<BaseItemData>, ICommonListAdapter.OnScrollableViewItemClickListener,
+        IListConfigCallback, ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {
+
     private ListAbleDelegateHelper<P, V> mDelegateHelper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
         mDelegateHelper = new ListAbleDelegateHelper<P, V>(this, this, this);
-        mDelegateHelper.startDelegate(getActivity(), getWindow().getDecorView());
+        mDelegateHelper.startDelegate(getActivity(), rootLayout);
         //初始化监听
         ICommonListAdapter adapter = mDelegateHelper.getListAdapter();
         adapter.addOnItemClickListener(this);
         adapter.addOnItemLongClickListener(this);
         mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
-        onListReady();
+        mDelegateHelper.notifyListReady();
+        return rootLayout;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDelegateHelper.destroyRecyclerViewHelper();
+        if (mDelegateHelper != null) {
+            mDelegateHelper.destroyRecyclerViewHelper();
+        }
     }
 
     @Override
     public void onListReady() {
         mDelegateHelper.setupListWidget();
-    }
-
-    @Override
-    public void onListReadyAfter() {
-    }
-
-    @Override
-    public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_base_fast_recycler_view_list, container);
     }
 
     @Override
@@ -128,7 +122,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
         return mDelegateHelper.getRefreshWrapper().getPullRefreshAbleView();
     }
 
-    public V getScrollableView() {
+    public IScrollableView getScrollableView() {
         return mDelegateHelper.getScrollableView();
     }
 
@@ -157,15 +151,12 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
     }
 
     public HeaderFooterAdapter getRecyclerViewAdapter() {
-        return (HeaderFooterAdapter) ((ScrollableRecyclerView) mDelegateHelper.getScrollableView()).getAdapter();
+        ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) mDelegateHelper.getScrollableView();
+        return (HeaderFooterAdapter) scrollableRecyclerView.getAdapter();
     }
 
     public ILoadViewFactory getLoadViewFactory() {
         return mDelegateHelper.getLoadViewFactory();
-    }
-
-    public ListScrollHelper<V> getScrollHelper() {
-        return mDelegateHelper.getScrollHelper();
     }
 
     /**

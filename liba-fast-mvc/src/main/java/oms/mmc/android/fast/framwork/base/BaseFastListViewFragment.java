@@ -22,22 +22,21 @@ import oms.mmc.helper.wrapper.ScrollableListViewWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
- * FileName: BaseFastListViewActivity
- * Date: on 2018/3/28  下午6:55
+ * FileName: BaseFastListViewFragment
+ * Date: on 2018/3/28  下午11:59
  * Auther: zihe
- * Descirbe:ListView控件使用的Activity
+ * Descirbe:ListView控件使用的Fragment
  * Email: hezihao@linghit.com
  */
 
-public abstract class BaseFastListViewActivity
-        <P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastListActivity<P, V> implements ListViewListConfigCallback {
-
+public abstract class BaseFastListViewFragment<P extends IPullRefreshLayout, V extends IScrollableAdapterView>
+        extends BaseFastListFragment<P, V> implements ListViewListConfigCallback {
     /**
      * 使用ListView的通用布局视图，如界面没有特殊需求，可以不重写该方法，直接使用父类定义的即可
      */
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_base_fast_list_view_list, container, false);
+        return inflater.inflate(R.layout.fragment_base_fast_list_view_list, container, false);
     }
 
     /**
