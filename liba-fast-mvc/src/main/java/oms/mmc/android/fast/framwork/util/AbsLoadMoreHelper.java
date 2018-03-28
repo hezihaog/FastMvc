@@ -12,6 +12,7 @@ import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
 import oms.mmc.helper.base.IScrollableAdapterView;
+import oms.mmc.helper.base.IScrollableListAdapterView;
 import oms.mmc.helper.base.IScrollableView;
 import oms.mmc.helper.widget.ScrollableListView;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
@@ -55,7 +56,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
         this.mFooterView = new FrameLayout(list.getContext());
         if (list instanceof ScrollableRecyclerView) {
             this.mFooterView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-        } else if (list instanceof ScrollableListView) {
+        } else if (list instanceof IScrollableListAdapterView) {
             this.mFooterView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
         }
         //获取要使用的尾部布局

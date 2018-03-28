@@ -3,6 +3,7 @@ package oms.mmc.android.fast.framwork.widget.list.lv;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -19,12 +20,12 @@ import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
-import oms.mmc.android.fast.framwork.widget.lv.PinnedSectionListView;
+import oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.widget.ScrollableListView;
+import oms.mmc.helper.base.IScrollableListAdapterView;
 
 /**
  * Created by wally on 18/3/25.
@@ -32,10 +33,10 @@ import oms.mmc.helper.widget.ScrollableListView;
  */
 
 public class CommonListViewAdapter extends BaseAdapter implements ICommonListAdapter<BaseItemData>
-        , PinnedSectionListView.PinnedSectionListAdapter {
+        , ScrollablePinnedSectionListView.PinnedSectionListAdapter {
     private final CommonListAdapterDelegate mAdapterDelegate;
     private Activity mActivity;
-    private ScrollableListView mScrollableView;
+    private IScrollableListAdapterView mScrollableView;
     /**
      * 等待弹窗依赖的宿主
      */
@@ -77,10 +78,18 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
      */
     private ArrayList<OnScrollableViewItemLongClickListener> onItemLongClickListeners = new ArrayList<OnScrollableViewItemLongClickListener>();
     private IAssistHelper mAssistHelper;
+    /**
+     * 不使用粘性头部
+     */
+    public static final int NOT_STICKY_SECTION = -1;
+    /**
+     * 粘性条目的类型，默认没有粘性头部
+     */
+    private int stickySectionViewType = NOT_STICKY_SECTION;
 
-    public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, ScrollableListView scrollableView,
+    public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, IScrollableListAdapterView scrollableView,
                                  HashMap<Integer, Class> viewTypeClassMap, IWaitViewHost waitViewHost,
-                                 RecyclerViewViewHelper recyclerViewHelper) {
+                                 RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType) {
         this.mActivity = activity;
         this.mListDataSource = dataSource;
         this.mListData = dataSource.getListData();
@@ -91,6 +100,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
         this.mWaitViewHost = waitViewHost;
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mRecyclerViewHelper = recyclerViewHelper;
+        this.stickySectionViewType = stickySectionViewType;
         initListener();
     }
 
@@ -118,9 +128,9 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
         mScrollableView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
             @Override
             public void onViewDetachedFromWindow(View v) {
-                int allItemCount = mScrollableView.getAdapter().getCount();
+                int allItemCount = ((AdapterView)mScrollableView).getAdapter().getCount();
                 for (int i = 0; i < allItemCount; i++) {
-                    View view = mScrollableView.getViewByPosition(i, mScrollableView);
+                    View view = mScrollableView.getViewByPosition(i);
                     if (view != null) {
                         BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
                         if (tpl != null) {
@@ -282,6 +292,6 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
 
     @Override
     public boolean isItemViewTypePinned(int viewType) {
-        return false;
+        return viewType == stickySectionViewType;
     }
 }

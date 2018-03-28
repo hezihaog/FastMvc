@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
-import oms.mmc.helper.base.IScrollableAdapterView;
+import oms.mmc.helper.base.IScrollableListAdapterView;
 import oms.mmc.helper.util.ListScrollViewAdapterUtil;
 
 /**
@@ -22,8 +22,8 @@ import oms.mmc.helper.util.ListScrollViewAdapterUtil;
  * Email: hezihao@linghit.com
  */
 
-public class ScrollableListView extends ListView implements IScrollableAdapterView {
-    private final ArrayList<OnListViewScrollListener> mListener
+public class ScrollableListView extends ListView implements IScrollableListAdapterView {
+    private final ArrayList<IScrollableListAdapterView.OnListViewScrollListener> mListener
             = new ArrayList<OnListViewScrollListener>();
 
     public ScrollableListView(Context context) {
@@ -46,14 +46,14 @@ public class ScrollableListView extends ListView implements IScrollableAdapterVi
         setOnScrollListener(new OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                for (OnListViewScrollListener listener : mListener) {
+                for (IScrollableListAdapterView.OnListViewScrollListener listener : mListener) {
                     listener.onScrollStateChanged(view, scrollState);
                 }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                for (OnListViewScrollListener listener : mListener) {
+                for (IScrollableListAdapterView.OnListViewScrollListener listener : mListener) {
                     listener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
                 }
             }
@@ -71,20 +71,17 @@ public class ScrollableListView extends ListView implements IScrollableAdapterVi
         return (IListScrollViewAdapter) super.getAdapter();
     }
 
-    public interface OnListViewScrollListener {
-        void onScrollStateChanged(AbsListView view, int scrollState);
-
-        void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
-    }
-
-    public void addOnListViewScrollListener(OnListViewScrollListener listener) {
+    @Override
+    public void addOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener) {
         mListener.add(listener);
     }
 
-    public void removeOnListViewScrollListener(OnListViewScrollListener listener) {
+    @Override
+    public void removeOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener) {
         mListener.remove(listener);
     }
 
+    @Override
     public void removeAllOnListViewScrollListener() {
         mListener.clear();
     }
@@ -92,16 +89,17 @@ public class ScrollableListView extends ListView implements IScrollableAdapterVi
     /**
      * 根据指定位置，查找View
      */
-    public View getViewByPosition(int pos, ListView listView) {
-        int firstListItemPosition = listView.getFirstVisiblePosition();
+    @Override
+    public View getViewByPosition(int pos) {
+        int firstListItemPosition = this.getFirstVisiblePosition();
         int lastListItemPosition = firstListItemPosition
-                + listView.getChildCount() - 1;
+                + this.getChildCount() - 1;
 
         if (pos < firstListItemPosition || pos > lastListItemPosition) {
-            return listView.getAdapter().getView(pos, null, listView);
+            return this.getAdapter().getView(pos, null, this);
         } else {
             final int childIndex = pos - firstListItemPosition;
-            return listView.getChildAt(childIndex);
+            return this.getChildAt(childIndex);
         }
     }
 }

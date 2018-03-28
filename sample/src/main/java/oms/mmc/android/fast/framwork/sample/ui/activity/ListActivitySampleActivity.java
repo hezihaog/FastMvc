@@ -30,8 +30,8 @@ import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 public class ListActivitySampleActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
     public static final String BUNDLE_KEY_HAS_STICKY = "key_has_sticky";
 
-    public static final int TPL_TEXT = 1;
-    public static final int TPL_IMAGE = 2;
+    public static final int TPL_TEXT = 0;
+    public static final int TPL_IMAGE = 1;
     private boolean mHasSticky;
 
     @Override

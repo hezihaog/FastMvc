@@ -5,9 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.magiepooh.recycleritemdecoration.ItemDecorations;
-import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,19 +16,20 @@ import oms.mmc.android.fast.framwork.sample.tpl.sample.ListImageSampleTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
+import oms.mmc.android.fast.framwork.widget.list.wrapper.ScrollablePinnedSectionListViewWrapper;
+import oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
-import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public class ListStickyActivitySampleActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
+public class ListStickyActivitySampleActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollablePinnedSectionListView> {
     public static final String BUNDLE_KEY_HAS_STICKY = "key_has_sticky";
 
-    public static final int TPL_TEXT = 1;
-    public static final int TPL_IMAGE = 2;
+    public static final int TPL_TEXT = 0;
+    public static final int TPL_IMAGE = 1;
     private boolean mHasSticky;
 
     @Override
@@ -44,7 +42,7 @@ public class ListStickyActivitySampleActivity extends BaseFastListActivity<Swipe
     //如果是普通的布局，不需要添加其他控件，可以直接使用父类中的布局
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
-        return super.onLayoutView(inflater, container);
+        return inflater.inflate(R.layout.activity_sticky_sample_fast_list, container, false);
     }
 
     @Override
@@ -94,6 +92,11 @@ public class ListStickyActivitySampleActivity extends BaseFastListActivity<Swipe
     }
 
     @Override
+    public ICommonListAdapter<BaseItemData> onListAdapterReady() {
+        return new CommonListViewAdapter(getActivity(), getListDataSource(), getScrollableView(), onListTypeClassesReady(), this, getRecyclerViewHelper(), onStickyTplViewTypeReady());
+    }
+
+    @Override
     public int onStickyTplViewTypeReady() {
         if (mHasSticky) {
             return TPL_TEXT;
@@ -114,11 +117,11 @@ public class ListStickyActivitySampleActivity extends BaseFastListActivity<Swipe
     }
 
     /**
-     * 这里返回对应的滚动帮助类，要和使用的一样，基本都是rv的
+     * 这里返回对应的滚动帮助类，要和使用的一样，基本都是rv的，如果是lv则改成lv使用的
      */
     @Override
-    public ListScrollHelper onInitScrollHelper() {
-        return new ListScrollHelper(new ScrollableRecyclerViewWrapper((ScrollableRecyclerView) getScrollableView()));
+    public ListScrollHelper<ScrollablePinnedSectionListView> onInitScrollHelper() {
+        return new ListScrollHelper<ScrollablePinnedSectionListView>(new ScrollablePinnedSectionListViewWrapper(getScrollableView()));
     }
 
     @Override
@@ -126,11 +129,11 @@ public class ListStickyActivitySampleActivity extends BaseFastListActivity<Swipe
         super.onListReady();
         //这里可以增加一个分隔线
         //添加分隔线
-        VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
-                .type(TPL_TEXT, R.drawable.shape_conversation_item_decoration)
-                .type(TPL_IMAGE, R.drawable.shape_conversation_item_decoration)
-                .create();
-        (getScrollableView()).addItemDecoration(decoration);
+//        VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
+//                .type(TPL_TEXT, R.drawable.shape_conversation_item_decoration)
+//                .type(TPL_IMAGE, R.drawable.shape_conversation_item_decoration)
+//                .create();
+//        (getScrollableView()).addItemDecoration(decoration);
     }
 
     @Override

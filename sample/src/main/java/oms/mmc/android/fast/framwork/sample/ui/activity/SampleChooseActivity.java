@@ -80,12 +80,12 @@ public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshL
 
     @Override
     public ICommonListAdapter<BaseItemData> onListAdapterReady() {
-        return new CommonListViewAdapter(getActivity(), getListDataSource(), (ScrollableListView) getScrollableView(), onListTypeClassesReady(), this, getRecyclerViewHelper());
+        return new CommonListViewAdapter(getActivity(), getListDataSource(), getScrollableView(), onListTypeClassesReady(), this, getRecyclerViewHelper(), onStickyTplViewTypeReady());
     }
 
     @Override
     public ListScrollHelper<ScrollableListView> onInitScrollHelper() {
-        return new ListScrollHelper<ScrollableListView>(new ScrollableListViewWrapper((ScrollableListView) getScrollableView()));
+        return new ListScrollHelper<ScrollableListView>(new ScrollableListViewWrapper(getScrollableView()));
     }
 
     @Override
@@ -111,7 +111,7 @@ public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshL
         //设置分隔透明
         getScrollableView().setDivider(new ColorDrawable(Color.parseColor("#66909090")));
         //给ListView加分隔线间隔
-        getScrollableView().setDividerHeight((int) TDevice.dpToPixel(getActivity(), 10f));
+        getScrollableView().setDividerHeight((int) TDevice.dpToPixel(getActivity(), 8f));
     }
 
     @Override
