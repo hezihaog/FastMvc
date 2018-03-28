@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -30,7 +30,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
-public class ListActivityModeSampleActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
+public class ListActivityModeSampleActivity extends BaseFastRecyclerViewListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
     public static final int TPL_ITEM = 1;
 
     private Button mModeBtn;

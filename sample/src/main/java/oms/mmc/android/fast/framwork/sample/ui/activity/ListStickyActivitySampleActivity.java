@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -25,7 +25,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.helper.ListScrollHelper;
 
-public class ListStickyActivitySampleActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollablePinnedSectionListView> {
+public class ListStickyActivitySampleActivity extends BaseFastRecyclerViewListActivity<SwipePullRefreshLayout, ScrollablePinnedSectionListView> {
     public static final String BUNDLE_KEY_HAS_STICKY = "key_has_sticky";
 
     public static final int TPL_TEXT = 0;

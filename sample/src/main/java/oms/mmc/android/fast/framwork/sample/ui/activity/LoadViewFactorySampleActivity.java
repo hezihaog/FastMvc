@@ -14,7 +14,7 @@ import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
@@ -29,7 +29,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
-public class LoadViewFactorySampleActivity extends BaseFastListActivity implements View.OnClickListener {
+public class LoadViewFactorySampleActivity extends BaseFastRecyclerViewListActivity implements View.OnClickListener {
     public static final int TPL_TEXT = 1;
 
     private Button mShowLoadingBtn;

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
@@ -32,7 +32,7 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableListView;
 import oms.mmc.helper.wrapper.ScrollableListViewWrapper;
 
-public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshLayout, ScrollableListView> {
+public class SampleChooseActivity extends BaseFastRecyclerViewListActivity<SmartPullRefreshLayout, ScrollableListView> {
     private static final int TPL_SAMPLE_MODULE = 1;
 
     private Toolbar mToolBar;

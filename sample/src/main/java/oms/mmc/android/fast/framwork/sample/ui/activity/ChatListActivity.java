@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -39,7 +39,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public class ChatListActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
+public class ChatListActivity extends BaseFastRecyclerViewListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
     public static final int TPL_CHAT_DATE = 0;
     public static final int TPL_CHAT_TEXT_SENDER = 1;
     public static final int TPL_CHAT_TEXT_RECEIVER = 2;

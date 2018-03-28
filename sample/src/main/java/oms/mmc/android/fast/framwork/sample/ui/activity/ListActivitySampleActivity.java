@@ -11,7 +11,7 @@ import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -27,7 +27,7 @@ import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public class ListActivitySampleActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
+public class ListActivitySampleActivity extends BaseFastRecyclerViewListActivity<SwipePullRefreshLayout, ScrollableRecyclerView> {
     public static final String BUNDLE_KEY_HAS_STICKY = "key_has_sticky";
 
     public static final int TPL_TEXT = 0;

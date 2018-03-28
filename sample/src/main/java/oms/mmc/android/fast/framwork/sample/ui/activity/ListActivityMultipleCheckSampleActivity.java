@@ -9,14 +9,14 @@ import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListMultipleCheckSampleTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 
-public class ListActivityMultipleCheckSampleActivity extends BaseFastListActivity {
+public class ListActivityMultipleCheckSampleActivity extends BaseFastRecyclerViewListActivity {
     public static final int TPL_MULTIPLE_CHECK = 2;
 
     @Override
