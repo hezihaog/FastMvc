@@ -1,12 +1,13 @@
 package oms.mmc.android.fast.framwork.util;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
-import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
@@ -52,7 +53,11 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
         this.onClickRefreshListener = onClickLoadMoreListener;
         //创建一个布局包裹尾部布局
         this.mFooterView = new FrameLayout(list.getContext());
-        this.mFooterView.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
+        if (list instanceof ScrollableRecyclerView) {
+            this.mFooterView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        } else if (list instanceof ScrollableListView) {
+            this.mFooterView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+        }
         //获取要使用的尾部布局
         mOriginLoadMoreView = onInflateFooterView(mInflater, list, onClickLoadMoreListener);
         mFooterView.addView(mOriginLoadMoreView, new ViewGroup.LayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
@@ -62,7 +67,7 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
             IListScrollViewAdapter listAdapter = list.getListAdapter();
             if (list instanceof ScrollableRecyclerView) {
                 ((HeaderFooterDataAdapter) listAdapter).addFooterView(mFooterView);
-            } else if (list instanceof CommonListViewAdapter) {
+            } else if (list instanceof ScrollableListView) {
                 ((ScrollableListView) list).addFooterView(mFooterView);
             }
         }

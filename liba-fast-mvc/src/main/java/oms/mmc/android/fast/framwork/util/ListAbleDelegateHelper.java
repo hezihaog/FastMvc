@@ -81,7 +81,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScr
     /**
      * 滚动监听帮助类
      */
-    private ListScrollHelper mScrollHelper;
+    private ListScrollHelper<V> mScrollHelper;
     private IScrollableViewWrapper mScrollableViewWrapper;
     private AssistHelper mAssistHelper;
 
@@ -191,7 +191,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScr
         return mListAble;
     }
 
-    public ListScrollHelper getScrollHelper() {
+    public ListScrollHelper<V> getScrollHelper() {
         return mScrollHelper;
     }
 

@@ -193,7 +193,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
         return mDelegateHelper.getLoadViewFactory();
     }
 
-    public ListScrollHelper getScrollHelper() {
+    public ListScrollHelper<V> getScrollHelper() {
         return mDelegateHelper.getScrollHelper();
     }
 
