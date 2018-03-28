@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
 import oms.mmc.helper.base.IScrollableAdapterView;
@@ -41,5 +42,14 @@ public class ScrollableRecyclerView extends RecyclerView implements IScrollableA
     @Override
     public IListScrollViewAdapter getListAdapter() {
         return (IListScrollViewAdapter) super.getAdapter();
+    }
+
+    @Override
+    public View getViewByPosition(int position) {
+        RecyclerView.ViewHolder holder = findViewHolderForAdapterPosition(position);
+        if (holder != null) {
+            return holder.itemView;
+        }
+        return null;
     }
 }

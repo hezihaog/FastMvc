@@ -10,5 +10,8 @@ package oms.mmc.helper.adapter;
  */
 
 public interface IListScrollViewAdapter {
-
+    /**
+     * 获取列表条目数量
+     */
+    int getListItemCount();
 }

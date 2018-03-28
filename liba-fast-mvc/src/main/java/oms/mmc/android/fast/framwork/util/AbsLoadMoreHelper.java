@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
@@ -14,7 +15,6 @@ import oms.mmc.helper.adapter.IListScrollViewAdapter;
 import oms.mmc.helper.base.IScrollableAdapterView;
 import oms.mmc.helper.base.IScrollableListAdapterView;
 import oms.mmc.helper.base.IScrollableView;
-import oms.mmc.helper.widget.ScrollableListView;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
@@ -66,10 +66,12 @@ public abstract class AbsLoadMoreHelper implements ILoadMoreViewFactory.ILoadMor
         if (enableLoadMoreFooter) {
             //添加加载更多布局到尾部
             IListScrollViewAdapter listAdapter = list.getListAdapter();
+            //RecyclerView使用HeaderFooterAdapter进行添加尾部
             if (list instanceof ScrollableRecyclerView) {
                 ((HeaderFooterDataAdapter) listAdapter).addFooterView(mFooterView);
-            } else if (list instanceof ScrollableListView) {
-                ((ScrollableListView) list).addFooterView(mFooterView);
+            } else if (list instanceof IScrollableListAdapterView) {
+                //ListView则直接使用ListView进行添加
+                ((ListView) list).addFooterView(mFooterView);
             }
         }
         showNormal();

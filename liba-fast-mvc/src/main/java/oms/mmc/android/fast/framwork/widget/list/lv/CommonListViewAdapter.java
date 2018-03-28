@@ -3,14 +3,12 @@ package oms.mmc.android.fast.framwork.widget.list.lv;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IFragmentOperator;
 import oms.mmc.android.fast.framwork.util.FragmentOperator;
@@ -18,6 +16,7 @@ import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.delegate.AdapterListenerDelegate;
 import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView;
@@ -69,14 +68,6 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
      * 列表滚动帮助类
      */
     private ListScrollHelper mListScrollHelper;
-    /**
-     * 点击事件
-     */
-    private ArrayList<OnScrollableViewItemClickListener> onItemClickListeners = new ArrayList<OnScrollableViewItemClickListener>();
-    /**
-     * 长按事件
-     */
-    private ArrayList<OnScrollableViewItemLongClickListener> onItemLongClickListeners = new ArrayList<OnScrollableViewItemLongClickListener>();
     private IAssistHelper mAssistHelper;
     /**
      * 不使用粘性头部
@@ -86,6 +77,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
      * 粘性条目的类型，默认没有粘性头部
      */
     private int stickySectionViewType = NOT_STICKY_SECTION;
+    private AdapterListenerDelegate mListenerDelegate;
 
     public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, IScrollableListAdapterView scrollableView,
                                  HashMap<Integer, Class> viewTypeClassMap, IWaitViewHost waitViewHost,
@@ -101,45 +93,9 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mRecyclerViewHelper = recyclerViewHelper;
         this.stickySectionViewType = stickySectionViewType;
-        initListener();
-    }
-
-    /**
-     * 初始化监听器
-     */
-    private void initListener() {
-        addOnItemClickListener(new OnScrollableViewItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, BaseTpl clickTpl, int position) {
-                BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                tpl.onItemClick(view, position);
-            }
-        });
-        addOnItemLongClickListener(new OnScrollableViewItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(View view, BaseTpl longClickTpl, int position) {
-                BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                tpl.onItemLongClick(view, position);
-                return true;
-            }
-        });
-        mScrollableView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-                int allItemCount = ((AdapterView)mScrollableView).getAdapter().getCount();
-                for (int i = 0; i < allItemCount; i++) {
-                    View view = mScrollableView.getViewByPosition(i);
-                    if (view != null) {
-                        BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                        if (tpl != null) {
-                            tpl.onRecyclerViewDetachedFromWindow(v);
-                        }
-                    }
-                }
-            }
-        });
+        this.mListenerDelegate = new AdapterListenerDelegate();
+        //开始监听代理
+        this.mListenerDelegate.startDelegateAdapterListener(mScrollableView, this);
     }
 
     @Override
@@ -177,12 +133,12 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
                 e.printStackTrace();
             }
         }
-        if (onItemClickListeners.size() > 0) {
+        if (mListenerDelegate.hasItemClickListener()) {
             tpl.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (onItemClickListeners != null) {
-                        for (OnScrollableViewItemClickListener clickListener : onItemClickListeners) {
+                    if (mListenerDelegate.getItemClickListeners() != null) {
+                        for (OnScrollableViewItemClickListener clickListener : mListenerDelegate.getItemClickListeners()) {
                             BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
                             clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
                         }
@@ -190,13 +146,13 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
                 }
             });
         }
-        if (onItemLongClickListeners.size() > 0) {
+        if (mListenerDelegate.hasItemLongClickListener()) {
             tpl.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (onItemLongClickListeners != null) {
+                    if (mListenerDelegate.getItemLongClickListeners() != null) {
                         BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                        for (OnScrollableViewItemLongClickListener longClickListener : onItemLongClickListeners) {
+                        for (OnScrollableViewItemLongClickListener longClickListener : mListenerDelegate.getItemLongClickListeners()) {
                             longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
                         }
                     }
@@ -229,22 +185,22 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
 
     @Override
     public void addOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
-        onItemClickListeners.add(onItemClickListener);
+        this.mListenerDelegate.addOnItemClickListener(onItemClickListener);
     }
 
     @Override
     public void removeOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
-        onItemClickListeners.remove(onItemClickListener);
+        this.mListenerDelegate.removeOnItemClickListener(onItemClickListener);
     }
 
     @Override
     public void addOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
-        onItemLongClickListeners.add(onItemLongClickListener);
+        this.mListenerDelegate.addOnItemLongClickListener(onItemLongClickListener);
     }
 
     @Override
     public void removeOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
-        onItemLongClickListeners.remove(onItemLongClickListener);
+        this.mListenerDelegate.removeOnItemLongClickListener(onItemLongClickListener);
     }
 
     @Override
@@ -293,5 +249,10 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
     @Override
     public boolean isItemViewTypePinned(int viewType) {
         return viewType == stickySectionViewType;
+    }
+
+    @Override
+    public int getListItemCount() {
+        return getCount();
     }
 }

@@ -96,4 +96,9 @@ public class HeaderFooterDataAdapter<T extends BaseItemData> extends HeaderFoote
     public ListScrollHelper getListScrollHelper() {
         return mAdapter.getListScrollHelper();
     }
+
+    @Override
+    public int getListItemCount() {
+        return mAdapter.getListItemCount();
+    }
 }

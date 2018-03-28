@@ -108,9 +108,10 @@ public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshL
     public void onListReady() {
         super.onListReady();
         //这个界面是用ListView的
-        //设置分隔透明
-        getScrollableView().setDivider(new ColorDrawable(Color.parseColor("#66909090")));
-        //给ListView加分隔线间隔
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
+        //设置分隔线颜色
+        getScrollableView().setDivider(new ColorDrawable(Color.parseColor("#F3F5F7")));
+        //给ListView分隔线设置高度
         getScrollableView().setDividerHeight((int) TDevice.dpToPixel(getActivity(), 8f));
     }
 

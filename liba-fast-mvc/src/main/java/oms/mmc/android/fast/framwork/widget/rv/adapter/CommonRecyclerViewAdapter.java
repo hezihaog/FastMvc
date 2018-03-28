@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import oms.mmc.android.fast.framwork.R;
-import oms.mmc.android.fast.framwork.adapter.SimpleAttachStateChangeListener;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IFragmentOperator;
 import oms.mmc.android.fast.framwork.util.FragmentOperator;
@@ -18,6 +17,7 @@ import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
+import oms.mmc.android.fast.framwork.widget.list.delegate.AdapterListenerDelegate;
 import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
@@ -26,7 +26,6 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeaders;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.adapter.IListScrollViewAdapter;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
@@ -60,14 +59,6 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
      */
     private IWaitViewHost mWaitViewHost;
     /**
-     * 点击事件
-     */
-    private ArrayList<OnScrollableViewItemClickListener> onItemClickListeners = new ArrayList<OnScrollableViewItemClickListener>();
-    /**
-     * 长按事件
-     */
-    private ArrayList<OnScrollableViewItemLongClickListener> onItemLongClickListeners = new ArrayList<OnScrollableViewItemLongClickListener>();
-    /**
      * rv帮助类
      */
     private RecyclerViewViewHelper<BaseItemData> mRecyclerViewHelper;
@@ -93,6 +84,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
      * 粘性条目的类型，默认没有粘性头部
      */
     private int stickySectionViewType = NOT_STICKY_SECTION;
+    private AdapterListenerDelegate mListenerDelegate;
 
     public CommonRecyclerViewAdapter(ScrollableRecyclerView scrollableView, Activity activity, IDataSource<BaseItemData> dataSource
             , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, IWaitViewHost waitViewHost, int stickySectionViewType) {
@@ -107,7 +99,9 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         this.mRecyclerViewHelper = recyclerViewHelper;
         this.mAdapterDelegate = new CommonListAdapterDelegate(dataSource.getListData(), viewTypeClassMap);
         this.stickySectionViewType = stickySectionViewType;
-        initListener();
+        this.mListenerDelegate = new AdapterListenerDelegate();
+        //开始监听代理
+        this.mListenerDelegate.startDelegateAdapterListener(mScrollableView, this);
     }
 
     @Override
@@ -154,44 +148,6 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         }
     }
 
-    /**
-     * 初始化监听器
-     */
-    private void initListener() {
-        addOnItemClickListener(new OnScrollableViewItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, BaseTpl clickTpl, int position) {
-                BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                tpl.onItemClick(view, position);
-            }
-        });
-        addOnItemLongClickListener(new OnScrollableViewItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(View view, BaseTpl longClickTpl, int position) {
-                BaseTpl tpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                tpl.onItemLongClick(view, position);
-                return true;
-            }
-        });
-        mScrollableView.addOnAttachStateChangeListener(new SimpleAttachStateChangeListener() {
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-                int allItemCount = mScrollableView.getAdapter().getItemCount();
-                for (int i = 0; i < allItemCount; i++) {
-                    RecyclerView.ViewHolder holder = mScrollableView.findViewHolderForAdapterPosition(i);
-                    if (holder != null && holder.itemView != null) {
-                        BaseTpl tpl = (BaseTpl) holder.itemView.getTag(R.id.tag_tpl);
-                        if (tpl != null) {
-                            tpl.onRecyclerViewDetachedFromWindow(v);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
         return mAdapterDelegate.getListItemCount();
@@ -205,12 +161,12 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         viewHolder = tpl.getViewHolder();
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
         tpl.config(this, mListData, mListDataSource, mRecyclerViewHelper, mListScrollHelper);
-        if (onItemClickListeners.size() > 0) {
+        if (mListenerDelegate.hasItemClickListener()) {
             tpl.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (onItemClickListeners != null) {
-                        for (OnScrollableViewItemClickListener clickListener : onItemClickListeners) {
+                    if (mListenerDelegate.getItemClickListeners() != null) {
+                        for (OnScrollableViewItemClickListener clickListener : mListenerDelegate.getItemClickListeners()) {
                             BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
                             clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
                         }
@@ -218,13 +174,13 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
                 }
             });
         }
-        if (onItemLongClickListeners.size() > 0) {
+        if (mListenerDelegate.hasItemLongClickListener()) {
             tpl.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (onItemLongClickListeners != null) {
+                    if (mListenerDelegate.getItemLongClickListeners() != null) {
                         BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                        for (OnScrollableViewItemLongClickListener longClickListener : onItemLongClickListeners) {
+                        for (OnScrollableViewItemLongClickListener longClickListener : mListenerDelegate.getItemLongClickListeners()) {
                             longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
                         }
                     }
@@ -276,22 +232,22 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
 
     @Override
     public void addOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
-        this.onItemClickListeners.add(onItemClickListener);
-    }
-
-    @Override
-    public void addOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
-        this.onItemLongClickListeners.add(onItemLongClickListener);
+        this.mListenerDelegate.addOnItemClickListener(onItemClickListener);
     }
 
     @Override
     public void removeOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener) {
-        this.onItemClickListeners.remove(onItemClickListener);
+        this.mListenerDelegate.removeOnItemClickListener(onItemClickListener);
+    }
+
+    @Override
+    public void addOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
+        this.mListenerDelegate.addOnItemLongClickListener(onItemLongClickListener);
     }
 
     @Override
     public void removeOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener) {
-        this.onItemLongClickListeners.remove(onItemLongClickListener);
+        this.mListenerDelegate.removeOnItemLongClickListener(onItemLongClickListener);
     }
 
     @Override
@@ -332,5 +288,10 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
     @Override
     public IAssistHelper getAssistHelper() {
         return mAssistHelper;
+    }
+
+    @Override
+    public int getListItemCount() {
+        return getItemCount();
     }
 }

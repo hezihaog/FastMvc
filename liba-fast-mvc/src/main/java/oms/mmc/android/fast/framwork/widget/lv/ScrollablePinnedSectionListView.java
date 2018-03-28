@@ -614,7 +614,14 @@ public class ScrollablePinnedSectionListView extends ListView implements IScroll
 
     @Override
     public IListScrollViewAdapter getListAdapter() {
-        return (IListScrollViewAdapter) super.getAdapter();
+        ListAdapter adapter = super.getAdapter();
+        //在ListView加了尾部或者头部时，adapter会被动态HeaderViewListAdapter包裹一层，所以这时候需要拿到包裹的那个adapter才是最原始的adapter
+        if (adapter instanceof HeaderViewListAdapter) {
+            return (IListScrollViewAdapter) ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+        } else {
+            //在未包裹之前，直接转换即可。
+            return (IListScrollViewAdapter) adapter;
+        }
     }
 
     @Override
@@ -636,15 +643,15 @@ public class ScrollablePinnedSectionListView extends ListView implements IScroll
      * 根据指定位置，查找View
      */
     @Override
-    public View getViewByPosition(int pos) {
+    public View getViewByPosition(int position) {
         int firstListItemPosition = this.getFirstVisiblePosition();
         int lastListItemPosition = firstListItemPosition
                 + this.getChildCount() - 1;
 
-        if (pos < firstListItemPosition || pos > lastListItemPosition) {
-            return this.getAdapter().getView(pos, null, this);
+        if (position < firstListItemPosition || position > lastListItemPosition) {
+            return this.getAdapter().getView(position, null, this);
         } else {
-            final int childIndex = pos - firstListItemPosition;
+            final int childIndex = position - firstListItemPosition;
             return this.getChildAt(childIndex);
         }
     }

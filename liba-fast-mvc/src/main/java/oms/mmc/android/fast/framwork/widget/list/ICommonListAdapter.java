@@ -1,11 +1,8 @@
 package oms.mmc.android.fast.framwork.widget.list;
 
-import android.view.View;
-
 import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
-import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
 
@@ -14,7 +11,7 @@ import oms.mmc.helper.adapter.IListScrollViewAdapter;
  * 通用适配器
  */
 
-public interface ICommonListAdapter<T> extends IListScrollViewAdapter {
+public interface ICommonListAdapter<T> extends IListScrollViewAdapter, AdapterListenerInterface {
     /**
      * 提醒数据集已改变，提醒刷新数据
      */
@@ -61,45 +58,13 @@ public interface ICommonListAdapter<T> extends IListScrollViewAdapter {
      */
     IAssistHelper getAssistHelper();
 
+    /**
+     * 设置滚动帮助类
+     */
     void setListScrollHelper(ListScrollHelper listScrollHelper);
 
+    /**
+     * 获取滚动帮助类
+     */
     ListScrollHelper getListScrollHelper();
-
-    /**
-     * 列表的条目点击事件
-     */
-    interface OnScrollableViewItemClickListener {
-        void onItemClick(View view, BaseTpl clickTpl, int position);
-    }
-
-    /**
-     * 列表的条目长按事件
-     */
-    interface OnScrollableViewItemLongClickListener {
-        boolean onItemLongClick(View view, BaseTpl longClickTpl, int position);
-    }
-
-    /**
-     * 添加列表条目点击监听
-     */
-    void addOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener);
-
-    /**
-     * 移除指定的列表条目点击监听
-     *
-     * @param onItemClickListener 列表条目点击监听
-     */
-    void removeOnItemClickListener(OnScrollableViewItemClickListener onItemClickListener);
-
-    /**
-     * 添加列表条目长按监听
-     */
-    void addOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener);
-
-    /**
-     * 移除列表条目长按监听
-     *
-     * @param onItemLongClickListener 列表条目长按监听
-     */
-    void removeOnItemLongClickListener(OnScrollableViewItemLongClickListener onItemLongClickListener);
 }

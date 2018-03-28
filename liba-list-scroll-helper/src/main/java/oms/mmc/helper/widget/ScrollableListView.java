@@ -90,15 +90,15 @@ public class ScrollableListView extends ListView implements IScrollableListAdapt
      * 根据指定位置，查找View
      */
     @Override
-    public View getViewByPosition(int pos) {
+    public View getViewByPosition(int position) {
         int firstListItemPosition = this.getFirstVisiblePosition();
         int lastListItemPosition = firstListItemPosition
                 + this.getChildCount() - 1;
 
-        if (pos < firstListItemPosition || pos > lastListItemPosition) {
-            return this.getAdapter().getView(pos, null, this);
+        if (position < firstListItemPosition || position > lastListItemPosition) {
+            return this.getAdapter().getView(position, null, this);
         } else {
-            final int childIndex = pos - firstListItemPosition;
+            final int childIndex = position - firstListItemPosition;
             return this.getChildAt(childIndex);
         }
     }

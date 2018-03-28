@@ -1,5 +1,7 @@
 package oms.mmc.helper.base;
 
+import android.view.View;
+
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
 
 /**
@@ -23,4 +25,18 @@ public interface IScrollableAdapterView extends IScrollableView {
      * 获取滚动控件的适配器
      */
     IListScrollViewAdapter getListAdapter();
+
+    /**
+     * 添加依附的监听器，其实就是View上面的，由于View是类，而不是接口，这里做同名覆盖给外部调用
+     *
+     * @param listener 监听器
+     */
+    void addOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
+
+    /**
+     * 根据位置，查找出条目View
+     *
+     * @param position 位置
+     */
+    View getViewByPosition(int position);
 }

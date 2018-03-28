@@ -2,6 +2,7 @@ package oms.mmc.helper.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
@@ -9,7 +10,7 @@ import android.widget.ListAdapter;
 import java.util.ArrayList;
 
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
-import oms.mmc.helper.base.IScrollableAdapterView;
+import oms.mmc.helper.base.IScrollableListAdapterView;
 import oms.mmc.helper.util.ListScrollViewAdapterUtil;
 
 
@@ -22,7 +23,7 @@ import oms.mmc.helper.util.ListScrollViewAdapterUtil;
  * Email: hezihao@linghit.com
  */
 
-public class ScrollableGridView extends GridView implements IScrollableAdapterView {
+public class ScrollableGridView extends GridView implements IScrollableListAdapterView {
     private final ArrayList<OnListViewScrollListener> mListener =
             new ArrayList<OnListViewScrollListener>();
 
@@ -46,14 +47,14 @@ public class ScrollableGridView extends GridView implements IScrollableAdapterVi
         setOnScrollListener(new OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                for (ScrollableGridView.OnListViewScrollListener listener : mListener) {
+                for (IScrollableListAdapterView.OnListViewScrollListener listener : mListener) {
                     listener.onScrollStateChanged(view, scrollState);
                 }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                for (ScrollableGridView.OnListViewScrollListener listener : mListener) {
+                for (IScrollableListAdapterView.OnListViewScrollListener listener : mListener) {
                     listener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
                 }
             }
@@ -71,21 +72,35 @@ public class ScrollableGridView extends GridView implements IScrollableAdapterVi
         return (IListScrollViewAdapter) super.getAdapter();
     }
 
-    public interface OnListViewScrollListener {
-        void onScrollStateChanged(AbsListView view, int scrollState);
-
-        void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
-    }
-
-    public void addOnListViewScrollListener(ScrollableGridView.OnListViewScrollListener listener) {
+    @Override
+    public void addOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener) {
         mListener.add(listener);
     }
 
-    public void removeOnListViewScrollListener(ScrollableGridView.OnListViewScrollListener listener) {
+    @Override
+    public void removeOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener) {
         mListener.remove(listener);
     }
 
+    @Override
     public void removeAllOnListViewScrollListener() {
         mListener.clear();
+    }
+
+    /**
+     * 根据指定位置，查找View
+     */
+    @Override
+    public View getViewByPosition(int position) {
+        int firstListItemPosition = this.getFirstVisiblePosition();
+        int lastListItemPosition = firstListItemPosition
+                + this.getChildCount() - 1;
+
+        if (position < firstListItemPosition || position > lastListItemPosition) {
+            return this.getAdapter().getView(position, null, this);
+        } else {
+            final int childIndex = position - firstListItemPosition;
+            return this.getChildAt(childIndex);
+        }
     }
 }

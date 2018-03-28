@@ -1,6 +1,5 @@
 package oms.mmc.helper.base;
 
-import android.view.View;
 import android.widget.AbsListView;
 
 /**
@@ -22,13 +21,18 @@ public interface IScrollableListAdapterView extends IScrollableAdapterView {
         void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
     }
 
+    /**
+     * 添加滚动监听器
+     */
     void addOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener);
 
+    /**
+     * 移除滚动监听器
+     */
     void removeOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener);
 
+    /**
+     * 移除所有的滚动监听器
+     */
     void removeAllOnListViewScrollListener();
-
-    void addOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
-
-    View getViewByPosition(int pos);
 }
