@@ -10,15 +10,19 @@
 
         <include layout="@layout/layout_tool_bar" />
 
-        <oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout
+        <oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout
             android:id="@id/fast_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <oms.mmc.helper.widget.ScrollableListView
                 android:id="@id/fast_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout>
+        </oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout>
     </LinearLayout>
 </FrameLayout>

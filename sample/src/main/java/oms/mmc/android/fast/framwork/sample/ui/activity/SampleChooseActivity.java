@@ -1,6 +1,8 @@
 package oms.mmc.android.fast.framwork.sample.ui.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +19,20 @@ import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.loadview.SampleChooseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.SampleChooseTpl;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
+import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
-import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableListView;
 import oms.mmc.helper.wrapper.ScrollableListViewWrapper;
 
-public class SampleChooseActivity extends BaseFastListActivity<SwipePullRefreshLayout, ScrollableListView> {
+public class SampleChooseActivity extends BaseFastListActivity<SmartPullRefreshLayout, ScrollableListView> {
     private static final int TPL_SAMPLE_MODULE = 1;
 
     private Toolbar mToolBar;
@@ -86,19 +89,35 @@ public class SampleChooseActivity extends BaseFastListActivity<SwipePullRefreshL
     }
 
     @Override
-    public IPullRefreshWrapper<SwipePullRefreshLayout> onInitPullRefreshWrapper(SwipePullRefreshLayout pullRefreshAbleView) {
-        return new SwipePullRefreshWrapper(pullRefreshAbleView);
+    public IPullRefreshWrapper<SmartPullRefreshLayout> onInitPullRefreshWrapper(SmartPullRefreshLayout pullRefreshAbleView) {
+        return new SmartPullRefreshWrapper(pullRefreshAbleView);
     }
 
     @Override
-    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SwipePullRefreshLayout> refreshWrapper, SwipePullRefreshLayout pullRefreshAbleView) {
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
-//        pullRefreshAbleView.setEnableLoadmore(false);
+        pullRefreshAbleView.setEnableLoadmore(false);
     }
 
     @Override
     public ILoadMoreViewFactory onLoadMoreViewFactoryReady() {
         return new SampleChooseLoadMoreViewFactory();
+    }
+
+    @Override
+    public void onListReady() {
+        super.onListReady();
+        //这个界面是用ListView的
+        //设置分隔透明
+        getScrollableView().setDivider(new ColorDrawable(Color.parseColor("#66909090")));
+        //给ListView加分隔线间隔
+        getScrollableView().setDividerHeight((int) TDevice.dpToPixel(getActivity(), 10f));
+    }
+
+    @Override
+    public void onListReadyAfter() {
+        super.onListReadyAfter();
+        getRefreshLayoutWrapper().startRefreshWithAnimation();
     }
 
     /**

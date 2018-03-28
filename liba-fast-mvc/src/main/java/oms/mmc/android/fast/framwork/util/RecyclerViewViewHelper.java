@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -54,12 +52,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     private ILoadMoreViewFactory.ILoadMoreView mLoadMoreView;
     //滚动帮助类
     private ListScrollHelper listScrollHelper;
-    //主线程Handler
-    private final Handler mUiHandler;
 
     public RecyclerViewViewHelper(Activity activity, final IPullRefreshWrapper<?> refreshWrapper, final IScrollableAdapterView scrollableView) {
         this.mActivity = activity;
-        this.mUiHandler = new Handler(Looper.getMainLooper());
         this.mRefreshWrapper = refreshWrapper;
         this.mScrollableView = scrollableView;
         this.mRefreshWrapper.setOnRefreshListener(new IPullRefreshWrapper.OnRefreshListener() {
@@ -70,7 +65,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         });
     }
 
-    public void setupScrollHelper(ListScrollHelper scrollHelper) {
+    public <V extends IScrollableAdapterView> void setupScrollHelper(ListScrollHelper<V> scrollHelper) {
         this.listScrollHelper = scrollHelper;
         listScrollHelper.addListScrollListener(new SimpleListScrollAdapter() {
             @Override
