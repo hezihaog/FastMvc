@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.adapter.SimpleFragmentPagerAdapter;
 import oms.mmc.android.fast.framwork.base.BaseFastFragment;
-import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListFragment;
 import oms.mmc.android.fast.framwork.lazy.PagerVisibleFragment;
 import oms.mmc.android.fast.framwork.sample.AppCompatSupportFastActivity;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatSupportFastActivity implements View.O
         int currentItem = viewPager.getCurrentItem();
         Fragment fragment = viewPagerAdapter.findByPagerIndex(currentItem);
         if (fragment != null && (fragment instanceof ConversationListFragment || fragment instanceof ContactListFragment)) {
-            BaseFastListFragment listFragment = (BaseFastListFragment) fragment;
+            BaseFastRecyclerViewListFragment listFragment = (BaseFastRecyclerViewListFragment) fragment;
             listFragment.smoothMoveToTop(listFragment.getRecyclerViewHelper().isReverse());
         }
     }

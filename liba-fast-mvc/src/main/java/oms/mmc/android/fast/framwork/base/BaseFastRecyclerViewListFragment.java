@@ -36,7 +36,7 @@ import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastFragment
+public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastFragment
         implements ListLayoutCallback<BaseItemData, V>,
         OnStateChangeListener<BaseItemData>, ICommonListAdapter.OnScrollableViewItemClickListener,
         RecyclerViewListConfigCallback, ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {

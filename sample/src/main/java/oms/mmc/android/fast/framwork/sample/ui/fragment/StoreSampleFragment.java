@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastListFragment;
+import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -28,7 +28,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  * Email: hezihao@linghit.com
  */
 
-public class StoreSampleFragment extends BaseFastListFragment<SmartPullRefreshLayout, ScrollableRecyclerView> {
+public class StoreSampleFragment extends BaseFastRecyclerViewListFragment<SmartPullRefreshLayout, ScrollableRecyclerView> {
     private static final int TPL_TEXT = 1;
 
     @Override
