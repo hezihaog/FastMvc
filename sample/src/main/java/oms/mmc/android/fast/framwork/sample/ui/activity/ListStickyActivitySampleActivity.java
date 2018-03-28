@@ -1,6 +1,5 @@
 package oms.mmc.android.fast.framwork.sample.ui.activity;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +7,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastListViewActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.R;
@@ -21,10 +20,9 @@ import oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.helper.ListScrollHelper;
 
-public class ListStickyActivitySampleActivity extends BaseFastRecyclerViewListActivity<SwipePullRefreshLayout, ScrollablePinnedSectionListView> {
+public class ListStickyActivitySampleActivity extends BaseFastListViewActivity<SwipePullRefreshLayout, ScrollablePinnedSectionListView> {
     public static final String BUNDLE_KEY_HAS_STICKY = "key_has_sticky";
 
     public static final int TPL_TEXT = 0;
@@ -80,14 +78,6 @@ public class ListStickyActivitySampleActivity extends BaseFastRecyclerViewListAc
                 return models;
             }
         };
-    }
-
-    /**
-     * 这里返回需要使用的LayoutManager
-     */
-    @Override
-    public RecyclerView.LayoutManager onGetListLayoutManager() {
-        return new StickyHeadersLinearLayoutManager(getActivity());
     }
 
     @Override
