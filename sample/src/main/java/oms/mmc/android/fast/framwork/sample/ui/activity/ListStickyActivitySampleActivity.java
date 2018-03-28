@@ -16,7 +16,6 @@ import oms.mmc.android.fast.framwork.sample.tpl.sample.ListImageSampleTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.ListTextSampleTpl;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
-import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
 import oms.mmc.android.fast.framwork.widget.list.wrapper.ScrollablePinnedSectionListViewWrapper;
 import oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
@@ -89,11 +88,6 @@ public class ListStickyActivitySampleActivity extends BaseFastRecyclerViewListAc
     @Override
     public RecyclerView.LayoutManager onGetListLayoutManager() {
         return new StickyHeadersLinearLayoutManager(getActivity());
-    }
-
-    @Override
-    public ICommonListAdapter<BaseItemData> onListAdapterReady() {
-        return new CommonListViewAdapter(getActivity(), getListDataSource(), getScrollableView(), onListTypeClassesReady(), this, getRecyclerViewHelper(), onStickyTplViewTypeReady());
     }
 
     @Override

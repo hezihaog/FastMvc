@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
  * FileName: RecyclerViewListConfigCallback
  * Date: on 2018/3/24  下午11:25
  * Auther: zihe
- * Descirbe:
+ * Descirbe:rv配置回调
  * Email: hezihao@linghit.com
  */
 
-public interface RecyclerViewListConfigCallback {
+public interface RecyclerViewListConfigCallback extends IListConfigCallback {
     /**
      * 获取RecyclerView的LayoutManager
      */

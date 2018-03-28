@@ -14,7 +14,7 @@
             <!--android:layout_height="wrap_content" />-->
 
         <oms.mmc.helper.widget.ScrollableRecyclerView
-            android:id="@id/fast_recycler_view"
+            android:id="@id/fast_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout>

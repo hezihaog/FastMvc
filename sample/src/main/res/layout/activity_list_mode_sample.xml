@@ -21,7 +21,7 @@
                 android:text="编辑" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@id/fast_recycler_view"
+                android:id="@id/fast_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />

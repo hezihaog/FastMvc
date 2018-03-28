@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView
-            android:id="@id/fast_recycler_view"
+            android:id="@id/fast_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />

@@ -19,6 +19,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
+import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
@@ -73,7 +74,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScr
      * 列表界面，ListActivity或者ListFragment
      */
     private ListLayoutCallback<BaseItemData, V> mListAble;
-    private RecyclerViewListConfigCallback mRecyclerViewListConfigCallback;
+    private IListConfigCallback mListConfigCallback;
     /**
      * 下拉刷新界面
      */
@@ -85,9 +86,9 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScr
     private IScrollableViewWrapper mScrollableViewWrapper;
     private AssistHelper mAssistHelper;
 
-    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, V> listAble, RecyclerViewListConfigCallback recyclerViewListConfigCallback, IPullRefreshUi<P> pullRefreshUi) {
+    public ListAbleDelegateHelper(ListLayoutCallback<BaseItemData, V> listAble, IListConfigCallback listConfigCallback, IPullRefreshUi<P> pullRefreshUi) {
         this.mListAble = listAble;
-        this.mRecyclerViewListConfigCallback = recyclerViewListConfigCallback;
+        this.mListConfigCallback = listConfigCallback;
         this.mPullRefreshUi = pullRefreshUi;
         mAssistHelper = new AssistHelper();
     }
@@ -108,9 +109,9 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScr
         mRefreshWrapper = mPullRefreshUi.onInitPullRefreshWrapper((P) pullToRefreshLayout);
         mPullRefreshUi.onPullRefreshWrapperReady(mRefreshWrapper, mRefreshWrapper.getPullRefreshAbleView());
         //初始化列表控件
-        mScrollableView = (V) rootLayout.findViewById(R.id.fast_recycler_view);
+        mScrollableView = (V) rootLayout.findViewById(R.id.fast_list);
         if (mScrollableView instanceof ScrollableRecyclerView) {
-            ((ScrollableRecyclerView) mScrollableView).setLayoutManager(mRecyclerViewListConfigCallback.onGetListLayoutManager());
+            ((ScrollableRecyclerView) mScrollableView).setLayoutManager(((RecyclerViewListConfigCallback)mListConfigCallback).onGetListLayoutManager());
         }
         //初始化列表帮助类
         if (mRecyclerViewHelper == null) {
@@ -198,7 +199,7 @@ public class ListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScr
     /**
      * 设置列表控件相关配置
      */
-    public void setupRecyclerView() {
+    public void setupListWidget() {
         if (getScrollableView() instanceof ScrollableRecyclerView) {
             ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getScrollableView();
             //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能

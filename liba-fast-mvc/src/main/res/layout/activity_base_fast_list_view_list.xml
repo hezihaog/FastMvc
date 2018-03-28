@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <oms.mmc.helper.widget.ScrollableRecyclerView
+        <oms.mmc.helper.widget.ScrollableListView
             android:id="@id/fast_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -3,7 +3,7 @@
     <!--下拉刷新布局-->
     <item name="fast_refresh_layout" type="id" />
     <!--基础ListView-->
-    <item name="fast_recycler_view" type="id" />
+    <item name="fast_list" type="id" />
     <!--状态切换布局-->
     <item name="load_view_place_holder_layout" type="id" />
 

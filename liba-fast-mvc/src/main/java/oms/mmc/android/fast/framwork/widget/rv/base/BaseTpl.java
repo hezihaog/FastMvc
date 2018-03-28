@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
 import oms.mmc.helper.ListScrollHelper;
+import oms.mmc.helper.base.IScrollableListAdapterView;
 import oms.mmc.helper.base.IScrollableView;
 
 /**
@@ -57,8 +59,9 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
 
     /**
      * 初始化
-     *  @param activity         activity对象
-     * @param scrollableView     rv列表
+     *
+     * @param activity         activity对象
+     * @param scrollableView   rv列表
      * @param toastOperator    Toast执行器
      * @param waitViewHost     WaitView依赖的宿主，BaseFastActivity或者BaseFastFragment
      * @param fragmentOperator Fragment操作器，所有的fragment操作都封装到这里
@@ -115,7 +118,13 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
     private void generateItemLayoutWrapper() {
         mRoot = new TemplateItemWrapper(getActivity());
         mRoot.setId(MethodCompat.generateViewId());
-        mRoot.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
+        //ListView、GridView上，item条目的LayoutParams必须是AbsListView的
+        if (mScrollableView instanceof IScrollableListAdapterView) {
+            mRoot.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+        } else {
+            //其他，例如rv就可以直接用ViewGroup的
+            mRoot.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
+        }
     }
 
     /**

@@ -12,27 +12,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListActivity;
+import oms.mmc.android.fast.framwork.base.BaseFastListViewActivity;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.loadview.SampleChooseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.SampleChooseTpl;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.TDevice;
-import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
-import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
+import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableListView;
 import oms.mmc.helper.wrapper.ScrollableListViewWrapper;
 
-public class SampleChooseActivity extends BaseFastRecyclerViewListActivity<SmartPullRefreshLayout, ScrollableListView> {
+public class SampleChooseActivity extends BaseFastListViewActivity<SwipePullRefreshLayout, ScrollableListView> {
     private static final int TPL_SAMPLE_MODULE = 1;
 
     private Toolbar mToolBar;
@@ -79,24 +77,19 @@ public class SampleChooseActivity extends BaseFastRecyclerViewListActivity<Smart
     }
 
     @Override
-    public ICommonListAdapter<BaseItemData> onListAdapterReady() {
-        return new CommonListViewAdapter(getActivity(), getListDataSource(), getScrollableView(), onListTypeClassesReady(), this, getRecyclerViewHelper(), onStickyTplViewTypeReady());
-    }
-
-    @Override
     public ListScrollHelper<ScrollableListView> onInitScrollHelper() {
         return new ListScrollHelper<ScrollableListView>(new ScrollableListViewWrapper(getScrollableView()));
     }
 
     @Override
-    public IPullRefreshWrapper<SmartPullRefreshLayout> onInitPullRefreshWrapper(SmartPullRefreshLayout pullRefreshAbleView) {
-        return new SmartPullRefreshWrapper(pullRefreshAbleView);
+    public IPullRefreshWrapper<SwipePullRefreshLayout> onInitPullRefreshWrapper(SwipePullRefreshLayout pullRefreshAbleView) {
+        return new SwipePullRefreshWrapper(pullRefreshAbleView);
     }
 
     @Override
-    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
+    public void onPullRefreshWrapperReady(IPullRefreshWrapper<SwipePullRefreshLayout> refreshWrapper, SwipePullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
-        pullRefreshAbleView.setEnableLoadmore(false);
+//        pullRefreshAbleView.setEnableLoadmore(false);
     }
 
     @Override
