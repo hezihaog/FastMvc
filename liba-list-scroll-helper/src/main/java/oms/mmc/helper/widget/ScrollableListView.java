@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -63,12 +64,19 @@ public class ScrollableListView extends ListView implements IScrollableListAdapt
     @Override
     public void setListAdapter(IListScrollViewAdapter adapter) {
         ListScrollViewAdapterUtil.isValidListAdapter(adapter);
-        super.setAdapter((ListAdapter) adapter);
+        setAdapter((ListAdapter) adapter);
     }
 
     @Override
     public IListScrollViewAdapter getListAdapter() {
-        return (IListScrollViewAdapter) super.getAdapter();
+        ListAdapter adapter = super.getAdapter();
+        //在ListView加了尾部或者头部时，adapter会被动态HeaderViewListAdapter包裹一层，所以这时候需要拿到包裹的那个adapter才是最原始的adapter
+        if (adapter instanceof HeaderViewListAdapter) {
+            return (IListScrollViewAdapter) ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+        } else {
+            //在未包裹之前，直接转换即可。
+            return (IListScrollViewAdapter) adapter;
+        }
     }
 
     @Override

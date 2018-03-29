@@ -37,8 +37,6 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.SectionIndexer;
 
-import oms.mmc.helper.adapter.IListScrollViewAdapter;
-import oms.mmc.helper.util.ListScrollViewAdapterUtil;
 import oms.mmc.helper.widget.ScrollableListView;
 
 /**
@@ -576,23 +574,5 @@ public class ScrollablePinnedSectionListView extends ScrollableListView {
         public View view;
         public int position;
         public long id;
-    }
-
-    @Override
-    public void setListAdapter(IListScrollViewAdapter adapter) {
-        ListScrollViewAdapterUtil.isValidListAdapter(adapter);
-        setAdapter((ListAdapter) adapter);
-    }
-
-    @Override
-    public IListScrollViewAdapter getListAdapter() {
-        ListAdapter adapter = super.getAdapter();
-        //在ListView加了尾部或者头部时，adapter会被动态HeaderViewListAdapter包裹一层，所以这时候需要拿到包裹的那个adapter才是最原始的adapter
-        if (adapter instanceof HeaderViewListAdapter) {
-            return (IListScrollViewAdapter) ((HeaderViewListAdapter) adapter).getWrappedAdapter();
-        } else {
-            //在未包裹之前，直接转换即可。
-            return (IListScrollViewAdapter) adapter;
-        }
     }
 }
