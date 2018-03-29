@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import oms.mmc.android.fast.framwork.loadview.BaseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
-import oms.mmc.android.fast.framwork.util.OnLoadStateChangeListener;
 import oms.mmc.android.fast.framwork.util.ListHelper;
+import oms.mmc.android.fast.framwork.util.OnLoadStateChangeListener;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
@@ -24,7 +24,6 @@ import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.base.IScrollableAdapterView;
-import oms.mmc.helper.base.IScrollableView;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
@@ -122,7 +121,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V exten
         return mDelegateHelper.getRefreshWrapper().getPullRefreshAbleView();
     }
 
-    public IScrollableView getScrollableView() {
+    public V getScrollableView() {
         return mDelegateHelper.getScrollableView();
     }
 

@@ -33,7 +33,7 @@ public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLay
 
     @Override
     public ListAbleDelegateHelper<P, V> onInitListAbleDelegateHelper() {
-        return new RecyclerViewListAbleDelegateHelper<P,V>(this, this, this);
+        return new RecyclerViewListAbleDelegateHelper<P, V>(this, this, this);
     }
 
     @Override
@@ -60,8 +60,8 @@ public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLay
 
     @Override
     public ICommonListAdapter<BaseItemData> onListAdapterReady() {
-        CommonRecyclerViewAdapter adapter = new CommonRecyclerViewAdapter((ScrollableRecyclerView) getScrollableView()
-                , getActivity(), getListDataSource(), onListTypeClassesReady(), getListHelper(), this, onStickyTplViewTypeReady());
+        CommonRecyclerViewAdapter adapter = new CommonRecyclerViewAdapter(getActivity(), getListDataSource()
+                , getScrollableView(), onListTypeClassesReady(), this, getListHelper(), onStickyTplViewTypeReady());
         return new HeaderFooterDataAdapter<BaseItemData>(adapter);
     }
 

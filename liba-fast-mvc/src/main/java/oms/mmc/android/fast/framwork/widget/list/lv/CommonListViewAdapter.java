@@ -79,9 +79,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
     private int stickySectionViewType = NOT_STICKY_SECTION;
     private AdapterListenerDelegate mListenerDelegate;
 
-    public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, IScrollableListAdapterView scrollableView,
-                                 HashMap<Integer, Class> viewTypeClassMap, IWaitViewHost waitViewHost,
-                                 ListHelper listHelper, int stickySectionViewType) {
+    public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, IScrollableListAdapterView scrollableView, HashMap<Integer, Class> viewTypeClassMap, IWaitViewHost waitViewHost, ListHelper listHelper, int stickySectionViewType) {
         this.mActivity = activity;
         this.mListDataSource = dataSource;
         this.mListData = dataSource.getListData();

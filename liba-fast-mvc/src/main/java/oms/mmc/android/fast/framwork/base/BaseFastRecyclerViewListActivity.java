@@ -51,8 +51,8 @@ public abstract class BaseFastRecyclerViewListActivity
 
     @Override
     public ICommonListAdapter<BaseItemData> onListAdapterReady() {
-        CommonRecyclerViewAdapter adapter = new CommonRecyclerViewAdapter((ScrollableRecyclerView) getScrollableView(), getActivity(), getListDataSource()
-                , onListTypeClassesReady(), getListHelper(), this, onStickyTplViewTypeReady());
+        CommonRecyclerViewAdapter adapter = new CommonRecyclerViewAdapter(this, getListDataSource(),
+                getScrollableView(), onListTypeClassesReady(), this, getListHelper(), onStickyTplViewTypeReady());
         return new HeaderFooterDataAdapter<BaseItemData>(adapter);
     }
 

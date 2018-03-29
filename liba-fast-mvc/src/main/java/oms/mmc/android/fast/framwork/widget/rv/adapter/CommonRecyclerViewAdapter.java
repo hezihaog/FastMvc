@@ -86,8 +86,9 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
     private int stickySectionViewType = NOT_STICKY_SECTION;
     private AdapterListenerDelegate mListenerDelegate;
 
-    public CommonRecyclerViewAdapter(ScrollableRecyclerView scrollableView, Activity activity, IDataSource<BaseItemData> dataSource
-            , HashMap<Integer, Class> itemViewClazzMap, ListHelper listHelper, IWaitViewHost waitViewHost, int stickySectionViewType) {
+    public CommonRecyclerViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource,
+                                     ScrollableRecyclerView scrollableView, HashMap<Integer, Class> itemViewClazzMap,
+                                     IWaitViewHost waitViewHost, ListHelper listHelper, int stickySectionViewType) {
         this.mToastOperator = new ToastOperator(activity);
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mScrollableView = scrollableView;
@@ -97,7 +98,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         this.mWaitViewHost = waitViewHost;
         this.viewTypeClassMap = itemViewClazzMap;
         this.mListHelper = listHelper;
-        this.mAdapterDelegate = new CommonListAdapterDelegate(dataSource.getListData(), viewTypeClassMap);
+        this.mAdapterDelegate = new CommonListAdapterDelegate(dataSource.getListData(), itemViewClazzMap);
         this.stickySectionViewType = stickySectionViewType;
         this.mListenerDelegate = new AdapterListenerDelegate();
         //开始监听代理
