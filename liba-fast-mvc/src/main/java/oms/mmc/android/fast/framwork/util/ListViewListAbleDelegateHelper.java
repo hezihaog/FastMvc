@@ -27,17 +27,29 @@ public class ListViewListAbleDelegateHelper<P extends IPullRefreshLayout, V exte
 
     @Override
     public void reverseListLayout() {
-
+        //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确
+        getListHelper().setReverse(true);
+        //ListView倒序只能颠倒数据集，例如以下代码
+//        Collections.reverse(getListData());
+//        getListAdapter().notifyDataSetChanged();
     }
 
     @Override
     public void smoothMoveToTop(boolean isReverse) {
-
+        if (!isReverse) {
+            getScrollableViewWrapper().smoothMoveToTop();
+        } else {
+            getScrollableView().smoothScrollToPosition(getScrollableView().getBottom());
+        }
     }
 
     @Override
     public void moveToTop(boolean isReverse) {
-
+        if (!isReverse) {
+            getScrollableViewWrapper().moveToTop();
+        } else {
+            getScrollableView().setSelection(getScrollableView().getBottom());
+        }
     }
 
     @Override
@@ -51,6 +63,5 @@ public class ListViewListAbleDelegateHelper<P extends IPullRefreshLayout, V exte
 
     @Override
     protected void onSetupListWidget() {
-
     }
 }
