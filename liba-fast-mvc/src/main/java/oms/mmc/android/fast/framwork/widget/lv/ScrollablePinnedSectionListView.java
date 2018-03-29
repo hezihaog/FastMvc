@@ -35,20 +35,16 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.AbsListView;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.SectionIndexer;
 
-import java.util.ArrayList;
-
 import oms.mmc.helper.adapter.IListScrollViewAdapter;
-import oms.mmc.helper.base.IScrollableListAdapterView;
 import oms.mmc.helper.util.ListScrollViewAdapterUtil;
 import oms.mmc.helper.widget.ScrollableListView;
 
 /**
  * ListView, which is capable to pin section views at its top while the rest is still scrolled.
  */
-public class ScrollablePinnedSectionListView extends ListView implements IScrollableListAdapterView {
+public class ScrollablePinnedSectionListView extends ScrollableListView {
     //-- inner classes
     // fields used for handling touch events
     private final Rect mTouchRect = new Rect();
@@ -141,13 +137,11 @@ public class ScrollablePinnedSectionListView extends ListView implements IScroll
 
     public ScrollablePinnedSectionListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
         initView();
     }
 
     public ScrollablePinnedSectionListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
         initView();
     }
 
@@ -584,28 +578,6 @@ public class ScrollablePinnedSectionListView extends ListView implements IScroll
         public long id;
     }
 
-    private final ArrayList<ScrollableListView.OnListViewScrollListener> mListener
-            = new ArrayList<ScrollableListView.OnListViewScrollListener>();
-
-    private void init() {
-        //内部持有监听器，对外开放监听器组
-        setOnScrollListener(new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                for (IScrollableListAdapterView.OnListViewScrollListener listener : mListener) {
-                    listener.onScrollStateChanged(view, scrollState);
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                for (IScrollableListAdapterView.OnListViewScrollListener listener : mListener) {
-                    listener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-                }
-            }
-        });
-    }
-
     @Override
     public void setListAdapter(IListScrollViewAdapter adapter) {
         ListScrollViewAdapterUtil.isValidListAdapter(adapter);
@@ -621,38 +593,6 @@ public class ScrollablePinnedSectionListView extends ListView implements IScroll
         } else {
             //在未包裹之前，直接转换即可。
             return (IListScrollViewAdapter) adapter;
-        }
-    }
-
-    @Override
-    public void addOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener) {
-        mListener.add(listener);
-    }
-
-    @Override
-    public void removeOnListViewScrollListener(IScrollableListAdapterView.OnListViewScrollListener listener) {
-        mListener.remove(listener);
-    }
-
-    @Override
-    public void removeAllOnListViewScrollListener() {
-        mListener.clear();
-    }
-
-    /**
-     * 根据指定位置，查找View
-     */
-    @Override
-    public View getViewByPosition(int position) {
-        int firstListItemPosition = this.getFirstVisiblePosition();
-        int lastListItemPosition = firstListItemPosition
-                + this.getChildCount() - 1;
-
-        if (position < firstListItemPosition || position > lastListItemPosition) {
-            return this.getAdapter().getView(position, null, this);
-        } else {
-            final int childIndex = position - firstListItemPosition;
-            return this.getChildAt(childIndex);
         }
     }
 }

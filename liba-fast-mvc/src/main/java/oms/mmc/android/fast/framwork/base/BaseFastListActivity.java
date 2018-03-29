@@ -38,7 +38,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  */
 
 public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastActivity
-        implements ListLayoutCallback<BaseItemData, V>, OnStateChangeListener<BaseItemData>,
+        implements ListLayoutCallback<BaseItemData, V>, OnStateChangeListener<BaseItemData>, IListAbleDelegateHelperHost<P, V>,
         ICommonListAdapter.OnScrollableViewItemClickListener, IListConfigCallback,
         ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {
     private ListAbleDelegateHelper<P, V> mDelegateHelper;
@@ -46,7 +46,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper<P, V>(this, this, this);
+        mDelegateHelper = onInitListAbleDelegateHelper();
         mDelegateHelper.startDelegate(getActivity(), getWindow().getDecorView());
         //初始化监听
         ICommonListAdapter adapter = mDelegateHelper.getListAdapter();
@@ -59,7 +59,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDelegateHelper.destroyRecyclerViewHelper();
+        mDelegateHelper.destroyListHelper();
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
+import oms.mmc.android.fast.framwork.util.RecyclerViewListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
@@ -17,17 +19,21 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
 import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
 import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.base.IScrollableAdapterView;
 import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 import oms.mmc.helper.wrapper.ScrollableRecyclerViewWrapper;
 
-public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastListFragment<P, V>
+public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLayout, V extends ScrollableRecyclerView> extends BaseFastListFragment<P, V>
         implements RecyclerViewListConfigCallback {
 
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_base_fast_recycler_view_list, null);
+    }
+
+    @Override
+    public ListAbleDelegateHelper<P, V> onInitListAbleDelegateHelper() {
+        return new RecyclerViewListAbleDelegateHelper<P,V>(this, this, this);
     }
 
     @Override

@@ -14,13 +14,13 @@ import oms.mmc.helper.listener.IListScrollListener;
  * Email: hezihao@linghit.com
  */
 
-public interface IScrollHelper {
+public interface IScrollHelper<V extends IScrollableView> {
     /**
      * 获取当前使用滚动控件包裹类
      *
      * @return 当前滚动控件包裹类对象
      */
-    IScrollableViewWrapper getScrollableViewWrapper();
+    IScrollableViewWrapper<V> getScrollableViewWrapper();
 
     /**
      * 添加滚动监听器

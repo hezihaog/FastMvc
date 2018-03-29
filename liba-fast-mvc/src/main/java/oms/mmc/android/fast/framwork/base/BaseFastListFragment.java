@@ -37,7 +37,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  */
 
 public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastFragment
-        implements ListLayoutCallback<BaseItemData, V>,
+        implements ListLayoutCallback<BaseItemData, V>, IListAbleDelegateHelperHost<P, V>,
         OnStateChangeListener<BaseItemData>, ICommonListAdapter.OnScrollableViewItemClickListener,
         IListConfigCallback, ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {
 
@@ -46,7 +46,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V exten
     @Override
     public View onLazyCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootLayout = super.onLazyCreateView(inflater, container, savedInstanceState);
-        mDelegateHelper = new ListAbleDelegateHelper<P, V>(this, this, this);
+        mDelegateHelper = onInitListAbleDelegateHelper();
         mDelegateHelper.startDelegate(getActivity(), rootLayout);
         //初始化监听
         ICommonListAdapter adapter = mDelegateHelper.getListAdapter();
@@ -61,7 +61,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V exten
     public void onDestroy() {
         super.onDestroy();
         if (mDelegateHelper != null) {
-            mDelegateHelper.destroyRecyclerViewHelper();
+            mDelegateHelper.destroyListHelper();
         }
     }
 

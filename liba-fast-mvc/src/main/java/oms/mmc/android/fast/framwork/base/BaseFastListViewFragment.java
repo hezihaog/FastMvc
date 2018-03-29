@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.R;
+import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
+import oms.mmc.android.fast.framwork.util.ListViewListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.lv.CommonListViewAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
@@ -14,7 +16,6 @@ import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ListViewListConfigCallback;
 import oms.mmc.helper.ListScrollHelper;
-import oms.mmc.helper.base.IScrollableAdapterView;
 import oms.mmc.helper.base.IScrollableListAdapterView;
 import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.widget.ScrollableListView;
@@ -29,14 +30,19 @@ import oms.mmc.helper.wrapper.ScrollableListViewWrapper;
  * Email: hezihao@linghit.com
  */
 
-public abstract class BaseFastListViewFragment<P extends IPullRefreshLayout, V extends IScrollableAdapterView>
-        extends BaseFastListFragment<P, V> implements ListViewListConfigCallback {
+public abstract class BaseFastListViewFragment<P extends IPullRefreshLayout, V extends ScrollableListView> extends BaseFastListFragment<P, V>
+        implements ListViewListConfigCallback {
     /**
      * 使用ListView的通用布局视图，如界面没有特殊需求，可以不重写该方法，直接使用父类定义的即可
      */
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_base_fast_list_view_list, container, false);
+    }
+
+    @Override
+    public ListAbleDelegateHelper<P, V> onInitListAbleDelegateHelper() {
+        return new ListViewListAbleDelegateHelper<P, V>(this, this, this);
     }
 
     /**

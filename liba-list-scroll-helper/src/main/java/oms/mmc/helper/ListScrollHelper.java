@@ -56,7 +56,7 @@ public class ListScrollHelper<V extends IScrollableView> implements IScrollHelpe
     }
 
     @Override
-    public IScrollableViewWrapper getScrollableViewWrapper() {
+    public IScrollableViewWrapper<V> getScrollableViewWrapper() {
         return scrollableViewWrapper;
     }
 
