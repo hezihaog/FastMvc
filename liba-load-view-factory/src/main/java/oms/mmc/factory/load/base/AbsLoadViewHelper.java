@@ -17,15 +17,24 @@ import oms.mmc.factory.load.factory.ILoadViewFactory;
  */
 
 public abstract class AbsLoadViewHelper implements ILoadViewFactory.ILoadView {
-    protected VaryViewHelper helper;
+    protected IVaryViewHelper helper;
     protected View.OnClickListener onClickRefreshListener;
     protected Context context;
 
     @Override
     public void init(View view, View.OnClickListener onClickRefreshListener) {
-        this.helper = new VaryViewHelper(view);
+        this.helper = initVaryViewHelper(view);
         this.context = view.getContext().getApplicationContext();
         this.onClickRefreshListener = onClickRefreshListener;
+    }
+
+    /**
+     * 初始化替换帮助类，子类可复写，返回IVaryViewHelper的实现类，例如覆盖形式就是{@link VaryViewHelperOverlay}，你可以可以自己实现自己想要的
+     *
+     * @param view 原始布局
+     */
+    protected IVaryViewHelper initVaryViewHelper(View view) {
+        return new VaryViewHelper(view);
     }
 
     @Override
@@ -55,22 +64,23 @@ public abstract class AbsLoadViewHelper implements ILoadViewFactory.ILoadView {
 
     /**
      * 子类返回加载视图
+     *
      * @param helper
      * @param onClickRefreshListener
      */
-    protected abstract View onInflateLoadingLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener);
+    protected abstract View onInflateLoadingLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener);
 
     /**
      * 子类返回错误视图
      */
-    protected abstract View onInflateErrorLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener);
+    protected abstract View onInflateErrorLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener);
 
     /**
      * 子类返回数据为空视图
      */
-    protected abstract View onInflateEmptyLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener);
+    protected abstract View onInflateEmptyLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener);
 
-    public VaryViewHelper getHelper() {
+    public IVaryViewHelper getHelper() {
         return helper;
     }
 

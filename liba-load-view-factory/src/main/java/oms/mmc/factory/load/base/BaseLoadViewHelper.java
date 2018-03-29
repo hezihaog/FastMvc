@@ -16,19 +16,19 @@ import oms.mmc.factory.load.R;
 public class BaseLoadViewHelper extends AbsLoadViewHelper {
 
     @Override
-    protected View onInflateLoadingLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+    protected View onInflateLoadingLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
         return this.helper.inflate(R.layout.layout_load_view_loading);
     }
 
     @Override
-    protected View onInflateErrorLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+    protected View onInflateErrorLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
         View layout = helper.inflate(R.layout.layout_load_view_error);
         layout.findViewById(R.id.base_list_error_refresh).setOnClickListener(onClickRefreshListener);
         return layout;
     }
 
     @Override
-    protected View onInflateEmptyLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+    protected View onInflateEmptyLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
         View layout = helper.inflate(R.layout.layout_load_view_empty);
         layout.setOnClickListener(new View.OnClickListener() {
             @Override

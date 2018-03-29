@@ -5,7 +5,7 @@ import android.view.View;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.base.BaseLoadViewHelper;
-import oms.mmc.factory.load.base.VaryViewHelper;
+import oms.mmc.factory.load.base.IVaryViewHelper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.loadview
@@ -22,7 +22,7 @@ public class MyContactLoadViewFactory extends BaseLoadViewFactory {
     public ILoadView madeLoadView() {
         return new BaseLoadViewHelper() {
             @Override
-            protected View onInflateLoadingLayout(VaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
+            protected View onInflateLoadingLayout(IVaryViewHelper helper, View.OnClickListener onClickRefreshListener) {
                 //替换加载中状态布局，直接只有一个进度条
                 return this.helper.inflate(R.layout.layout_my_contact_load_loading);
             }

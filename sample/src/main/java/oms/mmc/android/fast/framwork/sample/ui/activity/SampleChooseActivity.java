@@ -59,6 +59,7 @@ public class SampleChooseActivity extends BaseFastListViewActivity<SwipePullRefr
         return new BaseListDataSource(getActivity()) {
             @Override
             protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
+                Thread.sleep(1500);
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 initSampleData();
                 for (SampleModuleModel moduleModel : mSampleModuleModelList) {
@@ -89,7 +90,8 @@ public class SampleChooseActivity extends BaseFastListViewActivity<SwipePullRefr
     @Override
     public void onPullRefreshWrapperReady(IPullRefreshWrapper<SwipePullRefreshLayout> refreshWrapper, SwipePullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
-//        pullRefreshAbleView.setEnableLoadmore(false);
+        //给SwipeRefreshLayout加点颜色吧~
+        pullRefreshAbleView.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
     }
 
     @Override
@@ -111,7 +113,6 @@ public class SampleChooseActivity extends BaseFastListViewActivity<SwipePullRefr
     @Override
     public void onListReadyAfter() {
         super.onListReadyAfter();
-        getRefreshLayoutWrapper().startRefreshWithAnimation();
     }
 
     /**

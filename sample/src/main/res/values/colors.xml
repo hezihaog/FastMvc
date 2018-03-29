@@ -6,4 +6,9 @@
     <!-- 窗口背景-->
     <color name="window_bg">#F3F5F7</color>
     <color name="white">#FFFFFF</color>
+
+    <!--实例设置SwipeRefreshLayout设置颜色值-->
+    <color name="orange">#FF9900</color>
+    <color name="green">#009900</color>
+    <color name="blue">#000099</color>
 </resources>
