@@ -45,7 +45,7 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
     /**
      * 列表加载帮助类
      */
-    protected RecyclerViewViewHelper<BaseItemData> mRecyclerViewHelper;
+    protected ListHelper<BaseItemData> mListHelper;
     /**
      * 列表数据源
      */
@@ -104,14 +104,14 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
             ((ScrollableRecyclerView) mScrollableView).setLayoutManager(((RecyclerViewListConfigCallback) mListConfigCallback).onGetListLayoutManager());
         }
         //初始化列表帮助类
-        if (mRecyclerViewHelper == null) {
-            mRecyclerViewHelper = new RecyclerViewViewHelper<BaseItemData>(activity, mRefreshWrapper, mScrollableView);
+        if (mListHelper == null) {
+            mListHelper = new ListHelper<BaseItemData>(activity, mRefreshWrapper, mScrollableView);
         }
         //初始化数据源
         if (mListDataSource == null) {
             mListDataSource = mListAble.onListDataSourceReady();
         }
-        mRecyclerViewHelper.setDataSource(this.mListDataSource);
+        mListHelper.setDataSource(this.mListDataSource);
         if (mListData == null) {
             mListData = mListDataSource.getListData();
         }
@@ -122,12 +122,12 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
         mListAdapter.setAssistHelper(mAssistHelper);
         //设置滚动帮助类
         setupScrollHelper();
-        mRecyclerViewHelper.setAdapter(mListAdapter);
+        mListHelper.setListAdapter(mListAdapter);
         //初始化视图切换工厂
         mLoadViewFactory = mListAble.onLoadViewFactoryReady();
         //初始化列表加载更多视图工厂
         mLoadMoreViewFactory = mListAble.onLoadMoreViewFactoryReady();
-        mRecyclerViewHelper.init(mLoadViewFactory, mLoadMoreViewFactory);
+        mListHelper.init(mLoadViewFactory, mLoadMoreViewFactory);
     }
 
     /**
@@ -140,7 +140,7 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
         ArrayList<BaseItemData> listData = getListData();
         if (listData.size() == 0) {
             //第一次刷新开始
-            getRecyclerViewHelper().refresh();
+            getListHelper().refresh();
         }
         mListAble.onListReadyAfter();
     }
@@ -150,8 +150,8 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
      */
     @Override
     public void destroyListHelper() {
-        if (mRecyclerViewHelper != null) {
-            mRecyclerViewHelper.destroy();
+        if (mListHelper != null) {
+            mListHelper.destroy();
         }
     }
 
@@ -163,7 +163,7 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
         //加入滚动监听
         mScrollHelper = mListAble.onInitScrollHelper();
         mScrollableViewWrapper = mScrollHelper.getScrollableViewWrapper();
-        mRecyclerViewHelper.setupScrollHelper(mScrollHelper);
+        mListHelper.setupScrollHelper(mScrollHelper);
         mListAdapter.setListScrollHelper(mScrollHelper);
         mListAble.onListScrollHelperReady(mScrollHelper);
     }
@@ -199,8 +199,8 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
         return mScrollableViewWrapper;
     }
 
-    public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
-        return mRecyclerViewHelper;
+    public ListHelper<BaseItemData> getListHelper() {
+        return mListHelper;
     }
 
     @Override

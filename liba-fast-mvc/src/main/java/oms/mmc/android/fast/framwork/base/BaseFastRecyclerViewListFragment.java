@@ -61,7 +61,7 @@ public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLay
     @Override
     public ICommonListAdapter<BaseItemData> onListAdapterReady() {
         CommonRecyclerViewAdapter adapter = new CommonRecyclerViewAdapter((ScrollableRecyclerView) getScrollableView()
-                , getActivity(), getListDataSource(), onListTypeClassesReady(), getRecyclerViewHelper(), this, onStickyTplViewTypeReady());
+                , getActivity(), getListDataSource(), onListTypeClassesReady(), getListHelper(), this, onStickyTplViewTypeReady());
         return new HeaderFooterDataAdapter<BaseItemData>(adapter);
     }
 

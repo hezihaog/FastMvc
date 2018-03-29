@@ -14,7 +14,7 @@ import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IFragmentOperator;
 import oms.mmc.android.fast.framwork.util.FragmentOperator;
 import oms.mmc.android.fast.framwork.util.IToastOperator;
-import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.delegate.AdapterListenerDelegate;
@@ -61,7 +61,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
     /**
      * rv帮助类
      */
-    private RecyclerViewViewHelper<BaseItemData> mRecyclerViewHelper;
+    private ListHelper<BaseItemData> mListHelper;
     /**
      * 列表滚动帮助类
      */
@@ -87,7 +87,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
     private AdapterListenerDelegate mListenerDelegate;
 
     public CommonRecyclerViewAdapter(ScrollableRecyclerView scrollableView, Activity activity, IDataSource<BaseItemData> dataSource
-            , HashMap<Integer, Class> itemViewClazzMap, RecyclerViewViewHelper recyclerViewHelper, IWaitViewHost waitViewHost, int stickySectionViewType) {
+            , HashMap<Integer, Class> itemViewClazzMap, ListHelper listHelper, IWaitViewHost waitViewHost, int stickySectionViewType) {
         this.mToastOperator = new ToastOperator(activity);
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mScrollableView = scrollableView;
@@ -96,7 +96,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         this.mListData = dataSource.getListData();
         this.mWaitViewHost = waitViewHost;
         this.viewTypeClassMap = itemViewClazzMap;
-        this.mRecyclerViewHelper = recyclerViewHelper;
+        this.mListHelper = listHelper;
         this.mAdapterDelegate = new CommonListAdapterDelegate(dataSource.getListData(), viewTypeClassMap);
         this.stickySectionViewType = stickySectionViewType;
         this.mListenerDelegate = new AdapterListenerDelegate();
@@ -160,7 +160,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         tpl.init(mActivity, mScrollableView, mToastOperator, mWaitViewHost, mFragmentOperator, getAssistHelper(), viewType);
         viewHolder = tpl.getViewHolder();
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
-        tpl.config(this, mListData, mListDataSource, mRecyclerViewHelper, mListScrollHelper);
+        tpl.config(this, mListData, mListDataSource, mListHelper, mListScrollHelper);
         if (mListenerDelegate.hasItemClickListener()) {
             tpl.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -256,8 +256,8 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
     }
 
     @Override
-    public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
-        return mRecyclerViewHelper;
+    public ListHelper<BaseItemData> getListHelper() {
+        return mListHelper;
     }
 
     @Override

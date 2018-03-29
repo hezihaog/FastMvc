@@ -22,18 +22,45 @@ import oms.mmc.helper.adapter.SimpleListScrollAdapter;
 import oms.mmc.helper.base.IScrollableAdapterView;
 
 /**
- * RecyclerView帮助类
+ * List列表帮助类
  */
-public class RecyclerViewViewHelper<Model> implements IViewHelper {
-    private ICommonListAdapter<Model> mDataAdapter;
-    private IPullRefreshWrapper<?> mRefreshWrapper;
-    private IDataSource<Model> mDataSource;
-    private IScrollableAdapterView mScrollableView;
-    private Activity mActivity;
-    private OnStateChangeListener<Model> mOnStateChangeListener;
-    private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
+public class ListHelper<Model> implements IViewHelper<Model> {
+    /**
+     * 没有加载过数据的标志
+     */
     private static final long NO_LOAD_DATA = -1;
-    private long loadDataTime = NO_LOAD_DATA;
+    /**
+     * 列表控件设置的适配器
+     */
+    private ICommonListAdapter<Model> mDataAdapter;
+    /**
+     * 下拉刷新布局包裹类
+     */
+    private IPullRefreshWrapper<?> mRefreshWrapper;
+    /**
+     * 列表数据集
+     */
+    private IDataSource<Model> mDataSource;
+    /**
+     * 滚动控件类
+     */
+    private IScrollableAdapterView mScrollableView;
+    /**
+     * 界面实现类
+     */
+    private Activity mActivity;
+    /**
+     * 加载状态监听器
+     */
+    private OnLoadStateChangeListener<Model> mOnLoadStateChangeListener;
+    /**
+     * 数据加载任务
+     */
+    private AsyncTask<Void, Void, ArrayList<Model>> mAsyncTask;
+    /**
+     * 最后一次加载数据的时间
+     */
+    private long lastLoadDataTime = NO_LOAD_DATA;
     /**
      * 是否是反转布局，默认为false
      */
@@ -46,14 +73,28 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      * 是否还有更多数据。如果服务器返回的数据为空的话，就说明没有更多数据了，也就没必要自动加载更多数据
      */
     private boolean hasMoreData = true;
+    /**
+     * 是否是第一次刷新
+     */
     private boolean isFirstRefresh = true;
+    /**
+     * 是否是第一次加载更多
+     */
     private boolean isFistLoadMore = true;
+    /**
+     * 界面加载状态布局工厂
+     */
     private ILoadViewFactory.ILoadView mLoadView;
+    /**
+     * 加载更多尾部工厂
+     */
     private ILoadMoreViewFactory.ILoadMoreView mLoadMoreView;
-    //滚动帮助类
+    /**
+     * 滚动帮助类
+     */
     private ListScrollHelper listScrollHelper;
 
-    public RecyclerViewViewHelper(Activity activity, final IPullRefreshWrapper<?> refreshWrapper, final IScrollableAdapterView scrollableView) {
+    public ListHelper(Activity activity, final IPullRefreshWrapper<?> refreshWrapper, final IScrollableAdapterView scrollableView) {
         this.mActivity = activity;
         this.mRefreshWrapper = refreshWrapper;
         this.mScrollableView = scrollableView;
@@ -167,8 +208,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                 } else {
                     mLoadView.restore();
                 }
-                if (mOnStateChangeListener != null) {
-                    mOnStateChangeListener.onStartRefresh(mDataAdapter, isFirstRefresh, isReverse);
+                if (mOnLoadStateChangeListener != null) {
+                    mOnLoadStateChangeListener.onStartRefresh(mDataAdapter, isFirstRefresh, isReverse);
                 }
             }
 
@@ -194,7 +235,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                         mLoadView.tipFail();
                     }
                 } else {
-                    loadDataTime = System.currentTimeMillis();
+                    lastLoadDataTime = System.currentTimeMillis();
                     mDataAdapter.setRefreshListData(result, isReverse, isFirstRefresh);
                     mDataAdapter.notifyDataSetChanged();
                     if (mDataAdapter.isEmpty()) {
@@ -210,8 +251,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                         mLoadMoreView.showNoMore();
                     }
                 }
-                if (mOnStateChangeListener != null) {
-                    mOnStateChangeListener.onEndRefresh(mDataAdapter, result, isFirstRefresh, isReverse);
+                if (mOnLoadStateChangeListener != null) {
+                    mOnLoadStateChangeListener.onEndRefresh(mDataAdapter, result, isFirstRefresh, isReverse);
                 }
                 //刷新结束
                 if (getRefreshWrapper().isCanPullToRefresh()) {
@@ -222,7 +263,6 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                     isFirstRefresh = false;
                 }
             }
-
         };
         mAsyncTask.execute();
     }
@@ -252,8 +292,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
             @Override
             protected void onPreExecute() {
-                if (mOnStateChangeListener != null) {
-                    mOnStateChangeListener.onStartLoadMore(mDataAdapter, isFistLoadMore, isReverse);
+                if (mOnLoadStateChangeListener != null) {
+                    mOnLoadStateChangeListener.onStartLoadMore(mDataAdapter, isFistLoadMore, isReverse);
                 }
                 mLoadMoreView.showLoading();
             }
@@ -288,8 +328,8 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
                         mLoadMoreView.showNoMore();
                     }
                 }
-                if (mOnStateChangeListener != null) {
-                    mOnStateChangeListener.onEndLoadMore(mDataAdapter, result, isFistLoadMore, isReverse);
+                if (mOnLoadStateChangeListener != null) {
+                    mOnLoadStateChangeListener.onEndLoadMore(mDataAdapter, result, isFistLoadMore, isReverse);
                 }
                 if (isFistLoadMore) {
                     isFistLoadMore = false;
@@ -311,13 +351,13 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
 
     /**
      * 是否正在加载中
-     *
-     * @return
      */
+    @Override
     public boolean isLoading() {
         return mAsyncTask != null && mAsyncTask.getStatus() != AsyncTask.Status.FINISHED;
     }
 
+    @Override
     public IScrollableAdapterView getScrollableView() {
         return mScrollableView;
     }
@@ -332,11 +372,9 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
         return mLoadMoreView;
     }
 
-    /**
-     * 获取上次刷新数据的时间（数据成功的加载），如果数据没有加载成功过，那么返回-1
-     */
-    public long getLoadDataTime() {
-        return loadDataTime;
+    @Override
+    public long getLastLoadTime() {
+        return lastLoadDataTime;
     }
 
     /**
@@ -344,56 +382,62 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
      *
      * @return true代表成功加载过，false代表未加载成功过数据
      */
-    public boolean isLoadDataed() {
-        return loadDataTime != NO_LOAD_DATA;
+    @Override
+    public boolean isLoaded() {
+        return lastLoadDataTime != NO_LOAD_DATA;
     }
 
-    public OnStateChangeListener<Model> getOnStateChangeListener() {
-        return mOnStateChangeListener;
+    public OnLoadStateChangeListener<Model> getOnLoadStateChangeListener() {
+        return mOnLoadStateChangeListener;
     }
 
     /**
      * 设置状态监听，监听开始刷新，刷新成功，开始加载更多，加载更多成功
      */
-    public void setOnStateChangeListener(OnStateChangeListener<Model> onStateChangeListener) {
-        this.mOnStateChangeListener = onStateChangeListener;
+    public void setOnLoadStateChangeListener(OnLoadStateChangeListener<Model> onLoadStateChangeListener) {
+        this.mOnLoadStateChangeListener = onLoadStateChangeListener;
     }
 
-    public ICommonListAdapter<Model> getAdapter() {
+    @Override
+    public ICommonListAdapter<Model> getListAdapter() {
         return mDataAdapter;
     }
 
     /**
      * 设置适配器，用于显示数据
      *
-     * @param adapter
+     * @param adapter 适配器
      */
-    public void setAdapter(ICommonListAdapter<Model> adapter) {
+    @Override
+    public void setListAdapter(ICommonListAdapter<Model> adapter) {
         getListScrollHelper().getScrollableViewWrapper().setAdapter(adapter);
         this.mDataAdapter = adapter;
     }
 
-    public IDataSource<Model> getDataSource() {
-        return mDataSource;
-    }
-
-    public RecyclerViewViewHelper getRecyclerViewViewHelper() {
-        return this;
-    }
-
     /**
      * 设置数据源，用于加载数据
-     *
-     * @param dataSource
      */
+    @Override
     public void setDataSource(IDataSource<Model> dataSource) {
         this.mDataSource = dataSource;
     }
 
+    @Override
+    public IDataSource<Model> getDataSource() {
+        return mDataSource;
+    }
+
+    @Override
+    public ListHelper getListHelper() {
+        return this;
+    }
+
+    @Override
     public IPullRefreshWrapper<?> getRefreshWrapper() {
         return mRefreshWrapper;
     }
 
+    @Override
     public IPullRefreshLayout getRefreshLayout() {
         return mRefreshWrapper.getPullRefreshAbleView();
     }
@@ -401,10 +445,12 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     /**
      * 开始刷新，同时让SwipeRefreshLayout显示刷新
      */
+    @Override
     public void startRefreshWithRefreshLoading() {
         mRefreshWrapper.startRefreshWithAnimation();
     }
 
+    @Override
     public boolean isRefreshing() {
         return mRefreshWrapper.isRefurbishing();
     }
@@ -412,6 +458,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     /**
      * 是否有下一页
      */
+    @Override
     public boolean isHasMoreData() {
         return hasMoreData;
     }
@@ -424,6 +471,7 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     /**
      * 设置是否可以下拉刷新
      */
+    @Override
     public void setCanPullToRefresh(boolean canPullToRefresh) {
         if (canPullToRefresh) {
             getRefreshWrapper().setCanPullToRefresh();
@@ -435,41 +483,45 @@ public class RecyclerViewViewHelper<Model> implements IViewHelper {
     /**
      * 是否可以下拉刷新
      */
+    @Override
     public boolean isCanPullToRefresh() {
         return getRefreshWrapper().isCanPullToRefresh();
     }
 
     /**
-     * 当前是否是反转布局
-     */
-    public boolean isReverse() {
-        return isReverse;
-    }
-
-    /**
      * 设置是否反转布局
      */
+    @Override
     public void setReverse(boolean reverse) {
         isReverse = reverse;
     }
 
     /**
-     * 是否存在加载更多尾部
-     *
-     * @return
+     * 当前是否是反转布局
      */
-    public boolean isEnableLoadMoreFooter() {
-        return enableLoadMoreFooter;
+    @Override
+    public boolean isReverse() {
+        return isReverse;
     }
 
     /**
      * 设置是否启用加载更多尾部
      */
+    @Override
     public void setEnableLoadMoreFooter(boolean enableLoadMoreFooter) {
         this.enableLoadMoreFooter = enableLoadMoreFooter;
-        mLoadMoreView.enableLoadMoreFooter(enableLoadMoreFooter);
+        this.mLoadMoreView.enableLoadMoreFooter(enableLoadMoreFooter);
     }
 
+    /**
+     * 是否存在加载更多尾部
+     */
+    @Override
+    public boolean isEnableLoadMoreFooter() {
+        return enableLoadMoreFooter;
+    }
+
+    @Override
     public ListScrollHelper getListScrollHelper() {
         return listScrollHelper;
     }

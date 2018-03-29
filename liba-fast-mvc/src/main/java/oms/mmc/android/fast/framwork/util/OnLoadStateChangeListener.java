@@ -22,7 +22,7 @@ import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 /**
  * 界面加载切换的的状态监听器，开始刷新、结束刷新、开始加载更多、结束更多
  */
-public interface OnStateChangeListener<T> {
+public interface OnLoadStateChangeListener<T> {
     /**
      * 开始刷新
      *

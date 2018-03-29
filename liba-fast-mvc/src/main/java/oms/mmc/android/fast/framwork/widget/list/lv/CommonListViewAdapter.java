@@ -13,7 +13,7 @@ import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.base.IFragmentOperator;
 import oms.mmc.android.fast.framwork.util.FragmentOperator;
 import oms.mmc.android.fast.framwork.util.IToastOperator;
-import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.delegate.AdapterListenerDelegate;
@@ -59,7 +59,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
     /**
      * rv帮助类
      */
-    RecyclerViewViewHelper mRecyclerViewHelper;
+    ListHelper mListHelper;
     /**
      * Toast操作类
      */
@@ -81,7 +81,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
 
     public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, IScrollableListAdapterView scrollableView,
                                  HashMap<Integer, Class> viewTypeClassMap, IWaitViewHost waitViewHost,
-                                 RecyclerViewViewHelper recyclerViewHelper, int stickySectionViewType) {
+                                 ListHelper listHelper, int stickySectionViewType) {
         this.mActivity = activity;
         this.mListDataSource = dataSource;
         this.mListData = dataSource.getListData();
@@ -91,7 +91,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
         this.mToastOperator = new ToastOperator(activity);
         this.mWaitViewHost = waitViewHost;
         this.mFragmentOperator = new FragmentOperator(activity);
-        this.mRecyclerViewHelper = recyclerViewHelper;
+        this.mListHelper = listHelper;
         this.stickySectionViewType = stickySectionViewType;
         this.mListenerDelegate = new AdapterListenerDelegate();
         //开始监听代理
@@ -120,7 +120,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
             int viewType = mAdapterDelegate.getListItemViewType(position);
             tpl = mAdapterDelegate.createTpl(viewType);
             tpl.init(mActivity, mScrollableView, mToastOperator, mWaitViewHost, mFragmentOperator, getAssistHelper(), viewType);
-            tpl.config(this, mListData, mListDataSource, mRecyclerViewHelper, mListScrollHelper);
+            tpl.config(this, mListData, mListDataSource, mListHelper, mListScrollHelper);
             convertView = tpl.getRootView();
             convertView.setTag(R.id.tag_tpl, tpl);
         }

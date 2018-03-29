@@ -36,7 +36,7 @@ import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.AssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
@@ -230,7 +230,7 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ConversationEditStateChangeEvent event) {
-        RecyclerViewViewHelper<BaseItemData> recyclerViewHelper = getRecyclerViewHelper();
+        ListHelper<BaseItemData> recyclerViewHelper = getListHelper();
         ICommonListAdapter listAdapter = getListAdapter();
         if (event.isEditMode()) {
             getAssistHelper().setMode(AssistHelper.MODE_EDIT);

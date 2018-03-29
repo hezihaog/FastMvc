@@ -71,7 +71,7 @@ public abstract class BaseFastListViewActivity
      */
     @Override
     public ICommonListAdapter<BaseItemData> onListAdapterReady() {
-        return new CommonListViewAdapter(getActivity(), getListDataSource(), (IScrollableListAdapterView) getScrollableView(), onListTypeClassesReady(), this, getRecyclerViewHelper(), onStickyTplViewTypeReady());
+        return new CommonListViewAdapter(getActivity(), getListDataSource(), (IScrollableListAdapterView) getScrollableView(), onListTypeClassesReady(), this, getListHelper(), onStickyTplViewTypeReady());
     }
 
     /**

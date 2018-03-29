@@ -59,7 +59,7 @@ public class ChatListActivity extends BaseFastRecyclerViewListActivity<SwipePull
         final GestureDetector detector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                smoothMoveToTop(getRecyclerViewHelper().isReverse());
+                smoothMoveToTop(getListHelper().isReverse());
                 return true;
             }
         });
@@ -129,9 +129,9 @@ public class ChatListActivity extends BaseFastRecyclerViewListActivity<SwipePull
         //开启反转布局，注意当是线性和网格布局时才有效喔，否则无效
         getListAbleDelegateHelper().reverseListLayout();
         //开启能下拉刷新，必须开启时，才能自动监听到顶，然后加载下一页（默认为true）
-        getRecyclerViewHelper().setCanPullToRefresh(true);
+        getListHelper().setCanPullToRefresh(true);
         //禁用调加载更多条目，这里可以不需要尾部，由于设置了反转，滚动到顶部时，监听到时会自动加载下一页
-        getRecyclerViewHelper().setEnableLoadMoreFooter(false);
+        getListHelper().setEnableLoadMoreFooter(false);
     }
 
     @Override

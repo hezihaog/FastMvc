@@ -78,19 +78,19 @@ public class LoadViewFactorySampleActivity extends BaseFastRecyclerViewListActiv
         switch (view.getId()) {
             case R.id.showLoadingBtn:
                 mLoadStatus = LoadStatus.LOADING;
-                getRecyclerViewHelper().refresh();
+                getListHelper().refresh();
                 break;
             case R.id.showErrorBtn:
                 mLoadStatus = LoadStatus.ERROR;
-                getRecyclerViewHelper().refresh();
+                getListHelper().refresh();
                 break;
             case R.id.showEmptyBtn:
                 mLoadStatus = LoadStatus.EMPTY;
-                getRecyclerViewHelper().refresh();
+                getListHelper().refresh();
                 break;
             case R.id.showSuccessBtn:
                 mLoadStatus = LoadStatus.SUCCESS;
-                getRecyclerViewHelper().refresh();
+                getListHelper().refresh();
                 break;
         }
     }

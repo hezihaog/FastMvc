@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatSupportFastActivity implements View.O
         Fragment fragment = viewPagerAdapter.findByPagerIndex(currentItem);
         if (fragment != null && (fragment instanceof ConversationListFragment || fragment instanceof ContactListFragment)) {
             BaseFastRecyclerViewListFragment listFragment = (BaseFastRecyclerViewListFragment) fragment;
-            listFragment.smoothMoveToTop(listFragment.getRecyclerViewHelper().isReverse());
+            listFragment.smoothMoveToTop(listFragment.getListHelper().isReverse());
         }
     }
 }

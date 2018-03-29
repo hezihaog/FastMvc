@@ -21,7 +21,7 @@ import oms.mmc.android.fast.framwork.base.LayoutCallback;
 import oms.mmc.android.fast.framwork.util.IToastOperator;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.MethodCompat;
-import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.android.fast.framwork.widget.TemplateItemWrapper;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
@@ -39,7 +39,7 @@ import oms.mmc.helper.base.IScrollableView;
 public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements LayoutCallback,
         IWaitViewHandler, View.OnAttachStateChangeListener, IInstanceState {
     private Activity mActivity;
-    private RecyclerViewViewHelper mRecyclerViewHelper;
+    private ListHelper mListHelper;
     private ListScrollHelper mListScrollHelper;
     private ICommonListAdapter mListAdapter;
     private IDataSource<? extends BaseItemData> mListDataSource;
@@ -91,11 +91,11 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
      * @param listScrollHelper   列表滚动帮助类
      */
     public void config(ICommonListAdapter adapter, List<? extends BaseItemData> data
-            , IDataSource<? extends BaseItemData> dataSource, RecyclerViewViewHelper recyclerViewHelper, ListScrollHelper listScrollHelper) {
+            , IDataSource<? extends BaseItemData> dataSource, ListHelper recyclerViewHelper, ListScrollHelper listScrollHelper) {
         this.mListAdapter = adapter;
         this.mListDataSource = dataSource;
         this.mListData = data;
-        this.mRecyclerViewHelper = recyclerViewHelper;
+        this.mListHelper = recyclerViewHelper;
         this.mListScrollHelper = listScrollHelper;
     }
 
@@ -249,8 +249,8 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
      *
      * @return
      */
-    public RecyclerViewViewHelper getRecyclerViewHelper() {
-        return mRecyclerViewHelper;
+    public ListHelper getListHelper() {
+        return mListHelper;
     }
 
     /**
@@ -407,8 +407,8 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
         if (mActivity != null) {
             mActivity = null;
         }
-        if (mRecyclerViewHelper != null) {
-            mRecyclerViewHelper = null;
+        if (mListHelper != null) {
+            mListHelper = null;
         }
         if (mListScrollHelper != null) {
             mListScrollHelper = null;

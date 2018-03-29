@@ -37,7 +37,7 @@ public class RecyclerViewListAbleDelegateHelper<P extends IPullRefreshLayout, V 
         if (manager instanceof LinearLayoutManager) {
             LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
             //将helper类中的标志设置反转，这里很重要，不能省，否则返回的标志会不正确
-            getRecyclerViewHelper().setReverse(true);
+            getListHelper().setReverse(true);
             //设置rv为倒转布局
             layoutManager.setReverseLayout(true);
             //当不是网格时才能使用元素添加顺序倒转，就是说只有线性布局

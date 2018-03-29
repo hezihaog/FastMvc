@@ -2,7 +2,7 @@ package oms.mmc.android.fast.framwork.widget.rv.adapter;
 
 import android.support.v7.widget.RecyclerView;
 
-import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.helper.ListScrollHelper;
 
 /**
@@ -23,7 +23,7 @@ public interface IMultiTypeAdapter<T> {
     /**
      * 获取rv帮助类
      */
-    RecyclerViewViewHelper<T> getRecyclerViewHelper();
+    ListHelper<T> getListHelper();
 
     /**
      * 设置滚动帮助类

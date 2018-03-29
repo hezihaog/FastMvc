@@ -11,8 +11,8 @@ import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.loadview.BaseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
-import oms.mmc.android.fast.framwork.util.OnStateChangeListener;
-import oms.mmc.android.fast.framwork.util.RecyclerViewViewHelper;
+import oms.mmc.android.fast.framwork.util.OnLoadStateChangeListener;
+import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
@@ -38,7 +38,7 @@ import oms.mmc.helper.widget.ScrollableRecyclerView;
  */
 
 public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends BaseFastActivity
-        implements ListLayoutCallback<BaseItemData, V>, OnStateChangeListener<BaseItemData>, IListAbleDelegateHelperHost<P, V>,
+        implements ListLayoutCallback<BaseItemData, V>, OnLoadStateChangeListener<BaseItemData>, IListAbleDelegateHelperHost<P, V>,
         ICommonListAdapter.OnScrollableViewItemClickListener, IListConfigCallback,
         ICommonListAdapter.OnScrollableViewItemLongClickListener, IPullRefreshUi<P> {
     private ListAbleDelegateHelper<P, V> mDelegateHelper;
@@ -52,7 +52,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
         ICommonListAdapter adapter = mDelegateHelper.getListAdapter();
         adapter.addOnItemClickListener(this);
         adapter.addOnItemLongClickListener(this);
-        mDelegateHelper.getRecyclerViewHelper().setOnStateChangeListener(this);
+        mDelegateHelper.getListHelper().setOnLoadStateChangeListener(this);
         onListReady();
     }
 
@@ -120,7 +120,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
         return mDelegateHelper;
     }
 
-    public IPullRefreshWrapper<?> getRefreshLayoutWrapper() {
+    public IPullRefreshWrapper<?> getRefreshWrapper() {
         return mDelegateHelper.getRefreshWrapper();
     }
 
@@ -132,12 +132,8 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
         return mDelegateHelper.getScrollableView();
     }
 
-    public RecyclerViewViewHelper<BaseItemData> getRecyclerViewHelper() {
-        return mDelegateHelper.getRecyclerViewHelper();
-    }
-
-    public IPullRefreshWrapper<?> getRefreshWrapper() {
-        return mDelegateHelper.getRefreshWrapper();
+    public ListHelper<BaseItemData> getListHelper() {
+        return mDelegateHelper.getListHelper();
     }
 
     public IDataSource<BaseItemData> getListDataSource() {
