@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 104
-        versionName "1.0.4"
+        versionCode 105
+        versionName "1.0.5"
     }
 
     buildTypes {
@@ -38,7 +38,7 @@ if (upload) {
     }
     artifacts {
         //当前aar 文件名
-        archives file('liba_load_view_factory.aar')
+        archives file('liba-load-view-factory.aar')
         archives androidSourcesJar
     }
     uploadArchives {
