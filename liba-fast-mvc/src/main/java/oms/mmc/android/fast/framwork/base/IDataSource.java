@@ -23,18 +23,17 @@ import java.util.ArrayList;
  */
 public interface IDataSource<T> {
     /**
+     * 初始化默认第一页
+     */
+    int initFirstPage();
+
+    /**
      * 获取刷新的数据
-     *
-     * @return
-     * @throws Exception
      */
     ArrayList<T> refresh(boolean isReverse) throws Exception;
 
     /**
      * 获取加载更多的数据
-     *
-     * @return
-     * @throws Exception
      */
     ArrayList<T> loadMore() throws Exception;
 

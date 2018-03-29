@@ -8,12 +8,12 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
     /**
      * 第一页
      */
-    protected final static int FIRST_PAGE_NUM = 1;
+    protected int FIRST_PAGE_NUM = 1;
 
     /**
      * 当前页码
      */
-    protected int page = 0;
+    protected int page = FIRST_PAGE_NUM;
     /**
      * 是否有加载更多
      */
@@ -27,6 +27,13 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
 
     public BaseListDataSource(Activity activity) {
         this.mActivity = activity;
+        //初始化默认第一页的页码
+        this.FIRST_PAGE_NUM = initFirstPage();
+    }
+
+    @Override
+    public int initFirstPage() {
+        return 1;
     }
 
     @Override
