@@ -79,6 +79,31 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
     private int stickySectionViewType = NOT_STICKY_SECTION;
     private AdapterListenerDelegate mListenerDelegate;
 
+    View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mListenerDelegate.getItemClickListeners() != null) {
+                for (OnScrollableViewItemClickListener clickListener : mListenerDelegate.getItemClickListeners()) {
+                    BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                    clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
+                }
+            }
+        }
+    };
+
+    View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            if (mListenerDelegate.getItemLongClickListeners() != null) {
+                BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                for (OnScrollableViewItemLongClickListener longClickListener : mListenerDelegate.getItemLongClickListeners()) {
+                    longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
+                }
+            }
+            return true;
+        }
+    };
+
     public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, IScrollableListAdapterView scrollableView, HashMap<Integer, Class> viewTypeClassMap, IWaitViewHost waitViewHost, ListHelper listHelper, int stickySectionViewType) {
         this.mActivity = activity;
         this.mListDataSource = dataSource;
@@ -122,41 +147,18 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
             convertView = tpl.getRootView();
             convertView.setTag(R.id.tag_tpl, tpl);
         }
-        if (convertView != null) {
-            tpl = (BaseTpl<BaseItemData>) convertView.getTag(R.id.tag_tpl);
-            tpl.setBeanPosition(mListData, (BaseItemData) getItem(position), position);
-            try {
-                tpl.render();
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
+        tpl = (BaseTpl<BaseItemData>) convertView.getTag(R.id.tag_tpl);
+        tpl.setBeanPosition(mListData, (BaseItemData) getItem(position), position);
+        try {
+            tpl.render();
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
         if (mListenerDelegate.hasItemClickListener()) {
-            tpl.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mListenerDelegate.getItemClickListeners() != null) {
-                        for (OnScrollableViewItemClickListener clickListener : mListenerDelegate.getItemClickListeners()) {
-                            BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                            clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
-                        }
-                    }
-                }
-            });
+            tpl.getRoot().setOnClickListener(mOnClickListener);
         }
         if (mListenerDelegate.hasItemLongClickListener()) {
-            tpl.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (mListenerDelegate.getItemLongClickListeners() != null) {
-                        BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                        for (OnScrollableViewItemLongClickListener longClickListener : mListenerDelegate.getItemLongClickListeners()) {
-                            longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
-                        }
-                    }
-                    return true;
-                }
-            });
+            tpl.getRoot().setOnLongClickListener(mOnLongClickListener);
         }
         return convertView;
     }

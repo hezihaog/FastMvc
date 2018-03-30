@@ -86,6 +86,31 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
     private int stickySectionViewType = NOT_STICKY_SECTION;
     private AdapterListenerDelegate mListenerDelegate;
 
+    View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mListenerDelegate.getItemClickListeners() != null) {
+                for (OnScrollableViewItemClickListener clickListener : mListenerDelegate.getItemClickListeners()) {
+                    BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                    clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
+                }
+            }
+        }
+    };
+
+    View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            if (mListenerDelegate.getItemLongClickListeners() != null) {
+                BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
+                for (OnScrollableViewItemLongClickListener longClickListener : mListenerDelegate.getItemLongClickListeners()) {
+                    longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
+                }
+            }
+            return true;
+        }
+    };
+
     public CommonRecyclerViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource,
                                      ScrollableRecyclerView scrollableView, HashMap<Integer, Class> itemViewClazzMap,
                                      IWaitViewHost waitViewHost, ListHelper listHelper, int stickySectionViewType) {
@@ -163,31 +188,10 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         viewHolder.itemView.setTag(R.id.tag_tpl, tpl);
         tpl.config(this, mListData, mListDataSource, mListHelper, mListScrollHelper);
         if (mListenerDelegate.hasItemClickListener()) {
-            tpl.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mListenerDelegate.getItemClickListeners() != null) {
-                        for (OnScrollableViewItemClickListener clickListener : mListenerDelegate.getItemClickListeners()) {
-                            BaseTpl clickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                            clickListener.onItemClick(view, clickTpl, clickTpl.getPosition());
-                        }
-                    }
-                }
-            });
+            tpl.getRoot().setOnClickListener(mOnClickListener);
         }
         if (mListenerDelegate.hasItemLongClickListener()) {
-            tpl.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (mListenerDelegate.getItemLongClickListeners() != null) {
-                        BaseTpl longClickTpl = (BaseTpl) view.getTag(R.id.tag_tpl);
-                        for (OnScrollableViewItemLongClickListener longClickListener : mListenerDelegate.getItemLongClickListeners()) {
-                            longClickListener.onItemLongClick(view, longClickTpl, longClickTpl.getPosition());
-                        }
-                    }
-                    return true;
-                }
-            });
+            tpl.getRoot().setOnLongClickListener(mOnLongClickListener);
         }
         return viewHolder;
     }
