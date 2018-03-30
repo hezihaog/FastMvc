@@ -79,7 +79,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
     private int stickySectionViewType = NOT_STICKY_SECTION;
     private AdapterListenerDelegate mListenerDelegate;
 
-    View.OnClickListener mOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (mListenerDelegate.getItemClickListeners() != null) {
@@ -91,7 +91,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
         }
     };
 
-    View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
+    private View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View view) {
             if (mListenerDelegate.getItemLongClickListeners() != null) {
