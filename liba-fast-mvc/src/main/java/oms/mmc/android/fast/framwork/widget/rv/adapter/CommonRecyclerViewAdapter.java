@@ -20,6 +20,7 @@ import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.delegate.AdapterListenerDelegate;
 import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
+import oms.mmc.android.fast.framwork.widget.list.sticky.ItemStickyDelegate;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseStickyTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -76,14 +77,6 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
     private final IFragmentOperator mFragmentOperator;
     private final CommonListAdapterDelegate mAdapterDelegate;
     private IAssistHelper mAssistHelper;
-    /**
-     * 不使用粘性头部
-     */
-    public static final int NOT_STICKY_SECTION = -1;
-    /**
-     * 粘性条目的类型，默认没有粘性头部
-     */
-    private int stickySectionViewType = NOT_STICKY_SECTION;
     private AdapterListenerDelegate mListenerDelegate;
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -110,10 +103,12 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
             return true;
         }
     };
+    private final ItemStickyDelegate mItemStickyDelegate;
 
     public CommonRecyclerViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource,
                                      ScrollableRecyclerView scrollableView, HashMap<Integer, Class> itemViewClazzMap,
                                      IWaitViewHost waitViewHost, ListHelper listHelper, int stickySectionViewType) {
+        this.mItemStickyDelegate = new ItemStickyDelegate();
         this.mToastOperator = new ToastOperator(activity);
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mScrollableView = scrollableView;
@@ -124,7 +119,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
         this.viewTypeClassMap = itemViewClazzMap;
         this.mListHelper = listHelper;
         this.mAdapterDelegate = new CommonListAdapterDelegate(dataSource.getListData(), itemViewClazzMap);
-        this.stickySectionViewType = stickySectionViewType;
+        this.mItemStickyDelegate.setStickySectionViewType(stickySectionViewType);
         this.mListenerDelegate = new AdapterListenerDelegate();
         //开始监听代理
         this.mListenerDelegate.startDelegateAdapterListener(mScrollableView, this);
@@ -144,16 +139,19 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<BaseTpl.View
 
     @Override
     public boolean isStickyHeader(int position) {
-        //不使用粘性头部，则都返回false
-        if (stickySectionViewType == NOT_STICKY_SECTION) {
+        if (mItemStickyDelegate == null) {
             return false;
         }
-        return getItemViewType(position) == stickySectionViewType;
+        //不使用粘性头部，则都返回false
+        if (mItemStickyDelegate.isNotStickySection()) {
+            return false;
+        }
+        return mItemStickyDelegate.isStickyItem(getItemViewType(position));
     }
 
     @Override
     public boolean isStickyHeaderViewType(int viewType) {
-        return stickySectionViewType == viewType;
+        return mItemStickyDelegate.isStickyItem(viewType);
     }
 
     @Override

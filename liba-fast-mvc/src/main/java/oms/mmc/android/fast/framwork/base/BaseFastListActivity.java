@@ -16,9 +16,9 @@ import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.util.OnLoadStateChangeListener;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
+import oms.mmc.android.fast.framwork.widget.list.sticky.ItemStickyDelegate;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
-import oms.mmc.android.fast.framwork.widget.rv.adapter.CommonRecyclerViewAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
@@ -112,7 +112,7 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
 
     @Override
     public int onStickyTplViewTypeReady() {
-        return CommonRecyclerViewAdapter.NOT_STICKY_SECTION;
+        return ItemStickyDelegate.NOT_STICKY_SECTION;
     }
 
     @Override

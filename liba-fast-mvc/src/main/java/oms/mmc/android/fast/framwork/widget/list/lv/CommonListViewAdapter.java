@@ -19,6 +19,7 @@ import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.delegate.AdapterListenerDelegate;
 import oms.mmc.android.fast.framwork.widget.list.delegate.CommonListAdapterDelegate;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
+import oms.mmc.android.fast.framwork.widget.list.sticky.ItemStickyDelegate;
 import oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
@@ -69,14 +70,6 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
      */
     private ListScrollHelper mListScrollHelper;
     private IAssistHelper mAssistHelper;
-    /**
-     * 不使用粘性头部
-     */
-    public static final int NOT_STICKY_SECTION = -1;
-    /**
-     * 粘性条目的类型，默认没有粘性头部
-     */
-    private int stickySectionViewType = NOT_STICKY_SECTION;
     private AdapterListenerDelegate mListenerDelegate;
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -103,8 +96,10 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
             return true;
         }
     };
+    private final ItemStickyDelegate mItemStickyDelegate;
 
     public CommonListViewAdapter(Activity activity, IDataSource<BaseItemData> dataSource, IScrollableListAdapterView scrollableView, HashMap<Integer, Class> viewTypeClassMap, IWaitViewHost waitViewHost, ListHelper listHelper, int stickySectionViewType) {
+        mItemStickyDelegate = new ItemStickyDelegate();
         this.mActivity = activity;
         this.mListDataSource = dataSource;
         this.mListData = dataSource.getListData();
@@ -115,7 +110,7 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
         this.mWaitViewHost = waitViewHost;
         this.mFragmentOperator = new FragmentOperator(activity);
         this.mListHelper = listHelper;
-        this.stickySectionViewType = stickySectionViewType;
+        this.mItemStickyDelegate.setStickySectionViewType(stickySectionViewType);
         this.mListenerDelegate = new AdapterListenerDelegate();
         //开始监听代理
         this.mListenerDelegate.startDelegateAdapterListener(mScrollableView, this);
@@ -248,7 +243,10 @@ public class CommonListViewAdapter extends BaseAdapter implements ICommonListAda
 
     @Override
     public boolean isItemViewTypePinned(int viewType) {
-        return viewType == stickySectionViewType;
+        if (mItemStickyDelegate == null) {
+            return false;
+        }
+        return mItemStickyDelegate.isStickyItem(viewType);
     }
 
     @Override
