@@ -73,7 +73,7 @@ public abstract class BaseListDataSource<T> implements IDataSource<T> {
     }
 
     @Override
-    public int getPage() {
+    public int getCurrentPage() {
         return page;
     }
 }

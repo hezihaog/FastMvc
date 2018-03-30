@@ -52,5 +52,5 @@ public interface IDataSource<T> {
     /**
      * 获取当前页码
      */
-    int getPage();
+    int getCurrentPage();
 }
