@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.base;
 
+import oms.mmc.android.fast.framwork.util.IListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.helper.base.IScrollableAdapterView;
@@ -18,4 +19,9 @@ public interface IListAbleDelegateHelperHost<P extends IPullRefreshLayout, V ext
      * 初始化列表代理帮助类
      */
     ListAbleDelegateHelper<P, V> onInitListAbleDelegateHelper();
+
+    /**
+     * 获取代理对象
+     */
+    IListAbleDelegateHelper getListAbleDelegateHelper();
 }

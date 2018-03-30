@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import oms.mmc.android.fast.framwork.loadview.BaseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.util.IListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
 import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.util.OnLoadStateChangeListener;
@@ -107,7 +108,8 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V exten
         return CommonRecyclerViewAdapter.NOT_STICKY_SECTION;
     }
 
-    public ListAbleDelegateHelper getListAbleDelegateHelper() {
+    @Override
+    public IListAbleDelegateHelper getListAbleDelegateHelper() {
         return mDelegateHelper;
     }
 
