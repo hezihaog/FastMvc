@@ -6,6 +6,7 @@
 | --------   | -----:  | :----:  |
 |文档初始化编写|2018.03.05|子和
 |代码审核，1.0.3版本|2018.03.12|子和
+|1.0.4版本，重构，支持替换下拉刷新、滚动控件，更好拓展|2018.03.29|子和
 
 ---------
 
@@ -34,7 +35,416 @@
 
 - 至于TopBar，MMCSDK2.0.0已经拆分成View了，所以BaseFastActivity和BaseFastFragment也没有默认添加到布局，建议界面根据自身建议基类，使用BaseFastFragment、BaseFastListFragment作为基类，然后将TopBar放置到布局相应位置。这样对于模块划分，运营需求UI界面变更时更加灵活。
 
-# 1.0.3依赖
+--------------------
+
+# 1.0.4版本
+
+```java
+//    compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar'
+//    ////  -------------------------- fast mvc 依赖的库 start ----------------------------
+//    //生命周期监听库
+//    compile 'oms.mmc:lifecycle-dispatch:1.0.2-SNAPSHOT@aar'
+//    //通用滚动监听库
+//    compile 'oms.mmc:list-scroll-helper:1.0.4-SNAPSHOT@aar'
+//    //等待弹窗库
+//    compile 'oms.mmc:wait-view-factory:1.0.4-SNAPSHOT@aar'
+//    //界面切换状态库
+//    compile 'oms.mmc:load-view-factory:1.0.5-SNAPSHOT@aar'
+//    //图片加载
+//    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+//    ////    -------------------------- fast mvc 依赖的库 end ----------------------------
+```
+
+- 该版本，重构了非常多，原本下拉刷新绑定SwipeRefreshLayout，滚动控件绑定RecyclerView，现在也得到了抽取和拓展，轻松几句即可实现不同滚动控件的切换，日后谷歌再出比RecyclerView更牛逼的滚动控件也不会打破整个框架的结构。下拉刷新也得到了动态替换，想换什么~
+
+- 原本需要继承的BaseFastActivity也不用强制继承啦，添加IFastUIDelegate的实现类FastUIDelegate，按BaseFastActivity中对应生命周期方法，转调delegate对应的方法即可~老项目也能轻松接入~
+
+# 一些改动
+
+1. 由于将滚动控件支持拓展到更多的控件，需要继承的BaseFastListActivity、BaseFastListFragment，需要继承BaseFastListViewActivity、BaseFastRecyclerViewListActivity或者BaseFastListViewFragment、BaseFastRecyclerViewListFragment，见名知意，对应的就是使用不同的控件选择不同的基类，推荐rv的，更强大~原来的不能继承喔，旧版本升级需要修改一下继承的基类。
+
+2. 原来的界面类，指的是继承的Activity或者Fragment，需要加上2个泛型，第一个是我们处理过刷新布局，第二个是滚动控件。如果不需要特殊处理，默认使用SwipePullRefreshLayout，继承自SwipeRefreshLayout，实现了IPullRefreshLayout接口，其他下拉刷新是要适配，则是新建一个类继承第三方库的刷新布局类，实现我们的IPullRefreshLayout接口，实现接口方法，转调第三方库刷新布局的方法即可，文档后面会讲解到接入第三方刷新框架的步骤。
+
+3. 重写方法更名：
+
+| 原方法名        | 变更名   |  作用  |
+| --------   | -----:  | :----:  |
+|onGetStickyTplViewType()|onStickyTplViewTypeReady()|返回需要粘性头部的Tpl的ViewType即可实现粘性
+|onGetScrollHelper()|onInitScrollHelper()|用于返回滚动帮助类的回调
+|onGetWaitDialogFactory()|onWaitDialogFactoryReady()|用于返回等待弹窗工厂类
+|getRecyclerView()|getScrollableView()|获取滚动控件，由于拓展了滚动控件，获取滚动控件的方法改为getScrollableView()
+|getSwipeRefresh()|getRefreshLayout()|获取下拉刷新布局
+|getRecyclerViewHelper()|getListHelper()|获取列表帮助类
+
+4. 新增的方法
+
+| 函数名        | 返回值   | 函数解释和功用  |
+| --------   | -----:  | :----:  |
+|getRefreshLayoutWrapper()|IPullRefreshWrapper<?>|获取下拉刷新布局包裹类
+|getRefreshLayout()|IPullRefreshLayout|获取下拉刷新布局控件
+|getScrollableView()|IScrollableAdapterView|获取滚动控件，rv或者lv
+|getListDataSource()|IDataSource<BaseItemData>|获取列表数据集
+|getListData()|ArrayList<BaseItemData>|获取列表数据
+|getAssistHelper()|IAssistHelper|原本adapter中的多选、单选、多模式放到这边，而不是继承adapter上
+|getRecyclerViewAdapter()|HeaderFooterAdapter|支持rv添加头部、尾部的适配器
+|getListAbleDelegateHelper()|IListAbleDelegateHelper|列表代理对象，用于统一list系列的activity、fragment回调。
+
+5. 列表adapter的变更，原本rv的adapter分了开继承了好几个，最主要就是BaseListAdapter继承MultiTypeAdater，最后添加头部、尾部又用装饰者模式加上了HeaderFooterAdapter来实现。现统一为HeaderFooterDataAdapter装饰CommonRecyclerViewAdapter即可。至于ListView的实现，就是直接只用CommonListViewAdapter。
+
+6. 数据集的拓展，原本列表数据集都是封装在一个叫IDataSource的类，默认page从1开始，现抽出一个initFirstPage()来提供复写。也添加一个getCurrentPage()来获取当前页码。
+
+7. 设置列表适配器Adapter的改变！原本的setAdapter()改为setListAdapter，这里在ListHelper会回调adapter初始化和设置，通常不需要使用者调用，这里注意了！获取则封装了getListAdapter()，可以直接调用。
+
+8. 原本的rv的适配是调用BaseListAdapter里面包含的HeaderFooterAdapter，现在不需要啦，现在在回调适配器初始化时直接创建HeaderFooterAdapter包裹并返回，更加直观，getListAdapter()也不需要再getHeaderFooterAdapter来做addHeader()等操作，现在直接getListAdapter()来直接强转HeaderFooterAdapter来进行相关调用。
+
+# 接入第三方下拉刷新库
+
+- 1.0.3版本强制使用了SwipeRefreshLayout作为下拉刷新，1.0.4版本对该方面做了重构，做了一个适配器层，接入第三方刷新库十分简单，而且不会改动到底层框架，项目Sample例子中有4种下拉刷新库的实现，推荐SmartRefreshLayout，拓展性更高。现在就教大家以SmartRefreshLayotu为例子。
+
+1. 第一步：新建一个类，继承刷新库中的刷新布局，并实现IPullRefreshLayout接口，重写接口方法，转调第三方刷新布局上的方法，方法名都很清楚了，都是刷新库中必备的功能。
+
+
+```java
+//例如SmartRefreshLayout库中刷新库就是SmartRefreshLayout，新建一个类叫SmartPullRefreshLayout，实现IPullRefreshLayout接口。
+
+public class SmartPullRefreshLayout extends SmartRefreshLayout implements IPullRefreshLayout {
+    public SmartPullRefreshLayout(Context context) {
+        super(context);
+    }
+
+    public SmartPullRefreshLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public SmartPullRefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    public void startRefresh() {
+        autoRefresh();
+    }
+
+    @Override
+    public void startRefreshWithAnimation() {
+        autoRefresh();
+    }
+
+    @Override
+    public void completeRefresh() {
+        finishRefresh();
+    }
+
+    @Override
+    public void setRefreshEnable() {
+        setEnableRefresh(true);
+    }
+
+    @Override
+    public void setRefreshDisable() {
+        setEnableRefresh(false);
+    }
+
+    @Override
+    public boolean isRefreshEnable() {
+        return isEnableRefresh();
+    }
+
+    @Override
+    public boolean isRefreshDisable() {
+        return !isEnableRefresh();
+    }
+
+    @Override
+    public boolean isRefurbishing() {
+        return isRefreshing();
+    }
+}
+```
+
+2. 第二步：继承要使用的滚动控件的界面基类，指的是继承BaseFastRecyclerViewListFragment等，重写onLayoutView()返回布局中，给rv包裹的下拉刷新控件要改为第一步定义的SmartPullRefreshLayout。
+
+```java
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout
+        android:id="@id/fast_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.header.DeliveryHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <oms.mmc.helper.widget.ScrollableRecyclerView
+            android:id="@id/fast_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout>
+</FrameLayout>
+```
+
+3. 第三步：新建一个Wrapper类，继承AbsPullRefreshWrapper，类后有一个泛型，传入刚才第一步新建的SmartPullRefreshLayout。复写接口方法。其实继承AbsPullRefreshWrapper，除了添加下拉监听的方法需要重写，其他都不需要了，简洁很多~
+
+```java
+public class SmartPullRefreshWrapper extends AbsPullRefreshWrapper<SmartPullRefreshLayout> {
+    public SmartPullRefreshWrapper(SmartPullRefreshLayout refreshLayout) {
+        super(refreshLayout);
+    }
+
+    @Override
+    public void setOnRefreshListener(final OnRefreshListener listener) {
+        getPullRefreshAbleView().setOnRefreshListener(new com.scwang.smartrefresh.layout.listener.OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                listener.onRefresh();
+            }
+        });
+    }
+}
+```
+
+4. 第四步：上面两步其实就已经将自定义部分完成了，接下来第三步就是使用了。在界面类上，继承BaseFastRecyclerViewListFragment或者BaseFastListViewListFragment等界面基类，后面的泛型，第一个泛型传入刚才第一步定义的SmartPullRefreshLayout。复写2个方法，onInitPullRefreshWrapper()，onPullRefreshWrapperReady()。方法会根据泛型自动确定对应的传入参数，所以不用担心。
+
+| 函数名        | 返回值   | 函数解释和功用  |
+| --------   | -----:  | :----:  |
+|onInitPullRefreshWrapper()|IPullRefreshWrapper<SmartPullRefreshLayout>|初始化刷新布局包裹类，就是第二步我们新建的Wrapper类。
+|onPullRefreshWrapperReady()|void|用于回调设置第三方下拉刷新库相关设置，例如设置不使用加载更多功能（这里我们使用我们自己的加载更多模块），有的库可以设置支持IOS惯性滚动，等等。
+
+# 拓展滚动控件（rv或者lv，如果日后推出更强大的滚动控件，则按这种方法拓展！）
+
+1. 第一步：新建一个类，继承滚动控件	，实现IScrollableAdapterView接口。例如RecyclerView，我们使用的是ScrollableRecyclerView，就是继承RecyclerView。
+
+```java
+public class ScrollableRecyclerView extends RecyclerView implements IScrollableAdapterView {
+    public ScrollableRecyclerView(Context context) {
+        super(context);
+    }
+
+    public ScrollableRecyclerView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public ScrollableRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    @Override
+    public void setListAdapter(IListScrollViewAdapter adapter) {
+        ListScrollViewAdapterUtil.isValidListAdapter(adapter);
+        super.setAdapter((Adapter) adapter);
+    }
+
+    @Override
+    public IListScrollViewAdapter getListAdapter() {
+        return (IListScrollViewAdapter) super.getAdapter();
+    }
+
+    @Override
+    public View getViewByPosition(int position) {
+        RecyclerView.ViewHolder holder = findViewHolderForAdapterPosition(position);
+        if (holder != null) {
+            return holder.itemView;
+        }
+        return null;
+    }
+}
+```
+
+2. 新建一个类继承AbsScrollableViewWrapper，类后泛型改为刚才第一步定义的类，例如这里就是ScrollableRecyclerView。实现未实现的方法。就是一下3个方法。
+
+| 函数名        | 返回值   | 函数解释和功用  |
+| --------   | -----:  | :----:  |
+|setup(ScrollDelegate delegate, ScrollableRecyclerView scrollableView)|void|设置代理滚动监听操作，在这里给滚动控件设置滚动监听，回调传过来的delegate对应的滚动方法，例如滚动到顶部，滚动到底部，上滑、下滑。
+|moveToTop()|void|瞬时滚动到顶部
+|smoothMoveToTop()|void|缓慢滚动到顶部
+
+```java
+public class ScrollableRecyclerViewWrapper extends AbsScrollableViewWrapper<ScrollableRecyclerView> {
+    //第一次进入界面时也会回调滚动，所以当手动滚动再监听
+    private boolean isNotFirst = false;
+
+    public ScrollableRecyclerViewWrapper(ScrollableRecyclerView scrollingView) {
+        super(scrollingView);
+    }
+
+    @Override
+    public void setup(final ScrollDelegate delegate, ScrollableRecyclerView scrollableView) {
+        scrollableView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                isNotFirst = true;
+                if (delegate != null) {
+                    //如果滚动到最后一行，RecyclerView.canScrollVertically(1)的值表示是否能向上滚动，false表示已经滚动到底部
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE &&
+                            !recyclerView.canScrollVertically(1)) {
+                        delegate.onScrolledToBottom();
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (delegate != null && isNotFirst) {
+                    //RecyclerView.canScrollVertically(-1)的值表示是否能向下滚动，false表示已经滚动到顶部
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        delegate.onScrolledToTop();
+                    }
+                    //下滑
+                    if (dy < 0) {
+                        delegate.onScrolledToDown();
+                    }
+                    //上滑
+                    if (dy > 0) {
+                        delegate.onScrolledToUp();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void moveToTop() {
+        RecyclerView recyclerView = getScrollableView();
+        if (recyclerView != null) {
+            recyclerView.scrollToPosition(0);
+        }
+    }
+
+    @Override
+    public void smoothMoveToTop() {
+        RecyclerView recyclerView = getScrollableView();
+        if (recyclerView != null) {
+            recyclerView.smoothScrollToPosition(0);
+        }
+    }
+}
+```
+
+3. 如果滚动控件有继承关系，可以新建一个wrapper的基类，例如ListView，框架中添加了PinnedSectionListView来支持粘性头部。和ListView是继承关系，这时候就可以新建一个Wrapper的基类，AbsScrollableListViewWrapper。
+
+```java
+public class AbsScrollableListViewWrapper<V extends ScrollableListView> extends AbsScrollableViewWrapper<V> {
+    private int oldVisibleItem = 0;
+    //第一次进入界面时也会回调滚动，所以当手动滚动再监听
+    private boolean isNotFirst = false;
+
+    public AbsScrollableListViewWrapper(V scrollingView) {
+        super(scrollingView);
+    }
+
+    @Override
+    public void setup(final ScrollDelegate delegate, V scrollableView) {
+        scrollableView.addOnListViewScrollListener(new ScrollableListView.OnListViewScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView listView, int scrollState) {
+                isNotFirst = true;
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    if (delegate != null) {
+                        if (listView.getLastVisiblePosition() + 1 == listView.getCount()) {
+                            delegate.onScrolledToBottom();
+                        } else if (listView.getFirstVisiblePosition() == 0) {
+                            delegate.onScrolledToTop();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView listView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (delegate != null) {
+                    if (firstVisibleItem > oldVisibleItem && isNotFirst) {
+                        //上滑
+                        delegate.onScrolledToUp();
+                    }
+                    if (oldVisibleItem > firstVisibleItem && isNotFirst) {
+                        //下滑
+                        delegate.onScrolledToDown();
+                    }
+                    oldVisibleItem = firstVisibleItem;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void moveToTop() {
+        getScrollableView().setSelection(0);
+    }
+
+    @Override
+    public void smoothMoveToTop() {
+        getScrollableView().smoothScrollToPosition(0);
+    }
+}
+
+//普通ListView
+public class ScrollableListViewWrapper extends AbsScrollableListViewWrapper<ScrollableListView> {
+
+    public ScrollableListViewWrapper(ScrollableListView scrollingView) {
+        super(scrollingView);
+    }
+}
+
+//支持粘性头部的ListView
+public class ScrollablePinnedSectionListViewWrapper extends AbsScrollableListViewWrapper<ScrollablePinnedSectionListView> {
+
+    public ScrollablePinnedSectionListViewWrapper(ScrollablePinnedSectionListView scrollingView) {
+        super(scrollingView);
+    }
+}
+
+```
+
+4. 最后一步：使用~在你界面类中，刚才继承的ListActivity基类的第二个泛型参数，传入我们处理的ScrollablePinnedSectionListView。重写onInitScrollHelper()方法。
+
+| 函数名        | 返回值   | 函数解释和功用  |
+| --------   | -----:  | :----:  |
+|onInitScrollHelper()|ListScrollHelper|返回滚动帮助类，这里要根据使用的列表使用不同的包裹类。需要对应喔~
+
+```java
+@Override
+    public ListScrollHelper<ScrollablePinnedSectionListView> onInitScrollHelper() {
+        return new ListScrollHelper<ScrollablePinnedSectionListView>(new ScrollablePinnedSectionListViewWrapper(getScrollableView()));
+    }
+```
+
+布局中使用的控件也需要对应！就是我们定义的Scrollable系列控件！
+
+```java
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout
+        android:id="@id/fast_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <oms.mmc.android.fast.framwork.widget.lv.ScrollablePinnedSectionListView
+            android:id="@id/fast_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout>
+</FrameLayout>
+```
+
+# 一些需要注意的点
+
+- 要使用ListView的粘性头部控件：ScrollablePinnedSectionListView，必须ViewType多余2个，这个是开源控件规定的，所以如果只有一个Type的话，请使用ScrollableListView。
+
+- 这个开源控件有个bug，强制要求需要粘性的条目的ViewType必须是0！这里就有点坑了，所以定义ViewType的时候，将需要粘性的条目类型定义为0！并且onStickyTplViewTypeReady()返回粘性头部时，也返回这个对应的类型，否则也是会抛异常喔。rv的则不会，所以尽量不要使用lv啦。
+
+--------------------
+
+# 1.0.3版本
 
 ```java
 compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar'

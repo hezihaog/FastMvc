@@ -41,15 +41,11 @@ dependencies {
     compile project(':liba-fast-mvc')
 
     //直接不加arr默认都下载依赖，不推荐该方法，会默认下载全部的依赖
-
-    //compile 'oms.mmc:fast-mvc:1.0.3-SNAPSHOT'
+    //compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT'
 
     //也可以使用arr后加上依赖传递，不过也就意味着下载全部依赖
-
-    //    compile('oms.mmc:fast-mvc:1.0.3-SNAPSHOT@aar') {
-
+    //    compile('oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar') {
     //        transitive = true
-
     //    }
 
 //    //推荐该方法，只下载框架中的文件，再手动依赖框架中依赖的类库
