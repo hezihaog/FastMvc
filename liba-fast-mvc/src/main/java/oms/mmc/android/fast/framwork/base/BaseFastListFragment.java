@@ -17,14 +17,12 @@ import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.CommonRecyclerViewAdapter;
-import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
 import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.base.IScrollableAdapterView;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -147,11 +145,6 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V exten
 
     public IAssistHelper getAssistHelper() {
         return mDelegateHelper.getAssistHelper();
-    }
-
-    public HeaderFooterAdapter getRecyclerViewAdapter() {
-        ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) mDelegateHelper.getScrollableView();
-        return (HeaderFooterAdapter) scrollableRecyclerView.getAdapter();
     }
 
     public ILoadViewFactory getLoadViewFactory() {

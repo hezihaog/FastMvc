@@ -11,14 +11,13 @@ import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.loadview.BaseLoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.util.ListAbleDelegateHelper;
-import oms.mmc.android.fast.framwork.util.OnLoadStateChangeListener;
 import oms.mmc.android.fast.framwork.util.ListHelper;
+import oms.mmc.android.fast.framwork.util.OnLoadStateChangeListener;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.IAssistHelper;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.CommonRecyclerViewAdapter;
-import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
@@ -26,7 +25,6 @@ import oms.mmc.factory.load.base.BaseLoadViewFactory;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.base.IScrollableAdapterView;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.base
@@ -150,10 +148,6 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
 
     public IAssistHelper getAssistHelper() {
         return mDelegateHelper.getAssistHelper();
-    }
-
-    public HeaderFooterAdapter getRecyclerViewAdapter() {
-        return (HeaderFooterAdapter) ((ScrollableRecyclerView) mDelegateHelper.getScrollableView()).getAdapter();
     }
 
     public ILoadViewFactory getLoadViewFactory() {

@@ -14,6 +14,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.CommonRecyclerViewAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
@@ -77,5 +78,14 @@ public abstract class BaseFastRecyclerViewListActivity
     public ListScrollHelper<V> onInitScrollHelper() {
         //默认都是rv，这里默认使用rv的，如果是使用其他的，复写该方法，返回对应的包裹类和控件
         return new ListScrollHelper<V>((IScrollableViewWrapper<V>) new ScrollableRecyclerViewWrapper(getScrollableView()));
+    }
+
+    /**
+     * 获取rv适配器
+     */
+    @Override
+    public HeaderFooterAdapter getRecyclerViewAdapter() {
+        ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getListAbleDelegateHelper().getScrollableView();
+        return (HeaderFooterAdapter) scrollableRecyclerView.getAdapter();
     }
 }

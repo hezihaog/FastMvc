@@ -190,7 +190,7 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
                 .type(TPL_EMAIL, R.drawable.shape_conversation_item_decoration)
                 .type(TPL_CHAT, R.drawable.shape_conversation_item_decoration)
                 .create();
-        ((ScrollableRecyclerView)getScrollableView()).addItemDecoration(decoration);
+        getScrollableView().addItemDecoration(decoration);
     }
 
     @Override

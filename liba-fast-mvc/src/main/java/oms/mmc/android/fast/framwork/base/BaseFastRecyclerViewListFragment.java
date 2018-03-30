@@ -14,6 +14,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.CommonRecyclerViewAdapter;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
@@ -76,5 +77,14 @@ public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLay
 
     @Override
     public void onListScrollHelperReady(ListScrollHelper listScrollHelper) {
+    }
+
+    /**
+     * 获取rv适配器
+     */
+    @Override
+    public HeaderFooterAdapter getRecyclerViewAdapter() {
+        ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getListAbleDelegateHelper().getScrollableView();
+        return (HeaderFooterAdapter) scrollableRecyclerView.getAdapter();
     }
 }
