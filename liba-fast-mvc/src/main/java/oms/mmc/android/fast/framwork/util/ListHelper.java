@@ -217,6 +217,8 @@ public class ListHelper<Model> implements IViewHelper<Model> {
             protected ArrayList<Model> doInBackground(Void... params) {
                 try {
                     return mDataSource.refresh(isReverse);
+                } catch (InterruptedException e) {
+                    //界面退出打断任务抛出的异常，不用打印
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -302,6 +304,8 @@ public class ListHelper<Model> implements IViewHelper<Model> {
             protected ArrayList<Model> doInBackground(Void... params) {
                 try {
                     return mDataSource.loadMore();
+                } catch (InterruptedException e) {
+                    //界面退出打断任务抛出的异常，不用打印
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
