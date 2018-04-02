@@ -18,7 +18,7 @@ import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
-import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
+import oms.mmc.android.fast.framwork.widget.rv.manager.sticky.FastScrollStickyHeadersLinearLayoutManager;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.base.IScrollableViewWrapper;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
@@ -39,7 +39,7 @@ public abstract class BaseFastRecyclerViewListFragment<P extends IPullRefreshLay
 
     @Override
     public RecyclerView.LayoutManager onGetListLayoutManager() {
-        return new StickyHeadersLinearLayoutManager(getContext());
+        return new FastScrollStickyHeadersLinearLayoutManager(getContext());
     }
 
     /**

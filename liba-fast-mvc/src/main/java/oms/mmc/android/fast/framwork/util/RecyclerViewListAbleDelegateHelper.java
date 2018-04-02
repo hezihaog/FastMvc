@@ -12,6 +12,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
+import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
@@ -94,8 +95,16 @@ public class RecyclerViewListAbleDelegateHelper<P extends IPullRefreshLayout, V 
     }
 
     @Override
-    protected void onSetupListWidget() {
-        ScrollableRecyclerView scrollableRecyclerView = (ScrollableRecyclerView) getScrollableView();
+    protected void onFindListWidgetAfter(IListConfigCallback listConfigCallback) {
+        super.onFindListWidgetAfter(listConfigCallback);
+        //设置LayoutManager
+        RecyclerView.LayoutManager manager = ((RecyclerViewListConfigCallback) listConfigCallback).onGetListLayoutManager();
+        getScrollableView().setLayoutManager(manager);
+    }
+
+    @Override
+    protected void onSetupListWidget(IListConfigCallback listConfigCallback) {
+        ScrollableRecyclerView scrollableRecyclerView = getScrollableView();
         //rv在25版本加入了预缓冲，粘性头部在该功能上不兼容，用此开关关闭该功能
         try {
             scrollableRecyclerView.getLayoutManager().setItemPrefetchEnabled(false);

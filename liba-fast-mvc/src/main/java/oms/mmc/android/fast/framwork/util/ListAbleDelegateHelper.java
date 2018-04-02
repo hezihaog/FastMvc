@@ -17,12 +17,10 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
-import oms.mmc.android.fast.framwork.widget.rv.base.RecyclerViewListConfigCallback;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.base.IScrollableAdapterView;
 import oms.mmc.helper.base.IScrollableViewWrapper;
-import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
  * Package: oms.mmc.android.fast.framwork.util
@@ -100,9 +98,8 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
         mPullRefreshUi.onPullRefreshWrapperReady(mRefreshWrapper, mRefreshWrapper.getPullRefreshAbleView());
         //初始化列表控件
         mScrollableView = (V) rootLayout.findViewById(R.id.fast_list);
-        if (mScrollableView instanceof ScrollableRecyclerView) {
-            ((ScrollableRecyclerView) mScrollableView).setLayoutManager(((RecyclerViewListConfigCallback) mListConfigCallback).onGetListLayoutManager());
-        }
+        //回调子类，给查找到控件后一个回调设置，例如rv会设置LayoutManager
+        onFindListWidgetAfter(mListConfigCallback);
         //初始化列表帮助类
         if (mListHelper == null) {
             mListHelper = new ListHelper<BaseItemData>(activity, mRefreshWrapper, mScrollableView);
@@ -131,11 +128,20 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
     }
 
     /**
+     * 查找到列表控件后回调
+     *
+     * @param listConfigCallback 列表配置回调对象
+     */
+    protected void onFindListWidgetAfter(IListConfigCallback listConfigCallback) {
+
+    }
+
+    /**
      * 设置列表控件相关配置
      */
     @Override
     public void setupListWidget() {
-        onSetupListWidget();
+        onSetupListWidget(mListConfigCallback);
         //设置结束，开始刷新
         ArrayList<BaseItemData> listData = getListData();
         if (listData.size() == 0) {
@@ -170,9 +176,10 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
 
     /**
      * 当设置List列表控件时的回调，给子类重写进行对应的控件初始化
+     *
+     * @param listConfigCallback 列表配置回调对象，通常是activity或者fragment
      */
-    protected abstract void onSetupListWidget();
-
+    protected abstract void onSetupListWidget(IListConfigCallback listConfigCallback);
 
     @Override
     public void notifyListReady() {

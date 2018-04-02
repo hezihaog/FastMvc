@@ -62,6 +62,6 @@ public class ListViewListAbleDelegateHelper<P extends IPullRefreshLayout, V exte
     }
 
     @Override
-    protected void onSetupListWidget() {
+    protected void onSetupListWidget(IListConfigCallback listConfigCallback) {
     }
 }

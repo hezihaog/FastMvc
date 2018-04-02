@@ -43,7 +43,7 @@ import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
-import oms.mmc.android.fast.framwork.widget.rv.sticky.StickyHeadersLinearLayoutManager;
+import oms.mmc.android.fast.framwork.widget.rv.manager.sticky.FastScrollStickyHeadersLinearLayoutManager;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
 
 /**
@@ -118,11 +118,7 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
 //                this.hasMore = datas.size() >= Const.Config.pageSize;
 
                 this.page = page;
-                if (page == 5) {
-                    this.hasMore = false;
-                } else {
-                    this.hasMore = true;
-                }
+                this.hasMore = true;
                 return models;
             }
         };
@@ -155,7 +151,7 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
 
     @Override
     public RecyclerView.LayoutManager onGetListLayoutManager() {
-        return new StickyHeadersLinearLayoutManager(getActivity());
+        return new FastScrollStickyHeadersLinearLayoutManager(getActivity());
     }
 
     @Override
