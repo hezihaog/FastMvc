@@ -17,4 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout>
+
+    <oms.mmc.android.fast.framwork.sample.widget.SlideBar
+        android:id="@+id/slide_bar"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right" />
+
+    <TextView
+        android:id="@+id/check_letter"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_contact_letter_flow"
+        android:text="1"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="40dp"
+        android:visibility="gone" />
 </FrameLayout>

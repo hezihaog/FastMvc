@@ -3,14 +3,14 @@ package oms.mmc.android.fast.framwork.sample.ui.fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Locale;
 
 import oms.mmc.android.fast.framwork.base.BaseFastRecyclerViewListFragment;
 import oms.mmc.android.fast.framwork.base.BaseListDataSource;
@@ -26,8 +26,11 @@ import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactSumCountTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
+import oms.mmc.android.fast.framwork.sample.widget.SlideBar;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
 import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
+import oms.mmc.android.fast.framwork.util.CollectionUtil;
+import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -61,9 +64,68 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
     //联系人总数条目
     public static final int TPL_SUM_CONTACT_COUNT = 8;
 
+    /**
+     * 字母侧滑栏
+     */
+    private SlideBar mSlideBar;
+    /**
+     * 提示View
+     */
+    private TextView mCheckLetterView;
+    /**
+     * 用于保存联系人首字母在列表的位置
+     */
+    private HashMap<String, Integer> letterMap = new HashMap<String, Integer>();
+    /**
+     * 联系人数组
+     */
+    public static String[] mNames = new String[]{"宋江", "卢俊义", "吴用",
+            "公孙胜", "关胜", "林冲", "秦明", "呼延灼", "花荣", "柴进", "李应", "朱仝", "鲁智深",
+            "武松", "董平", "张清", "杨志", "徐宁", "索超", "戴宗", "刘唐", "李逵", "史进", "穆弘",
+            "雷横", "李俊", "阮小二", "张横", "阮小五", "张顺", "阮小七", "杨雄", "石秀", "解珍",
+            "解宝", "燕青", "朱武", "黄信", "孙立", "宣赞", "郝思文", "韩滔", "彭玘", "单廷珪",
+            "魏定国", "萧让", "裴宣", "欧鹏", "邓飞", "燕顺", "杨林", "凌振", "蒋敬", "吕方",
+            "郭 盛", "安道全", "皇甫端", "王英", "扈三娘", "鲍旭", "樊瑞", "孔明", "孔亮", "项充",
+            "李衮", "金大坚", "马麟", "童威", "童猛", "孟康", "侯健", "陈达", "杨春", "郑天寿",
+            "陶宗旺", "宋清", "乐和", "龚旺", "丁得孙", "穆春", "曹正", "宋万", "杜迁", "薛永", "施恩",
+            "周通", "李忠", "杜兴", "汤隆", "邹渊", "邹润", "朱富", "朱贵", "蔡福", "蔡庆", "李立",
+            "李云", "焦挺", "石勇", "孙新", "顾大嫂", "张青", "孙二娘", "王定六", "郁保四", "白胜",
+            "时迁", "段景柱", "&张三", "11级李四", "12级小明"};
+
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_contact_list, container, false);
+    }
+
+    @Override
+    public void onFindView(IViewFinder finder) {
+        super.onFindView(finder);
+        mSlideBar = finder.get(R.id.slide_bar);
+        mCheckLetterView = finder.get(R.id.check_letter);
+    }
+
+    @Override
+    public void onLayoutAfter() {
+        super.onLayoutAfter();
+        mSlideBar.setOnSelectItemListener(new SlideBar.OnSelectItemListener() {
+            @Override
+            public void onItemSelect(int position, String selectLetter) {
+                if (mCheckLetterView.getVisibility() != View.VISIBLE) {
+                    mCheckLetterView.setVisibility(View.VISIBLE);
+                }
+                mCheckLetterView.setText(selectLetter);
+                Integer letterStickyPosition = letterMap.get(selectLetter);
+                //这里可能拿不到，因为并不是所有的字母联系人名字上都有
+                if (letterStickyPosition != null) {
+                    getScrollableView().scrollToPosition(letterStickyPosition);
+                }
+            }
+
+            @Override
+            public void onItemUnSelect() {
+                mCheckLetterView.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -73,6 +135,7 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
             protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 //模拟后台数据
                 Thread.sleep(1000);
+                letterMap.clear();
                 //拼装需要的数据集
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
                 models.add(new ItemDataWrapper(TPL_RECOMMENT));
@@ -81,13 +144,22 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
                 models.add(new BaseItemData(TPL_GROUP_CHAT));
                 models.add(new BaseItemData(TPL_LABLE));
                 models.add(new BaseItemData(TPL_OFFICIAL_ACCOUNTS));
-
+                //开始添加联系人数据
                 ArrayList<String> datas = new ArrayList<String>();
-                for (int i = 0; i < 25; i++) {
-                    datas.add(FakeUtil.getRandomName(i));
-                }
+                datas.addAll(CollectionUtil.arrayToList(mNames));
                 //按字母排序
-                Collections.sort(datas, Collator.getInstance(Locale.CHINA));
+                Collections.sort(datas, new Comparator<String>() {
+                    @Override
+                    public int compare(String o1, String o2) {
+                        char letter = Character.toUpperCase(Pinyin.toPinyin(o1.charAt(0)).charAt(0));
+                        char nextLetter = Character.toUpperCase(Pinyin.toPinyin(o2.charAt(0)).charAt(0));
+                        if (letter == nextLetter) {
+                            return 0;
+                        } else {
+                            return letter - nextLetter;
+                        }
+                    }
+                });
                 char letter = 0;
                 for (int i = 0; i < datas.size(); i++) {
                     //首次肯定有一个字母
@@ -100,6 +172,8 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
                         if (!(nextLetter == letter)) {
                             letter = nextLetter;
                             models.add(new ItemDataWrapper(TPL_STICKY_LETTER, String.valueOf(letter)));
+                            //记录悬浮条目的位置，后续拉动字母选择条时跳转位置
+                            letterMap.put(String.valueOf(letter).toUpperCase(), models.size() - 1);
                         }
                     }
                     models.add(new ItemDataWrapper(TPL_CONTACT, FakeUtil.getRandomAvatar(i), datas.get(i)));
@@ -157,6 +231,7 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
     @Override
     public void onListReady() {
         super.onListReady();
+        //禁止下拉刷新，使用我们自己的滚动加载更多
         getRefreshLayoutWrapper().setRefreshEnable();
 //        getListHelper().setCanPullToRefresh(false);
     }
@@ -165,6 +240,6 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
     public void onListReadyAfter() {
         super.onListReadyAfter();
         //进入后马上刷新一次
-        getRefreshWrapper().startRefreshWithAnimation();
+//        getRefreshWrapper().startRefreshWithAnimation();
     }
 }
