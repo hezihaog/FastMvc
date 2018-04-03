@@ -28,7 +28,7 @@ import oms.mmc.helper.base.IScrollableViewWrapper;
  * Email: hezihao@linghit.com
  */
 
-public interface IListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScrollableAdapterView> {
+public interface IListAbleDelegateHelper<P extends IPullRefreshLayout, V extends IScrollableAdapterView> extends IScrollableHeaderFooter {
     /**
      * 开始代理
      *

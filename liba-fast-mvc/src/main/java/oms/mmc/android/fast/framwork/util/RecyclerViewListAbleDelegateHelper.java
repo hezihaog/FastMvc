@@ -4,11 +4,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.IPullRefreshUi;
 import oms.mmc.android.fast.framwork.base.ListLayoutCallback;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshLayout;
+import oms.mmc.android.fast.framwork.widget.rv.adapter.HeaderFooterDataAdapter;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.IListConfigCallback;
@@ -117,5 +119,41 @@ public class RecyclerViewListAbleDelegateHelper<P extends IPullRefreshLayout, V 
         layoutManager.setAutoMeasureEnabled(true);
         //优化，除了瀑布流外，rv的尺寸每次改变时，不重新requestLayout
         scrollableRecyclerView.setHasFixedSize(true);
+    }
+
+    @Override
+    public void addHeaderView(View view) {
+        //默认给传递过来的View做LayoutParams处理，默认是横向填满，如需要特殊修改，则自己在传入之前设置LayoutParams
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params == null) {
+            params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(params);
+        }
+        HeaderFooterDataAdapter adapter = (HeaderFooterDataAdapter) getScrollableView().getListAdapter();
+        adapter.addHeaderView(view);
+    }
+
+    @Override
+    public boolean removeHeader(View view) {
+        HeaderFooterDataAdapter adapter = (HeaderFooterDataAdapter) getScrollableView().getListAdapter();
+        return adapter.removeHeader(view);
+    }
+
+    @Override
+    public void addFooterView(View view) {
+        //默认给传递过来的View做LayoutParams处理，默认是横向填满，如需要特殊修改，则自己在传入之前设置LayoutParams
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params == null) {
+            params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(params);
+        }
+        HeaderFooterDataAdapter adapter = (HeaderFooterDataAdapter) getScrollableView().getListAdapter();
+        adapter.addFooterView(view);
+    }
+
+    @Override
+    public boolean removeFooter(View view) {
+        HeaderFooterDataAdapter adapter = (HeaderFooterDataAdapter) getScrollableView().getListAdapter();
+        return adapter.removeFooter(view);
     }
 }

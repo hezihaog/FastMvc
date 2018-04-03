@@ -1,6 +1,8 @@
 package oms.mmc.android.fast.framwork.util;
 
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import oms.mmc.android.fast.framwork.R;
 import oms.mmc.android.fast.framwork.base.IPullRefreshUi;
@@ -63,5 +65,37 @@ public class ListViewListAbleDelegateHelper<P extends IPullRefreshLayout, V exte
 
     @Override
     protected void onSetupListWidget(IListConfigCallback listConfigCallback) {
+    }
+
+    @Override
+    public void addHeaderView(View view) {
+        //默认给传递过来的View做LayoutParams处理，默认是横向填满，如需要特殊修改，则自己在传入之前设置LayoutParams
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params == null) {
+            params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(params);
+        }
+        getScrollableView().addHeaderView(view);
+    }
+
+    @Override
+    public boolean removeHeader(View view) {
+        return getScrollableView().removeHeaderView(view);
+    }
+
+    @Override
+    public void addFooterView(View view) {
+        //默认给传递过来的View做LayoutParams处理，默认是横向填满，如需要特殊修改，则自己在传入之前设置LayoutParams
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params == null) {
+            params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(params);
+        }
+        getScrollableView().addFooterView(view);
+    }
+
+    @Override
+    public boolean removeFooter(View view) {
+        return getScrollableView().removeFooterView(view);
     }
 }

@@ -174,7 +174,7 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
                 toast("headerView onClick()");
             }
         });
-        getRecyclerViewAdapter().addHeaderView(headerView);
+        getListAbleDelegateHelper().addHeaderView(headerView);
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
                 .type(TPL_SEARCH, R.drawable.shape_conversation_item_decoration)

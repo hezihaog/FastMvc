@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -108,6 +110,15 @@ public class SampleChooseActivity extends BaseFastListViewActivity<SwipePullRefr
         getScrollableView().setDivider(new ColorDrawable(Color.parseColor("#F3F5F7")));
         //给ListView分隔线设置高度
         getScrollableView().setDividerHeight((int) TDevice.dpToPixel(getActivity(), 8f));
+        //可以给lv添加一个头部
+        TextView headerView = new TextView(getActivity());
+        headerView.setText("~我是ListView的头部喔~");
+        int padding = (int) TDevice.dpToPixel(getActivity(), 15f);
+        headerView.setPadding(padding, padding, padding, padding);
+        //默认直接横向填满，可以不传，如有特殊需求，则在调用addHeaderView之前设置即可
+//        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+        headerView.setGravity(Gravity.CENTER);
+        getListAbleDelegateHelper().addHeaderView(headerView);
     }
 
     @Override
