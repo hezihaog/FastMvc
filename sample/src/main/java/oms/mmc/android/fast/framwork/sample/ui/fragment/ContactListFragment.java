@@ -29,6 +29,7 @@ import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.widget.SlideBar;
 import oms.mmc.android.fast.framwork.util.CollectionUtil;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
+import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
@@ -241,5 +242,14 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
         super.onListReadyAfter();
         //进入后马上刷新一次
 //        getRefreshWrapper().startRefreshWithAnimation();
+    }
+
+    @Override
+    public void onEndRefresh(ICommonListAdapter<BaseItemData> adapter, ArrayList<BaseItemData> result, boolean isFirst, boolean isReverse) {
+        super.onEndRefresh(adapter, result, isFirst, isReverse);
+        //默认隐藏，第一次刷新完毕后，就显示出来
+        if (isFirst) {
+            mSlideBar.setVisibility(View.VISIBLE);
+        }
     }
 }
