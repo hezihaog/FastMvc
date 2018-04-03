@@ -27,8 +27,6 @@ import oms.mmc.android.fast.framwork.sample.tpl.contact.ContactTpl;
 import oms.mmc.android.fast.framwork.sample.tpl.contact.NewFriendTpl;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.widget.SlideBar;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.CollectionUtil;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.widget.pull.IPullRefreshWrapper;
@@ -36,6 +34,8 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
+import oms.mmc.smart.pullrefresh.SmartPullRefreshLayout;
+import oms.mmc.smart.pullrefresh.SmartPullRefreshWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment

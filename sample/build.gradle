@@ -39,30 +39,47 @@ dependencies {
     compile rootProject.ext.dependencies["design"]
     compile project(':liba-easy-cache')
     compile project(':liba-fast-mvc')
+    compile project(':liba-smart-pull-refresh')
 
     //直接不加arr默认都下载依赖，不推荐该方法，会默认下载全部的依赖
+
     //compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT'
 
     //也可以使用arr后加上依赖传递，不过也就意味着下载全部依赖
+
     //    compile('oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar') {
+
     //        transitive = true
+
     //    }
 
-//    //推荐该方法，只下载框架中的文件，再手动依赖框架中依赖的类库
-//    compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar'
-//    ////  -------------------------- fast mvc 依赖的库 start ----------------------------
-//    //生命周期监听库
-//    compile 'oms.mmc:lifecycle-dispatch:1.0.2-SNAPSHOT@aar'
-//    //通用滚动监听库
-//    compile 'oms.mmc:list-scroll-helper:1.0.4-SNAPSHOT@aar'
-//    //等待弹窗库
-//    compile 'oms.mmc:wait-view-factory:1.0.4-SNAPSHOT@aar'
-//    //界面切换状态库
-//    compile 'oms.mmc:load-view-factory:1.0.5-SNAPSHOT@aar'
-//    //图片加载
-//    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
-//    ////    -------------------------- fast mvc 依赖的库 end ----------------------------
+    //    //推荐该方法，只下载框架中的文件，再手动依赖框架中依赖的类库
 
+    //    compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar'
+
+    //    ////  -------------------------- fast mvc 依赖的库 start ----------------------------
+
+    //    //生命周期监听库
+
+    //    compile 'oms.mmc:lifecycle-dispatch:1.0.2-SNAPSHOT@aar'
+
+    //    //通用滚动监听库
+
+    //    compile 'oms.mmc:list-scroll-helper:1.0.4-SNAPSHOT@aar'
+
+    //    //等待弹窗库
+
+    //    compile 'oms.mmc:wait-view-factory:1.0.4-SNAPSHOT@aar'
+
+    //    //界面切换状态库
+
+    //    compile 'oms.mmc:load-view-factory:1.0.5-SNAPSHOT@aar'
+
+    //    //图片加载
+
+    //    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+
+    //    ////    -------------------------- fast mvc 依赖的库 end ----------------------------
     compile 'com.hzh:liba-logger:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.promeg:tinypinyin:2.0.3'
@@ -85,13 +102,13 @@ dependencies {
     //内存泄露监控
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
     //演示下拉刷新中间层使用的下拉刷新布局TwinklingRefreshLayout
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
-    //演示下拉刷新中间层使用的下拉刷新布局SmartRefreshLayout
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'//没有使用特殊Header，可以不加这行
+
     //演示下拉刷新中间层使用的下拉刷新布局Ultra-Pull-To-Refresh
     compile 'in.srain.cube:ultra-ptr:1.0.11'
+
     //演示下拉刷新中间层使用的下拉刷新布局BGARefreshLayout
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.8@aar'
 }

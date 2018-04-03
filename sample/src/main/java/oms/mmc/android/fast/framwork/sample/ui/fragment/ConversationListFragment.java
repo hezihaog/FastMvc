@@ -34,8 +34,6 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatT
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout;
-import oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshWrapper;
 import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.AssistHelper;
@@ -45,6 +43,8 @@ import oms.mmc.android.fast.framwork.widget.rv.base.BaseTpl;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.manager.sticky.FastScrollStickyHeadersLinearLayoutManager;
 import oms.mmc.helper.widget.ScrollableRecyclerView;
+import oms.mmc.smart.pullrefresh.SmartPullRefreshLayout;
+import oms.mmc.smart.pullrefresh.SmartPullRefreshWrapper;
 
 /**
  * Package: oms.mmc.android.fast.framwork.sample.ui.fragment

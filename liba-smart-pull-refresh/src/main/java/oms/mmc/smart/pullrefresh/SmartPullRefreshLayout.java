@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.sample.widget;
+package oms.mmc.smart.pullrefresh;
 
 import android.content.Context;
 import android.util.AttributeSet;

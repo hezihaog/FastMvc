@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout
+    <oms.mmc.smart.pullrefresh.SmartPullRefreshLayout
         android:id="@id/fast_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,7 +16,7 @@
             android:id="@id/fast_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </oms.mmc.android.fast.framwork.sample.widget.SmartPullRefreshLayout>
+    </oms.mmc.smart.pullrefresh.SmartPullRefreshLayout>
 
     <oms.mmc.android.fast.framwork.sample.widget.SlideBar
         android:id="@+id/slide_bar"

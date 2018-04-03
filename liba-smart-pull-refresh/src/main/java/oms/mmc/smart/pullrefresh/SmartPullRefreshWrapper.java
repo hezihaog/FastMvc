@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.sample.widget;
+package oms.mmc.smart.pullrefresh;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
