@@ -20,6 +20,7 @@ import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.loadview.ILoadMoreViewFactory;
 import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.loadview.SampleChooseLoadMoreViewFactory;
+import oms.mmc.android.fast.framwork.sample.loadview.SampleLoadViewFactory;
 import oms.mmc.android.fast.framwork.sample.tpl.sample.SampleChooseTpl;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.TDevice;
@@ -28,6 +29,7 @@ import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshWrapper;
 import oms.mmc.android.fast.framwork.widget.rv.base.BaseItemData;
 import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
+import oms.mmc.factory.load.factory.ILoadViewFactory;
 import oms.mmc.helper.ListScrollHelper;
 import oms.mmc.helper.widget.ScrollableListView;
 import oms.mmc.helper.wrapper.ScrollableListViewWrapper;
@@ -119,6 +121,12 @@ public class SampleChooseActivity extends BaseFastListViewActivity<SwipePullRefr
 //        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
         headerView.setGravity(Gravity.CENTER);
         getListAbleDelegateHelper().addHeaderView(headerView);
+    }
+
+    //重写该函数，切换页面切换时的样式（加载中、异常、空）
+    @Override
+    public ILoadViewFactory onLoadViewFactoryReady() {
+        return new SampleLoadViewFactory();
     }
 
     @Override
