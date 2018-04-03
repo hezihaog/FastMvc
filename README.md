@@ -55,7 +55,7 @@
 //    ////    -------------------------- fast mvc 依赖的库 end ----------------------------
 ```
 
-- 该版本，重构了非常多，原本下拉刷新绑定SwipeRefreshLayout，滚动控件绑定RecyclerView，现在也得到了抽取和拓展，轻松几句即可实现不同滚动控件的切换，日后谷歌再出比RecyclerView更牛逼的滚动控件也不会打破整个框架的结构。下拉刷新也得到了动态替换，想换什么~
+- 该版本，重构了非常多，原本下拉刷新绑定SwipeRefreshLayout，滚动控件绑定RecyclerView，现在也得到了抽取和拓展，轻松几句即可实现不同滚动控件的切换，日后谷歌再出比RecyclerView更牛逼的滚动控件也不会打破整个框架的结构。下拉刷新也得到了动态替换，想换什么就换什么~
 
 - 原本需要继承的BaseFastActivity也不用强制继承啦，添加IFastUIDelegate的实现类FastUIDelegate，按BaseFastActivity中对应生命周期方法，转调delegate对应的方法即可~老项目也能轻松接入~
 
@@ -96,6 +96,17 @@
 7. 设置列表适配器Adapter的改变！原本的setAdapter()改为setListAdapter，这里在ListHelper会回调adapter初始化和设置，通常不需要使用者调用，这里注意了！获取则封装了getListAdapter()，可以直接调用。
 
 8. 原本的rv的适配是调用BaseListAdapter里面包含的HeaderFooterAdapter，现在不需要啦，现在在回调适配器初始化时直接创建HeaderFooterAdapter包裹并返回，更加直观，getListAdapter()也不需要再getHeaderFooterAdapter来做addHeader()等操作，现在直接getListAdapter()来直接强转HeaderFooterAdapter来进行相关调用。
+
+9. 关于列表添加头部和尾部。由于拓展了支持lv，所以给lv或者rv添加、移除头部、尾部则提供了4个方法。
+
+在界面类上调用getListAbleDelegateHelper()()，则能获取到界面设定的滚动控件对应的列表代理对象，调用以下表格中的方法即可。
+
+| 函数名        | 返回值   | 函数解释和功用  |
+| --------   | -----:  | :----:  |
+|addHeaderView(View view)|void|使用一个View作为头部
+|removeHeader(View view)|boolean|移除一个指定的头部
+|addFooterView(View view)|void|使用一个View作为尾部
+|removeFooter(View view)|boolean|移除一个指定的尾部
 
 # 接入第三方下拉刷新库
 
