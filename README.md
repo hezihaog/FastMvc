@@ -43,7 +43,7 @@
 //    compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar'
 //    ////  -------------------------- fast mvc 依赖的库 start ----------------------------
 //    //生命周期监听库
-//    compile 'oms.mmc:lifecycle-dispatch:1.0.2-SNAPSHOT@aar'
+//    compile 'oms.mmc:lifecycle-dispatch:1.0.3-SNAPSHOT@aar'
 //    //通用滚动监听库
 //    compile 'oms.mmc:list-scroll-helper:1.0.4-SNAPSHOT@aar'
 //    //等待弹窗库
