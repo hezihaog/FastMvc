@@ -47,7 +47,7 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        ensureInitArgumentsDelegate();
+        resetArgumentsDelegate(intent);
     }
 
     /**
@@ -57,6 +57,18 @@ public abstract class CommonOperationDelegateActivity extends LifecycleActivity 
         if (mArgumentsDelegateHelper == null) {
             mArgumentsDelegateHelper = ArgumentsDelegateHelper.newInstance(getIntent().getExtras());
         }
+    }
+
+    /**
+     * 重新设置参数代理
+     *
+     * @param intent 新的Intent
+     */
+    public void resetArgumentsDelegate(Intent intent) {
+        if (mArgumentsDelegateHelper == null) {
+            ensureInitArgumentsDelegate();
+        }
+        mArgumentsDelegateHelper.setExtras(intent.getExtras());
     }
 
     /**

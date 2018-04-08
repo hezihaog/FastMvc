@@ -32,7 +32,7 @@ import oms.mmc.android.fast.framwork.util.ToastOperator;
  */
 
 public abstract class CommonOperationDelegateFragment extends ExtendLazyFragment implements IArgumentsDelegate
-        , IWaitViewHandler, IViewFinderAction, IFragmentAction, IToastOperator {
+        , IViewFinderAction, IFragmentAction, IToastOperator {
     private IArgumentsDelegate mArgumentsDelegateHelper;
     private IToastOperator mToastOperator;
     private IFragmentOperator mFragmentOperator;

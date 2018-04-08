@@ -1,13 +1,10 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations;
 import com.github.magiepooh.recycleritemdecoration.VerticalItemDecoration;
@@ -34,6 +31,7 @@ import oms.mmc.android.fast.framwork.sample.tpl.conversation.ConversationWeChatT
 import oms.mmc.android.fast.framwork.sample.util.EventBusUtil;
 import oms.mmc.android.fast.framwork.sample.util.FakeUtil;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
+import oms.mmc.android.fast.framwork.sample.widget.block.ConversationViewBlock;
 import oms.mmc.android.fast.framwork.util.ListHelper;
 import oms.mmc.android.fast.framwork.widget.list.ICommonListAdapter;
 import oms.mmc.android.fast.framwork.widget.list.helper.AssistHelper;
@@ -163,18 +161,8 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
     public void onListReady() {
         super.onListReady();
         //插入一个淡红色的View作为头部
-        TextView headerView = new TextView(this.getContext());
-        headerView.setText("我是添加的头部布局视图");
-        headerView.setGravity(Gravity.CENTER);
-        headerView.setBackgroundColor(Color.parseColor("#66FF0000"));
-        headerView.setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, 150));
-        headerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toast("headerView onClick()");
-            }
-        });
-        getListAbleDelegateHelper().addHeaderView(headerView);
+        ConversationViewBlock blockView = new ConversationViewBlock(getActivity(), this);
+        getListAbleDelegateHelper().addHeaderView(blockView.getRoot());
         //添加分隔线
         VerticalItemDecoration decoration = ItemDecorations.vertical(getActivity())
                 .type(TPL_SEARCH, R.drawable.shape_conversation_item_decoration)

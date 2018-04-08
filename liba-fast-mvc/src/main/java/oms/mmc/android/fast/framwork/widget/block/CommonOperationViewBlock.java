@@ -1,4 +1,4 @@
-package oms.mmc.android.fast.framwork.widget.rv.base;
+package oms.mmc.android.fast.framwork.widget.block;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,16 +25,16 @@ import oms.mmc.android.fast.framwork.util.IViewFinderAction;
 import oms.mmc.android.fast.framwork.util.ToastOperator;
 
 /**
- * Package: oms.mmc.android.fast.framwork.widget.rv.base
- * FileName: ArgumentsDelegateTpl
- * Date: on 2018/3/5  上午11:59
+ * Package: oms.mmc.android.fast.framwork.widget.block
+ * FileName: CommonOperationViewBlock
+ * Date: on 2018/4/8  上午9:54
  * Auther: zihe
  * Descirbe:
  * Email: hezihao@linghit.com
  */
-
-public abstract class CommonOperationDelegateTpl implements IArgumentsDelegate, IViewFinderAction,
+public abstract class CommonOperationViewBlock implements IArgumentsDelegate, IViewFinderAction,
         IToastOperator, IFragmentAction {
+
     private IArgumentsDelegate mArgumentsDelegateHelper;
     private IToastOperator mToastOperator;
     private IFragmentOperator mFragmentOperator;
