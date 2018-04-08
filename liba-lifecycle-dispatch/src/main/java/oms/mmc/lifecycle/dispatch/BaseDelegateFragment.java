@@ -5,11 +5,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import oms.mmc.lifecycle.dispatch.adapter.SimpleFragmentLifecycleAdapter;
 import oms.mmc.lifecycle.dispatch.base.IDelegateFragment;
 import oms.mmc.lifecycle.dispatch.base.LifecycleFragment;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Package: com.hzh.lifecycle.dispatch
@@ -73,7 +73,7 @@ public class BaseDelegateFragment extends LifecycleFragment implements IDelegate
     @Override
     public void runTaskInLifecycle(final Runnable task, final Status status) {
         callbacks.put(task.hashCode(), task);
-        this.getLifecycle().addListener(new SimpleFragmentLifecycleAdapter() {
+        this.getProxyLifecycle().addListener(new SimpleFragmentLifecycleAdapter() {
             @Override
             public void onAttach() {
                 super.onAttach();
@@ -135,7 +135,7 @@ public class BaseDelegateFragment extends LifecycleFragment implements IDelegate
              */
             private void runNow() {
                 callbacks.get(task.hashCode()).run();
-                getLifecycle().removeListener(this);
+                getProxyLifecycle().removeListener(this);
             }
         });
     }
@@ -163,7 +163,7 @@ public class BaseDelegateFragment extends LifecycleFragment implements IDelegate
     @Override
     public void detachAndPopAllTask() {
         popAllTask();
-        getLifecycle().removeAllListener();
+        getProxyLifecycle().removeAllListener();
     }
 
     @Override

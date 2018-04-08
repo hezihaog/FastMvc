@@ -22,7 +22,7 @@ public class LifecycleActivity extends FragmentActivity {
         lifecycle = new ActivityLifecycle();
     }
 
-    public ActivityLifecycle getLifecycle() {
+    public ActivityLifecycle getProxyLifecycle() {
         if (lifecycle == null) {
             lifecycle = new ActivityLifecycle();
         }

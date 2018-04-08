@@ -22,7 +22,7 @@ public class LifecycleFragment extends Fragment {
         this.lifecycle = lifecycle;
     }
 
-    public FragmentLifecycle getLifecycle() {
+    public FragmentLifecycle getProxyLifecycle() {
         if (lifecycle == null) {
             lifecycle = new FragmentLifecycle();
         }

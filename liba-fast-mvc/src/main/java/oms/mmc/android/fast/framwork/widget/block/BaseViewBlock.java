@@ -140,7 +140,7 @@ public abstract class BaseViewBlock extends CommonOperationViewBlock implements 
                 BaseViewBlock.this.onDestroy();
             }
         };
-        delegateFragment.getLifecycle().addListener(lifecycleListener);
+        delegateFragment.getProxyLifecycle().addListener(lifecycleListener);
     }
 
     @Override

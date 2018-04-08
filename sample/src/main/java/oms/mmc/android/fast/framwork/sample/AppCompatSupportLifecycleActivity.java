@@ -22,7 +22,7 @@ public class AppCompatSupportLifecycleActivity extends AppCompatActivity {
         lifecycle = new ActivityLifecycle();
     }
 
-    public ActivityLifecycle getLifecycle() {
+    public ActivityLifecycle getProxyLifecycle() {
         if (lifecycle == null) {
             lifecycle = new ActivityLifecycle();
         }
