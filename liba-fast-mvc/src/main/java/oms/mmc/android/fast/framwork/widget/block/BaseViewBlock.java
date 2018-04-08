@@ -1,19 +1,20 @@
 package oms.mmc.android.fast.framwork.widget.block;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.ViewTreeObserver;
 
 import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
+import oms.mmc.lifecycle.dispatch.BaseDelegateFragment;
+import oms.mmc.lifecycle.dispatch.DelegateFragmentFinder;
+import oms.mmc.lifecycle.dispatch.adapter.SimpleFragmentLifecycleAdapter;
+import oms.mmc.lifecycle.dispatch.listener.FragmentLifecycleListener;
 
 /**
  * Package: oms.mmc.android.fast.framwork.widget.block
@@ -23,12 +24,13 @@ import oms.mmc.factory.wait.inter.IWaitViewHost;
  * Descirbe:用户布局拆看使用
  * Email: hezihao@linghit.com
  */
-public abstract class BaseViewBlock extends CommonOperationViewBlock implements IViewBlock, View.OnAttachStateChangeListener {
+public abstract class BaseViewBlock extends CommonOperationViewBlock implements IViewBlock, ActivityLifecycleObserver {
     private FragmentActivity mActivity;
     private IWaitViewHost mWaitViewHost;
     private Handler mMainHandler;
     private View mRootLayout;
     private ViewFinder mViewFinder;
+    private View.OnAttachStateChangeListener mOnAttachStateChangeListener;
 
     /**
      * 直接构造，不指定要添加到的布局
@@ -39,6 +41,8 @@ public abstract class BaseViewBlock extends CommonOperationViewBlock implements 
     public BaseViewBlock(FragmentActivity activity, IWaitViewHost waitViewHost) {
         this.mActivity = activity;
         this.mWaitViewHost = waitViewHost;
+        //通知创建
+        onCreate();
         initView();
     }
 
@@ -54,20 +58,89 @@ public abstract class BaseViewBlock extends CommonOperationViewBlock implements 
         parent.addView(getRoot(), onGetAddViewIndex(parent));
     }
 
+    /**
+     * 当创建时回调
+     */
+    protected abstract void onCreate();
+
+    /**
+     * 当销毁时回调
+     */
+    protected abstract void onDestroy();
+
     @Override
     public void initView() {
+        //添加Activity生命周期监听
+        addActivityLifecycleListener();
         onLayoutBefore();
         mRootLayout = onLayoutView(LayoutInflater.from(getActivity()), null);
-        mRootLayout.addOnAttachStateChangeListener(this);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            addOnWindowFocusChangeListener();
-        }
+        //添加View依附、解除依附监听
+        addViewAttachStateChangeListener();
         mRootLayout.setLayoutParams(onGetLayoutParams());
         if (mViewFinder == null) {
             mViewFinder = new ViewFinder(getActivity(), getRoot());
         }
         onFindView(mViewFinder);
         onLayoutAfter();
+    }
+
+    /**
+     * 添加View依附、解除依附监听
+     */
+    private void addViewAttachStateChangeListener() {
+        //注意如果在列表控件中使用，在View移除到屏幕外时也会回调，所以不适用于滚动后进行广播的注册和注销，如果需要请在onCreate
+        mOnAttachStateChangeListener = new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View view) {
+                onAttachedToWindow(view);
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View view) {
+                onDetachedFromWindow(view);
+            }
+        };
+        mRootLayout.addOnAttachStateChangeListener(mOnAttachStateChangeListener);
+    }
+
+    /**
+     * 添加Activity生命周期监听
+     */
+    private void addActivityLifecycleListener() {
+        BaseDelegateFragment delegateFragment = DelegateFragmentFinder.getInstance().startDelegate(getActivity(), ActivityLifecycleDelegateFragment.class);
+        FragmentLifecycleListener lifecycleListener = new SimpleFragmentLifecycleAdapter() {
+
+            @Override
+            public void onStart() {
+                onActivityStart();
+            }
+
+            @Override
+            public void onResume() {
+                onActivityResume();
+            }
+
+            @Override
+            public void onPause() {
+                onActivityPause();
+            }
+
+            @Override
+            public void onStop() {
+                onActivityStop();
+            }
+
+            @Override
+            public void onDestroy() {
+                if (mOnAttachStateChangeListener != null) {
+                    getRoot().removeOnAttachStateChangeListener(mOnAttachStateChangeListener);
+                }
+                onActivityDestroy();
+                //回调自身的销毁，进行内存回调
+                BaseViewBlock.this.onDestroy();
+            }
+        };
+        delegateFragment.getLifecycle().addListener(lifecycleListener);
     }
 
     @Override
@@ -100,20 +173,6 @@ public abstract class BaseViewBlock extends CommonOperationViewBlock implements 
     public ViewGroup.LayoutParams onGetLayoutParams() {
         return new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT,
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private void addOnWindowFocusChangeListener() {
-        mRootLayout.getViewTreeObserver().addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
-            @Override
-            public void onWindowFocusChanged(boolean hasFocus) {
-                BaseViewBlock.this.onWindowFocusChanged(hasFocus);
-            }
-        });
-    }
-
-    public void onWindowFocusChanged(boolean hasFocus) {
-
     }
 
     @Override
@@ -182,10 +241,38 @@ public abstract class BaseViewBlock extends CommonOperationViewBlock implements 
     }
 
     @Override
-    public void onViewAttachedToWindow(View v) {
+    public void onActivityStart() {
     }
 
     @Override
-    public void onViewDetachedFromWindow(View v) {
+    public void onActivityResume() {
+    }
+
+    @Override
+    public void onActivityPause() {
+    }
+
+    @Override
+    public void onActivityStop() {
+    }
+
+    @Override
+    public void onActivityDestroy() {
+    }
+
+    /**
+     * 依附在View树时回调
+     *
+     * @param view Block上的View
+     */
+    public void onAttachedToWindow(View view) {
+    }
+
+    /**
+     * 从View上解除依附
+     *
+     * @param view Block上的View
+     */
+    public void onDetachedFromWindow(View view) {
     }
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hzh.logger.L;
+
 import oms.mmc.android.fast.framwork.util.TDevice;
 import oms.mmc.android.fast.framwork.widget.block.BaseRecyclerViewBlock;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
@@ -54,5 +56,57 @@ public class ConversationViewBlock extends BaseRecyclerViewBlock {
                 toast("headerView onClick()");
             }
         });
+    }
+
+    @Override
+    protected void onCreate() {
+        L.i("ConversationViewBlock ::: onCreate");
+    }
+
+    @Override
+    protected void onDestroy() {
+        L.i("ConversationViewBlock ::: onDestroy");
+    }
+
+    @Override
+    public void onActivityStart() {
+        super.onActivityStart();
+        L.i("ConversationViewBlock ::: onActivityStart");
+    }
+
+    @Override
+    public void onActivityResume() {
+        super.onActivityResume();
+        L.i("ConversationViewBlock ::: onActivityResume");
+    }
+
+    @Override
+    public void onActivityPause() {
+        super.onActivityPause();
+        L.i("ConversationViewBlock ::: onActivityPause");
+    }
+
+    @Override
+    public void onActivityStop() {
+        super.onActivityStop();
+        L.i("ConversationViewBlock ::: onActivityStop");
+    }
+
+    @Override
+    public void onActivityDestroy() {
+        super.onActivityDestroy();
+        L.i("ConversationViewBlock ::: onActivityDestroy");
+    }
+
+    @Override
+    public void onAttachedToWindow(View view) {
+        super.onAttachedToWindow(view);
+        toast("ConversationViewBlock ::: onAttachedToWindow()");
+    }
+
+    @Override
+    public void onDetachedFromWindow(View view) {
+        super.onDetachedFromWindow(view);
+        toast("ConversationViewBlock ::: onDetachedFromWindow()");
     }
 }
