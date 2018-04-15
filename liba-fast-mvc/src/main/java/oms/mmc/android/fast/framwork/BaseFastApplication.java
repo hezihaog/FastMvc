@@ -26,7 +26,7 @@ public class BaseFastApplication extends Application implements IHandlerDispatch
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        mUIHandler = initHandler();
+        mUIHandler = initUiHandler();
     }
 
     public static BaseFastApplication getInstance() {
@@ -34,14 +34,14 @@ public class BaseFastApplication extends Application implements IHandlerDispatch
     }
 
     @Override
-    public Handler initHandler() {
+    public Handler initUiHandler() {
         return new Handler(getMainLooper());
     }
 
     @Override
-    public Handler getHandler() {
+    public Handler getUiHandler() {
         if (mUIHandler == null) {
-            mUIHandler = initHandler();
+            mUIHandler = initUiHandler();
         }
         return mUIHandler;
     }
@@ -57,12 +57,12 @@ public class BaseFastApplication extends Application implements IHandlerDispatch
     }
 
     @Override
-    public void removeHandlerMessage(Runnable runnable) {
+    public void removeUiHandlerMessage(Runnable runnable) {
         mUIHandler.removeCallbacks(runnable);
     }
 
     @Override
-    public void removeHandlerAllMessage() {
+    public void removeUiHandlerAllMessage() {
         mUIHandler.removeCallbacksAndMessages(null);
     }
 

@@ -219,13 +219,13 @@ public abstract class AppCompatSupportFastActivity extends AppCompatCommonOperat
     }
 
     @Override
-    public Handler initHandler() {
-        return getFastUIDelegate().initHandler();
+    public Handler initUiHandler() {
+        return getFastUIDelegate().initUiHandler();
     }
 
     @Override
-    public Handler getHandler() {
-        return getFastUIDelegate().getHandler();
+    public Handler getUiHandler() {
+        return getFastUIDelegate().getUiHandler();
     }
 
     @Override
@@ -239,13 +239,13 @@ public abstract class AppCompatSupportFastActivity extends AppCompatCommonOperat
     }
 
     @Override
-    public void removeHandlerMessage(Runnable runnable) {
-        getFastUIDelegate().removeHandlerMessage(runnable);
+    public void removeUiHandlerMessage(Runnable runnable) {
+        getFastUIDelegate().removeUiHandlerMessage(runnable);
     }
 
     @Override
-    public void removeHandlerAllMessage() {
-        getFastUIDelegate().removeHandlerAllMessage();
+    public void removeUiHandlerAllMessage() {
+        getFastUIDelegate().removeUiHandlerAllMessage();
     }
 
     @Override

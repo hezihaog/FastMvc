@@ -7,7 +7,7 @@ import android.os.Handler;
  * FileName: IHandlerDispatcher
  * Date: on 2018/3/5  上午11:01
  * Auther: zihe
- * Descirbe:Hanlder发送器
+ * Descirbe:主线程Hanlder发送器接口
  * Email: hezihao@linghit.com
  */
 
@@ -15,12 +15,12 @@ public interface IHandlerDispatcher {
     /**
      * 初始化Handler
      */
-    Handler initHandler();
+    Handler initUiHandler();
 
     /**
      * 获取绑定的Handler
      */
-    Handler getHandler();
+    Handler getUiHandler();
 
     /**
      * 将任务发送到主线程执行
@@ -42,10 +42,10 @@ public interface IHandlerDispatcher {
      *
      * @param runnable 任务
      */
-    void removeHandlerMessage(Runnable runnable);
+    void removeUiHandlerMessage(Runnable runnable);
 
     /**
      * 移除所有正在运行的任务
      */
-    void removeHandlerAllMessage();
+    void removeUiHandlerAllMessage();
 }

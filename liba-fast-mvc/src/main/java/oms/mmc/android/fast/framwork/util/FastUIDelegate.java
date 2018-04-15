@@ -156,14 +156,14 @@ public class FastUIDelegate implements IFastUIDelegate {
     }
 
     @Override
-    public Handler initHandler() {
+    public Handler initUiHandler() {
         return new Handler(getActivity().getMainLooper());
     }
 
     @Override
-    public Handler getHandler() {
+    public Handler getUiHandler() {
         if (mUIHandler == null) {
-            return initHandler();
+            return initUiHandler();
         }
         return mUIHandler;
     }
@@ -171,7 +171,7 @@ public class FastUIDelegate implements IFastUIDelegate {
     @Override
     public void post(Runnable runnable) {
         if (mUIHandler == null) {
-            mUIHandler = initHandler();
+            mUIHandler = initUiHandler();
         }
         mUIHandler.post(runnable);
     }
@@ -179,19 +179,19 @@ public class FastUIDelegate implements IFastUIDelegate {
     @Override
     public void postDelayed(Runnable runnable, long duration) {
         if (mUIHandler == null) {
-            mUIHandler = initHandler();
+            mUIHandler = initUiHandler();
         }
         mUIHandler.postDelayed(runnable, duration);
     }
 
     @Override
-    public void removeHandlerMessage(Runnable runnable) {
-        getHandler().removeCallbacks(runnable);
+    public void removeUiHandlerMessage(Runnable runnable) {
+        getUiHandler().removeCallbacks(runnable);
     }
 
     @Override
-    public void removeHandlerAllMessage() {
-        getHandler().removeCallbacksAndMessages(null);
+    public void removeUiHandlerAllMessage() {
+        getUiHandler().removeCallbacksAndMessages(null);
     }
 
     /**
