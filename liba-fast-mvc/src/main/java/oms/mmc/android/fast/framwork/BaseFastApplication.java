@@ -20,13 +20,13 @@ import oms.mmc.android.fast.framwork.base.IHandlerDispatcher;
 public class BaseFastApplication extends Application implements IHandlerDispatcher {
     @SuppressLint("StaticFieldLeak")
     private static BaseFastApplication mInstance;
-    private Handler mMainHandler;
+    private Handler mUIHandler;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        mMainHandler = initHandler();
+        mUIHandler = initHandler();
     }
 
     public static BaseFastApplication getInstance() {
@@ -39,17 +39,31 @@ public class BaseFastApplication extends Application implements IHandlerDispatch
     }
 
     @Override
+    public Handler getHandler() {
+        if (mUIHandler == null) {
+            mUIHandler = initHandler();
+        }
+        return mUIHandler;
+    }
+
+    @Override
     public void post(Runnable runnable) {
-        mMainHandler.post(runnable);
+        mUIHandler.post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
-        mMainHandler.postDelayed(runnable, duration);
+        mUIHandler.postDelayed(runnable, duration);
     }
 
-    public Handler getMainHandler() {
-        return mMainHandler;
+    @Override
+    public void removeHandlerMessage(Runnable runnable) {
+        mUIHandler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void removeHandlerAllMessage() {
+        mUIHandler.removeCallbacksAndMessages(null);
     }
 
     @Override

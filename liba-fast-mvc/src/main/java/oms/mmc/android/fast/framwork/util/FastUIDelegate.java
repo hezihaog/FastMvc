@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.base.IFastUIDelegate;
 import oms.mmc.android.fast.framwork.base.IFastUIInterface;
 import oms.mmc.android.fast.framwork.base.IStatusBarHost;
@@ -34,7 +33,7 @@ public class FastUIDelegate implements IFastUIDelegate {
     private IFastUIInterface mUiIml;
     private Activity mActivity;
     private ViewFinder mViewFinder;
-    private Handler mMainHandler;
+    private Handler mUIHandler;
     private WaitDialogController mWaitDialogController;
 
     private static class FastUIReplaceAdapter extends AppCompatScrollableReplaceAdapter {
@@ -158,30 +157,41 @@ public class FastUIDelegate implements IFastUIDelegate {
 
     @Override
     public Handler initHandler() {
-        Handler handler = null;
-        if (getActivity().getApplication() instanceof BaseFastApplication) {
-            handler = ((BaseFastApplication) getActivity().getApplication()).getMainHandler();
+        return new Handler(getActivity().getMainLooper());
+    }
+
+    @Override
+    public Handler getHandler() {
+        if (mUIHandler == null) {
+            return initHandler();
         }
-        if (handler == null) {
-            handler = new Handler(getActivity().getMainLooper());
-        }
-        return handler;
+        return mUIHandler;
     }
 
     @Override
     public void post(Runnable runnable) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
+        if (mUIHandler == null) {
+            mUIHandler = initHandler();
         }
-        mMainHandler.post(runnable);
+        mUIHandler.post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
+        if (mUIHandler == null) {
+            mUIHandler = initHandler();
         }
-        mMainHandler.postDelayed(runnable, duration);
+        mUIHandler.postDelayed(runnable, duration);
+    }
+
+    @Override
+    public void removeHandlerMessage(Runnable runnable) {
+        getHandler().removeCallbacks(runnable);
+    }
+
+    @Override
+    public void removeHandlerAllMessage() {
+        getHandler().removeCallbacksAndMessages(null);
     }
 
     /**

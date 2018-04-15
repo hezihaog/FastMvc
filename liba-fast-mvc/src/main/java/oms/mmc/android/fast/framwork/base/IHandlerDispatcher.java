@@ -18,6 +18,11 @@ public interface IHandlerDispatcher {
     Handler initHandler();
 
     /**
+     * 获取绑定的Handler
+     */
+    Handler getHandler();
+
+    /**
      * 将任务发送到主线程执行
      *
      * @param runnable 任务
@@ -31,4 +36,16 @@ public interface IHandlerDispatcher {
      * @param duration 延时毫秒数
      */
     void postDelayed(Runnable runnable, long duration);
+
+    /**
+     * 移除指定正在运行的任务
+     *
+     * @param runnable 任务
+     */
+    void removeHandlerMessage(Runnable runnable);
+
+    /**
+     * 移除所有正在运行的任务
+     */
+    void removeHandlerAllMessage();
 }

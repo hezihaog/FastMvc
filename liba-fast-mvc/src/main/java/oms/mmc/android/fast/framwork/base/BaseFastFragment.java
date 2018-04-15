@@ -129,21 +129,32 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
 
     @Override
     public Handler initHandler() {
-        return mUIDelegate.initHandler();
+        return getFastUIDelegate().initHandler();
+    }
+
+    @Override
+    public Handler getHandler() {
+        return getFastUIDelegate().getHandler();
     }
 
     @Override
     public void post(Runnable runnable) {
-        if (mUIDelegate != null) {
-            mUIDelegate.post(runnable);
-        }
+        getFastUIDelegate().post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
-        if (mUIDelegate != null) {
-            mUIDelegate.postDelayed(runnable, duration);
-        }
+        getFastUIDelegate().postDelayed(runnable, duration);
+    }
+
+    @Override
+    public void removeHandlerMessage(Runnable runnable) {
+        getFastUIDelegate().removeHandlerMessage(runnable);
+    }
+
+    @Override
+    public void removeHandlerAllMessage() {
+        getFastUIDelegate().removeHandlerAllMessage();
     }
 
     @Override

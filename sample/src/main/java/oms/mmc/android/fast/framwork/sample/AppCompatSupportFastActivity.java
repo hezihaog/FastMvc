@@ -224,6 +224,11 @@ public abstract class AppCompatSupportFastActivity extends AppCompatCommonOperat
     }
 
     @Override
+    public Handler getHandler() {
+        return getFastUIDelegate().getHandler();
+    }
+
+    @Override
     public void post(Runnable runnable) {
         getFastUIDelegate().post(runnable);
     }
@@ -231,6 +236,16 @@ public abstract class AppCompatSupportFastActivity extends AppCompatCommonOperat
     @Override
     public void postDelayed(Runnable runnable, long duration) {
         getFastUIDelegate().postDelayed(runnable, duration);
+    }
+
+    @Override
+    public void removeHandlerMessage(Runnable runnable) {
+        getFastUIDelegate().removeHandlerMessage(runnable);
+    }
+
+    @Override
+    public void removeHandlerAllMessage() {
+        getFastUIDelegate().removeHandlerAllMessage();
     }
 
     @Override

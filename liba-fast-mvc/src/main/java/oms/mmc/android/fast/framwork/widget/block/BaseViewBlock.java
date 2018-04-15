@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import oms.mmc.android.fast.framwork.BaseFastApplication;
 import oms.mmc.android.fast.framwork.util.IViewFinder;
 import oms.mmc.android.fast.framwork.util.ViewFinder;
 import oms.mmc.factory.wait.inter.IWaitViewHost;
@@ -27,7 +26,7 @@ import oms.mmc.lifecycle.dispatch.listener.FragmentLifecycleListener;
 public abstract class BaseViewBlock extends CommonOperationViewBlock implements IViewBlock, ActivityLifecycleObserver {
     private FragmentActivity mActivity;
     private IWaitViewHost mWaitViewHost;
-    private Handler mMainHandler;
+    private Handler mUIHandler;
     private View mRootLayout;
     private ViewFinder mViewFinder;
     private View.OnAttachStateChangeListener mOnAttachStateChangeListener;
@@ -177,30 +176,42 @@ public abstract class BaseViewBlock extends CommonOperationViewBlock implements 
 
     @Override
     public Handler initHandler() {
-        Handler handler = null;
-        if (getActivity().getApplication() instanceof BaseFastApplication) {
-            handler = ((BaseFastApplication) getActivity().getApplication()).getMainHandler();
+        return new Handler(getActivity().getMainLooper());
+    }
+
+    @Override
+    public Handler getHandler() {
+        if (mUIHandler == null) {
+            return initHandler();
+        } else {
+            return mUIHandler;
         }
-        if (handler == null) {
-            handler = new Handler(getActivity().getMainLooper());
-        }
-        return handler;
     }
 
     @Override
     public void post(Runnable runnable) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
+        if (mUIHandler == null) {
+            mUIHandler = initHandler();
         }
-        mMainHandler.post(runnable);
+        mUIHandler.post(runnable);
     }
 
     @Override
     public void postDelayed(Runnable runnable, long duration) {
-        if (mMainHandler == null) {
-            mMainHandler = initHandler();
+        if (mUIHandler == null) {
+            mUIHandler = initHandler();
         }
-        mMainHandler.postDelayed(runnable, duration);
+        mUIHandler.postDelayed(runnable, duration);
+    }
+
+    @Override
+    public void removeHandlerMessage(Runnable runnable) {
+        getHandler().removeCallbacks(runnable);
+    }
+
+    @Override
+    public void removeHandlerAllMessage() {
+        getHandler().removeCallbacksAndMessages(null);
     }
 
     @Override
