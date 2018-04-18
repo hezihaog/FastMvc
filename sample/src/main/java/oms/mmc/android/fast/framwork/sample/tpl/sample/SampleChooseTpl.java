@@ -17,6 +17,7 @@ import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySingleCheckS
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListStickyActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.LoadViewFactorySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.NestedFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SampleChooseActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SimpleLoadViewHelperUseSampleActivity;
 import oms.mmc.android.fast.framwork.sample.util.MMCUIHelper;
@@ -86,6 +87,9 @@ public class SampleChooseTpl extends BaseTpl<ItemDataWrapper> {
         } else if (activityClass.getName().equals(FragmentOperateActivity.class.getName())) {
             //Fragment操作例子
             MMCUIHelper.showFragmentOperate(getActivity());
+        } else if (activityClass.getName().equals(NestedFragmentSampleActivity.class.getName())) {
+            //ViewPager嵌套Fragment
+            MMCUIHelper.showViewPagerNestedFragment(getActivity());
         }
     }
 }

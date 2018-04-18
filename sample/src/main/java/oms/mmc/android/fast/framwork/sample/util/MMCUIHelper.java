@@ -15,6 +15,7 @@ import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivitySingleCheckS
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListStickyActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.LoadViewFactorySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.MainActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.NestedFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SampleChooseActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.SimpleLoadViewHelperUseSampleActivity;
 
@@ -140,6 +141,14 @@ public class MMCUIHelper {
      */
     public static void showFragmentOperate(Activity activity) {
         Intent intent = new Intent(activity, FragmentOperateActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * ViewPager嵌套Fragment
+     */
+    public static void showViewPagerNestedFragment(Activity activity) {
+        Intent intent = new Intent(activity, NestedFragmentSampleActivity.class);
         activity.startActivity(intent);
     }
 }

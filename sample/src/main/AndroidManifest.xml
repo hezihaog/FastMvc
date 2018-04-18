@@ -54,5 +54,6 @@
         <activity android:name=".ui.activity.SimpleLoadViewHelperUseSampleActivity" />
         <activity android:name=".ui.activity.LoadViewFactorySampleActivity" />
         <activity android:name=".ui.activity.FragmentOperateActivity" />
+        <activity android:name=".ui.activity.NestedFragmentSampleActivity"/>
     </application>
 </manifest>

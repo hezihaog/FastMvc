@@ -151,6 +151,7 @@ public class SampleChooseActivity extends BaseFastListViewActivity<SwipePullRefr
         mSampleModuleModelList.add(new SampleModuleModel("列表编辑、普通模式", ListActivityModeSampleActivity.class));
         mSampleModuleModelList.add(new SampleModuleModel("SimpleLoadView手动控制切换布局", SimpleLoadViewHelperUseSampleActivity.class));
         mSampleModuleModelList.add(new SampleModuleModel("列表LoadViewFactory更换切换布局", LoadViewFactorySampleActivity.class));
+        mSampleModuleModelList.add(new SampleModuleModel("ViewPager嵌套Fragment", NestedFragmentSampleActivity.class));
     }
 
     public static class SampleModuleModel implements Serializable {
