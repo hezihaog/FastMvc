@@ -168,7 +168,9 @@ public abstract class BaseFastFragment extends CommonOperationDelegateFragment i
     @Override
     public void onRestoreState(Bundle stateBundle) {
         super.onRestoreState(stateBundle);
-        getViewFinder().restoreInstance(stateBundle);
+        if (getViewFinder() != null) {
+            getViewFinder().restoreInstance(stateBundle);
+        }
     }
 
     @Override
