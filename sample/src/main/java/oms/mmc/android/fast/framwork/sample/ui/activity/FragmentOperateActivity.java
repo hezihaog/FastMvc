@@ -46,7 +46,6 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
         super.onFindView(finder);
         mToolbar = finder.get(R.id.toolBar);
         mMainActionRadioGroup = finder.get(R.id.actionRadioGroup);
-        mMainActionRadioGroup.setOnCheckedChangeListener(this);
         mMainRadioButton = finder.get(R.id.mainRadioButton);
     }
 
@@ -55,6 +54,7 @@ public class FragmentOperateActivity extends BaseFastActivity implements RadioGr
         super.onLayoutAfter();
         mToolbar.setTitle(R.string.app_name);
         mToolbar.setTitleTextColor(getActivity().getResources().getColor(R.color.white));
+        mMainActionRadioGroup.setOnCheckedChangeListener(this);
         mMainRadioButton.setChecked(true);
     }
 
