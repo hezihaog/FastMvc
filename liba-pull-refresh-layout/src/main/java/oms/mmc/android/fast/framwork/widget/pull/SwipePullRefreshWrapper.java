@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.widget.pull;
 
+
 import android.support.v4.widget.SwipeRefreshLayout;
 
 /**

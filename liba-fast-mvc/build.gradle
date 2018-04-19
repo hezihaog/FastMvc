@@ -35,13 +35,10 @@ dependencies {
     compile project(':liba-wait-view-factory')
     //界面状态切换状态库
     compile project(':liba-load-view-factory')
+    //下拉刷新适配层
+    compile project(':liba-pull-refresh-layout')
     //图片加载
     compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
-//    //RxJava RxAndroid
-//    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
-//    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-//    //RxLifecycle
-//    compile 'oms.mmc:rxlifecycle:1.1.1-SNAPSHOT'
 }
 
 //是否提交到仓库

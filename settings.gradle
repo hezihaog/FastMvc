@@ -1,1 +1,1 @@
-include ':sample', ':liba-fast-mvc', ':liba-lifecycle-dispatch', ':liba-list-scroll-helper', ':liba-wait-view-factory', ':liba-load-view-factory', ':liba-easy-cache', ':liba-async-executor', ':liba-smart-pull-refresh'
+include ':sample', ':liba-fast-mvc', ':liba-lifecycle-dispatch', ':liba-list-scroll-helper', ':liba-wait-view-factory', ':liba-load-view-factory', ':liba-easy-cache', ':liba-async-executor', ':liba-smart-pull-refresh', ':liba-pull-refresh-layout'

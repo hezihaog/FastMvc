@@ -17,6 +17,7 @@ ext {
     ]
 
     dependencies = [
+            "support-v4"                : "com.android.support:support-v4:${android["androidSupportVersion"]}",
             "appcompat-v7"              : "com.android.support:appcompat-v7:${android["androidSupportVersion"]}",
             "design"                    : "com.android.support:design:${android["androidSupportVersion"]}",
             "recyclerview"              : "com.android.support:recyclerview-v7:${android["androidSupportVersion"]}",
