@@ -1,5 +1,6 @@
 package oms.mmc.android.fast.framwork.sample.ui.fragment;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -77,7 +78,7 @@ public class NestedFragmentContainerFragment extends BaseFastFragment implements
                     mMoneyRadioBtn.setChecked(true);
                 } else if (position == 1) {
                     mLoveRadioBtn.setChecked(true);
-                } else if (position == 3) {
+                } else if (position == 2) {
                     mLuckRadioBtn.setChecked(true);
                 }
             }
@@ -86,6 +87,18 @@ public class NestedFragmentContainerFragment extends BaseFastFragment implements
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        //切换按钮颜色
+        int childCount = mGroup.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            RadioButton button = (RadioButton) mGroup.getChildAt(i);
+            if (button.getId() == checkedId) {
+                button.setTextColor(Color.parseColor("#FFFFFF"));
+                button.setBackgroundColor(Color.parseColor("#909090"));
+            } else {
+                button.setTextColor(Color.parseColor("#909090"));
+                button.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            }
+        }
         if (checkedId == R.id.moneyRadioButton) {
             mViewPager.setCurrentItem(0, false);
         } else if (checkedId == R.id.loveRadioButton) {
