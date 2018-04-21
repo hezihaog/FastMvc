@@ -194,7 +194,7 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
     @Override
     public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
-        pullRefreshAbleView.setEnableLoadmore(false);
+        pullRefreshAbleView.setEnableLoadMore(false);
     }
 
     /**

@@ -144,7 +144,7 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
     @Override
     public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
-        pullRefreshAbleView.setEnableLoadmore(false);
+        pullRefreshAbleView.setEnableLoadMore(false);
     }
 
     @Override

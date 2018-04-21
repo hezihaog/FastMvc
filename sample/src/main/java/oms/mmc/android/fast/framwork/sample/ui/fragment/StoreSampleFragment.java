@@ -45,7 +45,7 @@ public class StoreSampleFragment extends BaseFastRecyclerViewListFragment<SmartP
     public void onPullRefreshWrapperReady(IPullRefreshWrapper<SmartPullRefreshLayout> refreshWrapper, SmartPullRefreshLayout pullRefreshAbleView) {
         super.onPullRefreshWrapperReady(refreshWrapper, pullRefreshAbleView);
         //我们使用自己的加载更多，所以禁用掉刷新库中的
-        pullRefreshAbleView.setEnableLoadmore(false);
+        pullRefreshAbleView.setEnableLoadMore(false);
     }
 
     @Override
