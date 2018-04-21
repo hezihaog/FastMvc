@@ -40,19 +40,21 @@
 # 1.0.4版本
 
 ```java
-//    compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar'
-//    ////  -------------------------- fast mvc 依赖的库 start ----------------------------
-//    //生命周期监听库
-//    compile 'oms.mmc:lifecycle-dispatch:1.0.3-SNAPSHOT@aar'
-//    //通用滚动监听库
-//    compile 'oms.mmc:list-scroll-helper:1.0.4-SNAPSHOT@aar'
-//    //等待弹窗库
-//    compile 'oms.mmc:wait-view-factory:1.0.4-SNAPSHOT@aar'
-//    //界面切换状态库
-//    compile 'oms.mmc:load-view-factory:1.0.5-SNAPSHOT@aar'
-//    //图片加载
-//    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
-//    ////    -------------------------- fast mvc 依赖的库 end ----------------------------
+compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar'
+//  -------------------------- fast mvc 依赖的库 start ----------------------------
+//生命周期监听库
+compile 'oms.mmc:lifecycle-dispatch:1.0.3-SNAPSHOT@aar'
+//通用滚动监听库
+compile 'oms.mmc:list-scroll-helper:1.0.4-SNAPSHOT@aar'
+//等待弹窗库
+compile 'oms.mmc:wait-view-factory:1.0.4-SNAPSHOT@aar'
+//界面切换状态库
+compile 'oms.mmc:load-view-factory:1.0.5-SNAPSHOT@aar'
+//图片加载
+compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+//Glide图片加载框架，MMCImageLoader需要依赖的加载库
+compile 'com.github.bumptech.glide:glide:3.8.0'
+//    -------------------------- fast mvc 依赖的库 end ----------------------------
 ```
 
 - 该版本，重构了非常多，原本下拉刷新绑定SwipeRefreshLayout，滚动控件绑定RecyclerView，现在也得到了抽取和拓展，轻松几句即可实现不同滚动控件的切换，日后谷歌再出比RecyclerView更牛逼的滚动控件也不会打破整个框架的结构。下拉刷新也得到了动态替换，想换什么就换什么~
