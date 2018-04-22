@@ -435,4 +435,11 @@ public abstract class BaseTpl<T> extends CommonOperationDelegateTpl implements L
             mInnerViewHolder = null;
         }
     }
+
+    /**
+     * 获取WaitView宿主，通常是activity或者fragment
+     */
+    public IWaitViewHost getWaitViewHost() {
+        return mWaitViewHost;
+    }
 }
