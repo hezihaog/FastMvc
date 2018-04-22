@@ -187,12 +187,12 @@ public abstract class ListAbleDelegateHelper<P extends IPullRefreshLayout, V ext
     }
 
     @Override
-    public IPullRefreshWrapper<P> getRefreshWrapper() {
+    public IPullRefreshWrapper<P> getPullRefreshWrapper() {
         return mRefreshWrapper;
     }
 
     @Override
-    public P getRefreshLayout() {
+    public P getPullRefreshLayout() {
         return mRefreshWrapper.getPullRefreshAbleView();
     }
 

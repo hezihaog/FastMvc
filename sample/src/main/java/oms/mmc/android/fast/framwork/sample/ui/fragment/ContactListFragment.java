@@ -233,7 +233,7 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
     public void onListReady() {
         super.onListReady();
         //禁止下拉刷新，使用我们自己的滚动加载更多
-        getRefreshLayoutWrapper().setRefreshEnable();
+        getPullRefreshLayoutWrapper().setRefreshEnable();
 //        getListHelper().setCanPullToRefresh(false);
     }
 
@@ -241,7 +241,7 @@ public class ContactListFragment extends BaseFastRecyclerViewListFragment<SmartP
     public void onListReadyAfter() {
         super.onListReadyAfter();
         //进入后马上刷新一次
-//        getRefreshWrapper().startRefreshWithAnimation();
+//        getPullRefreshWrapper().startRefreshWithAnimation();
     }
 
     @Override

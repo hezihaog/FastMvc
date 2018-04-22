@@ -123,8 +123,8 @@ public class ListHelper<Model> implements IViewHelper<Model> {
 
             @Override
             public void onScrollTop() {
-                if (getRefreshWrapper().isCanPullToRefresh() &&
-                        getRefreshWrapper().getPullRefreshAbleView().isRefreshEnable()) {
+                if (getPullRefreshWrapper().isCanPullToRefresh() &&
+                        getPullRefreshWrapper().getPullRefreshAbleView().isRefreshEnable()) {
                     //已经滚动到了顶部，可以下拉刷新
                     mRefreshWrapper.setRefreshEnable();
                     //如果是反转的布局（例如是QQ聊天页面），则刷新下一页
@@ -181,7 +181,7 @@ public class ListHelper<Model> implements IViewHelper<Model> {
                 refresh();
             }
         };
-        this.mLoadView.init((View) getRefreshWrapper().getPullRefreshAbleView(), onClickRefreshListener);
+        this.mLoadView.init((View) getPullRefreshWrapper().getPullRefreshAbleView(), onClickRefreshListener);
         this.mLoadMoreView.init(getScrollableView(), onClickRefreshListener, enableLoadMoreFooter);
     }
 
@@ -257,7 +257,7 @@ public class ListHelper<Model> implements IViewHelper<Model> {
                     mOnLoadStateChangeListener.onEndRefresh(mDataAdapter, result, isFirstRefresh, isReverse);
                 }
                 //刷新结束
-                if (getRefreshWrapper().isCanPullToRefresh()) {
+                if (getPullRefreshWrapper().isCanPullToRefresh()) {
                     mRefreshWrapper.setRefreshEnable();
                 }
                 mRefreshWrapper.completeRefresh();
@@ -437,12 +437,12 @@ public class ListHelper<Model> implements IViewHelper<Model> {
     }
 
     @Override
-    public IPullRefreshWrapper<?> getRefreshWrapper() {
+    public IPullRefreshWrapper<?> getPullRefreshWrapper() {
         return mRefreshWrapper;
     }
 
     @Override
-    public IPullRefreshLayout getRefreshLayout() {
+    public IPullRefreshLayout getPullRefreshLayout() {
         return mRefreshWrapper.getPullRefreshAbleView();
     }
 
@@ -478,9 +478,9 @@ public class ListHelper<Model> implements IViewHelper<Model> {
     @Override
     public void setCanPullToRefresh(boolean canPullToRefresh) {
         if (canPullToRefresh) {
-            getRefreshWrapper().setCanPullToRefresh();
+            getPullRefreshWrapper().setCanPullToRefresh();
         } else {
-            getRefreshWrapper().setNotPullToRefresh();
+            getPullRefreshWrapper().setNotPullToRefresh();
         }
     }
 
@@ -489,7 +489,7 @@ public class ListHelper<Model> implements IViewHelper<Model> {
      */
     @Override
     public boolean isCanPullToRefresh() {
-        return getRefreshWrapper().isCanPullToRefresh();
+        return getPullRefreshWrapper().isCanPullToRefresh();
     }
 
     /**

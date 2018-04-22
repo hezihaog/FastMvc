@@ -181,7 +181,7 @@ public class ConversationListFragment extends BaseFastRecyclerViewListFragment<S
     public void onListReadyAfter() {
         super.onListReadyAfter();
         //进入后马上刷新一次
-//        getRefreshWrapper().startRefreshWithAnimation();
+//        getPullRefreshWrapper().startRefreshWithAnimation();
     }
 
     @Override

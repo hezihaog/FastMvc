@@ -60,12 +60,12 @@ public interface IListAbleDelegateHelper<P extends IPullRefreshLayout, V extends
     /**
      * 获取设置的下拉刷新布局包裹类
      */
-    IPullRefreshWrapper<P> getRefreshWrapper();
+    IPullRefreshWrapper<P> getPullRefreshWrapper();
 
     /**
      * 获取下拉刷新布局
      */
-    P getRefreshLayout();
+    P getPullRefreshLayout();
 
     /**
      * 获取滚动控件包裹类

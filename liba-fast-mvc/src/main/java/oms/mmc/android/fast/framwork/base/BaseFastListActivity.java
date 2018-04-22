@@ -120,12 +120,12 @@ public abstract class BaseFastListActivity<P extends IPullRefreshLayout, V exten
         return mDelegateHelper;
     }
 
-    public IPullRefreshWrapper<?> getRefreshWrapper() {
-        return mDelegateHelper.getRefreshWrapper();
+    public IPullRefreshWrapper<P> getPullRefreshWrapper() {
+        return mDelegateHelper.getPullRefreshWrapper();
     }
 
-    public IPullRefreshLayout getRefreshLayout() {
-        return mDelegateHelper.getRefreshWrapper().getPullRefreshAbleView();
+    public P getPullRefreshLayout() {
+        return mDelegateHelper.getPullRefreshWrapper().getPullRefreshAbleView();
     }
 
     public V getScrollableView() {

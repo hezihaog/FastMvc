@@ -92,12 +92,12 @@ public interface IViewHelper<Model> {
     /**
      * 获取刷新布局包裹类
      */
-    IPullRefreshWrapper<?> getRefreshWrapper();
+    IPullRefreshWrapper<?> getPullRefreshWrapper();
 
     /**
      * 获取刷新布局
      */
-    IPullRefreshLayout getRefreshLayout();
+    IPullRefreshLayout getPullRefreshLayout();
 
     /**
      * 开始刷新并且显示加载动画

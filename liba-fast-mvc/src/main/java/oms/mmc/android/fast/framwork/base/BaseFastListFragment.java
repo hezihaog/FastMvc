@@ -113,12 +113,12 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V exten
         return mDelegateHelper;
     }
 
-    public IPullRefreshWrapper<?> getRefreshLayoutWrapper() {
-        return mDelegateHelper.getRefreshWrapper();
+    public IPullRefreshWrapper<P> getPullRefreshLayoutWrapper() {
+        return mDelegateHelper.getPullRefreshWrapper();
     }
 
-    public IPullRefreshLayout getRefreshLayout() {
-        return mDelegateHelper.getRefreshWrapper().getPullRefreshAbleView();
+    public P getPullRefreshLayout() {
+        return mDelegateHelper.getPullRefreshWrapper().getPullRefreshAbleView();
     }
 
     public V getScrollableView() {
@@ -130,7 +130,7 @@ public abstract class BaseFastListFragment<P extends IPullRefreshLayout, V exten
     }
 
     public IPullRefreshWrapper<?> getRefreshWrapper() {
-        return mDelegateHelper.getRefreshWrapper();
+        return mDelegateHelper.getPullRefreshWrapper();
     }
 
     public IDataSource<BaseItemData> getListDataSource() {
