@@ -254,6 +254,10 @@ public class ListHelper<Model> implements IViewHelper<Model> {
                     }
                 }
                 if (mOnLoadStateChangeListener != null) {
+                    //保证回调方法时，结果集不会为null
+                    if (result == null) {
+                        result = new ArrayList<Model>();
+                    }
                     mOnLoadStateChangeListener.onEndRefresh(mDataAdapter, result, isFirstRefresh, isReverse);
                 }
                 //刷新结束
@@ -333,6 +337,10 @@ public class ListHelper<Model> implements IViewHelper<Model> {
                     }
                 }
                 if (mOnLoadStateChangeListener != null) {
+                    //保证回调方法时，结果集不会为null
+                    if (result == null) {
+                        result = new ArrayList<Model>();
+                    }
                     mOnLoadStateChangeListener.onEndLoadMore(mDataAdapter, result, isFistLoadMore, isReverse);
                 }
                 if (isFistLoadMore) {
