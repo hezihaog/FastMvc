@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode rootProject.ext.android["versionCode"]
-        versionName rootProject.ext.android["versionName"]
+        versionCode rootProject.ext.android["mvcVersionCode"]
+        versionName rootProject.ext.android["mvcVersionName"]
     }
 
     buildTypes {

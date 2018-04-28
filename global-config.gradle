@@ -4,8 +4,6 @@ ext {
             buildToolsVersion    : "25.0.3",
             minSdkVersion        : 16,
             targetSdkVersion     : 25,
-            versionCode          : 107,
-            versionName          : "1.0.7",
 
             androidSupportVersion: "25.2.0",
             retrofitVersion      : "2.2.0",
@@ -14,6 +12,34 @@ ext {
             rxAndroidVersion     : "2.0.1",
             rxbindingVersion     : "2.0.0",
             okhttpVersion        : "3.6.0",
+
+            //每个库的版本信息配置
+            mvcVersionCode                       : 107,
+            mvcVersionName                       : "1.0.7",
+
+            waitViewVersionCode                  : 105,
+            waitViewVersionName                  : "1.0.5",
+
+            smartPullRefreshVersionCode          : 100,
+            smartPullRefreshVersionName          : "1.0.0",
+
+            pullRefreshLayoutVersionCode         : 100,
+            pullRefreshLayoutVersionName         : "1.0.0",
+
+            loadViewVersionCode                  : 105,
+            loadViewVersionName                  : "1.0.5",
+
+            listScrollHelperVersionCode          : 103,
+            listScrollHelperVersionName          : "1.0.3",
+
+            lifecycleDispatchVersionCode         : 103,
+            lifecycleDispatchVersionName         : "1.0.3",
+
+            asyncExecutorVersionCode             : 100,
+            asyncExecutorVersionName             : "1.0.0",
+
+            easyCacheVersionCode                 : 103,
+            easyCacheVersionName                 : "1.0.3",
     ]
 
     dependencies = [
