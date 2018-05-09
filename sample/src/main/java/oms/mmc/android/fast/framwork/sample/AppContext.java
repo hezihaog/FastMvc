@@ -1,6 +1,7 @@
 package oms.mmc.android.fast.framwork.sample;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
@@ -39,6 +40,6 @@ public class AppContext extends BaseFastApplication {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-//        MultiDex.install(this);
+        MultiDex.install(this);
     }
 }

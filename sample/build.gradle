@@ -11,7 +11,7 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
 
-//        multiDexEnabled true
+        multiDexEnabled true
     }
 
     buildTypes {

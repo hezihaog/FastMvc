@@ -42,6 +42,7 @@ public abstract class BaseFastActivity extends CommonOperationDelegateActivity
         super.onDestroy();
         if (mUIDelegate != null) {
             mUIDelegate.onDestroy();
+            mUIDelegate = null;
         }
         ActivityManager.getActivityManager().removeActivity(this);
     }
