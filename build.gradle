@@ -6,14 +6,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        //添加公司maven地址
-        maven {
-            url MAVEN_URL
-            credentials {
-                username MAVEN_USERNAME
-                password MAVEN_PASSWORD
-            }
-        }
         maven {
             url "https://jitpack.io"
         }
@@ -34,14 +26,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //添加公司maven地址
-        maven {
-            url MAVEN_URL
-            credentials {
-                username MAVEN_USERNAME
-                password MAVEN_PASSWORD
-            }
-        }
         maven {
             url "https://jitpack.io"
         }
