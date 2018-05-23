@@ -83,6 +83,9 @@ public abstract class ExtendLazyFragment extends PagerVisibleFragment {
         if (mLoadingView != null) {
             mRootContainer.removeView(mLoadingView);
         }
+        if (view.getParent() != null) {
+            ((ViewGroup)view.getParent()).removeView(view);
+        }
         mRootContainer.addView(view);
         isLazyViewCreated = true;
         //懒加载完毕

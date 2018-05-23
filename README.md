@@ -37,6 +37,28 @@
 
 --------------------
 
+# 1.0.7版本
+
+```java
+//    compile 'oms.mmc:fast-mvc:1.0.7-SNAPSHOT@aar'
+////  -------------------------- fast mvc 依赖的库 start ----------------------------
+//    //生命周期监听库
+//    compile 'oms.mmc:lifecycle-dispatch:1.0.3-SNAPSHOT@aar'
+//    //通用滚动监听库
+//    compile 'oms.mmc:list-scroll-helper:1.0.4-SNAPSHOT@aar'
+//    //等待弹窗库
+//    compile 'oms.mmc:wait-view-factory:1.0.5-SNAPSHOT@aar'
+//    //界面切换状态库
+//    compile 'oms.mmc:load-view-factory:1.0.5-SNAPSHOT@aar'
+//    //下拉刷新适配器中间层
+//    compile 'oms.mmc:pull-refresh-layout:1.0.0-SNAPSHOT@aar'
+//    //图片加载
+//    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+//    //Glide图片加载框架，MMCImageLoader需要依赖的加载库
+//    compile 'com.github.bumptech.glide:glide:3.8.0'
+////    -------------------------- fast mvc 依赖的库 end ----------------------------
+```
+
 # 1.0.4版本
 
 ```java
@@ -45,7 +67,7 @@ compile 'oms.mmc:fast-mvc:1.0.4-SNAPSHOT@aar'
 //生命周期监听库
 compile 'oms.mmc:lifecycle-dispatch:1.0.3-SNAPSHOT@aar'
 //通用滚动监听库
-compile 'oms.mmc:list-scroll-helper:1.0.5-SNAPSHOT@aar'
+compile 'oms.mmc:list-scroll-helper:1.0.3-SNAPSHOT@aar'
 //等待弹窗库
 compile 'oms.mmc:wait-view-factory:1.0.4-SNAPSHOT@aar'
 //界面切换状态库

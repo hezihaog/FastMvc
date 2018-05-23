@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import mmc.image.ImageLoader;
-import mmc.image.LoadImageCallback;
+import oms.mmc.android.fast.framwork.imageloader.ImageLoader;
+import oms.mmc.android.fast.framwork.imageloader.LoadImageCallback;
 
 /**
  * Package: oms.mmc.android.fast.framwork.util

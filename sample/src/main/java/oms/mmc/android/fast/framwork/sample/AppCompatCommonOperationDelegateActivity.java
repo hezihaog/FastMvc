@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 
-import mmc.image.ImageLoader;
-import mmc.image.LoadImageCallback;
 import oms.mmc.android.fast.framwork.base.IFragmentAction;
 import oms.mmc.android.fast.framwork.base.IFragmentOperator;
+import oms.mmc.android.fast.framwork.imageloader.ImageLoader;
+import oms.mmc.android.fast.framwork.imageloader.LoadImageCallback;
 import oms.mmc.android.fast.framwork.util.ArgumentsDelegateHelper;
 import oms.mmc.android.fast.framwork.util.FragmentOperator;
 import oms.mmc.android.fast.framwork.util.IArgumentsDelegate;

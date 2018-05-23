@@ -37,8 +37,8 @@ dependencies {
     compile project(':liba-load-view-factory')
     //下拉刷新适配层
     compile project(':liba-pull-refresh-layout')
-    //图片加载
-    compile 'oms.mmc:imageLoader:1.0.0-SNAPSHOT@aar'
+    //图片加载适配层
+    compile project(':liba-image-loader')
 }
 
 //是否提交到仓库

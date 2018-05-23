@@ -32,9 +32,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import mmc.image.ImageLoader;
-import mmc.image.LoadImageCallback;
-import mmc.image.MMCImageLoader;
+import oms.mmc.android.fast.framwork.imageloader.ImageLoader;
+import oms.mmc.android.fast.framwork.imageloader.LoadImageCallback;
+import oms.mmc.android.fast.framwork.imageloader.MMCImageLoader;
+
 
 /**
  * View查找器，封装一些常用方法
