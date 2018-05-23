@@ -39,6 +39,8 @@ dependencies {
     compile project(':liba-pull-refresh-layout')
     //图片加载适配层
     compile project(':liba-image-loader')
+    //6.0权限适配
+    compile project(':liba-fast-permission')
 }
 
 //是否提交到仓库
