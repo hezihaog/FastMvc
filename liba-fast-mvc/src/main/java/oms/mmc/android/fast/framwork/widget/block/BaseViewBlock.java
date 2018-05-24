@@ -60,12 +60,16 @@ public abstract class BaseViewBlock extends CommonOperationViewBlock implements 
     /**
      * 当创建时回调
      */
-    protected abstract void onCreate();
+    protected void onCreate() {
+
+    }
 
     /**
      * 当销毁时回调
      */
-    protected abstract void onDestroy();
+    protected void onDestroy() {
+
+    }
 
     @Override
     public void initView() {

@@ -57,42 +57,26 @@ public class FragmentFactory {
 
     public static class FragmentInfoWrapper {
         private int containerViewId;
-        private Class clazz;
+        private Class<? extends Fragment> clazz;
         private Bundle args;
 
-        public FragmentInfoWrapper(Class clazz) {
+        public FragmentInfoWrapper(Class<? extends Fragment> clazz) {
             this.clazz = clazz;
         }
 
-        public FragmentInfoWrapper(int containerViewId, Class clazz) {
+        public FragmentInfoWrapper(int containerViewId, Class<? extends Fragment> clazz) {
             this.containerViewId = containerViewId;
             this.clazz = clazz;
         }
 
-        public FragmentInfoWrapper(int containerViewId, Class clazz, Bundle args) {
+        public FragmentInfoWrapper(int containerViewId, Class<? extends Fragment> clazz, Bundle args) {
             this.containerViewId = containerViewId;
             this.clazz = clazz;
             this.args = args;
         }
 
-        public FragmentInfoWrapper(Class clazz, Bundle args) {
+        public FragmentInfoWrapper(Class<? extends Fragment> clazz, Bundle args) {
             this.clazz = clazz;
-            this.args = args;
-        }
-
-        public Class getClazz() {
-            return clazz;
-        }
-
-        public void setClazz(Class clazz) {
-            this.clazz = clazz;
-        }
-
-        public Bundle getArgs() {
-            return args;
-        }
-
-        public void setArgs(Bundle args) {
             this.args = args;
         }
 
@@ -102,6 +86,22 @@ public class FragmentFactory {
 
         public void setContainerViewId(int containerViewId) {
             this.containerViewId = containerViewId;
+        }
+
+        public Class<? extends Fragment> getClazz() {
+            return clazz;
+        }
+
+        public void setClazz(Class<? extends Fragment> clazz) {
+            this.clazz = clazz;
+        }
+
+        public Bundle getArgs() {
+            return args;
+        }
+
+        public void setArgs(Bundle args) {
+            this.args = args;
         }
     }
 }

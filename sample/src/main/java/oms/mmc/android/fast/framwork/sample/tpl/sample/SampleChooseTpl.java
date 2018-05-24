@@ -9,6 +9,7 @@ import oms.mmc.android.fast.framwork.sample.R;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseListFragmentSampleActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.ContactSystemActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.FragmentOperateActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
@@ -90,6 +91,8 @@ public class SampleChooseTpl extends BaseTpl<ItemDataWrapper> {
         } else if (activityClass.getName().equals(NestedFragmentSampleActivity.class.getName())) {
             //ViewPager嵌套Fragment
             MMCUIHelper.showViewPagerNestedFragment(getActivity());
+        } else if (activityClass.getName().equals(ContactSystemActivity.class.getName())) {
+            MMCUIHelper.showAllContactList(getActivity());
         }
     }
 }

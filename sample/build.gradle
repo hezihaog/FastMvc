@@ -68,20 +68,22 @@ dependencies {
     compile('com.alibaba.android:ultraviewpager:1.0.6.1@aar') {
         transitive = true
     }
+    //gson
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.hzh:liba-logger:1.0.0'
 
     //尾部加载loading控件
     compile 'com.pnikosis:materialish-progress:1.7'
-
     //内存泄露监控
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
     //演示下拉刷新中间层使用的下拉刷新布局TwinklingRefreshLayout
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
-
     //演示下拉刷新中间层使用的下拉刷新布局Ultra-Pull-To-Refresh
     compile 'in.srain.cube:ultra-ptr:1.0.11'
-
     //演示下拉刷新中间层使用的下拉刷新布局BGARefreshLayout
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.8@aar'
+    //网络请求适配器层和OkHttp3实现类
+    compile 'com.hzh:nice-http:1.0.2'
+    compile 'com.hzh:nice-http-okhttp3-connection:1.0.2'
 }

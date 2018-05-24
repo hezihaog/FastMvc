@@ -7,6 +7,7 @@ import oms.mmc.android.fast.framwork.sample.ui.activity.ActivitySampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.BaseListFragmentSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ChatListActivity;
+import oms.mmc.android.fast.framwork.sample.ui.activity.ContactSystemActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.FragmentOperateActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityModeSampleActivity;
 import oms.mmc.android.fast.framwork.sample.ui.activity.ListActivityMultipleCheckSampleActivity;
@@ -149,6 +150,14 @@ public class MMCUIHelper {
      */
     public static void showViewPagerNestedFragment(Activity activity) {
         Intent intent = new Intent(activity, NestedFragmentSampleActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 接口调用显示联系人列表
+     */
+    public static void showAllContactList(Activity activity) {
+        Intent intent = new Intent(activity, ContactSystemActivity.class);
         activity.startActivity(intent);
     }
 }
