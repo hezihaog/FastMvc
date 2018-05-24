@@ -21,6 +21,7 @@ import oms.mmc.android.fast.framwork.widget.rv.base.ItemDataWrapper;
  */
 public class ContactListTpl extends BaseTpl<ItemDataWrapper> {
     private TextView mNameTv;
+    private TextView mPhoneTv;
 
     @Override
     public View onLayoutView(LayoutInflater inflater, ViewGroup container) {
@@ -31,11 +32,13 @@ public class ContactListTpl extends BaseTpl<ItemDataWrapper> {
     public void onFindView(IViewFinder finder) {
         super.onFindView(finder);
         mNameTv = finder.get(R.id.name_tv);
+        mPhoneTv = finder.get(R.id.phone_tv);
     }
 
     @Override
     protected void onRender(ItemDataWrapper itemData) {
         ContactList.Contact contact = (ContactList.Contact) itemData.getDatas().get(0);
         setViewText(contact.getName(), mNameTv);
+        setViewText(contact.getPhone(), mPhoneTv);
     }
 }
