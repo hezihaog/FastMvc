@@ -11,6 +11,7 @@ import oms.mmc.android.fast.framwork.base.BaseListDataSource;
 import oms.mmc.android.fast.framwork.base.IDataSource;
 import oms.mmc.android.fast.framwork.sample.bean.ContactList;
 import oms.mmc.android.fast.framwork.sample.bean.Result;
+import oms.mmc.android.fast.framwork.sample.constant.Const;
 import oms.mmc.android.fast.framwork.sample.tpl.contactsytem.ContactListTpl;
 import oms.mmc.android.fast.framwork.sample.util.RequestManager;
 import oms.mmc.android.fast.framwork.widget.pull.SwipePullRefreshLayout;
@@ -35,13 +36,15 @@ public class ContactSystemListFragment extends BaseFastRecyclerViewListFragment<
             @Override
             protected ArrayList<BaseItemData> load(int page, boolean isRefresh) throws Exception {
                 ArrayList<BaseItemData> models = new ArrayList<BaseItemData>();
-                Result result = RequestManager.getAllContact();
+                Result result = RequestManager.getAllContact(page + "", Const.Config.pageSize + "");
                 if (result.isOk()) {
                     ContactList bean = (ContactList) result;
                     ArrayList<ContactList.Contact> allContactList = bean.getContent();
                     for (ContactList.Contact contact : allContactList) {
                         models.add(new ItemDataWrapper(TPL_CONTACT, contact));
                     }
+                    this.page = page;
+                    this.hasMore = allContactList.size() >= Const.Config.pageSize;
                 }
                 return models;
             }

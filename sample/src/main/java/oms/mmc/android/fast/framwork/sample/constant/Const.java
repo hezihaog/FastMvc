@@ -19,4 +19,11 @@ public class Const {
         public static final String BASE_URL = "/contact";
         public static final String ALL_CONTACT_LIST = "/all";
     }
+
+    public static class Key {
+        //页码
+        public static final String page = "page";
+        //每页行数
+        public static final String size = "size";
+    }
 }
